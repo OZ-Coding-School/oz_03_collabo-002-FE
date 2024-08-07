@@ -1,12 +1,3 @@
----
-name: 'ISSUE: ✅ FEATURE'
-about: 개발되어야 할 기능에 대한 항목이나 이유에 대해 작성해 주세요
-title: 'Feat: '
-labels: enhancement
-assignees: ''
-
----
-
 <!-- 역할: 변경내용 20자 미만으로 작성 -->
 <!-- 이슈 제목 작성 예시 : 아래 한줄을 작성하고 잘라내기 & 제목에 붙여넣기 -->
 Feat: 기능 내용 요약

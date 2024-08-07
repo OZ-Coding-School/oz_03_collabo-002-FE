@@ -37,15 +37,16 @@
 <img src="https://img.shields.io/badge/reactrouter-CA4245?style=for-the-badge&logo=reactrouter&logoColor=ffffff">
 <!-- 타입 스크립트 -->
 <img src="https://img.shields.io/badge/typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=ffffff">
+
 <!-- AXIOS -->
 <img src="https://img.shields.io/badge/axios-5A29E4?style=for-the-badge&logo=axios&logoColor=ffffff">
 <!-- tailwindcss -->
 <img src="https://img.shields.io/badge/tailwindcss-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=ffffff">
-
 <!-- zustand -->
 <img src="https://img.shields.io/badge/zustand-배경색상?style=for-the-badge&logo=제공하는이름&logoColor=내용색상">
 <!-- ReactHookForm -->
 <img src="https://img.shields.io/badge/reacthookform-EC5990?style=for-the-badge&logo=reacthookform&logoColor=ffffff">
+
 <!-- framer -->
 <img src="https://img.shields.io/badge/framer-0055FF?style=for-the-badge&logo=framer&logoColor=ffffff">
 <!-- pagination -->
@@ -86,14 +87,19 @@
 # 프로젝트 규칙
 
 ### Branch Strategy
-
-### Git Convention
-
-### Pull Request
+- main / dev 브랜치 기본 생성
+- main과 dev로 직접 push 제한
+- PR 전 최소 1인 이상 승인 필수
 
 ### Code Convention
+- zustand store 파일명 : use + 변수명 (ex. useAuthStore)
+- Event handler 사용 (ex. handle ~)
+- export방식 (ex. export default ~)
+- 화살표 함수 사용
 
 ### Communication Rules
+- Discord 활용 
+- 정기 회의
 
 <br />
 <br />
