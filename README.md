@@ -43,14 +43,14 @@
 <!-- tailwindcss -->
 <img src="https://img.shields.io/badge/tailwindcss-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=ffffff">
 <!-- zustand -->
-<img src="https://img.shields.io/badge/zustand-배경색상?style=for-the-badge&logo=제공하는이름&logoColor=내용색상">
+<img src="https://img.shields.io/badge/zustand-배경색상?style=for-the-badge&logo=제공하는이름&logoColor=ffffff">
 <!-- ReactHookForm -->
 <img src="https://img.shields.io/badge/reacthookform-EC5990?style=for-the-badge&logo=reacthookform&logoColor=ffffff">
 
 <!-- framer -->
 <img src="https://img.shields.io/badge/framer-0055FF?style=for-the-badge&logo=framer&logoColor=ffffff">
 <!-- pagination -->
-<img src="https://img.shields.io/badge/pagination-06b6dd?style=for-the-badge&logo=제공하는이름&logoColor=내용색상">
+<img src="https://img.shields.io/badge/pagination-06b6dd?style=for-the-badge&logo=제공하는이름&logoColor=ffffff">
 <!--
 <img src="https://img.shields.io/badge/보일내용-배경색상?style=for-the-badge&logo=제공하는이름&logoColor=내용색상">
  -->
@@ -64,21 +64,27 @@
 
 ### FrontEnd
 
-| 사진   | 사진   | 사진   |
-| ------ | ------ | ------ |
-| 황두나 | 박민아 | 이주희 |
-
-### BackEnd
-
-| 사진  | 사진  |
-|-----|-----|
-| 박기웅  | 조규재 |
-
-### BusinessDevelop
-
-| 사진  | 사진  | 사진  | 사진  | 사진  |
-|-----|-----|-----|-----|-----|
-| 박진우  | 이영곤  | 안예빈  | 이시은  | 박상우  |
+<table border="1">
+  <tbody>
+    <tr>
+      <td align="center"><a href="https://github.com/Skyler85" style="text-decoration-line: none;"><img src="https://avatars.githubusercontent.com/u/123640595?v=4" style="border-radius: 50%;" width="100px;" alt=""/><br /><sub><b>FE 팀장 : 황두나</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/devpma" style="text-decoration-line: none;"><img src="https://avatars.githubusercontent.com/u/164311588?v=4" style="border-radius: 50%;" width="100px;" alt=""/><br /><sub><b>FE 팀원 : 박민아</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/jhdlana" style="text-decoration-line: none;"><img src="https://avatars.githubusercontent.com/u/164306982?v=4" style="border-radius: 50%;" width="100px;" alt=""/><br /><sub><b>FE 팀원 : 이주희</b></sub></a><br /></td>
+     <tr/>
+     <tr>
+      <td align="center"><a href="https://github.com/Gomnonix" style="text-decoration-line: none;"><img src="https://avatars.githubusercontent.com/u/164334686?v=4" style="border-radius: 50%;" width="100px;" alt=""/><br /><sub><b>BE 팀장 : 박기웅</b></sub></a><br /></td>
+      <td align="center"><a href="" style="text-decoration-line: none;"><img src="https://avatars.githubusercontent.com/u/164334686?v=4" style="border-radius: 50%;" width="100px;" alt=""/><br /><sub><b>BE 팀원 : 조규재</b></sub></a><br /></td>
+    </tr>
+     <tr>
+      <td align="center"><a href="https://github.com/Gomnonix" style="text-decoration-line: none;"><img src="https://avatars.githubusercontent.com/u/164334686?v=4" style="border-radius: 50%;" width="100px;" alt=""/><br /><sub><b>BD 팀장 : 박진우</b></sub></a><br /></td>
+      <td align="center"><a href="" style="text-decoration-line: none;"><img src="https://avatars.githubusercontent.com/u/164334686?v=4" style="border-radius: 50%;" width="100px;" alt=""/><br /><sub><b>BD 팀원 : 이영곤</b></sub></a><br /></td>
+      <td align="center"><a href="" style="text-decoration-line: none;"><img src="https://avatars.githubusercontent.com/u/164334686?v=4" style="border-radius: 50%;" width="100px;" alt=""/><br /><sub><b>BD 팀원 : 안예빈</b></sub></a><br /></td>
+      <td align="center"><a href="" style="text-decoration-line: none;"><img src="https://avatars.githubusercontent.com/u/164334686?v=4" style="border-radius: 50%;" width="100px;" alt=""/><br /><sub><b>BD 팀원 : 이시은</b></sub></a><br /></td>
+      <td align="center"><a href="" style="text-decoration-line: none;"><img src="https://avatars.githubusercontent.com/u/164334686?v=4" style="border-radius: 50%;" width="100px;" alt=""/><br /><sub><b>BD 팀원 : 박상우</b></sub></a><br /></td>
+    </tr>
+    
+  </tbody>
+</table>
 
 <br />
 <br />
