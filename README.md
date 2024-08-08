@@ -68,7 +68,8 @@
     <tr>
       <td align="center"><a href="https://github.com/Skyler85" style="text-decoration-line: none;"><img src="https://avatars.githubusercontent.com/u/123640595?v=4" style="border-radius: 50%;" width="100px;" alt=""/><br /><sub><b>FE 팀장 : 황두나</b></sub></a><br /></td>
       <td align="center"><a href="https://github.com/devpma" style="text-decoration-line: none;"><img src="https://avatars.githubusercontent.com/u/164311588?v=4" style="border-radius: 50%;" width="100px;" alt=""/><br /><sub><b>FE 팀원 : 박민아</b></sub></a><br /></td>
-      <td align="center"><a href="https://github.com/jhdlana" style="text-decoration-line: none;">![image](https://github.com/user-attachments/assets/cf9f49e0-f9bf-468e-95a2-3227b53c41c2)
+      <td align="center"><a href="https://github.com/jhdlana" style="text-decoration-line: none;">![image](https://github.com/user-attachments/assets/83d61263-9d28-43c6-bd07-a193895c86cd)
+
 <br /><sub><b>FE 팀원 : 이주희</b></sub></a><br /></td>
      <tr/>
      <tr>
