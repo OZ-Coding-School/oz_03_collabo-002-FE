@@ -1,0 +1,502 @@
+[
+  {
+    "class_id": "c1a23b45",
+    "class_name": "따듯한 차와 함께 하는 뜨개 공방",
+    "class_owner": "뜨란실",
+    "class_date": [
+      "2024-08-10",
+      "2024-08-17",
+      "2024-08-24"
+    ],
+    "class_hour": [
+      "11:30~13:30",
+      "14:00~16:00"
+    ],
+    "class_max_people": 6,
+    "class_average_score": 4.8,
+    "class_popular": true,
+    "class_price": 45,
+    "class_description": "따뜻한 차를 마시며 편안하게 뜨개질을 배워보세요. 초보자도 쉽게 따라할 수 있습니다.",
+    "photo_gallary": [
+      "https://example.com/photo1.jpg",
+      "https://example.com/photo2.jpg",
+      "https://example.com/photo3.jpg"
+    ],
+    "photo_finished": [
+      "https://example.com/finished1.jpg",
+      "https://example.com/finished2.jpg"
+    ]
+  },
+  {
+    "class_id": "d2b34c56",
+    "class_name": "나만의 에코백 만들기",
+    "class_owner": "크래프트 스튜디오",
+    "class_date": [
+      "2024-09-01",
+      "2024-09-08"
+    ],
+    "class_hour": [
+      "10:00~12:00",
+      "13:00~15:00"
+    ],
+    "class_max_people": 8,
+    "class_average_score": 4.2,
+    "class_popular": true,
+    "class_price": 30,
+    "class_description": "친환경 에코백을 직접 만들어보세요. 자신만의 디자인을 담을 수 있습니다.",
+    "photo_gallary": [
+      "https://example.com/photo4.jpg",
+      "https://example.com/photo5.jpg"
+    ],
+    "photo_finished": [
+      "https://example.com/finished3.jpg",
+      "https://example.com/finished4.jpg"
+    ]
+  },
+  {
+    "class_id": "e3c45d67",
+    "class_name": "허브 화분 만들기",
+    "class_owner": "그린 팟",
+    "class_date": [
+      "2024-08-15",
+      "2024-08-22"
+    ],
+    "class_hour": [
+      "09:00~11:00"
+    ],
+    "class_max_people": 5,
+    "class_average_score": 3.9,
+    "class_popular": true,
+    "class_price": 25,
+    "class_description": "실내에서 키우기 좋은 허브 화분을 만들어보세요. 손쉽게 관리할 수 있습니다.",
+    "photo_gallary": [
+      "https://example.com/photo6.jpg",
+      "https://example.com/photo7.jpg"
+    ],
+    "photo_finished": [
+      "https://example.com/finished5.jpg"
+    ]
+  },
+  {
+    "class_id": "f4d56e78",
+    "class_name": "아크릴 물감으로 그리는 풍경화",
+    "class_owner": "아트 갤러리",
+    "class_date": [
+      "2024-09-03",
+      "2024-09-10",
+      "2024-09-17"
+    ],
+    "class_hour": [
+      "15:00~17:00"
+    ],
+    "class_max_people": 10,
+    "class_average_score": 4.5,
+    "class_popular": true,
+    "class_price": 60,
+    "class_description": "아크릴 물감을 사용해 멋진 풍경화를 완성해보세요. 전문가의 지도하에 진행됩니다.",
+    "photo_gallary": [
+      "https://example.com/photo8.jpg",
+      "https://example.com/photo9.jpg",
+      "https://example.com/photo10.jpg"
+    ],
+    "photo_finished": [
+      "https://example.com/finished6.jpg",
+      "https://example.com/finished7.jpg"
+    ]
+  },
+  {
+    "class_id": "g5e67f89",
+    "class_name": "초보자를 위한 디지털 드로잉",
+    "class_owner": "디지터 아트",
+    "class_date": [
+      "2024-08-20",
+      "2024-08-27"
+    ],
+    "class_hour": [
+      "13:30~15:30"
+    ],
+    "class_max_people": 12,
+    "class_average_score": 4,
+    "class_popular": true,
+    "class_price": 50,
+    "class_description": "태블릿을 이용한 디지털 드로잉 기초 수업입니다. 그림을 처음 그리는 분들도 쉽게 배울 수 있습니다.",
+    "photo_gallary": [
+      "https://example.com/photo11.jpg",
+      "https://example.com/photo12.jpg"
+    ],
+    "photo_finished": [
+      "https://example.com/finished8.jpg",
+      "https://example.com/finished9.jpg"
+    ]
+  },
+  {
+    "class_id": "h6f78g90",
+    "class_name": "캔들 만들기",
+    "class_owner": "캔들 하우스",
+    "class_date": [
+      "2024-09-05",
+      "2024-09-12"
+    ],
+    "class_hour": [
+      "11:00~13:00"
+    ],
+    "class_max_people": 6,
+    "class_average_score": 3.7,
+    "class_popular": true,
+    "class_price": 35,
+    "class_description": "자신만의 향을 담은 캔들을 만들어 보세요. 다양한 향료와 디자인이 가능합니다.",
+    "photo_gallary": [
+      "https://example.com/photo13.jpg",
+      "https://example.com/photo14.jpg"
+    ],
+    "photo_finished": [
+      "https://example.com/finished10.jpg"
+    ]
+  },
+  {
+    "class_id": "i7g89h01",
+    "class_name": "손뜨개 인형 만들기",
+    "class_owner": "인형 공방",
+    "class_date": [
+      "2024-08-25",
+      "2024-09-01"
+    ],
+    "class_hour": [
+      "10:30~12:30"
+    ],
+    "class_max_people": 5,
+    "class_average_score": 4.3,
+    "class_popular": true,
+    "class_price": 40,
+    "class_description": "귀여운 손뜨개 인형을 직접 만들어보세요. 초보자도 쉽게 따라할 수 있습니다.",
+    "photo_gallary": [
+      "https://example.com/photo15.jpg",
+      "https://example.com/photo16.jpg",
+      "https://example.com/photo17.jpg"
+    ],
+    "photo_finished": [
+      "https://example.com/finished11.jpg",
+      "https://example.com/finished12.jpg"
+    ]
+  },
+  {
+    "class_id": "j8h90i12",
+    "class_name": "비즈 공예로 만드는 액세서리",
+    "class_owner": "비즈크래프트",
+    "class_date": [
+      "2024-09-07",
+      "2024-09-14"
+    ],
+    "class_hour": [
+      "14:00~16:00"
+    ],
+    "class_max_people": 8,
+    "class_average_score": 4.9,
+    "class_popular": true,
+    "class_price": 20,
+    "class_description": "다양한 비즈를 이용해 자신만의 액세서리를 만들어보세요. 창의력을 발휘할 수 있는 시간입니다.",
+    "photo_gallary": [
+      "https://example.com/photo18.jpg",
+      "https://example.com/photo19.jpg",
+      "https://example.com/photo20.jpg"
+    ],
+    "photo_finished": [
+      "https://example.com/finished13.jpg"
+    ]
+  },
+  {
+    "class_id": "k9i01j23",
+    "class_name": "도자기 공예 체험",
+    "class_owner": "클레이아트 스튜디오",
+    "class_date": [
+      "2024-08-18",
+      "2024-08-25"
+    ],
+    "class_hour": [
+      "16:00~18:00"
+    ],
+    "class_max_people": 4,
+    "class_average_score": 3.2,
+    "class_popular": false,
+    "class_price": 55,
+    "class_description": "도자기를 직접 만들어보는 체험입니다. 물레를 돌려 자신만의 도자기를 만들어 보세요.",
+    "photo_gallary": [
+      "https://example.com/photo21.jpg",
+      "https://example.com/photo22.jpg"
+    ],
+    "photo_finished": [
+      "https://example.com/finished14.jpg",
+      "https://example.com/finished15.jpg"
+    ]
+  },
+  {
+    "class_id": "l1j23k34",
+    "class_name": "마크라메 월행잉 만들기",
+    "class_owner": "핸드메이드 인사이드",
+    "class_date": [
+      "2024-09-20",
+      "2024-09-27"
+    ],
+    "class_hour": [
+      "12:00~14:00"
+    ],
+    "class_max_people": 7,
+    "class_average_score": 4.6,
+    "class_popular": true,
+    "class_price": 50,
+    "class_description": "마크라메 기법으로 아름다운 월행잉을 만들어보세요. 인테리어에 포인트를 줄 수 있습니다.",
+    "photo_gallary": [
+      "https://example.com/photo23.jpg",
+      "https://example.com/photo24.jpg"
+    ],
+    "photo_finished": [
+      "https://example.com/finished16.jpg"
+    ]
+  },
+  {
+    "class_id": "m2k34l45",
+    "class_name": "수채화로 그리는 꽃 그림",
+    "class_owner": "아트 플라워",
+    "class_date": [
+      "2024-08-12",
+      "2024-08-19"
+    ],
+    "class_hour": [
+      "09:00~11:00"
+    ],
+    "class_max_people": 10,
+    "class_average_score": 4.4,
+    "class_popular": true,
+    "class_price": 35,
+    "class_description": "수채화로 아름다운 꽃 그림을 그려보세요. 꽃의 디테일을 살리는 방법을 배울 수 있습니다.",
+    "photo_gallary": [
+      "https://example.com/photo25.jpg",
+      "https://example.com/photo26.jpg"
+    ],
+    "photo_finished": [
+      "https://example.com/finished17.jpg"
+    ]
+  },
+  {
+    "class_id": "n3l45m56",
+    "class_name": "레진 공예로 만드는 키링",
+    "class_owner": "크리스탈 레진",
+    "class_date": [
+      "2024-09-04",
+      "2024-09-11"
+    ],
+    "class_hour": [
+      "10:00~12:00"
+    ],
+    "class_max_people": 8,
+    "class_average_score": 3.8,
+    "class_popular": true,
+    "class_price": 25,
+    "class_description": "레진 공예로 자신만의 키링을 만들어보세요. 다양한 색상과 디자인이 가능합니다.",
+    "photo_gallary": [
+      "https://example.com/photo27.jpg",
+      "https://example.com/photo28.jpg"
+    ],
+    "photo_finished": [
+      "https://example.com/finished18.jpg",
+      "https://example.com/finished19.jpg"
+    ]
+  },
+  {
+    "class_id": "o4m56n67",
+    "class_name": "가죽 공예로 만드는 카드지갑",
+    "class_owner": "레더 스튜디오",
+    "class_date": [
+      "2024-08-21",
+      "2024-08-28"
+    ],
+    "class_hour": [
+      "13:00~15:00"
+    ],
+    "class_max_people": 6,
+    "class_average_score": 4.1,
+    "class_popular": true,
+    "class_price": 65,
+    "class_description": "고급 가죽을 사용해 자신만의 카드지갑을 만들어보세요. 내구성과 디자인 모두를 잡을 수 있습니다.",
+    "photo_gallary": [
+      "https://example.com/photo29.jpg",
+      "https://example.com/photo30.jpg"
+    ],
+    "photo_finished": [
+      "https://example.com/finished20.jpg"
+    ]
+  },
+  {
+    "class_id": "p5n67o78",
+    "class_name": "초보자를 위한 목공예 기초",
+    "class_owner": "우드 크래프트",
+    "class_date": [
+      "2024-09-09",
+      "2024-09-16"
+    ],
+    "class_hour": [
+      "14:00~16:00"
+    ],
+    "class_max_people": 5,
+    "class_average_score": 4.7,
+    "class_popular": true,
+    "class_price": 70,
+    "class_description": "목공예의 기본을 배워 자신만의 작품을 만들어보세요. 초보자도 쉽게 시작할 수 있습니다.",
+    "photo_gallary": [
+      "https://example.com/photo31.jpg",
+      "https://example.com/photo32.jpg"
+    ],
+    "photo_finished": [
+      "https://example.com/finished21.jpg",
+      "https://example.com/finished22.jpg"
+    ]
+  },
+  {
+    "class_id": "q6o78p89",
+    "class_name": "패브릭 염색 체험",
+    "class_owner": "컬러 블룸",
+    "class_date": [
+      "2024-08-14",
+      "2024-08-21"
+    ],
+    "class_hour": [
+      "11:30~13:30"
+    ],
+    "class_max_people": 10,
+    "class_average_score": 4,
+    "class_popular": true,
+    "class_price": 40,
+    "class_description": "패브릭을 염색해 자신만의 색감을 담아보세요. 다양한 패턴과 색상으로 개성을 표현할 수 있습니다.",
+    "photo_gallary": [
+      "https://example.com/photo33.jpg",
+      "https://example.com/photo34.jpg"
+    ],
+    "photo_finished": [
+      "https://example.com/finished23.jpg",
+      "https://example.com/finished24.jpg"
+    ]
+  },
+  {
+    "class_id": "r7p89q90",
+    "class_name": "천연 비누 만들기",
+    "class_owner": "비누 공방",
+    "class_date": [
+      "2024-09-06",
+      "2024-09-13"
+    ],
+    "class_hour": [
+      "10:30~12:30"
+    ],
+    "class_max_people": 7,
+    "class_average_score": 4.5,
+    "class_popular": true,
+    "class_price": 30,
+    "class_description": "천연 재료로 건강한 비누를 만들어보세요. 피부에 좋은 재료만을 사용합니다.",
+    "photo_gallary": [
+      "https://example.com/photo35.jpg",
+      "https://example.com/photo36.jpg"
+    ],
+    "photo_finished": [
+      "https://example.com/finished25.jpg",
+      "https://example.com/finished26.jpg"
+    ]
+  },
+  {
+    "class_id": "s8q90r01",
+    "class_name": "크로쉐 기법으로 만드는 테이블 매트",
+    "class_owner": "니팅 아틀리에",
+    "class_date": [
+      "2024-08-30",
+      "2024-09-06"
+    ],
+    "class_hour": [
+      "15:00~17:00"
+    ],
+    "class_max_people": 6,
+    "class_average_score": 3.6,
+    "class_popular": true,
+    "class_price": 35,
+    "class_description": "크로쉐 기법을 이용해 테이블 매트를 만들어보세요. 실용적이면서도 아름다운 작품을 완성할 수 있습니다.",
+    "photo_gallary": [
+      "https://example.com/photo37.jpg",
+      "https://example.com/photo38.jpg"
+    ],
+    "photo_finished": [
+      "https://example.com/finished27.jpg"
+    ]
+  },
+  {
+    "class_id": "t9r01s12",
+    "class_name": "퀼트 공예로 만드는 패치워크 가방",
+    "class_owner": "퀼트 앤 스티치",
+    "class_date": [
+      "2024-09-02",
+      "2024-09-09"
+    ],
+    "class_hour": [
+      "12:00~14:00"
+    ],
+    "class_max_people": 8,
+    "class_average_score": 4.9,
+    "class_popular": true,
+    "class_price": 50,
+    "class_description": "퀼트 공예로 자신만의 패치워크 가방을 만들어보세요. 독특한 디자인과 실용성을 동시에 잡을 수 있습니다.",
+    "photo_gallary": [
+      "https://example.com/photo39.jpg",
+      "https://example.com/photo40.jpg"
+    ],
+    "photo_finished": [
+      "https://example.com/finished28.jpg",
+      "https://example.com/finished29.jpg"
+    ]
+  },
+  {
+    "class_id": "u0s12t23",
+    "class_name": "아로마 테라피와 함께하는 요가 클래스",
+    "class_owner": "요가 스튜디오",
+    "class_date": [
+      "2024-09-15",
+      "2024-09-22"
+    ],
+    "class_hour": [
+      "09:00~11:00"
+    ],
+    "class_max_people": 12,
+    "class_average_score": 4.7,
+    "class_popular": true,
+    "class_price": 40,
+    "class_description": "아로마 테라피와 함께하는 요가 클래스입니다. 몸과 마음을 동시에 힐링하세요.",
+    "photo_gallary": [
+      "https://example.com/photo41.jpg",
+      "https://example.com/photo42.jpg"
+    ],
+    "photo_finished": [
+      "https://example.com/finished30.jpg"
+    ]
+  },
+  {
+    "class_id": "v1t23u34",
+    "class_name": "목탄 드로잉 기초",
+    "class_owner": "아트 아카데미",
+    "class_date": [
+      "2024-09-19",
+      "2024-09-26"
+    ],
+    "class_hour": [
+      "14:00~16:00"
+    ],
+    "class_max_people": 10,
+    "class_average_score": 4.3,
+    "class_popular": true,
+    "class_price": 55,
+    "class_description": "목탄을 사용한 드로잉 기법을 배워보세요. 초보자도 쉽게 따라할 수 있습니다.",
+    "photo_gallary": [
+      "https://example.com/photo43.jpg",
+      "https://example.com/photo44.jpg"
+    ],
+    "photo_finished": [
+      "https://example.com/finished31.jpg",
+      "https://example.com/finished32.jpg"
+    ]
+  }
+]
