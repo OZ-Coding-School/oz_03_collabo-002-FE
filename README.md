@@ -62,15 +62,17 @@
 
 # 팀 동료
 
+
 <table border="1">
   <tbody>
     <tr>
-      <td align="center"><a href="https://github.com/Skyler85" style="text-decoration-line: none;"><img src="[https://avatars.githubusercontent.com/u/123640595?v=4](https://media.discordapp.net/attachments/1269920059715751950/1271007070681829428/2024-08-08_4.28.07.png?ex=66b5c513&is=66b47393&hm=8031e2d120365bd5c3d8f56bb4373f4b7979dc2cb27d36232e1b2e7d36de7e5d&=&format=webp&quality=lossless)" style="border-radius: 50%;" width="100px;" alt=""/><br /><sub><b>FE 팀장 : 황두나</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/Skyler85" style="text-decoration-line: none;"><img src="https://avatars.githubusercontent.com/u/123640595?v=4" style="border-radius: 50%;" width="100px;" alt=""/><br /><sub><b>FE 팀장 : 황두나</b></sub></a><br /></td>
       <td align="center"><a href="https://github.com/devpma" style="text-decoration-line: none;"><img src="https://avatars.githubusercontent.com/u/164311588?v=4" style="border-radius: 50%;" width="100px;" alt=""/><br /><sub><b>FE 팀원 : 박민아</b></sub></a><br /></td>
-      <td align="center"><a href="https://github.com/jhdlana" style="text-decoration-line: none;"><img src="https://avatars.githubusercontent.com/u/164306982?v=4" style="border-radius: 50%;" width="100px;" alt=""/><br /><sub><b>FE 팀원 : 이주희</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/jhdlana" style="text-decoration-line: none;">![image](https://github.com/user-attachments/assets/cf9f49e0-f9bf-468e-95a2-3227b53c41c2)
+<br /><sub><b>FE 팀원 : 이주희</b></sub></a><br /></td>
      <tr/>
      <tr>
-      <td align="center"><a href="https://github.com/Gomnonix" style="text-decoration-line: none;"><img src="https://avatars.githubusercontent.com/u/164334686?v=4" style="border-radius: 50%;" width="100px;" alt=""/><br /><sub><b>BE 팀장 : 박기웅</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/Gomnonix" style="text-decoration-line: none;"><img src="" style="border-radius: 50%;" width="100px;" alt=""/><br /><sub><b>BE 팀장 : 박기웅</b></sub></a><br /></td>
       <td align="center"><a href="" style="text-decoration-line: none;"><img src="https://avatars.githubusercontent.com/u/164334686?v=4" style="border-radius: 50%;" width="100px;" alt=""/><br /><sub><b>BE 팀원 : 조규재</b></sub></a><br /></td>
     </tr>
      <tr>
