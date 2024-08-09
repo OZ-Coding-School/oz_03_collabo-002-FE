@@ -4,8 +4,10 @@ import Header from './Header';
 const Layout = () => {
   return (
     <>
-      <Header />
-      <Outlet />
+      <div className="max-w-[475px] w-full h-full m-auto border border-gray-200">
+        <Header />
+        <Outlet />
+      </div>
     </>
   );
 };
