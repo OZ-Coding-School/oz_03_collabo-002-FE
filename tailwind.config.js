@@ -4,10 +4,10 @@ export default {
   theme: {
     extend: {
       textColor: {
-        primary: '#FF4E2F',
+        primary: '#FFCD2A',
       },
       backgroundColor: {
-        primary: '#FF4E2F',
+        primary: '#FFCD2A',
       },
     },
   },
