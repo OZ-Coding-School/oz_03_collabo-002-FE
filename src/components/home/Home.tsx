@@ -1,5 +1,7 @@
-import useClassStore from '../../store/useClassStore';
 import { useEffect } from 'react';
+import useClassStore from '../../store/useClassStore';
+import Banner from '../common/Banner';
+import Pagination from '../common/Pagination';
 
 const Home = () => {
   const fetchClasses = useClassStore((state) => state.fetchClasses);
@@ -8,7 +10,12 @@ const Home = () => {
     fetchClasses();
   }, [fetchClasses]);
 
-  return <div className="bg-red-500">커스텀 K 입니다</div>;
+  return (
+    <div>
+      <Pagination />
+      <Banner />
+    </div>
+  );
 };
 
 export default Home;
