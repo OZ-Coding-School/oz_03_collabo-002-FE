@@ -1,5 +1,21 @@
+import { useEffect } from 'react';
+import useClassStore from '../../store/useClassStore';
+import Banner from '../common/Banner';
+import Pagination from '../common/Pagination';
+
 const Home = () => {
-  return <div>커스텀 K 입니다</div>;
+  const fetchClasses = useClassStore((state) => state.fetchClasses);
+
+  useEffect(() => {
+    fetchClasses();
+  }, [fetchClasses]);
+
+  return (
+    <div>
+      <Pagination />
+      <Banner />
+    </div>
+  );
 };
 
 export default Home;
