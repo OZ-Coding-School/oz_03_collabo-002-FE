@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { IconFtInsta } from '../../config/IconData';
+import { twMerge as tw } from 'tailwind-merge';
 
 const Footer = () => {
   return (
@@ -13,7 +14,12 @@ const Footer = () => {
         </li>
       </ul>
       <div className="px-6 text-sm">
-        <p className="w-8 h-8 border border-gray-300 rounded-full flex items-center justify-center mb-4 cursor-pointer">
+        <p
+          className={tw(
+            'w-8 h-8 border border-gray-300 rounded-full',
+            'flex items-center justify-center mb-4 cursor-pointer',
+          )}
+        >
           <Link
             to="https://www.instagram.com/customk_official/"
             target="_blank"

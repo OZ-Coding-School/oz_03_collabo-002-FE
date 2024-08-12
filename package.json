@@ -24,6 +24,7 @@
     "react-hook-form": "^7.52.2",
     "react-paginate": "^8.2.0",
     "react-router-dom": "^6.26.0",
+    "tailwind-merge": "^2.5.0",
     "zustand": "^4.5.4"
   },
   "devDependencies": {

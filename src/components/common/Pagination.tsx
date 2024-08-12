@@ -26,7 +26,7 @@ const Pagination = () => {
           <button className="w-full">5</button>
         </li>
         <li className="text-zero w-6 h-6 rounded-full border border-gray-300 bg-white">
-          <button className="mb-[2px]">
+          <button className="mb-[24px]">
             <IconPaginationRight />
           </button>
           <span className="sr-only">next</span>
