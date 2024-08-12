@@ -10,7 +10,8 @@
     "lint:fix": "eslint --fix \"./src/**/*.{ts,tsx,js,jsx}\"",
     "prettier": "prettier --write 'src/**/*.{js,ts,jsx,tsx}'",
     "format": "npm run prettier",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "type-check": "tsc -b --noEmit"
   },
   "dependencies": {
     "@mantine/dates": "^7.12.0",
