@@ -1,5 +1,13 @@
+import Banner from '../common/Banner';
+import Pagination from '../common/Pagination';
+
 const Home = () => {
-  return <div className="bg-red-500">커스텀 K 입니다</div>;
+  return (
+    <div>
+      <Pagination />
+      <Banner />
+    </div>
+  );
 };
 
 export default Home;
