@@ -1,5 +1,7 @@
-const findId = () => {
-  return <div>findId</div>;
+import React from 'react';
+
+const FindId = () => {
+  return <div>FindId</div>;
 };
 
-export default findId;
+export default FindId;
