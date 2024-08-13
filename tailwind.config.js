@@ -10,7 +10,10 @@ export default {
         primary: '#FFCD2A',
       },
       fill: {
-        primary: '#FFCD2A', // fill-primary 클래스 추가
+        primary: '#FFCD2A',
+      },
+      borderColor: {
+        primary: '#FFCD2A',
       },
     },
   },
