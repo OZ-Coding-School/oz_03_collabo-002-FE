@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { IconLogo } from '../../config/IconData';
 import { twJoin as tw } from 'tailwind-merge';
