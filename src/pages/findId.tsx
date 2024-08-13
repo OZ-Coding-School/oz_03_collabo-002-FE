@@ -1,5 +1,5 @@
-const findId = () => {
-  return <div>findId</div>;
+const FindId = () => {
+  return <div>FindId</div>;
 };
 
-export default findId;
+export default FindId;

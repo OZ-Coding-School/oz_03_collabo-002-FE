@@ -4,7 +4,7 @@ import { twMerge as tw } from 'tailwind-merge';
 
 const Footer = () => {
   return (
-    <footer className="relative pt-[60px]">
+    <footer className="relative pt-[60px] z-10">
       <ul className="absolute right-[24px] top-[60px] flex text-s gap-6 text-sm">
         <li>
           <Link to="">이용약관</Link>
