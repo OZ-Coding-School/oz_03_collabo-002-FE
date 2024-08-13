@@ -34,11 +34,11 @@ const getStatusLabel = (status: Status): string => {
 const getStatusClass = (status: Status): string => {
   switch (status) {
     case '선택':
-      return 'border-primary border bg-[#FFF9E5]';
+      return 'border-primary border bg-[#FFF9E5] cursor-pointer';
     case '품절':
-      return 'border-gray-600 border bg-gray-100 select-none cursor-default';
+      return 'border-gray-400 border bg-gray-100 select-none cursor-default';
     case '모집중':
-      return 'border-gray-600 border bg-white';
+      return 'border-gray-400 border bg-white cursor-pointer';
     default:
       return '';
   }
@@ -59,7 +59,7 @@ const getStatusLabelClass = (status: Status): string => {
 
 const ClassDetailCalendarSlide = () => {
   return (
-    <div className="pl-[18px]">
+    <div className="pl-[24px]">
       <Swiper
         slidesPerView={3.5}
         spaceBetween={10}
@@ -68,7 +68,7 @@ const ClassDetailCalendarSlide = () => {
         {classDetails.map((classDetail, index) => (
           <SwiperSlide key={index}>
             <div
-              className={`border px-[10px] py-[12px] rounded-lg cursor-pointer ${getStatusClass(classDetail.status)}`}
+              className={`border px-[10px] py-[12px] rounded-lg ${getStatusClass(classDetail.status)}`}
             >
               <p
                 className={`text-[10px] mt-[3px] ${getStatusLabelClass(classDetail.status)}`}

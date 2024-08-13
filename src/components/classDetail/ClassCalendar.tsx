@@ -7,8 +7,8 @@ function ClassCalendar() {
   const [value, setValue] = useState<Date | null>(null);
 
   const handleTodayClick = () => {
+    console.log('Today button clicked');
     const today = new Date();
-    today.setHours(0, 0, 0, 0); // 시간을 00:00:00.000으로 설정
     setValue(today);
   };
 
@@ -16,7 +16,7 @@ function ClassCalendar() {
     <div className="relative">
       <button
         onClick={handleTodayClick}
-        className="absolute left-[14px] top-[14px]"
+        className="absolute left-[14px] top-[14px] z-10"
       >
         <IconDetailCalendar />
         <span className="sr-only">오늘 날짜</span>
@@ -26,7 +26,9 @@ function ClassCalendar() {
         value={value}
         monthLabelFormat="YYYY.MM"
         hideOutsideDates
-        onChange={setValue}
+        onChange={(newValue) => {
+          setValue(newValue);
+        }}
       />
     </div>
   );
