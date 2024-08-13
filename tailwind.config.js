@@ -9,6 +9,9 @@ export default {
       backgroundColor: {
         primary: '#FFCD2A',
       },
+      fill: {
+        primary: '#FFCD2A', // fill-primary 클래스 추가
+      },
     },
   },
   plugins: [],
