@@ -5,8 +5,8 @@ import MyPage from './pages/MyPage';
 import ClassDetail from './components/classDetail/ClassDetail';
 import ChargePage from './pages/ChargePage';
 import Admin from './components/admin/Admin';
-import Login from './pages/Login';
 import SignUp from './pages/signup';
+import Login from './pages/login';
 
 function App() {
   return (
