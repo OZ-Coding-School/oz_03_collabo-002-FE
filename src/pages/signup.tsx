@@ -1,4 +1,3 @@
-import React from 'react';
 import facebook from '../icon/facebook.svg';
 import kakao from '../icon/kakao.svg';
 import google from '../icon/google.svg';
@@ -9,7 +8,7 @@ import Modal from '../components/common/Modal';
 import { useModalStore } from '../store/useModal';
 
 const SignUp = () => {
-  const { modalMessage, setModal, clearModal, showModal } = useModalStore();
+  const { setModal, showModal } = useModalStore();
   const handleChange = () => {
     setModal('Successful Membership Registration');
   };
