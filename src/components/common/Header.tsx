@@ -39,8 +39,8 @@ const Header = () => {
 
       <div
         className={tw(
-          'bg-white max-w-[475px] w-full fixed top-0 right-2/4 -mr-[237px] h-screen',
-          'pt-[140px] px-6 -mt-[4px]',
+          'bg-white max-w-[474px] w-full fixed top-0 right-2/4 -mr-[237px] h-screen',
+          'pt-[140px] px-6',
           isNavOpen ? 'z-50' : '-z-[1]',
         )}
       >
@@ -73,7 +73,7 @@ const Header = () => {
           </li>
         </ul>
         <div
-          className="w-6 h-6 flex flex-col justify-around cursor-pointer absolute left-[24px] top-[24px]"
+          className="w-6 h-6 flex flex-col justify-around cursor-pointer absolute left-[24px] top-[8px]"
           onClick={toggleNav}
         >
           <span className="block border-b border-b-1 border-black w-full rotate-45 mt-5 -ml-[2px]"></span>
