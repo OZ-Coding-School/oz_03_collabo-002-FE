@@ -13,7 +13,7 @@ const Header = () => {
   return (
     <>
       <header className="bg-white sticky top-0 left-0 z-30 border-y border-gray-200 flex px-5 py-4 overflow-hidden">
-        <div className="flex items-center justify-between flex-grow bg-white">
+        <div className="flex items-center justify-start flex-grow bg-white">
           <div
             className="w-6 h-6 flex flex-col justify-around cursor-pointer"
             onClick={toggleNav}
@@ -26,7 +26,7 @@ const Header = () => {
           <h1>
             <IconLogo className="h-[24px]" />
           </h1>
-          <ul className="flex items-center justify-center gap-2 text-sm">
+          <ul className="flex items-center justify-center gap-2 text-sm absolute right-5">
             <li>
               <Link to="">LOGIN</Link>
             </li>
