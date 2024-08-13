@@ -13,7 +13,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@mantine/dates": "^7.12.0",
+    "@mantine/dates": "^7.12.1",
     "autoprefixer": "^10.4.20",
     "axios": "^1.7.3",
     "dayjs": "^1.11.12",
