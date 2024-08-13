@@ -11,7 +11,7 @@
     "prettier": "prettier --write 'src/**/*.{js,ts,jsx,tsx}'",
     "format": "npm run prettier",
     "preview": "vite preview",
-    "tsc": "tsc -b --noEmit"
+    "tsc": "tsc -b"
   },
   "dependencies": {
     "@mantine/core": "^7.12.1",
