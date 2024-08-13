@@ -25,6 +25,7 @@
     "react-paginate": "^8.2.0",
     "react-router-dom": "^6.26.0",
     "tailwind-merge": "^2.5.0",
+    "tw-merge": "^0.0.1-alpha.3",
     "zustand": "^4.5.4"
   },
   "devDependencies": {
