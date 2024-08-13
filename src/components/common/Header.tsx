@@ -1,34 +1,86 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { IconLogo } from '../../config/IconData';
+import { twJoin as tw } from 'tailwind-merge';
 
 const Header = () => {
+  const [isNavOpen, setIsNavOpen] = useState(false);
+
+  const toggleNav = () => {
+    setIsNavOpen(!isNavOpen);
+  };
+
   return (
-    <header className="bg-white sticky top-0 left-0 border-y border-gray-200">
-      <div className="flex items-center justify-between py-4 px-5">
-        <h1 className="">
-          <IconLogo className="h-[24px]" />
-        </h1>
-        <ul className="flex items-center justify-center gap-2 text-sm">
+    <>
+      <header className="bg-white sticky top-0 left-0 z-30 border-y border-gray-200 flex px-5 py-4 overflow-hidden">
+        <div className="flex items-center justify-start flex-grow bg-white">
+          <div
+            className="w-6 h-6 flex flex-col justify-around cursor-pointer"
+            onClick={toggleNav}
+          >
+            <span className="block border-b border-b-1 border-black w-full"></span>
+            <span className="block border-b border-b-1 border-black w-full"></span>
+            <span className="block border-b border-b-1 border-black w-full"></span>
+          </div>
+
+          <h1>
+            <IconLogo className="h-[24px]" />
+          </h1>
+          <ul className="flex items-center justify-center gap-2 text-sm absolute right-5">
+            <li>
+              <Link to="">LOGIN</Link>
+            </li>
+            <li>
+              <Link to="">CART(0)</Link>
+            </li>
+          </ul>
+        </div>
+      </header>
+
+      <div
+        className={tw(
+          'bg-white max-w-[474px] w-full fixed top-0 right-2/4 -mr-[237px] h-screen',
+          'pt-[140px] px-6',
+          isNavOpen ? 'z-50' : '-z-[1]',
+        )}
+      >
+        <ul className="flex gap-6 pb-10">
           <li>
             <Link to="">LOGIN</Link>
+          </li>
+          <li>
+            <Link to="">JOIN</Link>
           </li>
           <li>
             <Link to="">CART(0)</Link>
           </li>
         </ul>
+        <ul className="flex flex-col text-[28px] leading-[80px]">
+          <li className="hover:text-primary">
+            <Link to="">Cooking</Link>
+          </li>
+          <li className="hover:text-primary">
+            <Link to="">Art & Culture</Link>
+          </li>
+          <li className="hover:text-primary">
+            <Link to="">Beauty & Fashion</Link>
+          </li>
+          <li className="hover:text-primary">
+            <Link to="">DIY</Link>
+          </li>
+          <li className="hover:text-primary">
+            <Link to="">Activities</Link>
+          </li>
+        </ul>
+        <div
+          className="w-6 h-6 flex flex-col justify-around cursor-pointer absolute left-[24px] top-[8px]"
+          onClick={toggleNav}
+        >
+          <span className="block border-b border-b-1 border-black w-full rotate-45 mt-5 -ml-[2px]"></span>
+          <span className="block border-b border-b-1 border-black w-full -rotate-45 -ml-[2.5px] -mt-[3px]"></span>
+        </div>
       </div>
-      <ul className="flex justify-items-start gap-2 w-full py-3 px-5">
-        <li className="hover:text-primary">
-          <Link to="">홈</Link>
-        </li>
-        <li className="hover:text-primary">
-          <Link to="">제휴업체 바로가기</Link>
-        </li>
-        <li className="hover:text-primary">
-          <Link to="">서포터즈 바로가기</Link>
-        </li>
-      </ul>
-    </header>
+    </>
   );
 };
 
