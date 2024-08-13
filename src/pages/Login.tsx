@@ -1,4 +1,3 @@
-import React from 'react';
 import facebook from '../icon/facebook.svg';
 import kakao from '../icon/kakao.svg';
 import google from '../icon/google.svg';
