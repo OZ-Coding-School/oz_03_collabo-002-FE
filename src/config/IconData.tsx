@@ -7,6 +7,16 @@ import { ReactComponent as IconReviewStar } from '../assets/icon/icon-review-sta
 import { ReactComponent as IconDetailHeart } from '../assets/icon/icon-detail-heart.svg';
 import { ReactComponent as IconDetailCalendar } from '../assets/icon/icon-detail-cal.svg';
 import { ReactComponent as IconDetailChecked } from '../assets/icon/icon-detail-checked.svg';
+import { ReactComponent as IconOptionRemove } from '../assets/icon/icon-option-remove.svg';
+import { ReactComponent as IconOptionArw } from '../assets/icon/icon-option-arw.svg';
+import { ReactComponent as IconOptionPlus } from '../assets/icon/icon-option-plus.svg';
+import { ReactComponent as IconOptionMinus } from '../assets/icon/icon-option-minus.svg';
+import { ReactComponent as IconOptionCart } from '../assets/icon/icon-option-cart.svg';
+import { ReactComponent as IconOptionHeart } from '../assets/icon/icon-option-heart.svg';
+import { ReactComponent as IconMoreArw } from '../assets/icon/icon-more-arw.svg';
+import { ReactComponent as IconMapShare } from '../assets/icon/icon-map-share.svg';
+import { ReactComponent as IconAllArw } from '../assets/icon/icon-all-arw.svg';
+import { ReactComponent as IconReviewHeart } from '../assets/icon/icon-review-heart.svg';
 
 export {
   IconPaginationLeft,
@@ -18,4 +28,14 @@ export {
   IconDetailHeart,
   IconDetailCalendar,
   IconDetailChecked,
+  IconOptionRemove,
+  IconOptionArw,
+  IconOptionPlus,
+  IconOptionMinus,
+  IconOptionCart,
+  IconOptionHeart,
+  IconMoreArw,
+  IconMapShare,
+  IconAllArw,
+  IconReviewHeart,
 };

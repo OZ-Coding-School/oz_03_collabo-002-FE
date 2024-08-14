@@ -7,9 +7,23 @@ function ClassCalendar() {
   const [value, setValue] = useState<Date | null>(null);
 
   const handleTodayClick = () => {
-    console.log('Today button clicked');
     const today = new Date();
     setValue(today);
+  };
+
+  const CustomDay = ({ date }: { date: Date }) => {
+    const today = new Date();
+    const isPastDate = date.getTime() < today.setHours(0, 0, 0, 0);
+
+    return (
+      <div
+        style={{
+          color: isPastDate ? '#999' : 'inherit',
+        }}
+      >
+        {date.getDate()}
+      </div>
+    );
   };
 
   return (
@@ -29,6 +43,7 @@ function ClassCalendar() {
         onChange={(newValue) => {
           setValue(newValue);
         }}
+        renderDay={(date) => <CustomDay date={date} />}
       />
     </div>
   );

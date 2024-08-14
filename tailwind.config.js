@@ -15,6 +15,9 @@ export default {
       borderColor: {
         primary: '#FFCD2A',
       },
+      boxShadow: {
+        custom: '0px -4px 7.9px -2px #0000001F',
+      },
     },
   },
   plugins: [],

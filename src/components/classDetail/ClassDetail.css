@@ -43,12 +43,10 @@
 }
 
 .mantine-DatePicker-day {
-    color:#bbb;
     border-radius: 50%;
     width:40px;
     line-height:40px;   
 }
-
 [data-selected="true"] {
     background-color: #FFCD2A; 
     color: white;
@@ -60,4 +58,10 @@
     background:#FFCD2A;
     color:#fff;
 
+}
+[data-weekend='true'] {
+    color:#FE4E4E
+}
+[data-outside='true'] {
+    color:#999
 }
