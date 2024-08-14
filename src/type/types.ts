@@ -4,3 +4,9 @@ export interface ModalState {
   setModal: (message: string) => void;
   clearModal: () => void;
 }
+
+export interface ModalDefaultState {
+  showModal: boolean;
+  setModal: () => void;
+  clearModal: () => void;
+}
