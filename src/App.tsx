@@ -7,6 +7,7 @@ import ChargePage from './pages/ChargePage';
 import Admin from './components/admin/Admin';
 import SignUp from './pages/SignUp';
 import Login from './pages/Login';
+import Review from './components/review/Review';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/review" element={<Review />} />
         </Routes>
       </Router>
     </>
