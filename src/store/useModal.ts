@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { ModalState } from '../type/types';
+import { ModalDefaultState, ModalState } from '../type/types';
 
 export const useModalStore = create<ModalState>((set) => ({
   showModal: false,
@@ -8,6 +8,19 @@ export const useModalStore = create<ModalState>((set) => ({
     set(() => ({
       showModal: true,
       modalMessage: message,
+    })),
+  clearModal: () =>
+    set(() => ({
+      showModal: false,
+      modalMessage: '',
+    })),
+}));
+
+export const useModalOpenCloseStore = create<ModalDefaultState>((set) => ({
+  showModal: false,
+  setModal: () =>
+    set(() => ({
+      showModal: true,
     })),
   clearModal: () =>
     set(() => ({
