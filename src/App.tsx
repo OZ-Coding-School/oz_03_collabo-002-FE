@@ -8,7 +8,6 @@ import SignUp from './pages/SignUp';
 import Login from './pages/Login';
 import Account from './components/account/Account';
 
-
 function App() {
   return (
     <>
