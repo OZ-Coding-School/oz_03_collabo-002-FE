@@ -9,7 +9,7 @@ function App() {
     const footer = document.querySelector('footer');
     if (footer) {
       if (location.pathname === '/classdetail') {
-        footer.style.paddingBottom = '455px';
+        footer.style.paddingBottom = '350px';
       } else {
         footer.style.paddingBottom = '';
       }
@@ -27,7 +27,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
-            <Route path="/classdetail" element={<ClassDetail />} />
+            <Route path="/classdetail" element={<ClassDetail rating={4.5} />} />
           </Route>
         </Routes>
       </Router>

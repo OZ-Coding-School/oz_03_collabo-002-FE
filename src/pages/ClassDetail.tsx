@@ -16,8 +16,10 @@ import { Link } from 'react-router-dom';
 import { useRef, useState } from 'react';
 import ClassDetailPhotoReview from '../components/classDetail/ClassDetailPhotoReview';
 import ClassDetailReview from '../components/classDetail/ClassDetailReview';
-
-const ClassDetail = ({ rating }) => {
+type ClassDetailProps = {
+  rating: number;
+};
+const ClassDetail = ({ rating }: ClassDetailProps) => {
   const originalPrice = 14900;
   const discountedPrice = 12900;
   const [expanded, setExpanded] = useState(false);
@@ -45,7 +47,8 @@ const ClassDetail = ({ rating }) => {
           <strong className="text-[32px] font-normal">상품 클래스 이름</strong>
           <p className="flex items-center">
             <IconReviewStar />
-            &nbsp;4.5<span className="text-gray-400">(00개)</span>
+            &nbsp;{rating}
+            <span className="text-gray-400">(00개)</span>
           </p>
           <div className="mt-4 text-2xl flex items-center">
             <p className="text-primary text-[24px]">
@@ -89,12 +92,21 @@ const ClassDetail = ({ rating }) => {
         <div className="border border-1 border-gray-400 rounded-lg mt-[34px] py-[12px] px-[14px] flex justify-between text-gray-400">
           Minimum class size : 4 participants
         </div>
-
-        <div className="relative w-full mt-4">
-          <select className="outline-none appearance-none border border-gray-400 rounded-lg px-4 py-[16px] w-full text-gray-400">
+        <div className="mt-[22px] relative">
+          <select className="outline-none appearance-none border border-gray-400 rounded-lg px-4 py-[12px] w-full text-gray-400 relative">
             <option>Supporters Language Type</option>
             <option>Supporters Language Type</option>
             <option>Supporters Language Type</option>
+          </select>
+          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+            <IconOptionArw />
+          </div>
+        </div>
+        <div className="mt-[22px] relative">
+          <select className="outline-none appearance-none border border-gray-400 rounded-lg px-4 py-[12px] w-full text-gray-400 relative">
+            <option>class type</option>
+            <option>class type</option>
+            <option>class type</option>
           </select>
           <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
             <IconOptionArw />
