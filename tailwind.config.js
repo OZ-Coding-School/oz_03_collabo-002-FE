@@ -15,6 +15,7 @@ export default {
         black: '#222222',
         gray: '#c1c1c1',
         red: '#ff2727',
+        darkgray: '#444',
       },
       fill: {
         primary: '#FFCD2A', // fill-primary 클래스 추가
