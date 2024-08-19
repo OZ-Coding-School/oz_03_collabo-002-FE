@@ -9,6 +9,11 @@ import { ReactComponent as IconPaginationRight2 } from './icon-pagination-right 
 import { ReactComponent as IconPaginationRight } from './icon-pagination-right.svg';
 import { ReactComponent as IconLogo2 } from './logo 2.svg';
 import { ReactComponent as IconLogo } from './logo.svg';
+import { ReactComponent as IconOrder } from './icon-order.svg';
+import { ReactComponent as IconCart } from './icon-cart.svg';
+import { ReactComponent as IconNotification } from './icon-notification.svg';
+import { ReactComponent as IconNotificationNew } from './icon-notification-new.svg';
+import { ReactComponent as IconUserAvatar } from './icon-user-avatar.svg';
 import { ReactComponent as IconRemove } from './icon-remove.svg';
 
 export {
@@ -22,5 +27,10 @@ export {
   IconPaginationRight,
   IconLogo2,
   IconLogo,
+  IconOrder,
+  IconCart,
+  IconNotification,
+  IconNotificationNew,
+  IconUserAvatar,
   IconRemove,
 };
