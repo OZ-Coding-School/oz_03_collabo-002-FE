@@ -17,6 +17,9 @@ import { ReactComponent as IconMoreArw } from '../assets/icon/icon-more-arw.svg'
 import { ReactComponent as IconMapShare } from '../assets/icon/icon-map-share.svg';
 import { ReactComponent as IconAllArw } from '../assets/icon/icon-all-arw.svg';
 import { ReactComponent as IconReviewHeart } from '../assets/icon/icon-review-heart.svg';
+import { ReactComponent as IconHdUser } from '../assets/icon/icon-hd-user.svg';
+import { ReactComponent as IconHdCart } from '../assets/icon/icon-hd-cart.svg';
+import { ReactComponent as IconHdBack } from '../assets/icon/icon-hd-back.svg';
 
 export {
   IconPaginationLeft,
@@ -38,4 +41,7 @@ export {
   IconMapShare,
   IconAllArw,
   IconReviewHeart,
+  IconHdUser,
+  IconHdCart,
+  IconHdBack,
 };

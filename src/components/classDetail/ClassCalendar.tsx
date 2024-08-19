@@ -44,6 +44,7 @@ function ClassCalendar() {
           setValue(newValue);
         }}
         renderDay={(date) => <CustomDay date={date} />}
+        minDate={new Date()} // 오늘 날짜 이전은 비활성화
       />
     </div>
   );
