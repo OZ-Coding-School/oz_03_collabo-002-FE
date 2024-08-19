@@ -1,8 +1,8 @@
-import facebook from '../icon/facebook.svg';
-import kakao from '../icon/kakao.svg';
-import google from '../icon/google.svg';
-import naver from '../icon/naver.svg';
-import signup_profile from '../icon/signup_profile.svg';
+import facebook from '../assets/icon/facebook.svg';
+import kakao from '../assets/icon/kakao.svg';
+import google from '../assets/icon/google.svg';
+import naver from '../assets/icon/naver.svg';
+import signup_profile from '../assets/icon/signup_profile.svg';
 import { Link } from 'react-router-dom';
 import Modal from '../components/common/Modal';
 import { useModalStore } from '../store/useModal';
