@@ -2,7 +2,7 @@ import ReviewHeader from './ReviewHeader';
 import ReviewItem from './ReviewItem';
 import { useEffect, useState } from 'react';
 import { Reviews } from '../../type/types';
-import axios from 'axios';
+import axios from '../../api/axios';
 
 const Review = () => {
   const [reviews, setReviews] = useState<Reviews[]>([]);

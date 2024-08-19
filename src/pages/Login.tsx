@@ -1,7 +1,7 @@
-import facebook from '../icon/facebook.svg';
-import kakao from '../icon/kakao.svg';
-import google from '../icon/google.svg';
-import naver from '../icon/naver.svg';
+import facebook from '../assets/icon/facebook.svg';
+import kakao from '../assets/icon/kakao.svg';
+import google from '../assets/icon/google.svg';
+import naver from '../assets/icon/naver.svg';
 import { Link } from 'react-router-dom';
 
 const Login = () => {

@@ -1,7 +1,7 @@
-import emptyStar from '../../icon/empty-star.svg';
-import fullStar from '../../icon/full-star.svg';
-import emptyHeart from '../../icon/empty-heart.svg';
-import fullHeart from '../../icon/full-heart.svg';
+import emptyStar from '../../assets/icon/empty-star.svg';
+import fullStar from '../../assets/icon/full-star.svg';
+import emptyHeart from '../../assets/icon/empty-heart.svg';
+import fullHeart from '../../assets/icon/full-heart.svg';
 import { Reviews } from '../../type/types';
 import { useState } from 'react';
 
@@ -72,7 +72,7 @@ const ReviewItem: React.FC<ReviewProps> = ({ review }) => {
           </p>
           <div className="border-[1.5px] w-16 flex rounded-2xl justify-center py-1 gap-1 items-center">
             <img
-              src={isLiked ? emptyHeart : fullHeart}
+              src={isLiked ? fullHeart : emptyHeart}
               alt="좋아요"
               onClick={handleHeart}
               className="cursor-pointer"

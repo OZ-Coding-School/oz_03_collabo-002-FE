@@ -1,5 +1,5 @@
 // import emptyStar from '../../icon/empty-star.svg';
-import fullStar from '../../icon/full-star.svg';
+import fullStar from '../../assets/icon/full-star.svg';
 
 const ReviewHeader = () => {
   const stars: number[] = [1, 2, 3, 4, 5];
