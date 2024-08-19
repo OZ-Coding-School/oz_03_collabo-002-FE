@@ -4,7 +4,6 @@ import AccountOrderList from './MyOrderList';
 import AccountMyQuestions from './MyQuestions';
 import MyReviews from './MyReviews';
 import AccountDashboard from './AccountDashboard';
-import MyTodayWorkshops from './MyTodayWorkshops';
 
 const Account = () => {
   const location = useLocation();
@@ -21,8 +20,6 @@ const Account = () => {
         return <AccountMyQuestions />;
       case 'reviews':
         return <MyReviews />;
-      case 'workshops':
-        return <MyTodayWorkshops />;
       default:
         return <AccountDashboard />; 
     }

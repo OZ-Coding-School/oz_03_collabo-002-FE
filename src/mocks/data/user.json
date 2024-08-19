@@ -1,0 +1,6 @@
+{
+  "id": 1,
+  "name": "John Doe",
+  "email": "john@example.com",
+  "accessToken": "your_generated_access_token_here"
+}
