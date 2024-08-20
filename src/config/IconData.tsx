@@ -20,6 +20,8 @@ import { ReactComponent as IconReviewHeart } from '../assets/icon/icon-review-he
 import { ReactComponent as IconHdUser } from '../assets/icon/icon-hd-user.svg';
 import { ReactComponent as IconHdCart } from '../assets/icon/icon-hd-cart.svg';
 import { ReactComponent as IconHdBack } from '../assets/icon/icon-hd-back.svg';
+import { ReactComponent as IconDetailShare } from '../assets/icon/icon-detail-share.svg';
+import { ReactComponent as IconHdHeart } from '../assets/icon/icon-hd-heart.svg';
 
 export {
   IconPaginationLeft,
@@ -44,4 +46,6 @@ export {
   IconHdUser,
   IconHdCart,
   IconHdBack,
+  IconDetailShare,
+  IconHdHeart,
 };

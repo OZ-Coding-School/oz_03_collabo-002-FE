@@ -1,3 +1,4 @@
+import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -10,6 +11,10 @@ type ClassDetail = {
   seatsLeft: number;
   time: string;
   seat: number;
+};
+
+type Props = {
+  onTimeSelect: (time: string) => void;
 };
 
 const classDetails: ClassDetail[] = [
@@ -58,7 +63,7 @@ const getStatusLabelClass = (status: Status): string => {
   }
 };
 
-const ClassDetailCalendarSlide = () => {
+const ClassDetailCalendarSlide: React.FC<Props> = ({ onTimeSelect }) => {
   return (
     <div className="pl-[24px]">
       <Swiper
@@ -70,6 +75,11 @@ const ClassDetailCalendarSlide = () => {
           <SwiperSlide key={index}>
             <div
               className={`border px-[10px] py-[12px] rounded-lg ${getStatusClass(classDetail.status)}`}
+              onClick={() => {
+                if (classDetail.status !== 'Fully booked') {
+                  onTimeSelect(classDetail.time);
+                }
+              }}
             >
               <p
                 className={`text-[10px] mt-[3px] ${getStatusLabelClass(classDetail.status)}`}

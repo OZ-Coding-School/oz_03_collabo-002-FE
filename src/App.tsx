@@ -9,7 +9,7 @@ function App() {
     const footer = document.querySelector('footer');
     if (footer) {
       if (location.pathname === '/classdetail') {
-        footer.style.paddingBottom = '350px';
+        footer.style.paddingBottom = '220px';
       } else {
         footer.style.paddingBottom = '';
       }

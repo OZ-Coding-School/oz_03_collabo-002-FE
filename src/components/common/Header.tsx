@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { twJoin as tw } from 'tailwind-merge';
 import {
   IconHdBack,
-  IconHdCart,
+  IconHdHeart,
   IconHdUser,
   IconLogo,
 } from '../../config/IconData';
@@ -20,7 +20,7 @@ const Header = () => {
     <>
       <>
         <header className="bg-white sticky top-0 left-0 z-30 border-y border-gray-200 flex px-5 py-4 overflow-hidden">
-          <div className="flex items-center justify-between flex-grow bg-white">
+          <div className="flex items-center justify-items-start flex-grow bg-white gap-3">
             {location.pathname !== '/classdetail' ? (
               <>
                 <div
@@ -33,7 +33,9 @@ const Header = () => {
                 </div>
 
                 <h1>
-                  <IconLogo className="h-[24px]" />
+                  <button>
+                    <IconLogo className="h-[24px]" />
+                  </button>
                 </h1>
               </>
             ) : (
@@ -41,7 +43,7 @@ const Header = () => {
                 <IconHdBack />
               </Link>
             )}
-            <ul className="flex items-center justify-center gap-2 text-sm">
+            <ul className="flex items-center justify-center gap-3 text-sm absolute right-[24px]">
               <li>
                 <Link to="">
                   <IconHdUser />
@@ -50,7 +52,7 @@ const Header = () => {
               </li>
               <li>
                 <Link to="">
-                  <IconHdCart />
+                  <IconHdHeart />
                   <span className="sr-only">CART</span>
                 </Link>
               </li>
@@ -73,7 +75,7 @@ const Header = () => {
               <Link to="">JOIN</Link>
             </li>
             <li>
-              <Link to="">CART(0)</Link>
+              <Link to="">HEART</Link>
             </li>
           </ul>
           <ul className="flex flex-col text-[28px] leading-[80px]">
