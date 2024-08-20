@@ -2,12 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
-/* 나눔스퀘어 폰트 설정 */
-@font-face {
-  font-family: 'NanumSquareLight';
-  font-family: 'NanumSquare';
-  font-family: 'NanumSquareBold';
-  font-family: 'NanumSquareExtraBold';
+@layer base {
+  .font-thin {
+    font-family: 'NanumSquareLight', sans-serif;
+    font-weight: 100; /* 기본적으로 font-weight 100과 매칭 */
+  }
+
+  .font-bold {
+    font-family: 'NanumSquareBold', sans-serif;
+    font-weight: 700; /* 기본적으로 font-weight 700과 매칭 */
+  }
+
+  .font-extrabold {
+    font-family: 'NanumSquareExtraBold', sans-serif;
+    font-weight: 900; /* 기본적으로 font-weight 900과 매칭 */
+  }
 }
 
 strong {
