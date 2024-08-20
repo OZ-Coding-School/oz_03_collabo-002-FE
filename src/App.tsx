@@ -8,6 +8,7 @@ import SignUp from './pages/SignUp';
 import Login from './pages/Login';
 import Review from './components/review/Review';
 import Account from './components/account/Account';
+import LikesPage from './pages/LikesPage';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
             <Route path="/category/1" element={<ClassDetail />} />
             <Route path="/charge" element={<ChargePage />} />
             <Route path="admin" element={<Admin />} />
+            <Route path="likes" element={<LikesPage />} />\
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
