@@ -96,7 +96,7 @@ const ClassDetailCalendarSlide: React.FC<Props> = ({ onTimeSelect }) => {
                     : `${classDetail.seatsLeft}/${classDetail.seat}`}
                 </strong>
               </p>
-              <p className="mt-[12px]">{classDetail.time}</p>
+              <p className="mt-[12px] text-[14px]">{classDetail.time}</p>
             </div>
           </SwiperSlide>
         ))}
