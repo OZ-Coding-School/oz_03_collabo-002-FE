@@ -10,6 +10,8 @@ const AccountDashboard = () => {
     setIsDarkMode(!isDarkMode);
   };
 
+  const handleLanguage = () => {}
+
   return (
     <div id="account-container" className="w-full h-full relative bg-white">
       {/* 전체 바디 영역 */}
@@ -40,6 +42,7 @@ const AccountDashboard = () => {
                 name="language"
                 value={'none'}
                 className={`text-sm bg-transparent ${isDarkMode ? 'text-white ' : 'text-black'}`}
+                onChange={handleLanguage}
               >
                 <option value="none" disabled>
                   choose Language{' '}

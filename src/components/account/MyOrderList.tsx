@@ -1,8 +1,8 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import useAccountStore from '../../store/useAccount';
 import useClassStore from '../../store/useClassStore';
 import { Link } from 'react-router-dom';
-import { IconPaginationRight } from './../../assets/icon';
+import { IconCheck, IconPaginationRight } from './../../assets/icon';
 import { myOrder } from '../../type/account';
 
 const MyOrderList = () => {
@@ -11,14 +11,25 @@ const MyOrderList = () => {
   const fetchMyOrder = useAccountStore((state) => state.fetchMyOrder);
   const fetchClasses = useClassStore((state) => state.fetchClasses);
 
+  const [showTodayClasses, setShowTodayClasses] = useState(false);
+
   useEffect(() => {
     fetchMyOrder('token');
     fetchClasses();
   }, [fetchMyOrder, fetchClasses]);
 
-  // myOrders 배열의 복사본을 생성한 후 정렬
-  const sortedOrders = myOrders
-    ? [...myOrders].sort((a, b) => b.history_date.localeCompare(a.history_date))
+  // 오늘 날짜 필터링 (추후 API 대응 시 수정될 수 있음)
+  const today = new Date().toISOString().split('T')[0]; // 'YYYY-MM-DD'
+
+  const filteredOrders = showTodayClasses
+    ? myOrders?.filter((order) => order.history_date === today)
+    : myOrders;
+
+  // filteredOrders 배열의 복사본을 생성한 후 정렬
+  const sortedOrders = filteredOrders
+    ? [...filteredOrders].sort((a, b) =>
+        b.history_date.localeCompare(a.history_date),
+      )
     : [];
 
   // 날짜별로 그룹화
@@ -33,13 +44,29 @@ const MyOrderList = () => {
     return acc;
   }, {});
 
+  const toggleShowToday = (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+
+    setShowTodayClasses(!showTodayClasses);
+  };
+
   if (!myOrders || !classes) return <h1>Loading..</h1>;
 
   return (
     <div className="px-6">
-      <div className=' py-6 flex justify-between'>
+      <div className=" py-6 flex justify-between items-center">
         <h1 className="text-xl font-[NanumSquareBold]">My Order List</h1>
-        <div></div>
+        <div className="flex items-center">
+          <label htmlFor="today-class" className="flex items-center">
+            <button
+              className={`w-fit mr-1 rounded-full ${showTodayClasses ? 'text-white bg-black' : 'text-black'}`}
+              onClick={toggleShowToday}
+            >
+              <IconCheck />
+            </button>
+            <span className='font-[NanumSquareExtraBold] text-sm'>Today's Class</span>
+          </label>
+        </div>
       </div>
       {/* 전체 목록 리스트 */}
       <ul className="relative list-none">
@@ -87,11 +114,16 @@ const MyOrderList = () => {
                           {order.class.title}
                         </h2>
                         <p>
-                          <strong>Payment Price: </strong>{order.payment.price}$
+                          <strong>Payment Price: </strong>
+                          {order.payment.price}$
                         </p>
-                        <p><strong>State: </strong>{order.payment.status}</p>
                         <p>
-                          <strong>Review: </strong>{order.review?.review_text || 'No review yet'}
+                          <strong>State: </strong>
+                          {order.payment.status}
+                        </p>
+                        <p>
+                          <strong>Review: </strong>
+                          {order.review?.review_text || 'No review yet'}
                         </p>
                       </div>
                     </div>
