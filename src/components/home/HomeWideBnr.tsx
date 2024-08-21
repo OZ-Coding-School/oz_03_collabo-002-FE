@@ -1,5 +1,3 @@
-import React from 'react';
-
 const HomeWideBnr = () => {
   return (
     <button type="button" className="my-20">

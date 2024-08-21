@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { twJoin as tw } from 'tailwind-merge';
 import {
@@ -7,6 +6,7 @@ import {
   IconHdUser,
   IconLogo,
 } from '../../config/IconData';
+import { useState } from 'react';
 
 const Header = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
