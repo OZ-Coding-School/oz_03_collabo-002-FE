@@ -1,4 +1,4 @@
-import { IconBnrSmile } from '../../../config/IconData';
+import { IconBnrSmile } from '../../config/IconData';
 
 const Banner = () => {
   return (

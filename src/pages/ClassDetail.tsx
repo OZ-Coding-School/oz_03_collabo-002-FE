@@ -94,7 +94,7 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
         <ClassDetailSlide />
         <div className="relative px-6">
           <p className="text-[13px] text-gray-400 font-bold pt-[14px]">
-            클래스 카테고리a
+            클래스 카테고리
           </p>
           <strong className="text-[32px] font-normal">상품 클래스 이름</strong>
           <p className="flex items-center">
