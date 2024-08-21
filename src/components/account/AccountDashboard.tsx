@@ -10,6 +10,8 @@ const AccountDashboard = () => {
     setIsDarkMode(!isDarkMode);
   };
 
+  const handleLanguage = () => {}
+
   return (
     <div id="account-container" className="w-full h-full relative bg-white">
       {/* 전체 바디 영역 */}
@@ -40,6 +42,7 @@ const AccountDashboard = () => {
                 name="language"
                 value={'none'}
                 className={`text-sm bg-transparent ${isDarkMode ? 'text-white ' : 'text-black'}`}
+                onChange={handleLanguage}
               >
                 <option value="none" disabled>
                   choose Language{' '}
@@ -73,7 +76,7 @@ const AccountDashboard = () => {
             </Link>
             {/* 주문내역 보기 */}
             <Link
-              to={'/account?page=order'}
+              to={'/account?page=orders'}
               className="w-full h-[60px] flex justify-between items-center"
             >
               <h3>My Orders</h3>
@@ -97,16 +100,6 @@ const AccountDashboard = () => {
               className="w-full h-[60px] flex justify-between items-center"
             >
               <h3>My Question</h3>
-              <div className="w-6 h-6">
-                <IconPaginationRight />
-              </div>
-            </Link>
-            {/* 오늘 진행하는 나의 워크샵 */}
-            <Link
-              to={'/account?page=workshops'}
-              className="w-full h-[60px] flex justify-between items-center"
-            >
-              <h3>Today workshop</h3>
               <div className="w-6 h-6">
                 <IconPaginationRight />
               </div>
