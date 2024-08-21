@@ -1,20 +1,19 @@
-import GoodsDetailSlide from '../components/classDetail/ClassDetailSlide';
+import { useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { twJoin as tw } from 'tailwind-merge';
 import GoodsDetailInfoSlide from '../components/classDetail/ClassDetailInfoSlide';
+import ClassDetailCalendarSlide from '../components/classDetail/ClassDetailCalendarSlide';
+import ClassDetailOption from '../components/classDetail/ClassDetailOption';
+import ClassDetailPhotoReview from '../components/classDetail/ClassDetailPhotoReview';
+import ClassDetailReview from '../components/classDetail/ClassDetailReview';
+import ClassCalendar from '../components/classDetail/ClassCalendar';
 import {
-  IconDetailHeart,
+  IconDetailShare,
   IconMapShare,
   IconMoreArw,
   IconOptionArw,
   IconReviewStar,
 } from '../config/IconData';
-import GoodsCalendar from '../components/classDetail/ClassCalendar';
-import ClassDetailCalendarSlide from '../components/classDetail/ClassDetailCalendarSlide';
-import ClassDetailOption from '../components/classDetail/ClassDetailOption';
-import { twJoin as tw } from 'tailwind-merge';
-import { Link } from 'react-router-dom';
-import { useRef, useState } from 'react';
-import ClassDetailPhotoReview from '../components/classDetail/ClassDetailPhotoReview';
-import ClassDetailReview from '../components/classDetail/ClassDetailReview';
 
 type ClassDetailProps = {
   rating: number;
@@ -24,7 +23,9 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
   const originalPrice = 14900;
   const discountedPrice = 12900;
   const [expanded, setExpanded] = useState(false);
-
+  const [isLiked, setIsLiked] = useState(false);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
   const toggleImageSize = () => {
@@ -38,10 +39,14 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
     setExpanded(!expanded);
   };
 
+  const toggleLike = () => {
+    setIsLiked(!isLiked);
+  };
+
   return (
     <div>
       <div className="pb-[80px]">
-        <GoodsDetailSlide />
+        <GoodsDetailInfoSlide />
         <div className="relative px-6">
           <p className="text-[13px] text-gray-400 font-bold pt-[14px]">
             클래스 카테고리
@@ -53,6 +58,7 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
             <span className="text-gray-400">(00개)</span>
           </p>
           <div className="mt-4 text-2xl flex items-center">
+            <p className="text-[#D91010] font-[20px] text-bold mr-2">28%</p>
             <p className="text-primary text-[24px]">
               <strong>{originalPrice.toLocaleString()}원</strong>
             </p>
@@ -62,12 +68,15 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
           </div>
           <button
             className={tw(
-              'w-8 h-8 border border-gray-400 rounded-full flex items-center justify-center',
+              'w-9 h-9 border border-gray-400 rounded-full flex items-center justify-center',
               'absolute top-[30px] right-[14px]',
             )}
             aria-label="찜하기"
+            onClick={toggleLike}
           >
-            <IconDetailHeart className="hover:fill-primary" />
+            <IconDetailShare
+              className={isLiked ? 'fill-primary' : 'fill-none'}
+            />
           </button>
         </div>
         <div className="mt-10 px-6">
@@ -82,12 +91,22 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
             <br />- You can inquire in advance about creating your desired
             cocktail.
           </p>
+          <p className="text-[13px] mt-[10px]">
+            {selectedDate
+              ? `Selected Date: ${selectedDate.toLocaleDateString()}`
+              : 'No date selected'}
+          </p>
+          <p className="text-[13px] mt-[10px]">
+            {selectedTime
+              ? `Selected Time: ${selectedTime}`
+              : 'No time selected'}
+          </p>
         </div>
         <GoodsDetailInfoSlide />
       </div>
       <div className="px-6">
         <div className="border border-1 border-gray-400 rounded-2xl pb-3">
-          <GoodsCalendar />
+          <ClassCalendar onDateChange={setSelectedDate} />
         </div>
       </div>
       <div className="px-6">
@@ -115,7 +134,9 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
           </div>
         </div>
       </div>
-      <ClassDetailCalendarSlide />
+      <ClassDetailCalendarSlide
+        onTimeSelect={(selectedTime) => setSelectedTime(selectedTime)}
+      />
       <div>
         <ul
           className={tw(
