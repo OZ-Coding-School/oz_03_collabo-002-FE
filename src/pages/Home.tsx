@@ -1,12 +1,13 @@
-import React from 'react';
-import HomeSlideBanner from '../components/components/home/HomeSlideBanner';
-import HomeCategoryList from '../components/components/home/HomeCategoryList';
+import HomeSlideBanner from '../components/home/HomeSlideBanner';
+import HomeCategoryList from '../components/home/HomeCategoryList';
+import PopularClasses from '../components/home/PopularClasses';
 
 const Home = () => {
   return (
     <div>
       <HomeSlideBanner />
       <HomeCategoryList />
+      <PopularClasses />
     </div>
   );
 };

@@ -3,6 +3,13 @@ import Layout from './components/common/Layout';
 import Home from './pages/Home';
 import ClassDetail from './pages/ClassDetail';
 import { useEffect } from 'react';
+import ChargePage from './pages/ChargePage';
+import Admin from './components/admin/Admin';
+import SignUp from './pages/SignUp';
+import Login from './pages/Login';
+import Review from './components/review/Review';
+import Account from './components/account/Account';
+import LikesPage from './pages/LikesPage';
 
 function App() {
   useEffect(() => {
@@ -28,7 +35,14 @@ function App() {
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
             <Route path="/classdetail" element={<ClassDetail rating={4.5} />} />
+            <Route path="/account" element={<Account />} />
+            <Route path="/charge" element={<ChargePage />} />
+            <Route path="admin" element={<Admin />} />
+            <Route path="likes" element={<LikesPage />} />\
           </Route>
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/review" element={<Review />} />
         </Routes>
       </Router>
     </>

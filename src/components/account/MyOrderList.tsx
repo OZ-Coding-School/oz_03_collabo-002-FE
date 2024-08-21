@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react';
 import useAccountStore from '../../store/useAccount';
 import useClassStore from '../../store/useClassStore';
 import { Link } from 'react-router-dom';
-import { IconCheck, IconPaginationRight } from './../../assets/icon';
+import { IconCheck } from './../../assets/icon';
 import { myOrder } from '../../type/account';
+import { IconPaginationRight } from '../../config/IconData';
 
 const MyOrderList = () => {
   const myOrders = useAccountStore((state) => state.myOrders);
@@ -64,7 +65,9 @@ const MyOrderList = () => {
             >
               <IconCheck />
             </button>
-            <span className='font-[NanumSquareExtraBold] text-sm'>Today's Class</span>
+            <span className="font-[NanumSquareExtraBold] text-sm">
+              Today's Class
+            </span>
           </label>
         </div>
       </div>
