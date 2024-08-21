@@ -14,6 +14,7 @@ import { ReactComponent as IconCart } from './icon-cart.svg';
 import { ReactComponent as IconNotification } from './icon-notification.svg';
 import { ReactComponent as IconNotificationNew } from './icon-notification-new.svg';
 import { ReactComponent as IconUserAvatar } from './icon-user-avatar.svg';
+import { ReactComponent as IconCheck } from './icon-check.svg';
 import { ReactComponent as IconRemove } from './icon-remove.svg';
 
 export {
@@ -32,5 +33,6 @@ export {
   IconNotification,
   IconNotificationNew,
   IconUserAvatar,
+  IconCheck,
   IconRemove,
 };
