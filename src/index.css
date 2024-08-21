@@ -1,8 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-<<<<<<< Updated upstream
-=======
 
 @layer base {
   .font-thin {
@@ -51,4 +49,3 @@ strong {
 .custom-scrollbar::-webkit-scrollbar-track {
   background: transparent;
 }
->>>>>>> Stashed changes
