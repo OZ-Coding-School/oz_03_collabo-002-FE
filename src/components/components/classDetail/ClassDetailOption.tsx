@@ -4,7 +4,7 @@ import {
   IconOptionMinus,
   IconOptionPlus,
   IconOptionRemove,
-} from '../../config/IconData';
+} from '../../../config/IconData';
 
 type Props = {
   selectedDate: Date | null;
@@ -22,7 +22,7 @@ const ClassDetailOption: React.FC<Props> = ({
   onRemoveOptionClick,
 }) => {
   const [quantity, setQuantity] = useState(0);
-  const [isLiked, setIsLiked] = useState(false);
+  const [isLiked, setIsLiked] = useState(false); // 찜하기 상태 관리
 
   const handleIncrease = () => {
     setQuantity((prevQuantity) => prevQuantity + 1);
@@ -33,7 +33,7 @@ const ClassDetailOption: React.FC<Props> = ({
   };
 
   const toggleLike = () => {
-    setIsLiked((prevIsLiked) => !prevIsLiked);
+    setIsLiked((prevIsLiked) => !prevIsLiked); // 상태를 토글
   };
 
   return (

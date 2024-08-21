@@ -35,8 +35,6 @@ function App() {
             <Route index element={<Home />} />
             <Route path="/classdetail" element={<ClassDetail rating={4.5} />} />
             <Route path="/account" element={<Account />} />
-            <Route path="/category/:classDetail_id" element={<ClassDetail />} />
-            <Route path="/category/1" element={<ClassDetail />} />
             <Route path="/charge" element={<ChargePage />} />
             <Route path="admin" element={<Admin />} />
           </Route>

@@ -7,14 +7,14 @@ import {
   IconReviewStar,
 } from '../../config/IconData';
 import { twJoin as tw } from 'tailwind-merge';
-import GoodsDetailSlide from '../components/common/GoodsDetailSlide';
 import GoodsDetailInfoSlide from './ClassDetailInfoSlide';
-import GoodsCalendar from '../components/common/GoodsCalendar';
 import ClassDetailCalendarSlide from './ClassDetailCalendarSlide';
 import ClassDetailOption from './ClassDetailOption';
 import ClassDetailPhotoReview from './ClassDetailPhotoReview';
 import ClassDetailReview from './ClassDetailReview';
 import './classdetail.css';
+import ClassDetailSlide from './ClassDetailSlide';
+import ClassCalendar from './ClassCalendar';
 
 type ClassDetailProps = {
   rating: number;
@@ -24,9 +24,12 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
   const originalPrice = 14900;
   const discountedPrice = 12900;
   const [expanded, setExpanded] = useState(false);
-  const [isLiked, setIsLiked] = useState(false); // 찜하기 상태 관리
+  const [isLiked, setIsLiked] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
+  const [selectedClassType, setSelectedClassType] = useState<string | null>(
+    null,
+  );
   const [isReservationVisible, setIsReservationVisible] = useState(false);
   const [isCancelationVisible, setIsCancelationVisible] = useState(false);
   const [isThingsToKeepInMindVisible, setIsThingsToKeepInMindVisible] =
@@ -39,8 +42,8 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
   const qaRef = useRef<HTMLDivElement>(null);
   const resPoliciesRef = useRef<HTMLDivElement>(null);
 
-  const stickyOffset = 58; // sticky 요소의 높이
-  const headerOffset = 80; // 상단 요소(예: 헤더)의 높이
+  const stickyOffset = 58;
+  const headerOffset = 80;
 
   const scrollToSection = (ref: React.RefObject<HTMLDivElement>) => {
     if (ref.current) {
@@ -69,13 +72,29 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
     setIsLiked((prevIsLiked) => !prevIsLiked);
   };
 
+  const handleBookNowClick = () => {
+    console.log('Book Now clicked');
+  };
+
+  const handleClassTypeChange = (
+    event: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
+    setSelectedClassType(event.target.value);
+  };
+
+  const handleRemoveOptionClick = () => {
+    setSelectedDate(null);
+    setSelectedTime(null);
+    setSelectedClassType(null);
+  };
+
   return (
     <div>
       <div className="pb-[80px]">
-        <GoodsDetailSlide />
+        <ClassDetailSlide />
         <div className="relative px-6">
           <p className="text-[13px] text-gray-400 font-bold pt-[14px]">
-            클래스 카테고리
+            클래스 카테고리a
           </p>
           <strong className="text-[32px] font-normal">상품 클래스 이름</strong>
           <p className="flex items-center">
@@ -122,7 +141,7 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
       </div>
       <div className="px-6">
         <div className="border border-1 border-gray-400 rounded-2xl pb-3">
-          <GoodsCalendar onDateChange={setSelectedDate} />
+          <ClassCalendar onDateChange={setSelectedDate} />
         </div>
       </div>
       <div className="px-6">
@@ -137,10 +156,13 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
           </div>
         </div>
         <div className="mt-[22px] relative">
-          <select className="outline-none appearance-none border border-gray-400 rounded-lg px-4 py-[12px] w-full text-gray-400 relative">
-            <option>class type</option>
-            <option>class type</option>
-            <option>class type</option>
+          <select
+            className="outline-none appearance-none border border-gray-400 rounded-lg px-4 py-[12px] w-full text-gray-400 relative"
+            onChange={handleClassTypeChange}
+          >
+            <option>class type1</option>
+            <option>class type2</option>
+            <option>class type3</option>
           </select>
           <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
             <IconOptionArw />
@@ -154,8 +176,11 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
       <ClassDetailOption
         selectedDate={selectedDate}
         selectedTime={selectedTime}
+        selectedClassType={selectedClassType} // selectedClassType 전달
+        onBookNowClick={handleBookNowClick} // Book Now 클릭 핸들러 전달
+        onRemoveOptionClick={handleRemoveOptionClick} // 옵션 제거 핸들러 전달
       />
-      <div className="mt-20 sticky top-[58px] bg-white z-30">
+      <div className="mt-20 sticky top-[58px] bg-white z-20">
         <ul
           className={tw(
             'flex items-center w-full justify-around mt-[30px] py-3',

@@ -1,8 +1,7 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import GoodsDetailSlide from '../components/classDetail/ClassDetailSlide';
 import GoodsDetailInfoSlide from '../components/classDetail/ClassDetailInfoSlide';
 import {
-  IconDetailHeart,
   IconDetailShare,
   IconOptionArw,
   IconReviewStar,
@@ -19,7 +18,6 @@ type ClassDetailProps = {
 const ClassDetail = ({ rating }: ClassDetailProps) => {
   const originalPrice = 14900;
   const discountedPrice = 12900;
-  const [expanded, setExpanded] = useState(false);
 
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
@@ -28,18 +26,16 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
   );
   const [classType, setClassType] = useState<string | null>(null);
 
-  const buttonRef = useRef<HTMLButtonElement>(null);
-
-  const toggleImageSize = () => {
-    if (!expanded && buttonRef.current) {
-      const { top } = buttonRef.current.getBoundingClientRect();
-      window.scrollTo({
-        top: window.scrollY + top,
-        behavior: 'smooth',
-      });
-    }
-    setExpanded(!expanded);
-  };
+  // const toggleImageSize = () => {
+  //   if (!expanded && buttonRef.current) {
+  //     const { top } = buttonRef.current.getBoundingClientRect();
+  //     window.scrollTo({
+  //       top: window.scrollY + top,
+  //       behavior: 'smooth',
+  //     });
+  //   }
+  //   setExpanded(!expanded);
+  // };
 
   const handleBookNowClick = () => {
     if (!supportersLanguage) {

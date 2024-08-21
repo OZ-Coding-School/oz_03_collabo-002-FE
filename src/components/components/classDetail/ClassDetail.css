@@ -1,0 +1,67 @@
+
+.mantine-DatePicker-calendarHeader {
+    display:flex;
+    align-items: center;
+    margin-left: 20px;
+}
+.mantine-DatePicker-calendarHeaderLevel {
+    user-select: none;
+    cursor:unset;
+}
+
+.mantine-UnstyledButton-root[data-direction="previous"],
+.mantine-UnstyledButton-root[data-direction="next"] {
+    width: 50px;
+    height:50px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.mantine-UnstyledButton-root[data-direction="previous"] {
+    transform:rotate(89deg);
+}
+
+.mantine-UnstyledButton-root[data-direction="next"] {
+    transform: rotate(268deg);
+}
+.mantine-DatePicker-calendarHeaderControlIcon {
+    width:30px;
+}
+.mantine-DatePicker-calendarHeaderControl {
+    font-size:13px;
+}
+
+.mantine-DatePicker-monthThead th {
+    color:#000;
+    font-weight:400;
+    user-select: none;
+}
+.mantine-DatePicker-month {
+    width:100%;
+    text-align:center;
+}
+
+.mantine-DatePicker-day {
+    border-radius: 50%;
+    width:40px;
+    line-height:40px;   
+}
+[data-selected="true"] {
+    background-color: #FFCD2A; 
+    color: white;
+}
+
+
+.mantine-UnstyledButton-root[data-today="true"][tabindex="0"],
+.mantine-UnstyledButton-root[data-today="true"][data-selected="true"] {
+    background:#FFCD2A;
+    color:#fff;
+
+}
+[data-weekend='true'] {
+    color:#FE4E4E
+}
+[data-outside='true'] {
+    color:#999
+}

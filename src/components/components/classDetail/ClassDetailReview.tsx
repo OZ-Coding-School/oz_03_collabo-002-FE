@@ -3,7 +3,7 @@ import {
   IconAllArw,
   IconReviewHeart,
   IconReviewStar,
-} from '../../config/IconData';
+} from '../../../config/IconData';
 
 const ClassDetailReview = () => {
   return (

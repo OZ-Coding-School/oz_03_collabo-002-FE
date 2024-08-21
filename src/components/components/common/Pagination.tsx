@@ -1,4 +1,7 @@
-import { IconPaginationLeft, IconPaginationRight } from '../../config/IconData';
+import {
+  IconPaginationLeft,
+  IconPaginationRight,
+} from '../../../config/IconData';
 
 const Pagination = () => {
   return (

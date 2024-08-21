@@ -1,7 +1,7 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination, Navigation } from 'swiper/modules';
+import { Pagination } from 'swiper/modules';
 
-const GoodsDetailSlide = () => {
+const ClassDetailSlide = () => {
   return (
     <div>
       <>
@@ -27,4 +27,4 @@ const GoodsDetailSlide = () => {
   );
 };
 
-export default GoodsDetailSlide;
+export default ClassDetailSlide;
