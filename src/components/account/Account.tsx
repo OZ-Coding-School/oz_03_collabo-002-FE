@@ -1,10 +1,10 @@
 import { useLocation } from 'react-router-dom';
-import MyInfo from './MyInfo';
 import AccountOrderList from './MyOrderList';
 import AccountMyQuestions from './MyQuestions';
 import MyReviews from './MyReviews';
 import AccountDashboard from './AccountDashboard';
 import MyTodayWorkshops from './MyTodayWorkshops';
+import AccountEditProfile from './AccountEditProfile';
 
 const Account = () => {
   const location = useLocation();
@@ -13,8 +13,8 @@ const Account = () => {
 
   const renderPage = () => {
     switch (page) {
-      case 'user':
-        return <MyInfo />;
+      case 'edit':
+        return <AccountEditProfile />;
       case 'orders':
         return <AccountOrderList />;
       case 'questions':

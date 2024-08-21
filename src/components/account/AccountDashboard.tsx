@@ -63,7 +63,7 @@ const AccountDashboard = () => {
             </div>
             {/* 계정 정보 상세 보기 */}
             <Link
-              to={'/account?page=user'}
+              to={'/account?page=edit'}
               className="w-full h-[60px] flex justify-between items-center"
             >
               <h3>My Profile</h3>
