@@ -15,6 +15,9 @@ import { ReactComponent as IconNotification } from './icon-notification.svg';
 import { ReactComponent as IconNotificationNew } from './icon-notification-new.svg';
 import { ReactComponent as IconUserAvatar } from './icon-user-avatar.svg';
 import { ReactComponent as IconRemove } from './icon-remove.svg';
+import { ReactComponent as IconArrowUp } from './icon-arrow-up.svg';
+import { ReactComponent as IconArrowDown } from './icon-arrow-down.svg';
+import { ReactComponent as IconArrowLeft } from './icon-arrow-left.svg';
 
 export {
   IconBnrSmile2,
@@ -33,4 +36,7 @@ export {
   IconNotificationNew,
   IconUserAvatar,
   IconRemove,
+  IconArrowUp,
+  IconArrowDown,
+  IconArrowLeft,
 };

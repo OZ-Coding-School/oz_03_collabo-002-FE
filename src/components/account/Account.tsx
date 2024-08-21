@@ -1,10 +1,9 @@
 import { useLocation } from 'react-router-dom';
 import MyInfo from './MyInfo';
-import AccountOrderList from './MyOrderList';
-import AccountMyQuestions from './MyQuestions';
+import MyOrderList from './MyOrderList';
+import MyQuestion from './MyQuestion';
 import MyReviews from './MyReviews';
 import AccountDashboard from './AccountDashboard';
-import MyTodayWorkshops from './MyTodayWorkshops';
 
 const Account = () => {
   const location = useLocation();
@@ -16,13 +15,11 @@ const Account = () => {
       case 'user':
         return <MyInfo />;
       case 'orders':
-        return <AccountOrderList />;
-      case 'questions':
-        return <AccountMyQuestions />;
+        return <MyOrderList />;
+      case 'question':
+        return <MyQuestion />;
       case 'reviews':
         return <MyReviews />;
-      case 'workshops':
-        return <MyTodayWorkshops />;
       default:
         return <AccountDashboard />; 
     }

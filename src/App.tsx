@@ -9,6 +9,7 @@ import Login from './pages/Login';
 import Review from './components/review/Review';
 import Account from './components/account/Account';
 import LikesPage from './pages/LikesPage';
+import ClassDetailQnaAll from './components/classDetail/ClassDetailQnaAll';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/review" element={<Review />} />
+          <Route path="/question/:id" element={<ClassDetailQnaAll />} />
         </Routes>
       </Router>
     </>
