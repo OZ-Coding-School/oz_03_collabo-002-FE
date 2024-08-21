@@ -5,7 +5,8 @@ type ClassDate = {
   startDate: string;
   startTime: string;
   endTime: string;
-  participants: string[];
+  endDate: string;
+  participants: string[] | number;
 };
 
 export type Class = {
@@ -24,6 +25,7 @@ export type Class = {
   photoFinished: string[];
   place: { state: string; city: string; address: string };
   createAt: string;
+  tag?: string;
 };
 
 type ClassState = {

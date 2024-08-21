@@ -25,8 +25,8 @@ const classes: Class[] = [
     discountRate: 20,
     discountPrice: 80,
     description: 'This is an example class description 1.',
-    photoGallery: ['./Home/home-popular01.png'],
-    photoFinished: ['./Home/home-popular01.png'],
+    photoGallery: ['./Home/home-Kpick01.png'],
+    photoFinished: ['./Home/home-Kpick01.png'],
     place: {
       state: 'Busan',
       city: 'Busan',
@@ -57,8 +57,8 @@ const classes: Class[] = [
     discountRate: 15,
     discountPrice: 102,
     description: 'This is an example class description 2.',
-    photoGallery: ['./Home/home-popular02.png'],
-    photoFinished: ['./Home/home-popular02.png'],
+    photoGallery: ['./Home/home-Kpick02.png'],
+    photoFinished: ['./Home/home-Kpick02.png'],
     place: {
       state: 'Seoul',
       city: 'Seoul',
@@ -69,11 +69,11 @@ const classes: Class[] = [
   },
 ];
 
-const PopularClasses = () => {
+const KpickClasses = () => {
   return (
     <div className="px-6">
       <h3 className="text-[20px] mb-5">
-        <strong>Popular Classes</strong>
+        <strong>Custom-K’s Pick</strong>
       </h3>
       <div className="grid grid-cols-2 gap-[15px]">
         {classes.map((classItem) => (
@@ -88,4 +88,4 @@ const PopularClasses = () => {
   );
 };
 
-export default PopularClasses;
+export default KpickClasses;

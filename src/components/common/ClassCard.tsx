@@ -9,7 +9,7 @@ const ClassCard = ({ classItem, tag }: ClassCardProps) => {
   console.log(classItem);
 
   return (
-    <div className="w-[42.5vw] max-w-[210px]">
+    <div className="w-[42.5vw] max-w-[206px]">
       {/* image */}
       <div className="w-full rounded-sm mb-4">
         <img src={classItem.photoGallery[0]} alt={classItem.description} />

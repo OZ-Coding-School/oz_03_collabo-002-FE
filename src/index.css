@@ -49,3 +49,21 @@ strong {
 .custom-scrollbar::-webkit-scrollbar-track {
   background: transparent;
 }
+
+.swiper {
+  text-align:center;
+}
+
+
+.swiper-pagination-fraction {
+  color:#fff;
+  font-size:12px;
+  background:#FFCD2A;
+  display:inline-block;
+  width:auto;
+  margin:0 auto;
+  padding:3px 4px 2px;
+  border-radius:10px;
+  left:inherit;
+  right:10px;
+}
