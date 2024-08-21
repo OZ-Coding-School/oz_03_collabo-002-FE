@@ -6,7 +6,7 @@ import {
   IconArrowLeft,
   IconCheck,
   IconPaginationRight,
-} from './../../assets/icon';
+} from './../../config/IconData';
 import { myOrder } from '../../type/account';
 
 const MyOrderList = () => {

@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { IconArrowDown, IconArrowLeft, IconArrowUp } from '../../assets/icon';
+import { IconArrowDown, IconArrowLeft, IconArrowUp } from './../../config/IconData';
 import useQnaStore from '../../store/useQnaStore';
 
 const ClassDetailQnaAll = () => {
@@ -13,7 +13,7 @@ const ClassDetailQnaAll = () => {
 
   useEffect(() => {
     fetchQuestionDetail(id);
-  }, [id]);
+  }, [fetchQuestionDetail,id]);
 
   const toggleAnswerOpen = (qnaId: string) => {
     setOpenAnswers((prev) => ({

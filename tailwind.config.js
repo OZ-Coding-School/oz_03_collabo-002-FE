@@ -19,7 +19,13 @@ export default {
         darkgray: '#444',
       },
       fill: {
-        primary: '#FFCD2A', // fill-primary 클래스 추가
+        primary: '#FFCD2A',
+      },
+      borderColor: {
+        primary: '#FFCD2A',
+      },
+      boxShadow: {
+        custom: '0px -4px 7.9px -2px #0000001F',
       },
     },
     fontFamily: {

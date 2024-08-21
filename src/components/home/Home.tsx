@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect } from 'react'; // 최상위 레벨에서 import
 import useClassStore from '../../store/useClassStore';
-import Banner from '../common/Banner';
 import Pagination from '../common/Pagination';
+import Banner from '../common/Banner';
 
 const Home = () => {
   const fetchClasses = useClassStore((state) => state.fetchClasses);

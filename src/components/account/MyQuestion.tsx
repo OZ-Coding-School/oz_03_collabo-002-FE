@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import useAccountStore from '../../store/useAccountStore';
 import useQnaStore from '../../store/useQnaStore';
-import { IconArrowDown, IconArrowLeft, IconArrowUp } from '../../assets/icon';
+import { IconArrowDown, IconArrowLeft, IconArrowUp } from './../../config/IconData';
 import { useNavigate } from 'react-router-dom';
 
 const MyQuestion = () => {
@@ -23,7 +23,7 @@ const MyQuestion = () => {
     if (user?.id) {
       fetchMyQuestions(user.id);
     }
-  }, [fetchMyQuestions]);
+  }, [fetchMyQuestions, user]);
 
   const toggleAnswerOpen = (qnaId: string) => {
     setOpenAnswers((prev) => ({
