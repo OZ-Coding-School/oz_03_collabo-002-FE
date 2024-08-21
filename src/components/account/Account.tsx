@@ -2,7 +2,7 @@ import { useLocation } from 'react-router-dom';
 import MyInfo from './MyInfo';
 import MyOrderList from './MyOrderList';
 import MyQuestion from './MyQuestion';
-import MyReviews from './MyReviews';
+import MyReview from './MyReview';
 import AccountDashboard from './AccountDashboard';
 
 const Account = () => {
@@ -18,8 +18,8 @@ const Account = () => {
         return <MyOrderList />;
       case 'question':
         return <MyQuestion />;
-      case 'reviews':
-        return <MyReviews />;
+      case 'review':
+        return <MyReview />;
       default:
         return <AccountDashboard />; 
     }

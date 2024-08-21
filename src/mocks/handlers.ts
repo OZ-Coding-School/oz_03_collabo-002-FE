@@ -13,6 +13,9 @@ export const handlers = [
   http.get('/reviews', () => {
     return HttpResponse.json(reviews);
   }),
+  http.get(`/api/v1/question`, () => {
+    return HttpResponse.json(qna);
+  }),
   http.get(`/api/v1/question/:id`, () => {
     return HttpResponse.json(qna);
   }),

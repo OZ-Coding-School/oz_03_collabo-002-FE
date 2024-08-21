@@ -1,42 +1,29 @@
-import { useParams } from 'react-router-dom';
-import axios from './../../api/axios';
 import { useEffect, useState } from 'react';
+import useAccountStore from '../../store/useAccountStore';
+import useQnaStore from '../../store/useQnaStore';
 import { IconArrowDown, IconArrowLeft, IconArrowUp } from '../../assets/icon';
-
-type Qna = {
-  id: string;
-  questionTitle: string;
-  question: string;
-  answerTitle: string;
-  answer: string;
-  author: string;
-  classId: string;
-  complete: boolean;
-  createDate: string;
-  answerDate: string
-};
+import { useNavigate } from 'react-router-dom';
 
 const MyQuestion = () => {
-  const { id } = useParams<{ id: string }>(); 
-  const [qnaData, setQnaData] = useState<Qna[]>([]);
+  const navigate = useNavigate();
+  const user = useAccountStore((state) => state.user);
+  const myQuestions = useQnaStore((state) => state.myQuestions);
+  const fetchUser = useAccountStore((state) => state.fetchUser);
+  const fetchMyQuestions = useQnaStore((state) => state.fetchMyQuestions);
   const [openAnswers, setOpenAnswers] = useState<{ [key: string]: boolean }>(
     {},
   );
 
+  // 임시 사용자 불러오기
   useEffect(() => {
-    const fetchQna = async () => {
-      try {
-        const response = await axios.get(`/api/v1/question/${id}`);
-        const data: Qna[] = response.data;
-        const filteredData = data.filter((data) => data.classId === id);
-        setQnaData(filteredData);
-      } catch (error) {
-        console.error('Failed to fetch QnA data', error);
-      }
-    };
+    fetchUser();
+  }, [fetchUser]);
 
-    fetchQna();
-  }, [id]);
+  useEffect(() => {
+    if (user?.id) {
+      fetchMyQuestions(user.id);
+    }
+  }, [fetchMyQuestions]);
 
   const toggleAnswerOpen = (qnaId: string) => {
     setOpenAnswers((prev) => ({
@@ -45,16 +32,16 @@ const MyQuestion = () => {
     }));
   };
 
+  if (!user) return <div>Loading..</div>;
+
   return (
     <div className="">
-      <div className='w-full flex items-center bg-gray py-[15px] px-6 mb-[15px]'>
-        <IconArrowLeft className='mr-[15px]'/>
-        <h1 className="text-lg font-[NanumSquareBold] mr-1 ">
-          QnA
-        </h1>
-          <span className="font-sans">({qnaData.length})</span>
+      <div className="w-full flex items-center bg-gray py-[15px] px-6 mb-[15px]">
+        <IconArrowLeft className="mr-[15px]" onClick={() => navigate(-1)} />
+        <h1 className="text-lg font-[NanumSquareBold] mr-1 ">My Question</h1>
+        <span className="font-sans">({myQuestions?.length})</span>
       </div>
-      {qnaData.map((data) => (
+      {myQuestions?.map((data) => (
         <div key={data.id} className="divide-y divide-gray-200">
           <div className="flex justify-between px-6 py-[15px]">
             <div id="question-item" className="flex flex-col">
@@ -82,9 +69,11 @@ const MyQuestion = () => {
           </div>
           {openAnswers[data.id] && (
             <div className="mt-2 bg-gray p-6">
-              <h3 className="font-[NanumSquareBold] mb-[15px]">{data.answerTitle}</h3>
-              <p className='mb-[15px]'>{data.answer}</p>
-              <small className='text-sm'>{data.answerDate.split('T',1)}</small>
+              <h3 className="font-[NanumSquareBold] mb-[15px]">
+                {data.answerTitle}
+              </h3>
+              <p className="mb-[15px]">{data.answer}</p>
+              <small className="text-sm">{data.answerDate.split('T', 1)}</small>
             </div>
           )}
         </div>

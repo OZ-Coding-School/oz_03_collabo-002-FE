@@ -1,6 +1,42 @@
-{
-  "id": 1,
-  "name": "John Doe",
-  "email": "john@example.com",
-  "accessToken": "your_generated_access_token_here"
-}
+[
+  {
+    "id": 1,
+    "name": "Alice Smith",
+    "phone": "010-2345-6789",
+    "email": "alice.smith@example.com",
+    "avatar": "https://img.com/alice.jpg",
+    "accessToken": "alice_generated_access_token_here"
+  },
+  {
+    "id": 2,
+    "name": "Bob Johnson",
+    "phone": "010-3456-7890",
+    "email": "bob.johnson@example.com",
+    "avatar": "https://img.com/bob.jpg",
+    "accessToken": "bob_generated_access_token_here"
+  },
+  {
+    "id": 3,
+    "name": "Charlie Brown",
+    "phone": "010-4567-8901",
+    "email": "charlie.brown@example.com",
+    "avatar": "https://img.com/charlie.jpg",
+    "accessToken": "charlie_generated_access_token_here"
+  },
+  {
+    "id": 4,
+    "name": "Diana Prince",
+    "phone": "010-5678-9012",
+    "email": "diana.prince@example.com",
+    "avatar": "https://img.com/diana.jpg",
+    "accessToken": "diana_generated_access_token_here"
+  },
+  {
+    "id": 5,
+    "name": "Evan Turner",
+    "phone": "010-6789-0123",
+    "email": "evan.turner@example.com",
+    "avatar": "https://img.com/evan.jpg",
+    "accessToken": "evan_generated_access_token_here"
+  }
+]

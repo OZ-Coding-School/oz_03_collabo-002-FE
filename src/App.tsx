@@ -23,12 +23,12 @@ function App() {
             <Route path="/category/1" element={<ClassDetail />} />
             <Route path="/charge" element={<ChargePage />} />
             <Route path="admin" element={<Admin />} />
-            <Route path="likes" element={<LikesPage />} />\
+            <Route path="likes" element={<LikesPage />} />
+            <Route path="/question/:id" element={<ClassDetailQnaAll />} />
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/review" element={<Review />} />
-          <Route path="/question/:id" element={<ClassDetailQnaAll />} />
         </Routes>
       </Router>
     </>

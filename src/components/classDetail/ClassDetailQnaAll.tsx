@@ -1,41 +1,18 @@
 import { useParams } from 'react-router-dom';
-import axios from './../../api/axios';
 import { useEffect, useState } from 'react';
 import { IconArrowDown, IconArrowLeft, IconArrowUp } from '../../assets/icon';
-
-type Qna = {
-  id: string;
-  questionTitle: string;
-  question: string;
-  answerTitle: string;
-  answer: string;
-  author: string;
-  classId: string;
-  complete: boolean;
-  createDate: string;
-  answerDate: string
-};
+import useQnaStore from '../../store/useQnaStore';
 
 const ClassDetailQnaAll = () => {
-  const { id } = useParams<{ id: string }>(); 
-  const [qnaData, setQnaData] = useState<Qna[]>([]);
+  const { id } = useParams<{ id: string }>();
   const [openAnswers, setOpenAnswers] = useState<{ [key: string]: boolean }>(
     {},
   );
+  const questions = useQnaStore((state) => state.questions);
+  const fetchQuestionDetail = useQnaStore((state) => state.fetchQuestionDetail);
 
   useEffect(() => {
-    const fetchQna = async () => {
-      try {
-        const response = await axios.get(`/api/v1/question/${id}`);
-        const data: Qna[] = response.data;
-        const filteredData = data.filter((data) => data.classId === id);
-        setQnaData(filteredData);
-      } catch (error) {
-        console.error('Failed to fetch QnA data', error);
-      }
-    };
-
-    fetchQna();
+    fetchQuestionDetail(id);
   }, [id]);
 
   const toggleAnswerOpen = (qnaId: string) => {
@@ -47,14 +24,12 @@ const ClassDetailQnaAll = () => {
 
   return (
     <div className="">
-      <div className='w-full flex items-center bg-gray py-[15px] px-6 mb-[15px]'>
-        <IconArrowLeft className='mr-[15px]'/>
-        <h1 className="text-lg font-[NanumSquareBold] mr-1 ">
-          QnA
-        </h1>
-          <span className="font-sans">({qnaData.length})</span>
+      <div className="w-full flex items-center bg-gray py-[15px] px-6 mb-[15px]">
+        <IconArrowLeft className="mr-[15px]" />
+        <h1 className="text-lg font-[NanumSquareBold] mr-1 ">QnA</h1>
+        <span className="font-sans">({questions?.length})</span>
       </div>
-      {qnaData.map((data) => (
+      {questions?.map((data) => (
         <div key={data.id} className="divide-y divide-gray-200">
           <div className="flex justify-between px-6 py-[15px]">
             <div id="question-item" className="flex flex-col">
@@ -82,9 +57,11 @@ const ClassDetailQnaAll = () => {
           </div>
           {openAnswers[data.id] && (
             <div className="mt-2 bg-gray p-6">
-              <h3 className="font-[NanumSquareBold] mb-[15px]">{data.answerTitle}</h3>
-              <p className='mb-[15px]'>{data.answer}</p>
-              <small className='text-sm'>{data.answerDate.split('T',1)}</small>
+              <h3 className="font-[NanumSquareBold] mb-[15px]">
+                {data.answerTitle}
+              </h3>
+              <p className="mb-[15px]">{data.answer}</p>
+              <small className="text-sm">{data.answerDate.split('T', 1)}</small>
             </div>
           )}
         </div>

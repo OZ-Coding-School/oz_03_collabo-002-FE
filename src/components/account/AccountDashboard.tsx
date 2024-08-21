@@ -86,7 +86,7 @@ const AccountDashboard = () => {
             </Link>
             {/* 나의 리뷰 보기 */}
             <Link
-              to={'/account?page=reviews'}
+              to={'/account?page=review'}
               className="w-full h-[60px] flex justify-between items-center"
             >
               <h3>My Review</h3>
@@ -96,7 +96,7 @@ const AccountDashboard = () => {
             </Link>
             {/* 나의 문의글 보기 */}
             <Link
-              to={'/account?page=questions'}
+              to={'/account?page=question'}
               className="w-full h-[60px] flex justify-between items-center"
             >
               <h3>My Question</h3>
