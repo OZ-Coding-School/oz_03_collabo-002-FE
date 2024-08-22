@@ -13,7 +13,6 @@ import ClassDetailOption from '../components/classDetail/ClassDetailOption';
 import ClassDetailPhotoReview from '../components/classDetail/ClassDetailPhotoReview';
 import ClassDetailReview from '../components/classDetail/ClassDetailReview';
 import '../components/classDetail/ClassDetail.css';
-import ClassDetailSlide from '../components/classDetail/ClassDetailSlide';
 import ClassCalendar from '../components/classDetail/ClassCalendar';
 import { Link } from 'react-router-dom';
 
@@ -21,54 +20,16 @@ type ClassDetailProps = {
   rating: number;
 };
 
-// ClassDetailOption 컴포넌트의 Props 타입 정의를 수정
-// type ClassDetailOptionProps = {
-//   selectedDate: Date | null | undefined;
-//   selectedTime: string | null | undefined;
-//   selectedClassType: string | null | undefined;
-//   onBookNowClick: () => void;
-//   onRemoveOptionClick: () => void;
-// };
-
 const ClassDetail = ({ rating }: ClassDetailProps) => {
   const originalPrice = 14900;
   const discountedPrice = 12900;
   const [expanded, setExpanded] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
-  const [selectedDate, setSelectedDate] = useState<Date | null | undefined>(
-    undefined,
-  );
-  const [selectedTime, setSelectedTime] = useState<string | null | undefined>(
-    undefined,
-  );
-  const [selectedClassType, setSelectedClassType] = useState<
-    string | null | undefined
-  >(undefined);
-  const [isReservationVisible, setIsReservationVisible] = useState(false);
-  const [isCancelationVisible, setIsCancelationVisible] = useState(false);
-  const [isThingsToKeepInMindVisible, setIsThingsToKeepInMindVisible] =
-    useState(false);
+  const [selectedDate, setSelectedDate] = useState<Date | null | undefined>(undefined);
+  const [selectedTime, setSelectedTime] = useState<string | null | undefined>(undefined);
+  const [selectedClassType, setSelectedClassType] = useState<string | null | undefined>(undefined);
 
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const detailsRef = useRef<HTMLDivElement>(null);
-  const reviewsRef = useRef<HTMLDivElement>(null);
-  const qaRef = useRef<HTMLDivElement>(null);
-  const resPoliciesRef = useRef<HTMLDivElement>(null);
-
-  const stickyOffset = 58;
-  const headerOffset = 80;
-
-  const scrollToSection = (ref: React.RefObject<HTMLDivElement>) => {
-    if (ref.current) {
-      const elementPosition = ref.current.getBoundingClientRect().top;
-      const offsetPosition =
-        elementPosition + window.scrollY - stickyOffset - headerOffset;
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth',
-      });
-    }
-  };
 
   const toggleImageSize = () => {
     if (!expanded && buttonRef.current) {
@@ -93,12 +54,6 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
     console.log('Book Now clicked');
   };
 
-  // const handleClassTypeChange = (
-  //   event: React.ChangeEvent<HTMLSelectElement>,
-  // ) => {
-  //   setSelectedClassType(event.target.value);
-  // };
-
   const handleRemoveOptionClick = () => {
     setSelectedDate(undefined);
     setSelectedTime(null);
@@ -110,9 +65,7 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
       <div className="pb-[80px]">
         <GoodsDetailInfoSlide />
         <div className="relative px-6">
-          <p className="text-[13px] text-gray-400 font-bold pt-[14px]">
-            클래스 카테고리
-          </p>
+          <p className="text-[13px] text-gray-400 font-bold pt-[14px]">클래스 카테고리</p>
           <strong className="text-[32px] font-normal">상품 클래스 이름</strong>
           <p className="flex items-center">
             <IconReviewStar />
@@ -136,32 +89,22 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
             aria-label="찜하기"
             onClick={toggleLike}
           >
-            <IconDetailShare
-              className={isLiked ? 'fill-primary' : 'fill-none'}
-            />
+            <IconDetailShare className={isLiked ? 'fill-primary' : 'fill-none'} />
           </button>
         </div>
         <div className="mt-10 px-6">
-          <h3 className="text-[18px] font-medium">
-            Details of the Workshop Piece
-          </h3>
+          <h3 className="text-[18px] font-medium">Details of the Workshop Piece</h3>
           <p className="text-[13px] mt-[10px]">
             - 1 Standard Cocktail + 1 Signature Cocktail
             <br />
-            - You can create your own Cocktail by choosing from 60 different
-            ingredients.
-            <br />- You can inquire in advance about creating your desired
-            cocktail.
+            - You can create your own Cocktail by choosing from 60 different ingredients.
+            <br />- You can inquire in advance about creating your desired cocktail.
           </p>
           <p className="text-[13px] mt-[10px]">
-            {selectedDate
-              ? `Selected Date: ${selectedDate.toLocaleDateString()}`
-              : 'No date selected'}
+            {selectedDate ? `Selected Date: ${selectedDate.toLocaleDateString()}` : 'No date selected'}
           </p>
           <p className="text-[13px] mt-[10px]">
-            {selectedTime
-              ? `Selected Time: ${selectedTime}`
-              : 'No time selected'}
+            {selectedTime ? `Selected Time: ${selectedTime}` : 'No time selected'}
           </p>
         </div>
         <GoodsDetailInfoSlide />
@@ -204,48 +147,6 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
         onBookNowClick={handleBookNowClick}
         onRemoveOptionClick={handleRemoveOptionClick}
       />
-      <div>
-        <ul
-          className={tw(
-            'flex items-center w-full justify-around mt-[30px] py-3',
-            'border-t border-t-1 border-black border-b border-b-1 border-b-gray-300',
-          )}
-        >
-          <li className="flex-1">
-            <Link
-              to=""
-              className="flex items-center justify-center w-full h-full"
-            >
-              Details
-            </Link>
-          </li>
-          <li className="flex-1">
-            <Link
-              to=""
-              className="flex items-center justify-center w-full h-full"
-            >
-              Review(999+)
-            </Link>
-          </li>
-          <li className="flex-1">
-            <Link
-              to=""
-              className="flex items-center justify-center w-full h-full"
-            >
-              Q&A
-            </Link>
-          </li>
-          <li className="flex-1">
-            <Link
-              to=""
-              className="flex items-center justify-center w-full h-full"
-            >
-              Res. & Policies
-            </Link>
-          </li>
-        </ul>
-      </div>
-      <ClassDetailOption />
 
       <div className="mt-[100px] mb-10">
         <div>
@@ -296,8 +197,7 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
             <span className="text-primary">320</span>&nbsp;reviews
           </strong>
           <p className="text-[14px] leading-[34px]">
-            <strong className="text-primary">97%</strong> of participants are
-            satisfied with the workshop!
+            <strong className="text-primary">97%</strong> of participants are satisfied with the workshop!
           </p>
         </div>
         <ClassDetailPhotoReview />
@@ -306,26 +206,12 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
           <dt>Reservation Process</dt>
           <dd>
             <ol>
-              <li>
-                Select 'Reserve' on the spot page and book your desired date and
-                number of participants.
-              </li>
-              <li>
-                Once your reservation is made, it will be confirmed within 2-3
-                days.
-              </li>
-              <li>
-                Ensure you arrive at the designated meeting point 10 minutes
-                before the scheduled time. The class will start promptly.
-              </li>
-              <li>
-                Please gather at <strong>Mad Night</strong>
-              </li>
+              <li>Select 'Reserve' on the spot page and book your desired date and number of participants.</li>
+              <li>Once your reservation is made, it will be confirmed within 2-3 days.</li>
+              <li>Ensure you arrive at the designated meeting point 10 minutes before the scheduled time. The class will start promptly.</li>
+              <li>Please gather at <strong>Mad Night</strong></li>
             </ol>
-            <p>
-              Mad Night 2nd Floor, Building A, Mad Night, 52 Songpa-daero
-              49-gil, Songpa-gu, Seoul
-            </p>
+            <p>Mad Night 2nd Floor, Building A, Mad Night, 52 Songpa-daero 49-gil, Songpa-gu, Seoul</p>
           </dd>
         </dl>
         <dl>
@@ -336,18 +222,9 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
               <li>4 days before the class: Full refund</li>
               <li>3 days before the class: 50% refund </li>
               <li>2 days before the class: No refund </li>
-              <li>4 days before the class: Full refund</li>
-              <li>3 days before the class: 50% refund </li>
-              <li>2 days before the class: No refund </li>
             </ul>
-            <p>
-              The cancellation fee policy is based on the class provider's
-              business days.
-            </p>
-            <p>
-              If a cancellation request is made on non-business days, the
-              cancellation fee will be applied based on the next business day.
-            </p>
+            <p>The cancellation fee policy is based on the class provider's business days.</p>
+            <p>If a cancellation request is made on non-business days, the cancellation fee will be applied based on the next business day.</p>
             <p>(Non-business days: weekends and public holidays)</p>
           </dd>
         </dl>
@@ -355,55 +232,18 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
           <dt>Things To Keep In Mind</dt>
           <dd>
             <ul>
-              <li>
-                If the class is canceled due to the provider's circumstances,
-                you will be notified by email 1-2 days in advance.
-              </li>
-              <li>
-                Please arrive 10 minutes before the class starts. Latecomers
-                will not be accommodated.
-              </li>
+              <li>If the class is canceled due to the provider's circumstances, you will be notified by email 1-2 days in advance.</li>
+              <li>Please arrive 10 minutes before the class starts. Latecomers will not be accommodated.</li>
               <li>This class is held indoors.</li>
-              <li>
-                The class requires a minimum of 2 participants & maximum of 10
-                participants to proceed.
-              </li>
-              <li>
-                This is not a private class and will include participants from
-                various countries. However, instruction will be given in
-                English, Japanese, Chinese, and Korean. (Please inform us in
-                advance which language you need.)
-              </li>
-              <li>
-                Reservation confirmations may take 2-3 days on the provider's
-                non-business days (weekends and public holidays). For example,
-                if you book on a Friday, the confirmation will be processed
-                after Monday.
-              </li>
-              <li>
-                The class will proceed as scheduled even in rainy weather, and
-                no refunds will be provided for weather-related cancellations
-                during the class.
-              </li>
-              <li>
-                Recording or filming the instructor's explanations during the
-                class is prohibited.
-              </li>
-              <li>
-                Pets are not allowed, and there are no facilities for them.
-              </li>
-              <li>
-                If you have dietary restrictions or allergies, please inform us
-                in advance.
-              </li>
-              <li>
-                Cancellations and refunds due to natural disasters are not
-                possible, but date changes are allowed.
-              </li>
-              <li>
-                For reservation changes or other inquiries, please contact
-                customk7878@gmail.com.
-              </li>
+              <li>The class requires a minimum of 2 participants & maximum of 10 participants to proceed.</li>
+              <li>This is not a private class and will include participants from various countries. However, instruction will be given in English, Japanese, Chinese, and Korean. (Please inform us in advance which language you need.)</li>
+              <li>Reservation confirmations may take 2-3 days on the provider's non-business days (weekends and public holidays). For example, if you book on a Friday, the confirmation will be processed after Monday.</li>
+              <li>The class will proceed as scheduled even in rainy weather, and no refunds will be provided for weather-related cancellations during the class.</li>
+              <li>Recording or filming the instructor's explanations during the class is prohibited.</li>
+              <li>Pets are not allowed, and there are no facilities for them.</li>
+              <li>If you have dietary restrictions or allergies, please inform us in advance.</li>
+              <li>Cancellations and refunds due to natural disasters are not possible, but date changes are allowed.</li>
+              <li>For reservation changes or other inquiries, please contact customk7878@gmail.com.</li>
             </ul>
           </dd>
         </dl>
