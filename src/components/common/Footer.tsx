@@ -7,10 +7,10 @@ const Footer = () => {
     <footer className="relative pt-[60px] z-10">
       <ul className="absolute right-[24px] top-[60px] flex text-s gap-6 text-sm">
         <li>
-          <Link to="">이용약관</Link>
+          <Link to="">Terms and conditions</Link>
         </li>
         <li>
-          <Link to="">개인정보 처리방침</Link>
+          <Link to="">Privacy policy</Link>
         </li>
       </ul>
       <div className="px-6 text-sm">
@@ -27,22 +27,24 @@ const Footer = () => {
             <IconFtInsta />
           </Link>
         </p>
-        <strong>커스텀케이(Custom-K)</strong>
-        <p>대표 : 박진우</p>
-        <p>주소 : 서울특별시 송파구 백제고분로34길 3-37, 502호(석촌동)</p>
-        <p>사업자등록번호 : 146-30-01485</p>
+        <strong>Custom-K</strong>
+        <p>Representative: Jinwoo Park</p>
+        <p>
+          Address: 502ho, 3-37, Baekjegobun-ro 34-gil, Songpa-gu, Seoul, South
+          Korea
+        </p>
+        <p>Business Registration Number: 146-30-01485</p>
         <p>
           <Link
             to="http://www.ftc.go.kr/bizCommPop.do?wrkr_no=1463001485"
             target="_blank"
           >
-            [사업자 정보 확인]
+            [Business Information Verification]
           </Link>
         </p>
-        <p>통신판매신고번호 : 제 2024-서울송파-2502</p>
-        <p>개인정보관리책임자 : 박진우</p>
-        <p>연락처 : 01042220225</p>
-        <p>이메일 문의 : customk7878@gmail.com</p>
+        <p>Telecommunication Sales Report Number: No. 2024-Seoul Songpa-2502</p>
+        <p>Personal Information Manager: Jinwoo Park</p>
+        <p>Email : customk7878@gmail.com</p>
       </div>
     </footer>
   );

@@ -29,7 +29,7 @@ redirect_uri=${redirect_uri}&response_type=code`;
         <div className="flex flex-col max-w-[475px] w-full min-h-screen h-full m-auto border-x border-gray-200 relative bg-gray-100">
           <div className=" border-gray-200 border-2 rounded-2xl bg-white mt-32 mx-8 py-20">
             <div className="mb-8 text-center ">
-              <h2 className="text-2xl font-bold ">LOGIN</h2>
+              <h2 className="text-2xl font-bold ">LOGIN</h2>
               <p className="text-gray-400">
                 If you log in, you can apply for different classes!
               </p>

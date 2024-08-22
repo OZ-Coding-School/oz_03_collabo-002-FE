@@ -7,18 +7,25 @@ export default {
       textColor: {
         primary: '#FFCD2A',
         black: '#222222',
-        gray: '#c1c1c1',
+        gray: '#d9d9d9',
         red: '#ff2727',
+        darkgray: "979797",
       },
       backgroundColor: {
         primary: '#FFCD2A',
         black: '#222222',
-        gray: '#c1c1c1',
+        gray: '#d9d9d9',
         red: '#ff2727',
         darkgray: '#444',
       },
       fill: {
-        primary: '#FFCD2A', // fill-primary 클래스 추가
+        primary: '#FFCD2A',
+      },
+      borderColor: {
+        primary: '#FFCD2A',
+      },
+      boxShadow: {
+        custom: '0px -4px 7.9px -2px #0000001F',
       },
     },
     fontFamily: {

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import arrowLeft from '../../icon/arrow-left.svg';
+import arrowLeft from '../../icon/icon-arrow-left.svg';
 import emptyStar from '../../icon/empty-star.svg';
 import fullStar from '../../icon/full-star.svg';
 
@@ -17,7 +17,7 @@ const ModalReviewWrite = () => {
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/25">
         <div className="border rounded-2xl w-[440px] h-[710px] bg-white flex flex-col  items-center">
           <div className="flex justify-between w-full mt-4">
-            <img src={arrowLeft} alt="나가기" className="mx-6 w-4" />
+            <img src={arrowLeft} alt="나가기" className="mx-6 w-4 stroke-[#666666]" />
             <span className="w-full text-center mr-14 font-bold">Review</span>
           </div>
           <hr className="border-b-1 w-full mt-4" />

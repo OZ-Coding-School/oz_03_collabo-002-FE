@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { IconPaginationRight } from '../../config/IconData';
-import { IconUserAvatar } from '../../assets/icon';
+import { IconUserAvatar } from './../../config/IconData'
 
 const AccountDashboard = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -9,6 +9,8 @@ const AccountDashboard = () => {
   const toggleDarkMode = () => {
     setIsDarkMode(!isDarkMode);
   };
+
+  const handleLanguage = () => {}
 
   return (
     <div id="account-container" className="w-full h-full relative bg-white">
@@ -40,6 +42,7 @@ const AccountDashboard = () => {
                 name="language"
                 value={'none'}
                 className={`text-sm bg-transparent ${isDarkMode ? 'text-white ' : 'text-black'}`}
+                onChange={handleLanguage}
               >
                 <option value="none" disabled>
                   choose Language{' '}
@@ -73,7 +76,7 @@ const AccountDashboard = () => {
             </Link>
             {/* 주문내역 보기 */}
             <Link
-              to={'/account?page=order'}
+              to={'/account?page=orders'}
               className="w-full h-[60px] flex justify-between items-center"
             >
               <h3>My Orders</h3>
@@ -83,7 +86,7 @@ const AccountDashboard = () => {
             </Link>
             {/* 나의 리뷰 보기 */}
             <Link
-              to={'/account?page=reviews'}
+              to={'/account?page=review'}
               className="w-full h-[60px] flex justify-between items-center"
             >
               <h3>My Review</h3>
@@ -93,20 +96,10 @@ const AccountDashboard = () => {
             </Link>
             {/* 나의 문의글 보기 */}
             <Link
-              to={'/account?page=questions'}
+              to={'/account?page=question'}
               className="w-full h-[60px] flex justify-between items-center"
             >
               <h3>My Question</h3>
-              <div className="w-6 h-6">
-                <IconPaginationRight />
-              </div>
-            </Link>
-            {/* 오늘 진행하는 나의 워크샵 */}
-            <Link
-              to={'/account?page=workshops'}
-              className="w-full h-[60px] flex justify-between items-center"
-            >
-              <h3>Today workshop</h3>
               <div className="w-6 h-6">
                 <IconPaginationRight />
               </div>
