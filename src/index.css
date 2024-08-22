@@ -1,3 +1,51 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  .font-thin {
+    font-family: 'NanumSquareLight', sans-serif;
+    font-weight: 100; /* 기본적으로 font-weight 100과 매칭 */
+  }
+
+  .font-bold {
+    font-family: 'NanumSquareBold', sans-serif;
+    font-weight: 700; /* 기본적으로 font-weight 700과 매칭 */
+  }
+
+  .font-extrabold {
+    font-family: 'NanumSquareExtraBold', sans-serif;
+    font-weight: 900; /* 기본적으로 font-weight 900과 매칭 */
+  }
+}
+
+strong {
+  font-family: 'NanumSquareBold';
+}
+
+/* 스크롤 설정 */
+
+/* 스크롤바 숨기기 */
+.hide-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+/* 스크롤바 커스텀 (optional) - 필요 시 적용 */
+.custom-scrollbar::-webkit-scrollbar {
+  height: 8px;
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(128, 128, 128, 0.7);
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}

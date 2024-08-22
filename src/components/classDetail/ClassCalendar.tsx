@@ -3,12 +3,22 @@ import { DatePicker } from '@mantine/dates';
 import './ClassDetail.css';
 import { IconDetailCalendar } from '../../config/IconData';
 
-function ClassCalendar() {
+function ClassCalendar({
+  onDateChange,
+}: {
+  onDateChange: (date: Date | null) => void;
+}) {
   const [value, setValue] = useState<Date | null>(null);
 
   const handleTodayClick = () => {
     const today = new Date();
     setValue(today);
+    onDateChange(today);
+  };
+
+  const handleDateChange = (newValue: Date | null) => {
+    setValue(newValue);
+    onDateChange(newValue);
   };
 
   const CustomDay = ({ date }: { date: Date }) => {
@@ -40,11 +50,9 @@ function ClassCalendar() {
         value={value}
         monthLabelFormat="YYYY.MM"
         hideOutsideDates
-        onChange={(newValue) => {
-          setValue(newValue);
-        }}
+        onChange={handleDateChange}
         renderDay={(date) => <CustomDay date={date} />}
-        minDate={new Date()} // 오늘 날짜 이전은 비활성화
+        minDate={new Date()}
       />
     </div>
   );

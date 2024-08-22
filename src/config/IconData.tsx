@@ -20,6 +20,18 @@ import { ReactComponent as IconReviewHeart } from '../assets/icon/icon-review-he
 import { ReactComponent as IconHdUser } from '../assets/icon/icon-hd-user.svg';
 import { ReactComponent as IconHdCart } from '../assets/icon/icon-hd-cart.svg';
 import { ReactComponent as IconHdBack } from '../assets/icon/icon-hd-back.svg';
+import { ReactComponent as IconDetailShare } from '../assets/icon/icon-detail-share.svg';
+import { ReactComponent as IconHdHeart } from '../assets/icon/icon-hd-heart.svg';
+import { ReactComponent as IconOrder } from '../assets/icon/icon-order.svg';
+import { ReactComponent as IconCart } from '../assets/icon/icon-cart.svg';
+import { ReactComponent as IconNotification } from '../assets/icon/icon-notification.svg';
+import { ReactComponent as IconNotificationNew } from '../assets/icon/icon-notification-new.svg';
+import { ReactComponent as IconUserAvatar } from '../assets/icon/icon-user-avatar.svg';
+import { ReactComponent as IconCheck } from '../assets/icon/icon-check.svg';
+import { ReactComponent as IconRemove } from '../assets/icon/icon-remove.svg';
+import { ReactComponent as IconArrowUp } from '../assets/icon/icon-arrow-up.svg';
+import { ReactComponent as IconArrowDown } from '../assets/icon/icon-arrow-down.svg';
+import { ReactComponent as IconArrowLeft } from '../assets/icon/icon-arrow-left.svg';
 
 export {
   IconPaginationLeft,
@@ -44,4 +56,16 @@ export {
   IconHdUser,
   IconHdCart,
   IconHdBack,
+  IconDetailShare,
+  IconHdHeart,
+  IconOrder,
+  IconCart,
+  IconNotification,
+  IconNotificationNew,
+  IconUserAvatar,
+  IconCheck,
+  IconRemove,
+  IconArrowUp,
+  IconArrowDown,
+  IconArrowLeft,
 };
