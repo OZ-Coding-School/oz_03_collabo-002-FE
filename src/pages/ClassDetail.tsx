@@ -266,9 +266,9 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
           <dd>
             <strong>Cancelation Policy</strong>
             <ul>
-              <li>4 days before the class: Full refund</li>
-              <li>3 days before the class: 50% refund </li>
-              <li>2 days before the class: No refund </li>
+              <li>4 days before the class: Full refund</li>
+              <li>3 days before the class: 50% refund </li>
+              <li>2 days before the class: No refund </li>
             </ul>
             <p>
               The cancellation fee policy is based on the class provider's
@@ -332,7 +332,7 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
               </li>
               <li>
                 For reservation changes or other inquiries, please
-                contact customk7878@gmail.com.
+                contact customk7878@gmail.com.
               </li>
             </ul>
           </dd>
