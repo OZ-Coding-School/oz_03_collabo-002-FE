@@ -1,4 +1,4 @@
-import { Class } from '../../store/useClassStore';
+import { Class } from '../../type/class';
 
 type ClassCardProps = {
   classItem: Class;

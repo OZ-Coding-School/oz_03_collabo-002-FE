@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { Class } from './useClassStore';
+import { Class } from '../type/class';
 
 type ClickedCardState = {
   clickedCards: Class[];

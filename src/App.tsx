@@ -10,8 +10,11 @@ import Login from './pages/Login';
 import Review from './components/review/Review';
 import Account from './components/account/Account';
 import LikesPage from './pages/LikesPage';
+import ClassDetailQnaAll from './components/classDetail/ClassDetailQnaAll';
 
 function App() {
+  const path = location.pathname
+
   useEffect(() => {
     const footer = document.querySelector('footer');
     if (footer) {
@@ -27,7 +30,8 @@ function App() {
         footer.style.paddingBottom = '';
       }
     };
-  }, [location.pathname]);
+  }, [path]);
+  
   return (
     <>
       <Router>
@@ -38,7 +42,8 @@ function App() {
             <Route path="/account" element={<Account />} />
             <Route path="/charge" element={<ChargePage />} />
             <Route path="admin" element={<Admin />} />
-            <Route path="likes" element={<LikesPage />} />\
+            <Route path="likes" element={<LikesPage />} />
+            <Route path="/question/:id" element={<ClassDetailQnaAll />} />
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />

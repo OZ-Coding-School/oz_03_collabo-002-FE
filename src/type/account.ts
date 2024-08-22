@@ -23,10 +23,21 @@ export type myOrder = {
     }
 }
 
+export type User = {
+  id: string;
+  name: string;
+  phone: string;
+  email: string;
+  avatar: string;
+  accessToken: string;
+} | null;
+
 export type AccountState = {
-  myOrders: myOrder[] | null;
+  user: User | null
+  myOrders: myOrder[] | [];
 }
 
 export type AccountActions = {
+  fetchUser: () => Promise<void> ,
   fetchMyOrder: (token : string) => Promise<void>;
 }

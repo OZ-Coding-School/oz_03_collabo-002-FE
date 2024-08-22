@@ -1,4 +1,4 @@
-import arrowLeft from '../../icon/arrow-left.svg';
+import arrowLeft from '../../icon/icon-arrow-left.svg';
 import { useModalOpenCloseStore } from '../../store/useModal';
 const ModalGoodsQuestion = () => {
   const { clearModal } = useModalOpenCloseStore();
@@ -13,7 +13,7 @@ const ModalGoodsQuestion = () => {
             <img
               src={arrowLeft}
               alt="나가기"
-              className="mx-6 w-4"
+              className="mx-6 w-4 stroke-[#666666]"
               onClick={handleClose}
             />
             <span className="w-full text-center mr-14 font-bold">Inquiry</span>
