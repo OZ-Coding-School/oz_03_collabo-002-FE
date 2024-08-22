@@ -15,6 +15,7 @@ import ClassDetailReview from '../components/classDetail/ClassDetailReview';
 import '../components/classDetail/ClassDetail.css';
 import ClassDetailSlide from '../components/classDetail/ClassDetailSlide';
 import ClassCalendar from '../components/classDetail/ClassCalendar';
+import { Link } from 'react-router-dom';
 
 type ClassDetailProps = {
   rating: number;
@@ -92,11 +93,11 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
     console.log('Book Now clicked');
   };
 
-  const handleClassTypeChange = (
-    event: React.ChangeEvent<HTMLSelectElement>,
-  ) => {
-    setSelectedClassType(event.target.value);
-  };
+  // const handleClassTypeChange = (
+  //   event: React.ChangeEvent<HTMLSelectElement>,
+  // ) => {
+  //   setSelectedClassType(event.target.value);
+  // };
 
   const handleRemoveOptionClick = () => {
     setSelectedDate(undefined);
