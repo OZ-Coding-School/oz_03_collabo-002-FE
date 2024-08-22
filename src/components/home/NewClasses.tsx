@@ -73,11 +73,15 @@ const NewClasses = () => {
   return (
     <div className="px-6">
       <h3 className="text-[20px] mb-5">
-        <strong>Custom-K’s Pick</strong>
+        <strong>New Classes</strong>
       </h3>
       <div className="grid grid-cols-2 gap-[15px]">
-        {classes.map((item) => (
-          <ClassCard key={item.id} classItem={item} tag={item.tag} />
+        {classes.map((classItem) => (
+          <ClassCard
+            key={classItem.id}
+            classItem={classItem}
+            tag={classItem.tag}
+          />
         ))}
       </div>
     </div>

@@ -1,12 +1,21 @@
 import HomeCategoryList from './HomeCategoryList';
+import HomeInstaStory from './HomeInstaStory';
 import HomeSlideBanner from './HomeSlideBanner';
+import HomeWideBnr from './HomeWideBnr';
+import PopularClasses from './PopularClasses';
+import NewClasses from './NewClasses';
+import KpickClasses from './KpickClasses';
 
 const Home = () => {
   return (
     <div>
       <HomeSlideBanner />
       <HomeCategoryList />
-      <h3>Popular Classes</h3>
+      <PopularClasses />
+      <HomeWideBnr />
+      <HomeInstaStory />
+      <KpickClasses />
+      <NewClasses />
     </div>
   );
 };
