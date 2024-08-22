@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { IconPaginationRight } from '../../config/IconData';
-import { IconUserAvatar } from '../../assets/icon';
+import { IconUserAvatar } from './../../config/IconData'
 
 const AccountDashboard = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -86,7 +86,7 @@ const AccountDashboard = () => {
             </Link>
             {/* 나의 리뷰 보기 */}
             <Link
-              to={'/account?page=reviews'}
+              to={'/account?page=review'}
               className="w-full h-[60px] flex justify-between items-center"
             >
               <h3>My Review</h3>
@@ -96,7 +96,7 @@ const AccountDashboard = () => {
             </Link>
             {/* 나의 문의글 보기 */}
             <Link
-              to={'/account?page=questions'}
+              to={'/account?page=question'}
               className="w-full h-[60px] flex justify-between items-center"
             >
               <h3>My Question</h3>

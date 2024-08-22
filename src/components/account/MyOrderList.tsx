@@ -1,11 +1,16 @@
 import { useEffect, useState } from 'react';
-import useAccountStore from '../../store/useAccount';
+import useAccountStore from '../../store/useAccountStore';
 import useClassStore from '../../store/useClassStore';
-import { Link } from 'react-router-dom';
-import { IconCheck, IconPaginationRight } from './../../assets/icon';
+import { Link, useNavigate } from 'react-router-dom';
+import {
+  IconArrowLeft,
+  IconCheck,
+  IconPaginationRight,
+} from './../../config/IconData';
 import { myOrder } from '../../type/account';
 
 const MyOrderList = () => {
+  const navigate = useNavigate();
   const myOrders = useAccountStore((state) => state.myOrders);
   const classes = useClassStore((state) => state.classes);
   const fetchMyOrder = useAccountStore((state) => state.fetchMyOrder);
@@ -53,23 +58,27 @@ const MyOrderList = () => {
   if (!myOrders || !classes) return <h1>Loading..</h1>;
 
   return (
-    <div className="px-6">
-      <div className=" py-6 flex justify-between items-center">
-        <h1 className="text-xl font-[NanumSquareBold]">My Order List</h1>
-        <div className="flex items-center">
-          <label htmlFor="today-class" className="flex items-center">
-            <button
-              className={`w-fit mr-1 rounded-full ${showTodayClasses ? 'text-white bg-black' : 'text-black'}`}
-              onClick={toggleShowToday}
-            >
-              <IconCheck />
-            </button>
-            <span className='font-[NanumSquareExtraBold] text-sm'>Today's Class</span>
-          </label>
-        </div>
+    <div>
+      <div className="w-full flex items-center bg-gray py-[15px] px-6 mb-[15px]">
+        <IconArrowLeft className="mr-[15px]" onClick={() => navigate(-1)} />
+        <h1 className="text-lg font-[NanumSquareBold] mr-1 ">My Order List</h1>
+      </div>
+
+      <div className="flex justify-end px-6 mb-[15px]">
+        <label htmlFor="today-class" className="flex items-center">
+          <button
+            className={`w-fit mr-1 rounded-full ${showTodayClasses ? 'text-white bg-black' : 'text-black'}`}
+            onClick={toggleShowToday}
+          >
+            <IconCheck />
+          </button>
+          <span className="font-[NanumSquareExtraBold] text-sm">
+            Today's Class
+          </span>
+        </label>
       </div>
       {/* 전체 목록 리스트 */}
-      <ul className="relative list-none">
+      <ul className="relative list-none px-6">
         {Object.keys(groupedOrders).map((date) => (
           <li
             key={date}

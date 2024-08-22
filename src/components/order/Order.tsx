@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { IconRemove } from '../../assets/icon';
+import { IconRemove } from './../../config/IconData';
 import { OrderData } from '../../type/order';
 
 type OrderProp = {
