@@ -1,25 +1,88 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import useAccountStore from '../../store/useAccountStore';
+import Button from '../common/Button';
+import Modal from '../common/Modal';
+import { useModalStore } from '../../store/useModal';
 
-type Props = {};
+const AccountEditProfile = () => {
+  const [name, setName] = useState('');
+  const [avatar, setAvatar] = useState<File | string | null>(null);
+  const user = useAccountStore((state) => state.user);
+  const fetchUser = useAccountStore((state) => state.fetchUser);
+  const updateUser = useAccountStore((state) => state.updateUser);
+  const { showModal } = useModalStore();
 
-const AccountEditProfile = (props: Props) => {
-  const [userName, setUserName] = useState('');
+  useEffect(() => {
+    fetchUser();
+  }, [fetchUser]);
+
+  useEffect(() => {
+    if (user) {
+      setName(user.name);
+    }
+  }, [user]);
+
+  const handleSaveUserinfo = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    const updateData: Partial<{ name: string; avatar: File | string | null }> =
+      {};
+
+    if (name !== '') {
+      updateData.name = name;
+    }
+
+    if (avatar !== null) {
+      updateData.avatar = avatar;
+    }
+
+    updateUser(updateData);
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setAvatar(e.target.files[0]);
+    }
+  };
+
+  if (!user) return <div>Loading...</div>;
 
   return (
-    <div>
-      <h1>기본정보</h1>
-      <div>
-        <p>
-          <strong>예약자 이름</strong>
-          <span>User Name</span>
-        </p>
-        <button>detail</button>
-      </div>
-      <div>
-        <strong>연결된 계정</strong>
-        <span>카카오톡 계정 연결중</span>
-      </div>
-      아바타 편집
+    <div className="px-6">
+      <form>
+        <label>
+          <h3 className="mb-[15px] text-lg font-bold">Name</h3>
+          <input
+            type="text"
+            placeholder={user?.name}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="w-full border border-gray-400 py-1 px-2 rounded-md"
+          />
+        </label>
+        <label>
+          <h3 className="my-[15px] text-lg font-bold">
+            Choose a profile Picture
+          </h3>
+          <input
+            type="file"
+            id="avatar"
+            name="avatar"
+            accept="image/*"
+            onChange={handleFileChange}
+            className="w-full border border-gray-400 py-1 px-2 rounded-md"
+          />
+        </label>
+        <div className="my-6">
+          <Button
+            type="submit"
+            size="full"
+            value="Save"
+            onSubmit={handleSaveUserinfo}
+          />
+        </div>
+      </form>
+      {showModal ? <Modal /> : null}
     </div>
   );
 };

@@ -9,14 +9,14 @@ export default {
         black: '#222222',
         gray: '#d9d9d9',
         red: '#ff2727',
-        darkgray: "979797",
+        darkgray: "#999999",
       },
       backgroundColor: {
         primary: '#FFCD2A',
         black: '#222222',
         gray: '#d9d9d9',
         red: '#ff2727',
-        darkgray: '#444',
+        darkgray: '#999999',
       },
       fill: {
         primary: '#FFCD2A',
