@@ -11,9 +11,10 @@ import Account from './components/account/Account';
 import { useEffect } from 'react';
 import LikesPage from './pages/LikesPage';
 import ClassDetailQnaAll from './components/classDetail/ClassDetailQnaAll';
+import ClassByCategory from './components/classByCategory/ClassByCategory';
 
 function App() {
-  const path = location.pathname
+  const path = location.pathname;
 
   useEffect(() => {
     const footer = document.querySelector('footer');
@@ -31,13 +32,14 @@ function App() {
       }
     };
   }, [path]);
-  
+
   return (
     <>
       <Router>
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
+            <Route path="/class/:category" element={<ClassByCategory />} />
             <Route path="/classdetail" element={<ClassDetail rating={4.5} />} />
             <Route path="/account" element={<Account />} />
             <Route path="/charge" element={<ChargePage />} />
