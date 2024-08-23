@@ -6,7 +6,7 @@ type ClassDate = {
   startTime: string;
   endTime: string;
   endDate: string;
-  participants: string[] | number;
+  participants: number;
 };
 
 export type Class = {

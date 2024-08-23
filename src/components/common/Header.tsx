@@ -2,7 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { twJoin as tw } from 'tailwind-merge';
 import {
   IconHdBack,
-  IconHdCart,
+  IconHdHeart,
   IconHdUser,
   IconLogo,
 } from '../../config/IconData';
@@ -50,7 +50,7 @@ const Header = () => {
               </li>
               <li>
                 <Link to="">
-                  <IconHdCart />
+                  <IconHdHeart />
                   <span className="sr-only">HEART</span>
                 </Link>
               </li>
