@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { twJoin as tw } from 'tailwind-merge';
 import {
@@ -7,6 +6,7 @@ import {
   IconHdUser,
   IconLogo,
 } from '../../config/IconData';
+import { useState } from 'react';
 
 const Header = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
@@ -19,8 +19,8 @@ const Header = () => {
   return (
     <>
       <>
-        <header className="bg-white sticky top-0 left-0 z-30 border-y border-gray-200 flex px-5 py-4 overflow-hidden">
-          <div className="flex items-center justify-items-start flex-grow bg-white gap-3">
+        <header className="bg-white sticky top-0 left-0 z-30 border-y border-gray-200 flex px-6 py-4 overflow-hidden">
+          <div className="flex items-center justify-items-start flex-grow bg-white">
             {location.pathname !== '/classdetail' ? (
               <>
                 <div
@@ -33,9 +33,7 @@ const Header = () => {
                 </div>
 
                 <h1>
-                  <button>
-                    <IconLogo className="h-[24px]" />
-                  </button>
+                  <IconLogo className="h-[24px]" />
                 </h1>
               </>
             ) : (
@@ -43,7 +41,7 @@ const Header = () => {
                 <IconHdBack />
               </Link>
             )}
-            <ul className="flex items-center justify-center gap-3 text-sm absolute right-[24px]">
+            <ul className="flex items-center justify-center gap-2 text-sm absolute right-6">
               <li>
                 <Link to="">
                   <IconHdUser />
@@ -53,7 +51,7 @@ const Header = () => {
               <li>
                 <Link to="">
                   <IconHdHeart />
-                  <span className="sr-only">CART</span>
+                  <span className="sr-only">HEART</span>
                 </Link>
               </li>
             </ul>
