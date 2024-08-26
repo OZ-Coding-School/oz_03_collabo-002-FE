@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { IconPaginationRight } from '../../config/IconData';
-import { IconUserAvatar } from './../../config/IconData'
+import { IconUserAvatar } from '../../assets/icon';
 
 const AccountDashboard = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
