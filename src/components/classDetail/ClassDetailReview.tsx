@@ -10,7 +10,7 @@ const ClassDetailReview = () => {
     <div className="mt-10">
       <h3 className="text-[20px] px-6 font-semibold flex justify-between">
         Reviews
-        <Link to="" className="text-[14px] font-normal flex items-center">
+        <Link to="/review" className="text-[14px] font-normal flex items-center">
           view all
           <IconAllArw className="ml-1" />
         </Link>
