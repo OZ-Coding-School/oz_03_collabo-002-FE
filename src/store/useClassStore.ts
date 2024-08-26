@@ -1,7 +1,39 @@
 import axios from '../api/axios';
 import { create } from 'zustand';
-import { ClassState } from '../type/class';
 
+type ClassDate = {
+  startDate: string;
+  startTime: string;
+  endTime: string;
+  endDate: string;
+  participants: number;
+};
+
+export type Class = {
+  id: string;
+  name: string;
+  owner: string;
+  date: ClassDate[];
+  people: { max: number; require: number };
+  averageScore: number;
+  popular: boolean;
+  price: number;
+  discountRate: number;
+  discountPrice: number;
+  description: string;
+  photoGallery: string[];
+  photoFinished: string[];
+  place: { state: string; city: string; address: string };
+  createAt: string;
+  tag?: string;
+};
+
+type ClassState = {
+  classes: Class[] | null;
+  filteredClasses: Record<string, Class[]>;
+  fetchClasses: () => Promise<void>;
+  filterClasses: (kind: string) => void;
+};
 
 const useClassStore = create<ClassState>((set, get) => ({
   classes: null,

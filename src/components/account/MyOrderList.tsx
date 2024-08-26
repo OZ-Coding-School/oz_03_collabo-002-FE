@@ -58,6 +58,23 @@ const MyOrderList = () => {
   if (!myOrders || !classes) return <h1>Loading..</h1>;
 
   return (
+    <div className="px-6">
+
+      <div className=" py-6 flex justify-between items-center">
+        <h1 className="text-xl font-[NanumSquareBold]">My Order List</h1>
+        <div className="flex items-center">
+          <label htmlFor="today-class" className="flex items-center">
+            <button
+              className={`w-fit mr-1 rounded-full ${showTodayClasses ? 'text-white bg-black' : 'text-black'}`}
+              onClick={toggleShowToday}
+            >
+              <IconCheck />
+            </button>
+            <span className="font-[NanumSquareExtraBold] text-sm">
+              Today's Class
+            </span>
+          </label>
+        </div>
     <div>
       <div className="w-full flex items-center bg-gray py-[15px] px-6 mb-[15px]">
         <IconArrowLeft className="mr-[15px]" onClick={() => navigate(-1)} />
@@ -144,7 +161,8 @@ const MyOrderList = () => {
         ))}
       </ul>
     </div>
+    </div>
+    </div>
   );
-};
-
+}
 export default MyOrderList;
