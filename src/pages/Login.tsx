@@ -5,8 +5,32 @@ import naver from '../assets/icon/naver.svg';
 import { Link } from 'react-router-dom';
 import { handleKaKao } from '../components/Login/Kakao';
 import { handleGoogle } from '../components/Login/Google';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { LoginUser } from '../type/loginuser';
 
 const Login = () => {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<LoginUser>({
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+  });
+
+  const onSubmit: SubmitHandler<LoginUser> = async (data) => {
+    clearValue();
+  };
+
+  const clearValue = () => {
+    reset({
+      email: '',
+      password: '',
+    });
+  };
   return (
     <>
       <form>
@@ -30,10 +54,10 @@ const Login = () => {
                   <input
                     type="email"
                     id="email"
-                    name="email"
                     placeholder="Please enter your email"
                     required
                     className="border mt-1 block w-full rounded-xl text-sm border-gray-300 h-10 pl-3 focus:border-indigo-300 focus:ring-indigo-200 focus:ring-opacity-50"
+                    {...register('email', {})}
                   />
                 </div>
                 <div className="mb-3">
