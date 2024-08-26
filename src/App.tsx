@@ -13,7 +13,7 @@ import LikesPage from './pages/LikesPage';
 import ClassDetailQnaAll from './components/classDetail/ClassDetailQnaAll';
 
 function App() {
-  const path = location.pathname
+  const path = location.pathname;
 
   useEffect(() => {
     const footer = document.querySelector('footer');
@@ -31,7 +31,7 @@ function App() {
       }
     };
   }, [path]);
-  
+
   return (
     <>
       <Router>
@@ -42,12 +42,12 @@ function App() {
             <Route path="/account" element={<Account />} />
             <Route path="/charge" element={<ChargePage />} />
             <Route path="admin" element={<Admin />} />
-            <Route path="likes" element={<LikesPage />} />
+            <Route path="/likes" element={<LikesPage />} />
             <Route path="/question/:id" element={<ClassDetailQnaAll />} />
+            <Route path="/review" element={<Review />} />
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/review" element={<Review />} />
         </Routes>
       </Router>
     </>
