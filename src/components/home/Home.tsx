@@ -1,19 +1,21 @@
-import { useEffect } from 'react'; // 최상위 레벨에서 import
-import useClassStore from '../../store/useClassStore';
-import Pagination from '../common/Pagination';
-import Banner from '../common/Banner';
+import HomeCategoryList from './HomeCategoryList';
+import HomeInstaStory from './HomeInstaStory';
+import HomeSlideBanner from './HomeSlideBanner';
+import HomeWideBnr from './HomeWideBnr';
+import PopularClasses from './PopularClasses';
+import NewClasses from './NewClasses';
+import KpickClasses from './KpickClasses';
 
 const Home = () => {
-  const fetchClasses = useClassStore((state) => state.fetchClasses);
-
-  useEffect(() => {
-    fetchClasses();
-  }, [fetchClasses]);
-
   return (
     <div>
-      <Pagination />
-      <Banner />
+      <HomeSlideBanner />
+      <HomeCategoryList />
+      <PopularClasses />
+      <HomeWideBnr />
+      <HomeInstaStory />
+      <KpickClasses />
+      <NewClasses />
     </div>
   );
 };

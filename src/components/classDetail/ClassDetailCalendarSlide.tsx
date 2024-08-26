@@ -74,7 +74,7 @@ const ClassDetailCalendarSlide: React.FC<Props> = ({ onTimeSelect }) => {
         {classDetails.map((classDetail, index) => (
           <SwiperSlide key={index}>
             <div
-              className={`border px-[10px] py-[12px] rounded-lg ${getStatusClass(classDetail.status)}`}
+              className={`border px-[10px] py-[12px] rounded-lg text-left ${getStatusClass(classDetail.status)}`}
               onClick={() => {
                 if (classDetail.status !== 'Fully booked') {
                   onTimeSelect(classDetail.time);
