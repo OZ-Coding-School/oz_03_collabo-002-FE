@@ -13,9 +13,9 @@ import { MantineProvider } from '@mantine/core';
 // }
 
 // enableMocking().then(() => {
-  ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-    <MantineProvider>
-      <App />
-    </MantineProvider>,
-  );
+ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+  <MantineProvider>
+    <App />
+  </MantineProvider>,
+);
 // });

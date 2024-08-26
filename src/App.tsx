@@ -11,6 +11,7 @@ import Review from './components/review/Review';
 import Account from './components/account/Account';
 import LikesPage from './pages/LikesPage';
 import ClassDetailQnaAll from './components/classDetail/ClassDetailQnaAll';
+import Redirection from './pages/Redirection';
 import ClassByCategory from './components/classByCategory/ClassByCategory';
 
 function App() {
@@ -49,6 +50,7 @@ function App() {
             <Route path="/review" element={<Review />} />
           </Route>
           <Route path="/login" element={<Login />} />
+          <Route path="/auth" element={<Redirection />} />
           <Route path="/signup" element={<SignUp />} />
         </Routes>
       </Router>
