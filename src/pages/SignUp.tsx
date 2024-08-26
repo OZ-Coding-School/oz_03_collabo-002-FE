@@ -28,6 +28,8 @@ const SignUp = () => {
       name: '',
       email: '',
       password: '',
+      agree1: false,
+      agree2: false,
     },
   });
   const clearValue = () => {
@@ -35,6 +37,8 @@ const SignUp = () => {
       name: '',
       email: '',
       password: '',
+      agree1: false,
+      agree2: false,
     });
   };
   const onSubmit: SubmitHandler<Signup> = async (data) => {
@@ -43,7 +47,7 @@ const SignUp = () => {
       const { name, email, password } = data;
       console.log('1');
       await axios.post(
-        `https://customk-lb-26108994-e6e8d3346164.kr.lb.naverncp.com/api/v1/users/signup/`,
+        `http://customk-lb-26108994-e6e8d3346164.kr.lb.naverncp.com/api/v1/users/signup/`,
         {
           name,
           email,
@@ -159,7 +163,7 @@ const SignUp = () => {
                     })}
                   />
                   {errors.email && (
-                    <p className="light-white px-2 text-xs">
+                    <p className="text-red px-2 text-xs">
                       * Please enter a valid email address.
                     </p>
                   )}
@@ -184,7 +188,7 @@ const SignUp = () => {
                     })}
                   />
                   {errors.password && (
-                    <p className="light-white px-2 text-xs">
+                    <p className="text-red px-2 text-xs">
                       * It must be at least 8 characters and contain all
                       English, numbers, and special characters.
                     </p>
@@ -211,36 +215,57 @@ const SignUp = () => {
                     })}
                   />
                   {errors.name && (
-                    <p className="light-white px-2 text-xs">
+                    <p className=" text-red px-2 text-xs">
                       * Name can only contain English letters and numbers.
                     </p>
                   )}
                 </div>
                 <div className="text-xs mb-3">
                   <div className="flex felx-col mb-1">
-                    <input
-                      type="radio"
-                      id="agree1"
-                      name="agree1"
-                      className="mr-2"
-                    />
-                    <p>
-                      I agree to the terms and conditions{' '}
-                      <span className="text-red-500">(required)</span>
-                    </p>
+                    <label className="flex items-center">
+                      <input
+                        type="checkbox"
+                        id="agree1"
+                        className="mr-2"
+                        {...register('agree1', {
+                          required:
+                            '* You must agree to the terms and conditions.',
+                        })}
+                      />
+                      <span>
+                        I agree to the terms and conditions{' '}
+                        <span className="text-red-500">(required)</span>
+                      </span>
+                    </label>
                   </div>
+                  {errors.agree1 && (
+                    <p className="text-red px-2 text-xs">
+                      {errors.agree1.message}
+                    </p>
+                  )}
                   <div className="flex felx-col">
-                    <input
-                      type="radio"
-                      id="agree2"
-                      name="agree2"
-                      className="mr-2"
-                    />
-                    <p>
-                      They are over 14 years old{' '}
-                      <span className="text-primary">(required)</span>
-                    </p>
+                    <label>
+                      <input
+                        type="checkbox"
+                        id="agree2"
+                        className="mr-2"
+                        required
+                        {...register('agree2', {
+                          required:
+                            '* You must confirm that you are over 14 years old.',
+                        })}
+                      />
+                      <span>
+                        They are over 14 years old{' '}
+                        <span className="text-primary">(required)</span>
+                      </span>
+                    </label>
                   </div>
+                  {errors.agree2 && (
+                    <p className=" text-red px-2 text-xs">
+                      {errors.agree2.message}
+                    </p>
+                  )}
                 </div>
                 <button
                   type="submit"
