@@ -18,4 +18,5 @@ export type QuestionState = {
 export type QuestionActions = {
   fetchQuestionDetail: (id: string | undefined) => Promise<void>;
   fetchMyQuestions: (userId: string | undefined) => Promise<void>;
+  getQuestionAll: () => Promise<void>;
 };
