@@ -3,26 +3,10 @@ import kakao from '../assets/icon/kakao.svg';
 import google from '../assets/icon/google.svg';
 import naver from '../assets/icon/naver.svg';
 import { Link } from 'react-router-dom';
-import { useEffect } from 'react';
+import { handleKaKao } from '../components/Login/Kakao';
+import { handleGoogle } from '../components/Login/Google';
 
 const Login = () => {
-  const Rest_api_key = `ed0a3232a95beff3fb45897a62f28a7b`;
-  const redirect_uri = `http://localhost:3000/auth`;
-  const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${Rest_api_key}&
-redirect_uri=${redirect_uri}&response_type=code`;
-  useEffect(() => {
-    const code = new URL(window.location.href).searchParams.get('code');
-    if (code) {
-      console.log('Kakao auth code:', code);
-      // Here you would typically send this code to your backend
-      // to exchange it for an access token
-    }
-  }, []);
-
-  const handleKaKao = () => {
-    window.location.href = kakaoURL;
-  };
-
   return (
     <>
       <form>
@@ -100,7 +84,10 @@ redirect_uri=${redirect_uri}&response_type=code`;
                     Login with FaceBook
                   </div>
                 </button>
-                <button className="bg-white text-black w-full rounded-xl h-10 mb-3">
+                <button
+                  className="bg-white text-black w-full rounded-xl h-10 mb-3"
+                  onClick={handleGoogle}
+                >
                   <div className="flex justify-center">
                     <img src={google} alt="구글" className="mr-4" />
                     Login with Google
