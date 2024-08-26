@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import successCheck from '../assets/icon/success-check.svg';
 
 const Redirection = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -44,7 +45,7 @@ const Redirection = () => {
       };
       fetchAuthLogin();
     }
-  }, []);
+  }, [navigate]);
 
   return (
     <div className="flex flex-col max-w-[475px] w-full min-h-screen h-full m-auto border-x border-gray-200 relative bg-gray-100">
@@ -53,7 +54,7 @@ const Redirection = () => {
           <div className="flex flex-col items-center">
             {isLoading ? (
               <>
-                <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-gray-900 mb-4"></div>
+                <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-gray-900 mb-4" />
                 <h2 className="text-2xl font-semibold text-gray-700 mb-2">
                   Logging in...
                 </h2>
@@ -63,7 +64,12 @@ const Redirection = () => {
               </>
             ) : (
               <>
-                <svg
+                <img
+                  src={successCheck}
+                  alt="성공"
+                  className="w-16 h-16 text-green-500 mb-4"
+                />
+                {/* <svg
                   className="w-16 h-16 text-green-500 mb-4"
                   fill="none"
                   stroke="currentColor"
@@ -76,7 +82,7 @@ const Redirection = () => {
                     strokeWidth={2}
                     d="M5 13l4 4L19 7"
                   />
-                </svg>
+                </svg> */}
                 <h2 className="text-2xl font-semibold text-gray-700 mb-2">
                   Login Successful!
                 </h2>
