@@ -75,7 +75,7 @@ const Login = () => {
                 <button className="bg-[#03C75A] text-white w-full rounded-xl h-10 mb-3">
                   <div className="flex justify-center">
                     <img src={naver} alt="페이스북" className="mr-4" />
-                    Login with Naver
+                    Login with Line
                   </div>
                 </button>
                 <button className="bg-[#1877F2] text-white w-full rounded-xl h-10 mb-3 ">
