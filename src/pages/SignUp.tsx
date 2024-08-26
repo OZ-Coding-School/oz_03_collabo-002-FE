@@ -15,9 +15,9 @@ import axios from 'axios';
 
 const SignUp = () => {
   const { setModal, showModal } = useModalStore();
-  const handleChange = () => {
-    setModal('Successful Membership Registration');
-  };
+  // const handleChange = () => {
+  //   setModal('Successful Membership Registration');
+  // };
   const {
     register,
     handleSubmit,
