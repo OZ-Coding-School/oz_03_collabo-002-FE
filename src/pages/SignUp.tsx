@@ -1,7 +1,7 @@
 import facebook from '../assets/icon/facebook.svg';
 import kakao from '../assets/icon/kakao.svg';
 import google from '../assets/icon/google.svg';
-import naver from '../assets/icon/naver.svg';
+import line from '../assets/icon/line.svg';
 import signup_profile from '../assets/icon/signup_profile.svg';
 import { Link } from 'react-router-dom';
 import Modal from '../components/common/Modal';
@@ -35,8 +35,8 @@ const SignUp = () => {
             </button> */}
               <button className="bg-[#03C75A] text-white w-full rounded-xl h-10 mb-3">
                 <div className="flex justify-center">
-                  <img src={naver} alt="페이스북" className="mr-4" />
-                  Login with Naver
+                  <img src={line} alt="페이스북" className="mr-4" />
+                  Login with Line
                 </div>
               </button>
               <button className="bg-[#1877F2] text-white w-full rounded-xl h-10 mb-3 ">
