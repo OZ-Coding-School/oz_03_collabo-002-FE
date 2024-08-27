@@ -1,6 +1,10 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { IconArrowDown, IconArrowLeft, IconArrowUp } from './../../config/IconData';
+import {
+  IconArrowDown,
+  IconArrowLeft,
+  IconArrowUp,
+} from './../../config/IconData';
 import useQnaStore from '../../store/useQnaStore';
 
 const ClassDetailQnaAll = () => {
@@ -8,12 +12,13 @@ const ClassDetailQnaAll = () => {
   const [openAnswers, setOpenAnswers] = useState<{ [key: string]: boolean }>(
     {},
   );
+  const navigate = useNavigate();
   const questions = useQnaStore((state) => state.questions);
   const fetchQuestionDetail = useQnaStore((state) => state.fetchQuestionDetail);
 
   useEffect(() => {
     fetchQuestionDetail(id);
-  }, [fetchQuestionDetail,id]);
+  }, [fetchQuestionDetail, id]);
 
   const toggleAnswerOpen = (qnaId: string) => {
     setOpenAnswers((prev) => ({
@@ -24,9 +29,11 @@ const ClassDetailQnaAll = () => {
 
   return (
     <div className="">
-      <div className="w-full flex items-center bg-gray py-[15px] px-6 mb-[15px]">
-        <IconArrowLeft className="mr-[15px]" />
-        <h1 className="text-lg font-[NanumSquareBold] mr-1 ">QnA</h1>
+      <div className="w-full flex items-center py-[15px] px-6 mb-[15px]">
+        <button onClick={() => navigate(-1)} className="pointer">
+          <IconArrowLeft className="mr-[15px]" />
+        </button>
+        <h1 className="text-lg font-extrabold mr-1 ">Questions</h1>
         <span className="font-sans">({questions?.length})</span>
       </div>
       {questions?.map((data) => (
@@ -34,7 +41,7 @@ const ClassDetailQnaAll = () => {
           <div className="flex justify-between px-6 py-[15px]">
             <div id="question-item" className="flex flex-col">
               <div className="flex justify-between items-center">
-                <h3 className="font-[NanumSquareBold]">{data.questionTitle}</h3>
+                <h3 className="font-bold">{data.questionTitle}</h3>
               </div>
               <div
                 id="qnaStatus"
@@ -57,9 +64,7 @@ const ClassDetailQnaAll = () => {
           </div>
           {openAnswers[data.id] && (
             <div className="mt-2 bg-gray p-6">
-              <h3 className="font-[NanumSquareBold] mb-[15px]">
-                {data.answerTitle}
-              </h3>
+              <h3 className="font-bold mb-[15px]">{data.answerTitle}</h3>
               <p className="mb-[15px]">{data.answer}</p>
               <small className="text-sm">{data.answerDate.split('T', 1)}</small>
             </div>
