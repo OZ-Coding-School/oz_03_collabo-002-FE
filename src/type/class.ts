@@ -17,6 +17,8 @@ export interface Class {
   average_rating: number;
   popular?: boolean;
   is_new: boolean;
+  is_viewed: boolean;
+  is_best: boolean;
   price: number;
   discountRate?: number;
   discountPrice?: number;
@@ -31,7 +33,7 @@ export interface Class {
     city: string;
     street: string;
   };
-  createAt: string;
+  created_at: string;
   tag?: string;
   price_in_usd?: number;
 }
@@ -41,4 +43,5 @@ export type ClassState = {
   filteredClasses: Record<string, Class[]>;
   fetchClasses: () => Promise<void>;
   filterClasses: (kind: string) => void;
+  setClasses: (classes: Class[]) => void;
 };

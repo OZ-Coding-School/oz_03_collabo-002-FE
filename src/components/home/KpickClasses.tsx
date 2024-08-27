@@ -1,41 +1,43 @@
 import { useEffect } from 'react';
 import ClassCard from '../common/ClassCard';
 import useClassStore from '../../store/useClassStore';
-import classList from '../../mocks/data/classList.json'; // 로컬 JSON 파일 가져오기
-import { ClassState } from '../../type/class';
 
 const KpickClasses = () => {
-  const setClasses = useClassStore((state: ClassState) => state.setClasses);
+  const classes = useClassStore((state) => state.classes);
+  const fetchClasses = useClassStore((state) => state.fetchClasses);
 
   useEffect(() => {
-    setClasses(classList);
-  }, [setClasses]);
+    console.log('useEffect3');
+    fetchClasses();
+  }, [fetchClasses]);
 
-  const classes = useClassStore((state) => state.classes);
+  if (!classes || classes.length === 0) {
+    return <div>Loading...</div>;
+  }
 
-  // is_new 속성을 필터링하고 두 개만 선택
   const KpickClasses = classes
-    ?.filter((classItem) => classItem.is_new === true)
+    ?.filter((classItem) => classItem.is_best === true)
     .slice(0, 2);
 
   console.log(KpickClasses, 'kpick');
 
-  if (!classes) return <div>loading</div>;
-
   return (
     <div className="px-6">
       <h3 className="text-[20px] mb-5">
-        <strong>New Classes</strong>
+        <strong>K-pick Classes</strong>
       </h3>
       <div className="grid grid-cols-2 gap-[15px]">
-        {KpickClasses &&
+        {KpickClasses && KpickClasses.length > 0 ? (
           KpickClasses.map((classItem) => (
             <ClassCard
               key={classItem.id}
               classItem={classItem}
               tag={classItem.tag}
             />
-          ))}
+          ))
+        ) : (
+          <div>no data</div>
+        )}
       </div>
     </div>
   );
