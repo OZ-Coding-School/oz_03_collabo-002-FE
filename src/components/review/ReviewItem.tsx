@@ -3,10 +3,10 @@
 // import fullStar from '../../assets/icon/full-star.svg';
 // import emptyHeart from '../../assets/icon/empty-heart.svg';
 // import fullHeart from '../../assets/icon/full-heart.svg';
-import { Review } from '../../type/review.type';
-import { IconReviewStar } from '../../config/IconData';
 import { useEffect, useState } from 'react';
+import { IconReviewStar } from '../../config/IconData';
 import ReviewModal from './ReviewModal';
+import { Review } from '../../type/review.type';
 
 interface ReviewProps {
   review: Review;
@@ -24,7 +24,7 @@ const formatDate = (isoString: string): string => {
   return `${year}년 ${month}월 ${day}일 ${hours}시 ${minutes}분 작성`;
 };
 
-const ReviewItem: React.FC<ReviewProps> = ({ review }) => {
+const ReviewItem = ({ review }: ReviewProps) => {
   // const stars = [1, 2, 3, 4, 5];
   // const [isLiked, setIsLiked] = useState<boolean | null>(false);
   // const [count, setCount] = useState<number>(review.likes_count);
@@ -88,6 +88,7 @@ const ReviewItem: React.FC<ReviewProps> = ({ review }) => {
         <div className="flex justify-between p-2">
           <p className="text-sm text-gray">
             [일반과정] 칵테일 : 노멀 만들기 클래스
+            {/* review.class_type */}
           </p>
           {/* <div className="border-[1.5px] w-16 flex rounded-2xl justify-center py-1 gap-1 items-center">
             <img

@@ -10,7 +10,7 @@ const useReviewStore = create<ReviewState & ReviewAction>()(
 
     getReviews: async (classId) => {
       try {
-        const response = await axios.get(`/api/v1/reviews/${classId}`);
+        const response = await axios.get(`/reviews/${classId}`);
         const data: Review[] = response.data;
         const filteredData = data.filter((item) => item.class_id === classId);
         set({ reviews: filteredData });

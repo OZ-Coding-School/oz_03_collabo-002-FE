@@ -33,6 +33,7 @@ type ClassState = {
   filteredClasses: Record<string, Class[]>;
   fetchClasses: () => Promise<void>;
   filterClasses: (kind: string) => void;
+  findOneClass: (id: string | undefined) => Promise<Class | null>;
 };
 
 const useClassStore = create<ClassState>((set, get) => ({
@@ -84,6 +85,17 @@ const useClassStore = create<ClassState>((set, get) => ({
       filteredClasses[kind] = filtered;
       return { filteredClasses };
     });
+  },
+  findOneClass: async (id) => {
+    try {
+      const response = await axios.get(`/classes/${id}`);
+      const data: Class[] = response.data;
+      const findData = data.find((item) => item.id === id);
+      return findData ?? null;
+    } catch (error) {
+      console.log('Failed to find class: ', error);
+      return null;
+    }
   },
 }));
 
