@@ -1,33 +1,39 @@
 export interface Class {
-  id: string;
-  name: string;
-  owner: string;
-  date: {
-    startDate: string;
-    endDate: string;
-    startTime: string;
-    endTime: string;
-    participants: number;
+  id: number;
+  title: string;
+  owner?: string;
+  dates: {
+    id: number;
+    class_id: number;
+    start_date: string;
+    start_time: string;
+    end_time: string;
+    person: number;
   }[];
-  people: {
+  people?: {
     max: number;
     require: number;
   };
-  averageScore: number;
-  popular: boolean;
+  average_rating: number;
+  popular?: boolean;
+  is_new: boolean;
   price: number;
-  discountRate: number;
-  discountPrice: number;
+  discountRate?: number;
+  discountPrice?: number;
   description: string;
-  photoGallery: string[];
-  photoFinished: string[];
-  place: {
+  images: {
+    id: number;
+    class_id: number;
+    image_url: string;
+  }[];
+  address: {
     state: string;
     city: string;
-    address: string;
+    street: string;
   };
   createAt: string;
   tag?: string;
+  price_in_usd?: number;
 }
 
 export type ClassState = {
