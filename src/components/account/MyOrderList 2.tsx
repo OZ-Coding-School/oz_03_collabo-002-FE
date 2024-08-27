@@ -7,7 +7,7 @@ import {
   IconCheck,
   IconPaginationRight,
 } from './../../config/IconData';
-import { myOrder } from '../../type/account';
+import { myOrder } from '../../type/account.type';
 
 const MyOrderList = () => {
   const navigate = useNavigate();
