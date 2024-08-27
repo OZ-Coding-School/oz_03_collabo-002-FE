@@ -6,16 +6,85 @@ import signup_profile from '../assets/icon/signup_profile.svg';
 import { Link } from 'react-router-dom';
 import Modal from '../components/common/Modal';
 import { useModalStore } from '../store/useModal';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { Signup } from '../type/signup';
+
+import { handleKaKao } from '../components/Login/Kakao';
+import { handleGoogle } from '../components/Login/Google';
+import axios from 'axios';
 
 const SignUp = () => {
   const { setModal, showModal } = useModalStore();
-  const handleChange = () => {
-    setModal('Successful Membership Registration');
+  // const handleChange = () => {
+  //   setModal('Successful Membership Registration');
+  // };
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<Signup>({
+    defaultValues: {
+      name: '',
+      email: '',
+      password: '',
+      agree1: false,
+      agree2: false,
+    },
+  });
+  const clearValue = () => {
+    reset({
+      name: '',
+      email: '',
+      password: '',
+      agree1: false,
+      agree2: false,
+    });
   };
+  const onSubmit: SubmitHandler<Signup> = async (data) => {
+    clearValue();
+    try {
+      const { name, email, password } = data;
+      console.log('1');
+      await axios.post(
+        `http://customk-lb-26108994-e6e8d3346164.kr.lb.naverncp.com/api/v1/users/signup/`,
+        {
+          name,
+          email,
+          password,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true,
+        },
+      );
+      console.log('2');
+      setModal('Successful Membership Registration');
+      console.log('3');
+    } catch (error) {
+      console.error('Error during signup:', error);
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          console.error('Response data:', error.response.data);
+          console.error('Response status:', error.response.status);
+        } else if (error.request) {
+          console.error('No response received:', error.request);
+        } else {
+          console.error('Error setting up request:', error.message);
+        }
+      } else {
+        console.error('Unexpected error:', error);
+      }
+      setModal('Signup failed. Please try again.');
+    }
+  };
+
   return (
     <>
       {showModal && <Modal />}
-      <form>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col max-w-[475px] w-full min-h-screen h-full m-auto border-x border-gray-200 relative bg-gray-100">
           <div className=" border-gray-200 border-2 rounded-2xl bg-white mt-8 mx-8 py-16">
             <div className="mb-8 text-center ">
@@ -24,7 +93,10 @@ const SignUp = () => {
             <div className="flex flex-col mx-4">
               {/* <label className="mb-3">소셜 로그인</label> */}
 
-              <button className="bg-[#FEE500] text-black w-full rounded-xl h-10 mb-3">
+              <button
+                className="bg-[#FEE500] text-black w-full rounded-xl h-10 mb-3"
+                onClick={handleKaKao}
+              >
                 <div className="flex justify-center">
                   {<img src={kakao} alt="kakao" className="mr-4 mt-0.5" />}
                   Login with Kakao
@@ -45,7 +117,10 @@ const SignUp = () => {
                   Login with FaceBook
                 </div>
               </button>
-              <button className="bg-white text-black w-full rounded-xl h-10 mb-3">
+              <button
+                className="bg-white text-black w-full rounded-xl h-10 mb-3"
+                onClick={handleGoogle}
+              >
                 <div className="flex justify-center">
                   <img src={google} alt="구글" className="mr-4" />
                   Login with Google
@@ -78,72 +153,122 @@ const SignUp = () => {
                   <input
                     type="email"
                     id="email"
-                    name="email"
                     placeholder="Please enter your email"
                     required
                     className="border mt-1 block w-full rounded-xl text-sm border-gray-300 h-10 pl-3 focus:border-indigo-300 focus:ring-indigo-200 focus:ring-opacity-50"
+                    {...register('email', {
+                      required: 'This is a mandatory item.',
+                      pattern:
+                        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i,
+                    })}
                   />
+                  {errors.email && (
+                    <p className="text-red px-2 text-xs">
+                      * Please enter a valid email address.
+                    </p>
+                  )}
                 </div>
                 <div className="mb-3">
                   <label
-                    htmlFor="email"
+                    htmlFor="password"
                     className="block text-xs font-bold text-gray-700"
                   >
                     PASSWORD
                   </label>
                   <input
-                    type="email"
-                    id="email"
-                    name="email"
+                    type="password"
+                    id="password"
                     placeholder="Please enter your password"
                     required
                     className="border mt-1 block w-full rounded-xl text-sm border-gray-300 h-10 pl-3 focus:border-indigo-300 focus:ring-indigo-200 focus:ring-opacity-50"
+                    {...register('password', {
+                      required: 'This is a mandatory item.',
+                      pattern:
+                        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/i,
+                    })}
                   />
+                  {errors.password && (
+                    <p className="text-red px-2 text-xs">
+                      * It must be at least 8 characters and contain all
+                      English, numbers, and special characters.
+                    </p>
+                  )}
                 </div>
                 <div className="mb-3">
                   <label
-                    htmlFor="email"
+                    htmlFor="name"
                     className="block text-xs font-bold text-gray-700"
                   >
                     NAME
                   </label>
                   <input
-                    type="email"
-                    id="email"
-                    name="email"
+                    type="text"
+                    id="name"
                     placeholder="Please enter your name"
                     required
                     className="border mt-1 block w-full rounded-xl text-sm border-gray-300 h-10 pl-3 focus:border-indigo-300 focus:ring-indigo-200 focus:ring-opacity-50"
+                    {...register('name', {
+                      required: 'This is a mandatory item.',
+                      minLength: 2,
+                      maxLength: 12,
+                      pattern: /^[a-zA-Z0-9]+$/,
+                    })}
                   />
+                  {errors.name && (
+                    <p className=" text-red px-2 text-xs">
+                      * Name can only contain English letters and numbers.
+                    </p>
+                  )}
                 </div>
                 <div className="text-xs mb-3">
                   <div className="flex felx-col mb-1">
-                    <input
-                      type="radio"
-                      id="agree"
-                      name="agree"
-                      className="mr-2"
-                    />
-                    <p>
-                      I agree to the terms and conditions{' '}
-                      <span className="text-red-500">(required)</span>
-                    </p>
+                    <label className="flex items-center">
+                      <input
+                        type="checkbox"
+                        id="agree1"
+                        className="mr-2"
+                        {...register('agree1', {
+                          required:
+                            '* You must agree to the terms and conditions.',
+                        })}
+                      />
+                      <span>
+                        I agree to the terms and conditions{' '}
+                        <span className="text-red-500">(required)</span>
+                      </span>
+                    </label>
                   </div>
+                  {errors.agree1 && (
+                    <p className="text-red px-2 text-xs">
+                      {errors.agree1.message}
+                    </p>
+                  )}
                   <div className="flex felx-col">
-                    <input
-                      type="radio"
-                      id="agree"
-                      name="agree"
-                      className="mr-2"
-                    />
-                    <p>
-                      They are over 14 years old{' '}
-                      <span className="text-primary">(required)</span>
-                    </p>
+                    <label>
+                      <input
+                        type="checkbox"
+                        id="agree2"
+                        className="mr-2"
+                        required
+                        {...register('agree2', {
+                          required:
+                            '* You must confirm that you are over 14 years old.',
+                        })}
+                      />
+                      <span>
+                        They are over 14 years old{' '}
+                        <span className="text-primary">(required)</span>
+                      </span>
+                    </label>
                   </div>
+                  {errors.agree2 && (
+                    <p className=" text-red px-2 text-xs">
+                      {errors.agree2.message}
+                    </p>
+                  )}
                 </div>
                 <button
-                  onClick={handleChange}
+                  type="submit"
                   className="bg-primary text-white w-full rounded-xl h-10"
                 >
                   Sign Up
