@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 
 type ButtonProp = {
+  type?: 'button' | 'reset' | 'submit';
   size: 'sm' | 'md' | 'lg' | 'full';
   value: string;
-  onSubmit: () => void;
+  onSubmit: (e: React.MouseEvent<HTMLButtonElement>) => void;
 };
-const Button = ({ size, value, onSubmit }: ButtonProp) => {
+const Button = ({ size, value, onSubmit, type = 'button' }: ButtonProp) => {
   const [btnSize, setBtnSize] = useState('');
 
   useEffect(() => {
@@ -27,7 +28,8 @@ const Button = ({ size, value, onSubmit }: ButtonProp) => {
 
   return (
     <button
-      className={`${btnSize} bg-primary text-white rounded-md`}
+      type={type}
+      className={`${btnSize} bg-primary text-white rounded-full`}
       onClick={onSubmit}
     >
       {value}

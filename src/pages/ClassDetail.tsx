@@ -15,6 +15,7 @@ import ClassDetailReview from '../components/classDetail/ClassDetailReview';
 import '../components/classDetail/ClassDetail.css';
 import ClassDetailSlide from '../components/classDetail/ClassDetailSlide';
 import ClassCalendar from '../components/classDetail/ClassCalendar';
+import ClassDetailQna from '../components/classDetail/ClassDetailQna';
 
 type ClassDetailProps = {
   rating: number;
@@ -284,6 +285,7 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
         </div>
         <ClassDetailPhotoReview />
         <ClassDetailReview />
+        <ClassDetailQna />
       </div>
 
       <div ref={resPoliciesRef} className="mt-20">

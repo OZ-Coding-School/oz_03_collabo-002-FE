@@ -26,7 +26,6 @@ import { ReactComponent as IconOrder } from '../assets/icon/icon-order.svg';
 import { ReactComponent as IconCart } from '../assets/icon/icon-cart.svg';
 import { ReactComponent as IconNotification } from '../assets/icon/icon-notification.svg';
 import { ReactComponent as IconNotificationNew } from '../assets/icon/icon-notification-new.svg';
-import { ReactComponent as IconUserAvatar } from '../assets/icon/icon-user-avatar.svg';
 import { ReactComponent as IconCheck } from '../assets/icon/icon-check.svg';
 import { ReactComponent as IconRemove } from '../assets/icon/icon-remove.svg';
 import { ReactComponent as IconArrowUp } from '../assets/icon/icon-arrow-up.svg';
@@ -62,7 +61,6 @@ export {
   IconCart,
   IconNotification,
   IconNotificationNew,
-  IconUserAvatar,
   IconCheck,
   IconRemove,
   IconArrowUp,

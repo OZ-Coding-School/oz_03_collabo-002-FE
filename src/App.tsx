@@ -11,7 +11,8 @@ import Review from './components/review/Review';
 import Account from './components/account/Account';
 import LikesPage from './pages/LikesPage';
 import ClassDetailQnaAll from './components/classDetail/ClassDetailQnaAll';
-import classByCategory from './components/classByCategory/classByCategory';
+import Redirection from './pages/Redirection';
+import ClassByCategory from './components/classByCategory/ClassByCategory';
 
 function App() {
   const path = location.pathname;
@@ -39,11 +40,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
-            <Route path="/class" element={<classByCategory />} />
-            <Route
-              path="/classdetail/:id"
-              element={<ClassDetail rating={4.5} />}
-            />
+            <Route path="/class/:category" element={<ClassByCategory />} />
+            <Route path="/classdetail" element={<ClassDetail rating={4.5} />} />
             <Route path="/account" element={<Account />} />
             <Route path="/charge" element={<ChargePage />} />
             <Route path="admin" element={<Admin />} />
@@ -52,6 +50,7 @@ function App() {
             <Route path="/review" element={<Review />} />
           </Route>
           <Route path="/login" element={<Login />} />
+          <Route path="/auth" element={<Redirection />} />
           <Route path="/signup" element={<SignUp />} />
         </Routes>
       </Router>
