@@ -3,6 +3,8 @@ import kakao from '../assets/icon/kakao.svg';
 import google from '../assets/icon/google.svg';
 import naver from '../assets/icon/naver.svg';
 import { Link } from 'react-router-dom';
+import { handleKaKao } from '../components/Login/Kakao';
+import { handleGoogle } from '../components/Login/Google';
 
 const Login = () => {
   return (
@@ -58,7 +60,10 @@ const Login = () => {
               <div className="flex flex-col">
                 {/* <label className="mb-3">소셜 로그인</label> */}
                 <hr className="border-b-1 mb-6" />
-                <button className="bg-[#FEE500] text-black w-full rounded-xl h-10 mb-3">
+                <button
+                  className="bg-[#FEE500] text-black w-full rounded-xl h-10 mb-3"
+                  onClick={handleKaKao}
+                >
                   <div className="flex justify-center">
                     {<img src={kakao} alt="kakao" className="mr-4 mt-0.5" />}
                     Login with Kakao
@@ -70,7 +75,7 @@ const Login = () => {
                 <button className="bg-[#03C75A] text-white w-full rounded-xl h-10 mb-3">
                   <div className="flex justify-center">
                     <img src={naver} alt="페이스북" className="mr-4" />
-                    Login with Naver
+                    Login with Line
                   </div>
                 </button>
                 <button className="bg-[#1877F2] text-white w-full rounded-xl h-10 mb-3 ">
@@ -79,7 +84,10 @@ const Login = () => {
                     Login with FaceBook
                   </div>
                 </button>
-                <button className="bg-white text-black w-full rounded-xl h-10 mb-3">
+                <button
+                  className="bg-white text-black w-full rounded-xl h-10 mb-3"
+                  onClick={handleGoogle}
+                >
                   <div className="flex justify-center">
                     <img src={google} alt="구글" className="mr-4" />
                     Login with Google
