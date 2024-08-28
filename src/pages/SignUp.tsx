@@ -1,23 +1,30 @@
 import facebook from '../assets/icon/facebook.svg';
 import kakao from '../assets/icon/kakao.svg';
 import google from '../assets/icon/google.svg';
-import naver from '../assets/icon/naver.svg';
+import line from '../assets/icon/line.svg';
 import signup_profile from '../assets/icon/signup_profile.svg';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Modal from '../components/common/Modal';
 import { useModalStore } from '../store/useModal';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Signup } from '../type/signup';
-
 import { handleKaKao } from '../components/Login/Kakao';
 import { handleGoogle } from '../components/Login/Google';
 import axios from 'axios';
+import { useCallback, useMemo, useRef, useState } from 'react';
+import ModalProfile from '../components/common/ModalProfile';
 
 const SignUp = () => {
   const { setModal, showModal } = useModalStore();
-  // const handleChange = () => {
-  //   setModal('Successful Membership Registration');
-  // };
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [originalFileName, setOriginalFileName] = useState<string>('');
+  const [img, setImg] = useState<string>('');
+  const [imgFile, setImgFile] = useState<File>();
+  const [preview, setPreview] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  // const [croppedImage, setCroppedImage] = useState<string | null>(null);
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -32,7 +39,7 @@ const SignUp = () => {
       agree2: false,
     },
   });
-  const clearValue = () => {
+  const clearValue = useCallback(() => {
     reset({
       name: '',
       email: '',
@@ -40,106 +47,189 @@ const SignUp = () => {
       agree1: false,
       agree2: false,
     });
-  };
-  const onSubmit: SubmitHandler<Signup> = async (data) => {
-    clearValue();
-    try {
-      const { name, email, password } = data;
-      console.log('1');
-      await axios.post(
-        `http://customk-lb-26108994-e6e8d3346164.kr.lb.naverncp.com/api/v1/users/signup/`,
-        {
-          name,
-          email,
-          password,
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          withCredentials: true,
-        },
-      );
-      console.log('2');
-      setModal('Successful Membership Registration');
-      console.log('3');
-    } catch (error) {
-      console.error('Error during signup:', error);
-      if (axios.isAxiosError(error)) {
-        if (error.response) {
-          console.error('Response data:', error.response.data);
-          console.error('Response status:', error.response.status);
-        } else if (error.request) {
-          console.error('No response received:', error.request);
-        } else {
-          console.error('Error setting up request:', error.message);
-        }
-      } else {
-        console.error('Unexpected error:', error);
+    setImg('');
+  }, [reset]);
+
+  const handleFileInput = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0];
+      if (file) {
+        setOriginalFileName(file.name);
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setPreview(reader.result as string);
+          setIsModalOpen(true);
+        };
+        reader.readAsDataURL(file);
       }
-      setModal('Signup failed. Please try again.');
-    }
-  };
+    },
+    [],
+  );
+
+  const handleCroppedImage = useCallback((imageFile: File) => {
+    setImgFile(imageFile);
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      // setCroppedImage(reader.result as string);
+      setImg(reader.result as string);
+    };
+    console.log('img as string: ', img);
+    reader.readAsDataURL(imageFile);
+    setIsModalOpen(false);
+  }, []);
+
+  // const handleFileSelect = (file: File) => {
+  //   const imageUrl = URL.createObjectURL(file);
+  //   setImgFile(file);
+  //   setImg(imageUrl);
+  // };
+  const handleChange = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    fileInputRef.current?.click();
+  }, []);
+  const onSubmit: SubmitHandler<Signup> = useCallback(
+    async (data) => {
+      try {
+        const { name, email, password, profile_img = img } = data;
+        console.log('1');
+        console.log('imgFile:', imgFile);
+        await axios.post(
+          `http://customk-lb-26108994-e6e8d3346164.kr.lb.naverncp.com/api/v1/users/signup/`,
+          {
+            name,
+            email,
+            password,
+            profile_img,
+          },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            withCredentials: true,
+          },
+        );
+        console.log('2');
+        setModal('Successful Membership Registration');
+        console.log('3');
+        console.log({ name, email, password, profile_img });
+        clearValue();
+        setTimeout(() => {
+          navigate('/login');
+        }, 2000);
+      } catch (error) {
+        console.error('Error during signup:', error);
+        if (axios.isAxiosError(error)) {
+          if (error.response) {
+            console.error('Response data:', error.response.data);
+            console.error('Response status:', error.response.status);
+          } else if (error.request) {
+            console.error('No response received:', error.request);
+          } else {
+            console.error('Error setting up request:', error.message);
+          }
+        } else {
+          console.error('Unexpected error:', error);
+        }
+        setModal('Signup failed. Please try again.');
+      }
+    },
+    [img, setModal, clearValue],
+  );
+
+  const memoizedModalProfile = useMemo(
+    () =>
+      isModalOpen &&
+      preview && (
+        <ModalProfile
+          preview={preview}
+          onClose={() => setIsModalOpen(false)}
+          onCrop={handleCroppedImage}
+          originalFileName={originalFileName}
+        />
+      ),
+    [isModalOpen, preview, handleCroppedImage, originalFileName],
+  );
 
   return (
     <>
       {showModal && <Modal />}
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="flex flex-col max-w-[475px] w-full min-h-screen h-full m-auto border-x border-gray-200 relative bg-gray-100">
-          <div className=" border-gray-200 border-2 rounded-2xl bg-white mt-8 mx-8 py-16">
-            <div className="mb-8 text-center ">
-              <h2 className="text-2xl font-bold  ">Sign Up</h2>
-            </div>
-            <div className="flex flex-col mx-4">
-              {/* <label className="mb-3">소셜 로그인</label> */}
-
-              <button
-                className="bg-[#FEE500] text-black w-full rounded-xl h-10 mb-3"
-                onClick={handleKaKao}
-              >
-                <div className="flex justify-center">
-                  {<img src={kakao} alt="kakao" className="mr-4 mt-0.5" />}
-                  Login with Kakao
-                </div>
-              </button>
-              {/* <button>
-              <img src={kakao} alt="kakao" />
-            </button> */}
-              <button className="bg-[#03C75A] text-white w-full rounded-xl h-10 mb-3">
-                <div className="flex justify-center">
-                  <img src={naver} alt="페이스북" className="mr-4" />
-                  Login with Line
-                </div>
-              </button>
-              <button className="bg-[#1877F2] text-white w-full rounded-xl h-10 mb-3 ">
-                <div className="flex justify-center">
-                  <img src={facebook} alt="페이스북" className="mr-4" />
-                  Login with FaceBook
-                </div>
-              </button>
-              <button
-                className="bg-white text-black w-full rounded-xl h-10 mb-3"
-                onClick={handleGoogle}
-              >
-                <div className="flex justify-center">
-                  <img src={google} alt="구글" className="mr-4" />
-                  Login with Google
-                </div>
-              </button>
-            </div>
-            <hr className="border-b-1 mb-6 mx-4" />
+      {memoizedModalProfile}
+      <div className="flex flex-col max-w-[475px] w-full min-h-screen h-full m-auto border-x border-gray-200 relative bg-gray-100">
+        <div className=" border-gray-200 border-2 rounded-2xl bg-white mt-8 mx-8 py-16">
+          <div className="mb-8 text-center ">
+            <h2 className="text-2xl font-bold  ">Sign Up</h2>
+          </div>
+          <div className="flex flex-col mx-4">
+            <button
+              className="bg-[#FEE500] text-black w-full rounded-xl h-10 mb-3"
+              onClick={handleKaKao}
+            >
+              <div className="flex justify-center">
+                {<img src={kakao} alt="kakao" className="mr-4 mt-0.5" />}
+                Login with Kakao
+              </div>
+            </button>
+            <button className="bg-[#03C75A] text-white w-full rounded-xl h-10 mb-3">
+              <div className="flex justify-center">
+                <img src={line} alt="라인" className="mr-4" />
+                Login with Line
+              </div>
+            </button>
+            <button className="bg-[#1877F2] text-white w-full rounded-xl h-10 mb-3 ">
+              <div className="flex justify-center">
+                <img src={facebook} alt="페이스북" className="mr-4" />
+                Login with FaceBook
+              </div>
+            </button>
+            <button
+              className="bg-white text-black w-full rounded-xl h-10 mb-3"
+              onClick={handleGoogle}
+            >
+              <div className="flex justify-center">
+                <img src={google} alt="구글" className="mr-4" />
+                Login with Google
+              </div>
+            </button>
+          </div>
+          <hr className="border-b-1 mb-6 mx-4" />
+          <form onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-col mx-4">
               <div className="mb-7">
                 <div>
                   <div className="block text-xs font-bold text-gray-700 mb-4">
                     Sign up for membership by e-mail
                   </div>
-                  <div className="flex justify-center">
-                    <img
-                      src={signup_profile}
-                      alt="프로필이미지"
-                      className="size-216 rounded-full text-3xl overflow-visible mb-3"
+                  <div className="flex justify-center relative mb-3">
+                    {img === '' ? (
+                      <img
+                        src={signup_profile}
+                        alt="프로필 기본 이미지"
+                        className="rounded-full text-3xl overflow-visible "
+                        id="profile_default"
+                      />
+                    ) : (
+                      <img
+                        src={img}
+                        alt="프로필이미지"
+                        className="rounded-full w-[59px] h-[59px]"
+                        id="profile_img"
+                        {...register('profile_img', {})}
+                      />
+                    )}
+
+                    <input
+                      type="file"
+                      ref={fileInputRef}
+                      accept="image/*"
+                      className="hidden"
+                      onChange={handleFileInput}
                     />
+                    <button
+                      onClick={handleChange}
+                      className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[59px] h-[59px] flex items-center justify-center rounded-full bg-black bg-opacity-50 text-white opacity-0 transition-opacity duration-200 hover:opacity-50"
+                    >
+                      Profile Edit
+                    </button>
                   </div>
                 </div>
 
@@ -281,9 +371,9 @@ const SignUp = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </form>
         </div>
-      </form>
+      </div>
     </>
   );
 };
