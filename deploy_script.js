@@ -8,7 +8,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // NCP Object Storage 설정
-const endpoint = new AWS.Endpoint('http://custom-k-client-deploy.s3-website.kr.object.ncloudstorage.com');
+const endpoint = new AWS.Endpoint('https://kr.object.ncloudstorage.com');
 const region = 'kr-standard'; // NCP의 리전
 const accessKeyId = process.env.NCP_ACCESS_KEY_ID;
 const secretAccessKey = process.env.NCP_SECRET_ACCESS_KEY;
