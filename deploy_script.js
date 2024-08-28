@@ -1,5 +1,4 @@
-import 'dotenv/config';
-import { S3Client, PutObjectCommand, ListObjectsCommand, DeleteObjectCommand } from '@aws-sdk/client-s3';
+import AWS from 'aws-sdk';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -8,12 +7,18 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// S3 클라이언트 설정
-const s3 = new S3Client({
-  region: 'ap-northeast-2',
+// NCP Object Storage 설정
+const endpoint = new AWS.Endpoint(process.env.NCP_BASE_URL); // NCP의 엔드포인트 URL
+const region = 'kr-standard'; // NCP의 리전
+const accessKeyId = process.env.NCP_ACCESS_KEY_ID;
+const secretAccessKey = process.env.NCP_SECRET_ACCESS_KEY;
+
+const s3 = new AWS.S3({
+  endpoint: endpoint,
+  region: region,
   credentials: {
-    accessKeyId: process.env.NCP_ACCESS_KEY_ID,
-    secretAccessKey: process.env.NCP_SECRET_ACCESS_KEY,
+    accessKeyId: accessKeyId,
+    secretAccessKey: secretAccessKey,
   },
 });
 
@@ -21,25 +26,29 @@ const s3 = new S3Client({
 const uploadFile = async (filePath) => {
   const fileStream = fs.createReadStream(filePath);
   const key = path.relative(path.join(__dirname, 'dist'), filePath);
-  const command = new PutObjectCommand({
-    Bucket: process.env.BUCKET_NAME,
-    Key: key,
-    Body: fileStream,
-  });
 
   try {
-    await s3.send(command);
+    await s3.putObject({
+      Bucket: process.env.NCP_BUCKET_NAME,
+      Key: key,
+      Body: fileStream,
+      ACL: 'public-read', // ACL을 설정하여 파일 접근 권한 설정
+    }).promise();
     console.log(`Uploaded: ${key}`);
   } catch (err) {
     console.error(`Failed to upload file ${key}: ${err.message}`);
   }
 };
 
-// S3 버킷의 파일 목록 가져오기
+// Object Storage의 파일 목록 가져오기
 const listBucketFiles = async () => {
-  const command = new ListObjectsCommand({ Bucket: process.env.BUCKET_NAME });
+  const params = {
+    Bucket: process.env.NCP_BUCKET_NAME,
+    MaxKeys: 1000, // 최대 1000개 파일 목록 조회
+  };
+
   try {
-    const response = await s3.send(command);
+    const response = await s3.listObjectsV2(params).promise();
     return response.Contents ? response.Contents.map((item) => item.Key) : [];
   } catch (err) {
     console.error(`Failed to list objects: ${err.message}`);
@@ -49,13 +58,11 @@ const listBucketFiles = async () => {
 
 // 파일 삭제 함수
 const deleteFile = async (key) => {
-  const command = new DeleteObjectCommand({
-    Bucket: process.env.BUCKET_NAME,
-    Key: key,
-  });
-
   try {
-    await s3.send(command);
+    await s3.deleteObject({
+      Bucket: process.env.NCP_BUCKET_NAME,
+      Key: key,
+    }).promise();
     console.log(`Deleted: ${key}`);
   } catch (err) {
     console.error(`Failed to delete file ${key}: ${err.message}`);
