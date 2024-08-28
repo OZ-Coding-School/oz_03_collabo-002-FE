@@ -1,35 +1,27 @@
 import AWS from 'aws-sdk';
 import fs from 'fs';
 import path from 'path';
-import { fileURLToPath } from 'url';
-
-// __filename과 __dirname을 ES 모듈에서 사용할 수 있도록 변환
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 // NCP Object Storage 설정
 const endpoint = new AWS.Endpoint('https://kr.object.ncloudstorage.com');
 const region = 'kr-standard'; // NCP의 리전
 const accessKeyId = process.env.NCP_ACCESS_KEY_ID;
 const secretAccessKey = process.env.NCP_SECRET_ACCESS_KEY;
+const bucketName = process.env.NCP_BUCKET_NAME;
 
 const s3 = new AWS.S3({
   endpoint: endpoint,
   region: region,
-  credentials: {
-    accessKeyId: accessKeyId,
-    secretAccessKey: secretAccessKey,
-  },
+  credentials: new AWS.Credentials(accessKeyId, secretAccessKey),
 });
 
 // 파일 업로드 함수
-const uploadFile = async (filePath) => {
+const uploadFile = async (filePath, key) => {
   const fileStream = fs.createReadStream(filePath);
-  const key = path.relative(path.join(__dirname, 'dist'), filePath);
 
   try {
     await s3.putObject({
-      Bucket: process.env.NCP_BUCKET_NAME,
+      Bucket: bucketName,
       Key: key,
       Body: fileStream,
       ACL: 'public-read', // ACL을 설정하여 파일 접근 권한 설정
@@ -43,7 +35,7 @@ const uploadFile = async (filePath) => {
 // Object Storage의 파일 목록 가져오기
 const listBucketFiles = async () => {
   const params = {
-    Bucket: process.env.NCP_BUCKET_NAME,
+    Bucket: bucketName,
     MaxKeys: 1000, // 최대 1000개 파일 목록 조회
   };
 
@@ -60,7 +52,7 @@ const listBucketFiles = async () => {
 const deleteFile = async (key) => {
   try {
     await s3.deleteObject({
-      Bucket: process.env.NCP_BUCKET_NAME,
+      Bucket: bucketName,
       Key: key,
     }).promise();
     console.log(`Deleted: ${key}`);
@@ -79,9 +71,9 @@ const syncDirectory = async (directory) => {
     if (fs.statSync(fullPath).isDirectory()) {
       await syncDirectory(fullPath);
     } else {
-      const key = path.relative(path.join(__dirname, 'dist'), fullPath);
+      const key = path.relative(path.join(process.cwd(), 'dist'), fullPath);
       localFiles.add(key);
-      await uploadFile(fullPath);
+      await uploadFile(fullPath, key);
     }
   }
 
@@ -95,6 +87,6 @@ const syncDirectory = async (directory) => {
 };
 
 // 스크립트 실행
-syncDirectory(path.join(__dirname, 'dist'))
+syncDirectory(path.join(process.cwd(), 'dist'))
   .then(() => console.log('Deployment completed.'))
   .catch((err) => console.error('Error during deployment:', err));
