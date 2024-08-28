@@ -10,7 +10,7 @@ export const handlers = [
   http.get('/api/v1/classes', () => {
     return HttpResponse.json(classList);
   }),
-  http.get('/reviews', () => {
+  http.get('/api/v1/reviews/:id', () => {
     return HttpResponse.json(reviews);
   }),
   http.get(`/api/v1/question`, () => {

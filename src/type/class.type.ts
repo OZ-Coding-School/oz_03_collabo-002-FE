@@ -39,4 +39,5 @@ export type ClassState = {
   filteredClasses: Record<string, Class[]>;
   fetchClasses: () => Promise<void>;
   filterClasses: (kind: string) => void;
+  findOneClass: (id: string | undefined) => Promise<Class | null>;
 };

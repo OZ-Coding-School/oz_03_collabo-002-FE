@@ -60,7 +60,7 @@ const CardList = ({ kind }: CardListProps) => {
         {filteredClasses &&
           filteredClasses.map((classItem) => (
             <div key={classItem.id} style={{ scrollSnapAlign: 'start' }}>
-              <ClassCard classItem={classItem} tag={kind} />
+              <ClassCard classItem={classItem} />
             </div>
           ))}
       </div>

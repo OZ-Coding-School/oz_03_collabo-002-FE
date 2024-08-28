@@ -25,7 +25,7 @@ const ClassByCategory = () => {
       <div className="grid gap-x-[15px] gap-y-6 grid-cols-2">
         {classes &&
           classes.map((item) => (
-            <ClassCard key={item.id} classItem={item} tag={path} />
+            <ClassCard key={item.id} classItem={item} />
           ))}
       </div>
     </div>

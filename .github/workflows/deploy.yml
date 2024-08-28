@@ -52,4 +52,9 @@ jobs:
           NCP_ACCESS_KEY_ID: ${{ secrets.NCP_ACCESS_KEY_ID }}
           NCP_SECRET_ACCESS_KEY: ${{ secrets.NCP_SECRET_ACCESS_KEY }}
           BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
+          VITE_KAKAO_CLIENT_ID: ${{ secrets.KAKAO_CLIENT_ID }}
+          VITE_GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          VITE_LINE_CLIENT_ID: ${{ secrets.LINE_CLIENT_ID }}
+          VITE_REDIRECT_URL: ${{ secrets.REDIRECT_URL }}
+          VITE_CALLBACK_URL: ${{ secrets.CALLBACK_URL }}
         run: npm run deploy
