@@ -18,6 +18,7 @@ export interface Class {
     },
   ];
   is_new: boolean;
+  category: string;
   price_in_usd: number;
   is_best: boolean;
   formatted_address: string;
