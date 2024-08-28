@@ -46,8 +46,8 @@ jobs:
         with:
           node-version: '20'
   
-      - name: Move to build directory
-        run: cd ./dist
+      - name: List directory contents
+        run: ls -al
 
       - name: Deploy to Naver Cloud Platform_Object Storage
         env:
