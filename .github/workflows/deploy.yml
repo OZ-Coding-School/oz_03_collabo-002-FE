@@ -46,8 +46,8 @@ jobs:
         with:
           node-version: '20'
   
-      - name: Install dependencies for deploy
-        run: npm install
+      - name: Move to build directory
+        run: cd ./dist
 
       - name: Deploy to Naver Cloud Platform_Object Storage
         env:
