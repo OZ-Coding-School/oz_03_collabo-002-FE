@@ -1,7 +1,14 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import svgr from '@svgr/rollup';
 
-// https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), svgr()],
+  optimizeDeps: {
+    include: ['msw'],
+  },
+  server: {
+    host: true, // 모든 네트워크 인터페이스에서 접근 가능
+    port: 5173,
+  },
 });

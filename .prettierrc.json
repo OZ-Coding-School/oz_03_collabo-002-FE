@@ -3,6 +3,17 @@
   "semi": true,
   "trailingComma": "all",
   "singleQuote": true,
+  "overrides": [
+    {
+      "files": "*.json",
+      "options": {
+        "singleQuote": false,
+        "parser": "json-stringify",
+        "trailingComma": "none",
+        "quoteProps": "preserve"
+      }
+    }
+  ],
   "printWidth": 80,
   "tabWidth": 2,
   "useTabs": false,

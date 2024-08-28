@@ -1,7 +1,35 @@
 {
+  "compilerOptions": {
+    "skipLibCheck": true,
+    "jsx": "react-jsx",
+    "typeRoots": [
+      "./node_modules/@types"
+    ],
+    "types": [
+      "node",
+      "react",
+      "react-dom",
+      "babel__core",
+      "babel__generator",
+      "babel__template",
+      "babel__traverse",
+      "cookie",
+      "estree",
+      "json5",
+      "mute-stream",
+      "prop-types",
+      "statuses",
+      "tough-cookie",
+      "wrap-ansi"
+    ]
+  },
   "files": [],
   "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
+    {
+      "path": "./tsconfig.app.json"
+    },
+    {
+      "path": "./tsconfig.node.json"
+    }
   ]
 }

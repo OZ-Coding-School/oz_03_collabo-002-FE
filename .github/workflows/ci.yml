@@ -1,4 +1,4 @@
-name: Node.js CI
+name: Front-end CI
 
 on:
   push:
@@ -11,37 +11,54 @@ jobs:
     name: Lint Check
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
+      - name: ✅ Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: 🛠️ Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version-file: .nvmrc
           cache: 'npm'
 
-      - name: Install Dependencies
+      - name: ⬇️ Install Dependencies
         run: npm ci
 
-      - name: Run ESLint
+      - name: 🏃 Run ESLint
         run: npm run lint
+
+  type_check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: ✅ Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 🛠️ Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: .nvmrc
+
+      - name: ⬇️ Install dependencies
+        run: npm ci
+
+      - name: 🏃 Type check
+        run: npm run tsc
 
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: ✅ Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
+      - name: 🛠️ Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
-          cache: 'npm'
+          node-version-file: .nvmrc
 
-      - name: Install dependencies
+      - name: ⬇️ Install dependencies
         run: npm ci
 
-      - name: Build
+      - name: 🏃 Build
         run: npm run build
 

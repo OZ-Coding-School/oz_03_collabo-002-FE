@@ -1,0 +1,8 @@
+{
+  "id": 1,
+  "name": "Alice Smith",
+  "phone": "010-2345-6789",
+  "email": "alice.smith@example.com",
+  "avatar": "https://img.com/alice.jpg",
+  "accessToken": "alice_generated_access_token_here"
+}
