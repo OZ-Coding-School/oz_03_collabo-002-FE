@@ -7,8 +7,9 @@ on:
   pull_request:
     branches: 
       - main 
+
 jobs:
-  build:
+  build_and_deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -26,29 +27,6 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: build
-          path: ./dist
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Download build artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: build
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-  
-      - name: List directory contents
-        run: ls -al
-
       - name: Deploy to Naver Cloud Platform_Object Storage
         env:
           NCP_ACCESS_KEY_ID: ${{ secrets.NCP_ACCESS_KEY_ID }}
@@ -59,4 +37,6 @@ jobs:
           VITE_LINE_CLIENT_ID: ${{ secrets.LINE_CLIENT_ID }}
           VITE_REDIRECT_URL: ${{ secrets.REDIRECT_URL }}
           VITE_CALLBACK_URL: ${{ secrets.CALLBACK_URL }}
-        run: npm run deploy
+        run: |
+          # Assuming deploy script is in package.json
+          npm run deploy
