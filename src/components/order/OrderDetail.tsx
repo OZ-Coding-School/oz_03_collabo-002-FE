@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { OrderData } from '../../type/order';
+import { OrderData } from '../../type/order.type';
 
 type OrderDetailProps = {
   data: OrderData;

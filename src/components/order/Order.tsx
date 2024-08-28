@@ -1,4 +1,4 @@
-import { OrderData } from '../../type/order';
+import { OrderData } from '../../type/order.type';
 import OrderHeader from './OrderHeader';
 import OrderDetail from './OrderDetail';
 import OrderButton from './OrderButton';
@@ -13,7 +13,7 @@ const Order = ({ data }: OrderProp) => {
     <>
       <OrderHeader />
       <OrderDetail data={data} />
-      <OrderButton />
+      <OrderButton data={data} />
     </>
   );
 };

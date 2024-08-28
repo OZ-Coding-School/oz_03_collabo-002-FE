@@ -1,11 +1,15 @@
-type OrderButtonProps = {};
+import { OrderData } from '../../type/order.type';
 
-const OrderButton = ({}: OrderButtonProps) => {
+type OrderButtonProps = {
+  data: OrderData;
+};
+
+const OrderButton = ({ data }: OrderButtonProps) => {
+  console.log(data);
+
   return (
     <div className="px-6 mb-5">
-      <h2 className="text-lg font-extrabold mb-3">
-        Payment Method
-      </h2>
+      <h2 className="text-lg font-extrabold mb-3">Payment Method</h2>
       <div className="flex gap-3 flex-wrap sm:flex-nowrap">
         <button className="w-full rounded-lg border border-darkgray py-2">
           Paypal

@@ -66,17 +66,20 @@ const SignUp = () => {
     [],
   );
 
-  const handleCroppedImage = useCallback((imageFile: File) => {
-    setImgFile(imageFile);
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      // setCroppedImage(reader.result as string);
-      setImg(reader.result as string);
-    };
-    console.log('img as string: ', img);
-    reader.readAsDataURL(imageFile);
-    setIsModalOpen(false);
-  }, []);
+  const handleCroppedImage = useCallback(
+    (imageFile: File) => {
+      setImgFile(imageFile);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        // setCroppedImage(reader.result as string);
+        setImg(reader.result as string);
+      };
+      console.log('img as string: ', img);
+      reader.readAsDataURL(imageFile);
+      setIsModalOpen(false);
+    },
+    [img],
+  );
 
   // const handleFileSelect = (file: File) => {
   //   const imageUrl = URL.createObjectURL(file);
@@ -133,7 +136,7 @@ const SignUp = () => {
         setModal('Signup failed. Please try again.');
       }
     },
-    [img, setModal, clearValue],
+    [img, imgFile, navigate, setModal, clearValue],
   );
 
   const memoizedModalProfile = useMemo(
