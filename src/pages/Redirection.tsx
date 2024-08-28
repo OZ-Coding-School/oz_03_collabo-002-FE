@@ -10,18 +10,21 @@ const Redirection = () => {
   useEffect(() => {
     const code = new URL(window.location.href).searchParams.get('code');
     const state = new URL(window.location.href).searchParams.get('state');
+    // const clientId = new URL(window.location.href).searchParams.get(
+    //   'client_id',
+    // );
     if (code) {
       console.log('Auth code:', code);
       console.log('state:', state);
-      // Here you would typically send this code to your backend
-      // to exchange it for an access token
-      // Simulating an API call
+      // console.log('client_id:', clientId);
+
       const fetchAuthLogin = async () => {
         try {
           const response = await axios.post(
             `${import.meta.env.VITE_CALLBACK_URL}${state}/callback`,
-            // { code: code , state: state},
-            { code: code },
+            // { code: code, state: state, clientId: clientId },
+            { code: code, state: state },
+            // { code: code },
             {
               headers: {
                 'Content-Type': 'application/json',

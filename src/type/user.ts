@@ -3,7 +3,7 @@ export type User = {
   email: string;
   password: string;
   name: string;
-  profile_image: string | null;
+  profile_image?: string | null;
 };
 
 export interface UserState {

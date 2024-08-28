@@ -2,17 +2,22 @@ import facebook from '../assets/icon/facebook.svg';
 import kakao from '../assets/icon/kakao.svg';
 import google from '../assets/icon/google.svg';
 import line from '../assets/icon/line.svg';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { handleKaKao } from '../components/Login/Kakao';
 import { handleGoogle } from '../components/Login/Google';
+import { handleLine } from '../components/Login/Line';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { LoginUser } from '../type/loginuser';
 import axios from 'axios';
 import { useModalStore } from '../store/useModal';
 import Modal from '../components/common/Modal';
+import { useCallback } from 'react';
+import { useUserStore } from '../store/useUser';
 
 const Login = () => {
+  const navigate = useNavigate();
   const { showModal, setModal } = useModalStore();
+  const setUser = useUserStore((state) => state.setUser);
   const {
     register,
     handleSubmit,
@@ -27,32 +32,55 @@ const Login = () => {
     },
   });
 
-  const onSubmit: SubmitHandler<LoginUser> = async (data) => {
-    clearValue();
-    const { email, password } = data;
-    try {
-      await axios.post(
-        `http://customk-lb-26108994-e6e8d3346164.kr.lb.naverncp.com/api/v1/users/login/`,
-        {
-          email,
-          password,
-        },
-        {
-          headers: { 'Content-Type': 'application/json' },
-          withCredentials: true,
-        },
-      );
-
-      setModal('Login Successful!');
-    } catch (error) {}
-  };
-
-  const clearValue = () => {
+  const clearValue = useCallback(() => {
     reset({
       email: '',
       password: '',
     });
-  };
+  }, [reset]);
+
+  const onSubmit: SubmitHandler<LoginUser> = useCallback(
+    async (data) => {
+      const { email, password } = data;
+      try {
+        const response = await axios.post(
+          `http://customk-lb-26108994-e6e8d3346164.kr.lb.naverncp.com/api/v1/users/login/`,
+          {
+            email,
+            password,
+          },
+          {
+            headers: { 'Content-Type': 'application/json' },
+            withCredentials: true,
+          },
+        );
+        console.log(response.data);
+        setUser(response.data);
+        setModal('Login Successful!');
+        clearValue();
+        setTimeout(() => {
+          navigate('/');
+        }, 2000);
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          if (error.response) {
+            setModal(
+              `Login failed: ${error.response.data.message || 'Unknown error'}`,
+            );
+          } else if (error.request) {
+            setModal('Network error. Please try again.');
+          } else {
+            setModal('An unexpected error occurred.');
+          }
+        } else {
+          setModal('An unexpected error occurred.');
+        }
+        console.error('Login error:', error);
+      }
+    },
+    [setUser, setModal, clearValue, navigate],
+  );
+
   return (
     <>
       {showModal && <Modal />}
@@ -152,9 +180,12 @@ const Login = () => {
               {/* <button>
                 <img src={kakao} alt="kakao" />
               </button> */}
-              <button className="bg-[#03C75A] text-white w-full rounded-xl h-10 mb-3">
+              <button
+                className="bg-[#03C75A] text-white w-full rounded-xl h-10 mb-3"
+                onClick={handleLine}
+              >
                 <div className="flex justify-center">
-                  <img src={line} alt="페이스북" className="mr-4" />
+                  <img src={line} alt="라인" className="mr-4" />
                   Login with Line
                 </div>
               </button>
