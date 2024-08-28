@@ -68,7 +68,7 @@ const MyOrderList = () => {
             >
               <IconCheck />
             </button>
-            <span className="font-[NanumSquareExtraBold] text-sm">
+            <span className="font-extrabold text-sm">
               Today's Class
             </span>
           </label>
