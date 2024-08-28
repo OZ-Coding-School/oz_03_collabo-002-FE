@@ -1,259 +1,333 @@
 [
   {
     "id": "c1a23b45",
-    "name": "따듯한 차와 함께 하는 뜨개 공방",
-    "owner": "뜨란실",
-    "date": [
+    "dates": [
       {
-        "startDate": "2024-08-10",
-        "startTime": "11:30",
-        "endTime": "13:30",
-        "participants": []
+        "id": "c1a23b45_1",
+        "class_id": "c1a23b45",
+        "start_date": "2024-08-10",
+        "start_time": "11:30",
+        "end_time": "13:30",
+        "person": 0
       },
       {
-        "startDate": "2024-08-10",
-        "startTime": "14:00",
-        "endTime": "16:00",
-        "participants": []
+        "id": "c1a23b45_2",
+        "class_id": "c1a23b45",
+        "start_date": "2024-08-10",
+        "start_time": "14:00",
+        "end_time": "16:00",
+        "person": 0
       },
       {
-        "startDate": "2024-08-17",
-        "startTime": "11:30",
-        "endTime": "13:30",
-        "participants": []
+        "id": "c1a23b45_3",
+        "class_id": "c1a23b45",
+        "start_date": "2024-08-17",
+        "start_time": "11:30",
+        "end_time": "13:30",
+        "person": 0
       },
       {
-        "startDate": "2024-08-17",
-        "startTime": "14:00",
-        "endTime": "16:00",
-        "participants": []
+        "id": "c1a23b45_4",
+        "class_id": "c1a23b45",
+        "start_date": "2024-08-17",
+        "start_time": "14:00",
+        "end_time": "16:00",
+        "person": 0
       },
       {
-        "startDate": "2024-08-24",
-        "startTime": "11:30",
-        "endTime": "13:30",
-        "participants": []
+        "id": "c1a23b45_5",
+        "class_id": "c1a23b45",
+        "start_date": "2024-08-24",
+        "start_time": "11:30",
+        "end_time": "13:30",
+        "person": 0
       },
       {
-        "startDate": "2024-08-24",
-        "startTime": "14:00",
-        "endTime": "16:00",
-        "participants": []
+        "id": "c1a23b45_6",
+        "class_id": "c1a23b45",
+        "start_date": "2024-08-24",
+        "start_time": "14:00",
+        "end_time": "16:00",
+        "person": 0
       }
     ],
-    "people": {
-      "max": 6,
-      "require": 2
-    },
-    "averageScore": 4.8,
-    "popular": true,
-    "price": 45,
-    "discountRate": 10,
-    "discountPrice": 40.5,
+    "images": [
+      {
+        "id": "c1a23b45_img1",
+        "class_id": "c1a23b45",
+        "image_url": "https://placehold.co/480x480@2x.png?text=gallary&font=Lato"
+      },
+      {
+        "id": "c1a23b45_img2",
+        "class_id": "c1a23b45",
+        "image_url": "https://placehold.co/480x480@2x.png?text=gallary&font=Lato"
+      },
+      {
+        "id": "c1a23b45_img3",
+        "class_id": "c1a23b45",
+        "image_url": "https://placehold.co/480x480@2x.png?text=gallary&font=Lato"
+      },
+      {
+        "id": "c1a23b45_img4",
+        "class_id": "c1a23b45",
+        "image_url": "https://placehold.co/160x160@2x.png?text=finished&font=Lato"
+      },
+      {
+        "id": "c1a23b45_img5",
+        "class_id": "c1a23b45",
+        "image_url": "https://placehold.co/160x160@2x.png?text=finished&font=Lato"
+      }
+    ],
+    "is_new": false,
+    "price_in_usd": 40.5,
+    "is_best": true,
+    "formatted_address": "서울 강남구 압구정로 123",
+    "created_at": "2024-08-28T09:50:36.515Z",
+    "updated_at": "2024-08-28T09:50:36.515Z",
+    "title": "따듯한 차와 함께 하는 뜨개 공방",
     "description": "따뜻한 차를 마시며 편안하게 뜨개질을 배워보세요. 초보자도 쉽게 따라할 수 있습니다.",
-    "photoGallery": [
-      "https://placehold.co/480x480@2x.png?text=gallary&font=Lato",
-      "https://placehold.co/480x480@2x.png?text=gallary&font=Lato",
-      "https://placehold.co/480x480@2x.png?text=gallary&font=Lato"
-    ],
-    "photoFinished": [
-      "https://placehold.co/160x160@2x.png?text=finished&font=Lato",
-      "https://placehold.co/160x160@2x.png?text=finished&font=Lato"
-    ],
-    "place": {
-      "state": "서울",
-      "city": "강남구",
-      "address": "압구정로 123"
-    },
-    "createDate": "2024-09-01"
+    "max_person": 6,
+    "require_person": 2,
+    "price": 45,
+    "address": "서울 강남구 압구정로 123",
+    "class_type": "craft",
+    "is_viewed": true
   },
   {
     "id": "d2b34c56",
-    "name": "나만의 에코백 만들기",
-    "owner": "크래프트 스튜디오",
-    "date": [
+    "dates": [
       {
-        "startDate": "2024-09-01",
-        "startTime": "10:00",
-        "endTime": "12:00",
-        "participants": []
+        "id": "d2b34c56_1",
+        "class_id": "d2b34c56",
+        "start_date": "2024-09-01",
+        "start_time": "10:00",
+        "end_time": "12:00",
+        "person": 0
       },
       {
-        "startDate": "2024-09-01",
-        "startTime": "13:00",
-        "endTime": "15:00",
-        "participants": []
+        "id": "d2b34c56_2",
+        "class_id": "d2b34c56",
+        "start_date": "2024-09-01",
+        "start_time": "13:00",
+        "end_time": "15:00",
+        "person": 0
       },
       {
-        "startDate": "2024-09-08",
-        "startTime": "10:00",
-        "endTime": "12:00",
-        "participants": []
+        "id": "d2b34c56_3",
+        "class_id": "d2b34c56",
+        "start_date": "2024-09-08",
+        "start_time": "10:00",
+        "end_time": "12:00",
+        "person": 0
       },
       {
-        "startDate": "2024-09-08",
-        "startTime": "13:00",
-        "endTime": "15:00",
-        "participants": []
+        "id": "d2b34c56_4",
+        "class_id": "d2b34c56",
+        "start_date": "2024-09-08",
+        "start_time": "13:00",
+        "end_time": "15:00",
+        "person": 0
       }
     ],
-    "people": {
-      "max": 8,
-      "require": 3
-    },
-    "averageScore": 4.2,
-    "popular": true,
-    "price": 30,
-    "discountRate": 15,
-    "discountPrice": 25.5,
+    "images": [
+      {
+        "id": "d2b34c56_img1",
+        "class_id": "d2b34c56",
+        "image_url": "https://placehold.co/480x480@2x.png?text=gallary&font=Lato"
+      },
+      {
+        "id": "d2b34c56_img2",
+        "class_id": "d2b34c56",
+        "image_url": "https://placehold.co/480x480@2x.png?text=gallary&font=Lato"
+      },
+      {
+        "id": "d2b34c56_img3",
+        "class_id": "d2b34c56",
+        "image_url": "https://placehold.co/160x160@2x.png?text=finished&font=Lato"
+      },
+      {
+        "id": "d2b34c56_img4",
+        "class_id": "d2b34c56",
+        "image_url": "https://placehold.co/160x160@2x.png?text=finished&font=Lato"
+      }
+    ],
+    "is_new": false,
+    "price_in_usd": 25.5,
+    "is_best": true,
+    "formatted_address": "부산 서면 서면로 456",
+    "created_at": "2024-08-28T09:50:36.515Z",
+    "updated_at": "2024-08-28T09:50:36.515Z",
+    "title": "나만의 에코백 만들기",
     "description": "친환경 에코백을 직접 만들어보세요. 자신만의 디자인을 담을 수 있습니다.",
-    "photoGallery": [
-      "https://placehold.co/480x480@2x.png?text=gallary&font=Lato",
-      "https://placehold.co/480x480@2x.png?text=gallary&font=Lato"
-    ],
-    "photoFinished": [
-      "https://placehold.co/160x160@2x.png?text=finished&font=Lato",
-      "https://placehold.co/160x160@2x.png?text=finished&font=Lato"
-    ],
-    "place": {
-      "state": "부산",
-      "city": "서면",
-      "address": "서면로 456"
-    },
-    "createDate": "2024-07-10"
+    "max_person": 8,
+    "require_person": 3,
+    "price": 30,
+    "address": "부산 서면 서면로 456",
+    "class_type": "craft",
+    "is_viewed": false
   },
   {
     "id": "e3c45d67",
-    "name": "허브 화분 만들기",
-    "owner": "그린 팟",
-    "date": [
+    "dates": [
       {
-        "startDate": "2024-08-15",
-        "startTime": "09:00",
-        "endTime": "11:00",
-        "participants": []
+        "id": "e3c45d67_1",
+        "class_id": "e3c45d67",
+        "start_date": "2024-08-15",
+        "start_time": "09:00",
+        "end_time": "11:00",
+        "person": 0
       },
       {
-        "startDate": "2024-08-22",
-        "startTime": "09:00",
-        "endTime": "11:00",
-        "participants": []
+        "id": "e3c45d67_2",
+        "class_id": "e3c45d67",
+        "start_date": "2024-08-22",
+        "start_time": "09:00",
+        "end_time": "11:00",
+        "person": 0
       }
     ],
-    "people": {
-      "max": 5,
-      "require": 2
-    },
-    "averageScore": 3.9,
-    "popular": true,
-    "price": 25,
-    "discountRate": 20,
-    "discountPrice": 20,
+    "images": [
+      {
+        "id": "e3c45d67_img1",
+        "class_id": "e3c45d67",
+        "image_url": "https://placehold.co/480x480@2x.png?text=gallary&font=Lato"
+      },
+      {
+        "id": "e3c45d67_img2",
+        "class_id": "e3c45d67",
+        "image_url": "https://placehold.co/160x160@2x.png?text=finished&font=Lato"
+      }
+    ],
+    "is_new": true,
+    "price_in_usd": 20,
+    "is_best": false,
+    "formatted_address": "서울 종로구 세종로 789",
+    "created_at": "2024-08-28T09:50:36.515Z",
+    "updated_at": "2024-08-28T09:50:36.515Z",
+    "title": "허브 화분 만들기",
     "description": "실내에서 키우기 좋은 허브 화분을 만들어보세요. 손쉽게 관리할 수 있습니다.",
-    "photoGallery": [
-      "https://placehold.co/480x480@2x.png?text=gallary&font=Lato",
-      "https://placehold.co/480x480@2x.png?text=gallary&font=Lato"
-    ],
-    "photoFinished": [
-      "https://placehold.co/160x160@2x.png?text=finished&font=Lato"
-    ],
-    "place": {
-      "state": "서울",
-      "city": "종로구",
-      "address": "세종로 789"
-    },
-    "createDate": "2024-08-10"
+    "max_person": 5,
+    "require_person": 2,
+    "price": 25,
+    "address": "서울 종로구 세종로 789",
+    "class_type": "craft",
+    "is_viewed": false
   },
   {
     "id": "f4d56e78",
-    "name": "아크릴 물감으로 그리는 풍경화",
-    "owner": "아트 갤러리",
-    "date": [
+    "dates": [
       {
-        "startDate": "2024-09-03",
-        "startTime": "15:00",
-        "endTime": "17:00",
-        "participants": []
+        "id": "f4d56e78_1",
+        "class_id": "f4d56e78",
+        "start_date": "2024-09-03",
+        "start_time": "15:00",
+        "end_time": "17:00",
+        "person": 0
       },
       {
-        "startDate": "2024-09-10",
-        "startTime": "15:00",
-        "endTime": "17:00",
-        "participants": []
+        "id": "f4d56e78_2",
+        "class_id": "f4d56e78",
+        "start_date": "2024-09-10",
+        "start_time": "15:00",
+        "end_time": "17:00",
+        "person": 0
       },
       {
-        "startDate": "2024-09-17",
-        "startTime": "15:00",
-        "endTime": "17:00",
-        "participants": []
+        "id": "f4d56e78_3",
+        "class_id": "f4d56e78",
+        "start_date": "2024-09-17",
+        "start_time": "15:00",
+        "end_time": "17:00",
+        "person": 0
       }
     ],
-    "people": {
-      "max": 10,
-      "require": 3
-    },
-    "averageScore": 4.5,
-    "popular": true,
-    "price": 60,
-    "discountRate": 10,
-    "discountPrice": 54,
+    "images": [
+      {
+        "id": "f4d56e78_img1",
+        "class_id": "f4d56e78",
+        "image_url": "https://placehold.co/480x480@2x.png?text=gallary&font=Lato"
+      },
+      {
+        "id": "f4d56e78_img2",
+        "class_id": "f4d56e78",
+        "image_url": "https://placehold.co/480x480@2x.png?text=gallary&font=Lato"
+      },
+      {
+        "id": "f4d56e78_img3",
+        "class_id": "f4d56e78",
+        "image_url": "https://placehold.co/480x480@2x.png?text=gallary&font=Lato"
+      },
+      {
+        "id": "f4d56e78_img4",
+        "class_id": "f4d56e78",
+        "image_url": "https://placehold.co/160x160@2x.png?text=finished&font=Lato"
+      },
+      {
+        "id": "f4d56e78_img5",
+        "class_id": "f4d56e78",
+        "image_url": "https://placehold.co/160x160@2x.png?text=finished&font=Lato"
+      }
+    ],
+    "is_new": true,
+    "price_in_usd": 54,
+    "is_best": false,
+    "formatted_address": "서울 강서구 화곡로 101",
+    "created_at": "2024-08-28T09:50:36.515Z",
+    "updated_at": "2024-08-28T09:50:36.515Z",
+    "title": "아크릴 물감으로 그리는 풍경화",
     "description": "아크릴 물감을 사용해 멋진 풍경화를 완성해보세요. 전문가의 지도하에 진행됩니다.",
-    "photoGallery": [
-      "https://placehold.co/480x480@2x.png?text=gallary&font=Lato",
-      "https://placehold.co/480x480@2x.png?text=gallary&font=Lato",
-      "https://placehold.co/480x480@2x.png?text=gallary&font=Lato"
-    ],
-    "photoFinished": [
-      "https://placehold.co/160x160@2x.png?text=finished&font=Lato",
-      "https://placehold.co/160x160@2x.png?text=finished&font=Lato"
-    ],
-    "place": {
-      "state": "서울",
-      "city": "강서구",
-      "address": "화곡로 101"
-    },
-    "createDate": "2024-07-01"
+    "max_person": 10,
+    "require_person": 3,
+    "price": 60,
+    "address": "서울 강서구 화곡로 101",
+    "class_type": "art",
+    "is_viewed": false
   },
   {
     "id": "g5e67f89",
-    "name": "초보자를 위한 디지털 드로잉",
-    "owner": "디지터 아트",
-    "date": [
+    "dates": [
       {
-        "startDate": "2024-08-20",
-        "startTime": "13:30",
-        "endTime": "15:30",
-        "participants": []
+        "id": "g5e67f89_1",
+        "class_id": "g5e67f89",
+        "start_date": "2024-08-20",
+        "start_time": "13:30",
+        "end_time": "15:30",
+        "person": 0
       },
       {
-        "startDate": "2024-08-27",
-        "startTime": "13:30",
-        "endTime": "15:30",
-        "participants": []
+        "id": "g5e67f89_2",
+        "class_id": "g5e67f89",
+        "start_date": "2024-08-27",
+        "start_time": "13:30",
+        "end_time": "15:30",
+        "person": 0
       }
     ],
-    "people": {
-      "max": 7,
-      "require": 3
-    },
-    "averageScore": 2.3,
-    "popular": false,
-    "price": 50,
-    "discountRate": 5,
-    "discountPrice": 47.5,
+    "images": [
+      {
+        "id": "g5e67f89_img1",
+        "class_id": "g5e67f89",
+        "image_url": "https://placehold.co/480x480@2x.png?text=gallary&font=Lato"
+      },
+      {
+        "id": "g5e67f89_img2",
+        "class_id": "g5e67f89",
+        "image_url": "https://placehold.co/160x160@2x.png?text=finished&font=Lato"
+      }
+    ],
+    "is_new": true,
+    "price_in_usd": 47.5,
+    "is_best": true,
+    "formatted_address": "경기 성남시 정자동 123",
+    "created_at": "2024-08-28T09:50:36.515Z",
+    "updated_at": "2024-08-28T09:50:36.515Z",
+    "title": "초보자를 위한 디지털 드로잉",
     "description": "디지털 드로잉의 기초를 배우고 나만의 작품을 만들어보세요.",
-    "photoGallery": [
-      "https://placehold.co/480x480@2x.png?text=gallary&font=Lato",
-      "https://placehold.co/480x480@2x.png?text=gallary&font=Lato"
-    ],
-    "photoFinished": [
-      "https://placehold.co/160x160@2x.png?text=finished&font=Lato"
-    ],
-    "place": {
-      "state": "경기",
-      "city": "성남시",
-      "address": "정자동 123"
-    },
-    "createDate": "2024-06-01"
+    "max_person": 7,
+    "require_person": 3,
+    "price": 50,
+    "address": "경기 성남시 정자동 123",
+    "class_type": "digital_art",
+    "is_viewed": false
   }
 ]

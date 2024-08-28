@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Class } from '../../type/class';
+import { Class } from '../../type/class.type';
 import useClassStore from '../../store/useClassStore';
 import { IconReviewStar, IconReviewStarEmpty } from '../../config/IconData';
 
