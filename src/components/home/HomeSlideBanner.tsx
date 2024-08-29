@@ -12,34 +12,34 @@ const HomeSlideBanner = () => {
         className="mySwiper"
       >
         <SwiperSlide>
-          <img src="./Home/SlideBanner/1.png" alt="slide image" />
+          <img src="/Home/SlideBanner/1.png" alt="slide image" />
         </SwiperSlide>
         <SwiperSlide>
-          <img src="./Home/SlideBanner/2.png" alt="slide image" />
+          <img src="/Home/SlideBanner/2.png" alt="slide image" />
         </SwiperSlide>
         <SwiperSlide>
-          <img src="./Home/SlideBanner/3.png" alt="slide image" />
+          <img src="/Home/SlideBanner/3.png" alt="slide image" />
         </SwiperSlide>
         <SwiperSlide>
-          <img src="./Home/SlideBanner/4.png" alt="slide image" />
+          <img src="/Home/SlideBanner/4.png" alt="slide image" />
         </SwiperSlide>
         <SwiperSlide>
-          <img src="./Home/SlideBanner/5.png" alt="slide image" />
+          <img src="/Home/SlideBanner/5.png" alt="slide image" />
         </SwiperSlide>
         <SwiperSlide>
-          <img src="./Home/SlideBanner/6.png" alt="slide image" />
+          <img src="/Home/SlideBanner/6.png" alt="slide image" />
         </SwiperSlide>
         <SwiperSlide>
-          <img src="./Home/SlideBanner/7.png" alt="slide image" />
+          <img src="/Home/SlideBanner/7.png" alt="slide image" />
         </SwiperSlide>
         <SwiperSlide>
-          <img src="./Home/SlideBanner/8.png" alt="slide image" />
+          <img src="/Home/SlideBanner/8.png" alt="slide image" />
         </SwiperSlide>
         <SwiperSlide>
-          <img src="./Home/SlideBanner/9.png" alt="slide image" />
+          <img src="/Home/SlideBanner/9.png" alt="slide image" />
         </SwiperSlide>
         <SwiperSlide>
-          <img src="./Home/SlideBanner/10.png" alt="slide image" />
+          <img src="/Home/SlideBanner/10.png" alt="slide image" />
         </SwiperSlide>
       </Swiper>
     </>

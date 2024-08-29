@@ -79,6 +79,7 @@
       }
     ],
     "is_new": false,
+    "category": "activities",
     "price_in_usd": 40.5,
     "is_best": true,
     "formatted_address": "서울 강남구 압구정로 123",
@@ -152,6 +153,7 @@
       }
     ],
     "is_new": false,
+    "category": "activities",
     "price_in_usd": 25.5,
     "is_best": true,
     "formatted_address": "부산 서면 서면로 456",
@@ -199,6 +201,7 @@
       }
     ],
     "is_new": true,
+    "category": "activities",
     "price_in_usd": 20,
     "is_best": false,
     "formatted_address": "서울 종로구 세종로 789",
@@ -269,6 +272,7 @@
       }
     ],
     "is_new": true,
+    "category": "activities",
     "price_in_usd": 54,
     "is_best": false,
     "formatted_address": "서울 강서구 화곡로 101",
@@ -316,6 +320,7 @@
       }
     ],
     "is_new": true,
+    "category": "activities",
     "price_in_usd": 47.5,
     "is_best": true,
     "formatted_address": "경기 성남시 정자동 123",

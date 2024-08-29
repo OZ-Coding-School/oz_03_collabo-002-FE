@@ -81,19 +81,19 @@ const Header = () => {
           </ul>
           <ul className="flex flex-col text-[28px] leading-[80px]">
             <li className="hover:text-primary">
-              <Link to="">Cooking</Link>
+              <Link to="/category/cooking" onClick={toggleNav}>Cooking</Link>
             </li>
             <li className="hover:text-primary">
-              <Link to="">Art & Culture</Link>
+              <Link to="/category/art-culture" onClick={toggleNav}>Art & Culture</Link>
             </li>
             <li className="hover:text-primary">
-              <Link to="">Beauty & Fashion</Link>
+              <Link to="/category/beauty-fashion" onClick={toggleNav}>Beauty & Fashion</Link>
             </li>
             <li className="hover:text-primary">
-              <Link to="">DIY</Link>
+              <Link to="/category/diy" onClick={toggleNav}>DIY</Link>
             </li>
             <li className="hover:text-primary">
-              <Link to="">Activities</Link>
+              <Link to="/category/activities" onClick={toggleNav}>Activities</Link>
             </li>
           </ul>
           <div
