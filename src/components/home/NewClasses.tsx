@@ -36,7 +36,11 @@ const NewClasses = () => {
       <div className="grid grid-cols-2 gap-[15px]">
         {newClasses && newClasses.length > 0 ? (
           newClasses.map((classItem) => (
-            <ClassCard key={classItem.id} classItem={classItem} />
+            <ClassCard
+              key={classItem.id}
+              classItem={classItem}
+              // tag={classItem.tag}
+            />
           ))
         ) : (
           <div>no data </div>

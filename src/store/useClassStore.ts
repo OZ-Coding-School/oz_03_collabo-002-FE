@@ -1,9 +1,5 @@
 import { create } from 'zustand';
-<<<<<<< HEAD
-import { ClassState, Class } from '../type/class';
-=======
 import { ClassState, Class } from '../type/class.type';
->>>>>>> 4eb1835a184ecf254c7d660df731f343a8a32f85
 import axios from '../api/axios';
 
 const useClassStore = create<ClassState>((set, get) => ({
@@ -14,12 +10,8 @@ const useClassStore = create<ClassState>((set, get) => ({
     try {
       const response = await axios.get(`/classes`);
       console.log('응답 상태 코드:', response.status);
-<<<<<<< HEAD
-      console.log('응답 헤더:', response.headers['content-type']);
-=======
-      console.log(response.data)
+      console.log(response.data);
       // console.log('응답 헤더:', response.headers['content-type']);
->>>>>>> 4eb1835a184ecf254c7d660df731f343a8a32f85
       if (response.data && Array.isArray(response.data)) {
         set({ classes: response.data });
       } else {
@@ -48,8 +40,6 @@ const useClassStore = create<ClassState>((set, get) => ({
 
     filteredClasses[kind] = filtered;
     set({ filteredClasses });
-<<<<<<< HEAD
-=======
   },
   findOneClass: async (id) => {
     try {
@@ -61,7 +51,6 @@ const useClassStore = create<ClassState>((set, get) => ({
       console.log('Failed to find class: ', error);
       return null;
     }
->>>>>>> 4eb1835a184ecf254c7d660df731f343a8a32f85
   },
 }));
 

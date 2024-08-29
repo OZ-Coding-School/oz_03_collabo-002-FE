@@ -14,7 +14,7 @@ const PopularClasses: React.FC = () => {
     return <div>Loading...</div>;
   }
 
-  //console.log(classes, 'classes');
+  console.log(classes, 'classes');
   const popularClasses = classes
     ?.filter((classItem) => classItem.is_viewed === true)
     .slice(0, 2);
