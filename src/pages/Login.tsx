@@ -44,7 +44,7 @@ const Login = () => {
       const { email, password } = data;
       try {
         const response = await axios.post(
-          `http://customk-lb-26108994-e6e8d3346164.kr.lb.naverncp.com/api/v1/users/login/`,
+          `${import.meta.env.VITE_CALLBACK_URL}login/`,
           {
             email,
             password,

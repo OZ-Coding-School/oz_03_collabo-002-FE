@@ -1,7 +1,7 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
-import "swiper/css";
-import "swiper/css/pagination";
+import 'swiper/css';
+import 'swiper/css/pagination';
 import { Review } from '../../type/review.type';
 import { IconRemove } from '../../config/IconData';
 
@@ -9,7 +9,7 @@ type ReviewModalProps = {
   review: Review;
   setIsModalOpen: (a: boolean) => void;
 };
-const ReviewModal = ({ review, setIsModalOpen }: ReviewModalProps) => {
+const ReviewPhotoModal = ({ review, setIsModalOpen }: ReviewModalProps) => {
   return (
     <div className="relative h-fit">
       <Swiper
@@ -32,14 +32,18 @@ const ReviewModal = ({ review, setIsModalOpen }: ReviewModalProps) => {
                 {review.review_text}
               </div> */}
               <div className="absolute bottom-0 left-0 w-full h-full bg-black bg-opacity-30 rounded-xl" />
-              
             </div>
           </SwiperSlide>
         ))}
       </Swiper>
-      <button onClick={() => setIsModalOpen(false)} className='absolute p-1 right-2 top-2 z-50 bg-white/50 rounded-full '><IconRemove className='text-black'/></button>
+      <button
+        onClick={() => setIsModalOpen(false)}
+        className="absolute p-1 right-2 top-2 z-50 bg-white/50 rounded-full "
+      >
+        <IconRemove className="text-black" />
+      </button>
     </div>
   );
 };
 
-export default ReviewModal;
+export default ReviewPhotoModal;

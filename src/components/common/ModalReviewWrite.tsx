@@ -1,23 +1,50 @@
-import { useState } from 'react';
-import arrowLeft from '../../icon/icon-arrow-left.svg';
-import emptyStar from '../../icon/empty-star.svg';
-import fullStar from '../../icon/full-star.svg';
+import { useCallback, useRef, useState } from 'react';
+// import arrowLeft from '../../icon/icon-arrow-left.svg';
+import arrowLeft from '../../assets/icon/icon-arrow-left.svg';
+import emptyStar from '../../assets/icon/empty-star.svg';
+import fullStar from '../../assets/icon/full-star.svg';
 
 const ModalReviewWrite = () => {
   const stars = [1, 2, 3, 4, 5];
   const [rating, setRating] = useState(0);
+  const [uploadImg, setUploadImg] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleStar = (selectedRating: number) => {
     setRating((prevRating) =>
       selectedRating === prevRating ? prevRating - 1 : selectedRating,
     );
   };
+
+  const handleInputImage = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setUploadImg(reader.result as string);
+        };
+        reader.readAsDataURL(file);
+      }
+    },
+    [],
+  );
+
+  const handleUpload = () => {
+    fileInputRef.current?.click();
+  };
+  console.log('uploadImg: ', uploadImg);
+
   return (
     <form>
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/25">
         <div className="border rounded-2xl w-[440px] h-[710px] bg-white flex flex-col  items-center">
           <div className="flex justify-between w-full mt-4">
-            <img src={arrowLeft} alt="나가기" className="mx-6 w-4 stroke-[#666666]" />
+            <img
+              src={arrowLeft}
+              alt="나가기"
+              className="mx-6 w-4 stroke-[#666666]"
+            />
             <span className="w-full text-center mr-14 font-bold">Review</span>
           </div>
           <hr className="border-b-1 w-full mt-4" />
@@ -32,11 +59,21 @@ const ModalReviewWrite = () => {
               </p>
             </div>
             <div className="mt-4">
-              <button className="w-32 h-32 border border-black rounded-xl bg-gray/20">
+              <button
+                className="w-32 h-32 border border-black rounded-xl bg-gray/20"
+                onClick={handleUpload}
+              >
                 <span className="text-3xl">+</span>
                 <br />
                 <span className="text-sm"> Upload a picture</span>
               </button>
+              <input
+                type="file"
+                accept="image/*"
+                className="hidden"
+                ref={fileInputRef}
+                onChange={handleInputImage}
+              />
             </div>
             <div className="flex justify-between items-end mt-4">
               <span className="font-bold">Please leave a review</span>
