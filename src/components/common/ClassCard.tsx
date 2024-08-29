@@ -12,10 +12,19 @@ const ClassCard = ({ classItem }: ClassCardProps) => {
   if (classItem.is_best) tags.push('best');
   if (classItem.is_viewed) tags.push('viewed');
 
-  const [addressState, addressCity] =
-    typeof classItem.address === 'string'
-      ? classItem.address.split(' ', 2)
-      : ['', ''];
+  let addressState = '';
+  let addressCity = '';
+
+  // 타입 가드로 address 타입 확인
+  if (typeof classItem.address === 'string') {
+    [addressState, addressCity] = classItem.address.split(' ', 2);
+  } else if (
+    typeof classItem.address === 'object' &&
+    classItem.address !== null
+  ) {
+    addressState = classItem.address.state || '';
+    addressCity = classItem.address.city || '';
+  }
 
   const imageUrl =
     classItem.images && classItem.images.length > 0
@@ -24,7 +33,6 @@ const ClassCard = ({ classItem }: ClassCardProps) => {
 
   const averageScore = classItem.averageScore || 0;
   const priceInUsd = classItem.price_in_usd || 0;
-  //const originalPrice = classItem.price || 0;
 
   return (
     <div className="w-[42.5vw] max-w-[206px] relative">
@@ -38,7 +46,7 @@ const ClassCard = ({ classItem }: ClassCardProps) => {
         <div className="text-gray text-sm">
           {addressState && addressCity
             ? `${addressState} > ${addressCity}`
-            : 'Address not available'}
+            : ''}
         </div>
         <h2 className="w-full text-black font-bold text-lg line-clamp-2">
           {classItem.title}
