@@ -5,7 +5,7 @@ import {
   IconArrowLeft,
   IconArrowUp,
 } from './../../config/IconData';
-import useQnaStore from '../../store/useQnaStore';
+import useQnaStore from '../../store/useQuestionStore';
 
 const ClassDetailQnaAll = () => {
   const { id } = useParams<{ id: string }>();
