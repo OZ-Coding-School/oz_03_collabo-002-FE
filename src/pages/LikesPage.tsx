@@ -43,7 +43,7 @@ const LikesPage: React.FC = () => {
       <div className="grid grid-cols-2 gap-4 mb-4">
         {filteredClasses.map((classItem) => (
           <div className="transform scale-[0.85]">
-            <ClassCard tag="popular" classItem={classItem} />
+            <ClassCard classItem={classItem} />
           </div>
         ))}
       </div>

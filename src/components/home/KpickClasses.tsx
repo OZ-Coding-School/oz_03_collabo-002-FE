@@ -28,11 +28,7 @@ const KpickClasses = () => {
       <div className="grid grid-cols-2 gap-[15px]">
         {KpickClasses && KpickClasses.length > 0 ? (
           KpickClasses.map((classItem) => (
-            <ClassCard
-              key={classItem.id}
-              classItem={classItem}
-              tag={classItem.tag}
-            />
+            <ClassCard key={classItem.id} classItem={classItem} />
           ))
         ) : (
           <div>no data</div>

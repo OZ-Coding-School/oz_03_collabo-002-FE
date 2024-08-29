@@ -29,11 +29,7 @@ const PopularClasses: React.FC = () => {
       <div className="grid grid-cols-2 gap-[15px]">
         {popularClasses && popularClasses.length > 0 ? (
           popularClasses.map((classItem) => (
-            <ClassCard
-              key={classItem.id}
-              classItem={classItem}
-              tag={classItem.tag}
-            />
+            <ClassCard key={classItem.id} classItem={classItem} />
           ))
         ) : (
           <div>no data</div>
