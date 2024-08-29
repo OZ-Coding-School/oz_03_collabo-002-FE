@@ -41,6 +41,6 @@ export type AccountState = {
 export type AccountActions = {
   fetchUser: () => Promise<void>;
   fetchMyOrder: (token: string) => Promise<void>;
-  updateUser: (name: string) => Promise<void>;
+  updateUser: (updateData: Partial<{ name: string; avatar: File | string | null }>) => Promise<void>;
   deleteUser: () => Promise<void>;
 };
