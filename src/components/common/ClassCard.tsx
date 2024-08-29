@@ -1,13 +1,25 @@
 import { Link } from 'react-router-dom';
-import { Class } from '../../type/class';
-
+import { IconReviewStar } from '../../config/IconData';
+import { Class } from '../../type/class.type';
 type ClassCardProps = {
   classItem: Class;
-  tag?: string | null;
+  // tag?: string | null;
 };
 
-const ClassCard = ({ classItem, tag }: ClassCardProps) => {
-  console.log(classItem);
+const ClassCard = ({ classItem }: ClassCardProps) => {
+  const tags: string[] = [];
+  if (classItem.is_new) {
+    tags.push('new');
+  }
+  if (classItem.is_best) {
+    tags.push('best');
+  }
+  if (classItem.is_viewed) {
+    tags.push('viewed');
+  }
+
+  // const addressState = classItem.address.split(" ",1);
+  const [addressState, addressCity] = classItem.address.split(' ', 2);
 
   const averageScore = classItem.average_rating || 0;
   const discountPrice = classItem.price_in_usd || classItem.price || 0;
@@ -18,45 +30,46 @@ const ClassCard = ({ classItem, tag }: ClassCardProps) => {
       <Link to="" className="absolute inset-0"></Link>
       {/* image */}
       <div className="w-full rounded-sm mb-4">
-        <img
-          src={
-            classItem.images && classItem.images.length > 0
-              ? classItem.images[0].image_url
-              : 'https://placehold.co/480x480@2x.png?text=gallary&font=Lato'
-          }
-          alt={classItem.description || 'Default description'}
-        />
+        <img src={classItem.images[0].image_url} alt={classItem.description} />
       </div>
       {/* content */}
       <div className="w-full">
         <div className="text-gray text-sm">
-          {classItem.address
-            ? `${classItem.address.state} > ${classItem.address.city}`
-            : 'Location'}
+          {addressState + ` > ` + addressCity}
         </div>
         <h2 className="w-full text-black font-bold text-lg line-clamp-2">
           {classItem.title}
         </h2>
         <div>
-          <span>⭐️</span>
-          <span>{` ` + averageScore}</span>
+          <span>
+            <IconReviewStar />
+          </span>
+          <span>{` ` + classItem.averageScore}</span>
         </div>
         <span className="text-red text-2xl font-extrabold mr-1">
-          0% {/* discountRate가 없는 경우 0%로 설정 */}
+          0%
+          {/* {classItem.discountRate + `%`} */}
         </span>
         <span className="text-black font-extrabold text-2xl">
-          {Math.ceil(discountPrice).toFixed(0)}
+          {Math.ceil(classItem.price_in_usd).toFixed(0)}
+          {/* {Math.ceil(classItem.price).toFixed(2)} */}
         </span>
         <span className="font-extrabold">$</span>
         <span className="text-gray line-through">
-          {Math.ceil(originalPrice).toFixed(0) + `$`}
+          {Math.ceil(classItem.price_in_usd).toFixed(0) + `$`}
         </span>
         <div>
-          {tag ? (
-            <button className="bg-gray/50 text-sm px-3 py-1 rounded-full">
-              {'#' + tag}
-            </button>
-          ) : null}
+          {/* 태그가 있는 경우 모든 태그를 버튼으로 표시 */}
+          {tags.length > 0 &&
+            tags.map((tag, index) => (
+              <button
+                key={index}
+                value={'#' + tag}
+                className="bg-gray/40 text-sm px-2 py-1/2 rounded-full mr-2"
+              >
+                #{tag}
+              </button>
+            ))}
         </div>
       </div>
     </div>

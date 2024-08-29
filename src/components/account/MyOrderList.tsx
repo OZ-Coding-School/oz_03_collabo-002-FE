@@ -68,7 +68,7 @@ const MyOrderList = () => {
             >
               <IconCheck />
             </button>
-            <span className="font-[NanumSquareExtraBold] text-sm">
+            <span className="font-extrabold text-sm">
               Today's Class
             </span>
           </label>
@@ -113,7 +113,7 @@ const MyOrderList = () => {
                 const foundClass = classes.find(
                   (cls) => cls.id === order.class.id,
                 );
-                const imageUrl = foundClass ? foundClass.photoGallery[0] : '';
+                const imageUrl = foundClass ? foundClass.images[0].image_url : '';
                 return (
                   <li
                     key={order.history_id}

@@ -1,24 +1,22 @@
-import { useEffect } from 'react';
+// import { useEffect } from 'react';
 import ClassCard from '../common/ClassCard';
 import useClassStore from '../../store/useClassStore';
-import classList from '../../mocks/data/classList.json';
-import { ClassState } from '../../type/class';
+// import classList from '../../mocks/data/classList.json';
 
 const NewClasses = () => {
   const classes = useClassStore((state) => state.classes);
-  const setClasses = useClassStore((state: ClassState) => state.setClasses);
+  // const setClasses = useClassStore((state) => state.setClasses);
 
-  useEffect(() => {
-    console.log('useEffect2');
-    setClasses(classList);
-    console.log(classList, 'classList');
-  }, [setClasses]);
+  // useEffect(() => {
+  //   setClasses(classList);
+  //   console.log(classList, 'classList');
+  // }, [setClasses]);
 
   if (!classes || classes.length === 0) {
     return <div>Loading...</div>;
   }
 
-  console.log(classes, 'classes');
+  //console.log(classes, 'classes');
 
   // is_new 속성을 필터링하고 두 개만 선택
   const newClasses = classes
@@ -28,7 +26,8 @@ const NewClasses = () => {
   if (!newClasses || newClasses.length === 0) {
     return <div>Loading...</div>;
   }
-  console.log(newClasses, 'new');
+
+  //console.log(newClasses, 'new');
 
   return (
     <div className="px-6">
@@ -38,11 +37,7 @@ const NewClasses = () => {
       <div className="grid grid-cols-2 gap-[15px]">
         {newClasses && newClasses.length > 0 ? (
           newClasses.map((classItem) => (
-            <ClassCard
-              key={classItem.id}
-              classItem={classItem}
-              tag={classItem.tag}
-            />
+            <ClassCard key={classItem.id} classItem={classItem} />
           ))
         ) : (
           <div>no data </div>

@@ -6,7 +6,7 @@ const HomeCategoryList = () => {
       <div className="mt-[80px] mb-[50px] px-[60px]">
         <ul className="flex text-center justify-between gap-4">
           <li className="flex-1">
-            <Link to="" className="block py-2 text-[13px]">
+            <Link to="/category/all" className="block py-2 text-[13px]">
               <img
                 src="./Home/CategoryList/main-category01.png"
                 alt="all"
@@ -16,7 +16,7 @@ const HomeCategoryList = () => {
             </Link>
           </li>
           <li className="flex-1">
-            <Link to="" className="block py-2 text-[13px]">
+            <Link to="/category/cooking" className="block py-2 text-[13px]">
               <img
                 src="./Home/CategoryList/main-category02.png"
                 alt="Cooking"
@@ -26,7 +26,7 @@ const HomeCategoryList = () => {
             </Link>
           </li>
           <li className="flex-1">
-            <Link to="" className="block py-2 text-[13px]">
+            <Link to="/category/art-culture" className="block py-2 text-[13px]">
               <img
                 src="./Home/CategoryList/main-category03.png"
                 alt="Art & Culture"
@@ -38,7 +38,7 @@ const HomeCategoryList = () => {
         </ul>
         <ul className="flex text-center justify-between gap-4">
           <li className="flex-1">
-            <Link to="" className="block py-2 text-[13px]">
+            <Link to="/category/beauty-fashion" className="block py-2 text-[13px]">
               <img
                 src="./Home/CategoryList/main-category04.png"
                 className="mb-2"
@@ -48,7 +48,7 @@ const HomeCategoryList = () => {
             </Link>
           </li>
           <li className="flex-1">
-            <Link to="" className="block py-2 text-[13px]">
+            <Link to="/category/diy" className="block py-2 text-[13px]">
               <img
                 src="./Home/CategoryList/main-category05.png"
                 className="mb-2"
@@ -58,7 +58,7 @@ const HomeCategoryList = () => {
             </Link>
           </li>
           <li className="flex-1">
-            <Link to="" className="block py-2 text-[13px]">
+            <Link to="/category/activities" className="block py-2 text-[13px]">
               <img
                 src="./Home/CategoryList/main-category06.png"
                 className="mb-2"

@@ -7,7 +7,6 @@ const PopularClasses: React.FC = () => {
   const fetchClasses = useClassStore((state) => state.fetchClasses);
 
   useEffect(() => {
-    console.log('useEffect triggered: Fetching classes');
     fetchClasses();
   }, [fetchClasses]);
 
@@ -20,8 +19,6 @@ const PopularClasses: React.FC = () => {
     ?.filter((classItem) => classItem.is_viewed === true)
     .slice(0, 2);
 
-  console.log(popularClasses, 'pop');
-
   return (
     <div className="px-6">
       <h3 className="text-[20px] mb-5">
@@ -30,11 +27,7 @@ const PopularClasses: React.FC = () => {
       <div className="grid grid-cols-2 gap-[15px]">
         {popularClasses && popularClasses.length > 0 ? (
           popularClasses.map((classItem) => (
-            <ClassCard
-              key={classItem.id}
-              classItem={classItem}
-              tag={classItem.tag}
-            />
+            <ClassCard key={classItem.id} classItem={classItem} />
           ))
         ) : (
           <div>no data</div>
