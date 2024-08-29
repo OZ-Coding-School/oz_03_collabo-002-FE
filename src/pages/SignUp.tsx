@@ -93,16 +93,16 @@ const SignUp = () => {
   const onSubmit: SubmitHandler<Signup> = useCallback(
     async (data) => {
       try {
-        const { name, email, password, profile_img = img } = data;
+        const { name, email, password } = data;
         console.log('1');
         console.log('imgFile:', imgFile);
         await axios.post(
-          `http://customk-lb-26108994-e6e8d3346164.kr.lb.naverncp.com/api/v1/users/signup/`,
+          `${import.meta.env.VITE_CALLBACK_URL}signup/`,
           {
             name,
             email,
             password,
-            profile_img,
+            profile_image: img,
           },
           {
             headers: {
@@ -114,7 +114,7 @@ const SignUp = () => {
         console.log('2');
         setModal('Successful Membership Registration');
         console.log('3');
-        console.log({ name, email, password, profile_img });
+        console.log({ name, email, password });
         clearValue();
         setTimeout(() => {
           navigate('/login');
@@ -215,8 +215,8 @@ const SignUp = () => {
                         src={img}
                         alt="프로필이미지"
                         className="rounded-full w-[59px] h-[59px]"
-                        id="profile_img"
-                        {...register('profile_img', {})}
+                        id="profile_image"
+                        {...register('profile_image', {})}
                       />
                     )}
 

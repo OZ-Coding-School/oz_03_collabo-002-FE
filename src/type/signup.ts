@@ -2,7 +2,7 @@ export type Signup = {
   email: string;
   password: string;
   name: string;
-  profile_img?: string;
+  profile_image?: string;
   agree1: boolean;
   agree2: boolean;
   //   agree1: string;
