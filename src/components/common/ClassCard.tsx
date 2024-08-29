@@ -21,9 +21,9 @@ const ClassCard = ({ classItem }: ClassCardProps) => {
   // const addressState = classItem.address.split(" ",1);
   const [addressState, addressCity] = classItem.address.split(' ', 2);
 
-  const averageScore = classItem.average_rating || 0;
-  const discountPrice = classItem.price_in_usd || classItem.price || 0;
-  const originalPrice = classItem.price || 0;
+  //const averageScore = classItem.average_rating || 0;
+  //const discountPrice = classItem.price_in_usd || classItem.price || 0;
+  //const originalPrice = classItem.price || 0;
 
   return (
     <div className="w-[42.5vw] max-w-[206px] relative">
