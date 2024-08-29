@@ -6,11 +6,11 @@ import reviews from './data/reviews.json';
 import qna from './data/qna.json';
 
 export const handlers = [
-  // Intercept "GET /user" requests
-  http.get('/api/v1/classes', () => {
+  //Intercept "GET /user" requests
+  http.get('/v1/classes', () => {
     return HttpResponse.json(classList);
   }),
-  http.get('/api/v1/reviews/:id', () => {
+  http.get('/reviews', () => {
     return HttpResponse.json(reviews);
   }),
   http.get(`/api/v1/question`, () => {

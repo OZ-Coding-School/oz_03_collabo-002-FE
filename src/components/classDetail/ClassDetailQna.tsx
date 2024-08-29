@@ -1,7 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 import { IconAllArw, IconArrowDown, IconArrowUp } from '../../config/IconData';
 import { useEffect, useState } from 'react';
-import useQnaStore from '../../store/useQnaStore';
+import useQnaStore from '../../store/useQuestionStore';
 
 const ClassDetailQna = () => {
   const { id } = useParams<{ id: string }>();

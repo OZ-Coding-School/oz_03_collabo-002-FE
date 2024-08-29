@@ -1,7 +1,7 @@
-import useAccountStore from '../../store/useAccountStore';
+import { useUserStore } from '../../store/useUser';
 
 const AccountUserInfo = () => {
-  const user = useAccountStore((state) => state.user);
+  const user = useUserStore((state) => state.user);
 
   return (
     <div className="w-full h-50 relative flex items-center p-6">

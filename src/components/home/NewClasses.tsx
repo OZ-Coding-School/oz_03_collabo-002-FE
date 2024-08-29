@@ -26,6 +26,7 @@ const NewClasses = () => {
   if (!newClasses || newClasses.length === 0) {
     return <div>Loading...</div>;
   }
+
   //console.log(newClasses, 'new');
 
   return (
@@ -36,11 +37,7 @@ const NewClasses = () => {
       <div className="grid grid-cols-2 gap-[15px]">
         {newClasses && newClasses.length > 0 ? (
           newClasses.map((classItem) => (
-            <ClassCard
-              key={classItem.id}
-              classItem={classItem}
-              // tag={classItem.tag}
-            />
+            <ClassCard key={classItem.id} classItem={classItem} />
           ))
         ) : (
           <div>no data </div>

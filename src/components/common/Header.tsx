@@ -4,17 +4,29 @@ import {
   IconHdBack,
   IconHdHeart,
   IconHdUser,
+  IconLogin,
   IconLogo,
 } from '../../config/IconData';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useUserStore } from '../../store/useUser';
 
 const Header = () => {
+  const user = useUserStore((state) => state.user);
   const [isNavOpen, setIsNavOpen] = useState(false);
+  const [isLogin, setIsLogin] = useState(false);
   const location = useLocation();
 
   const toggleNav = () => {
     setIsNavOpen(!isNavOpen);
   };
+
+  useEffect(() => {
+    if (!user) {
+      setIsLogin(false);
+    } else {
+      setIsLogin(true);
+    }
+  }, [user]);
 
   return (
     <>
@@ -36,7 +48,6 @@ const Header = () => {
                   <Link to="/">
                     <IconLogo className="h-[24px]" />
                   </Link>
-
                 </h1>
               </>
             ) : (
@@ -45,18 +56,29 @@ const Header = () => {
               </Link>
             )}
             <ul className="flex items-center justify-center gap-2 text-sm absolute right-6">
-              <li>
-                <Link to="">
-                  <IconHdUser />
-                  <span className="sr-only">LOGIN</span>
-                </Link>
-              </li>
-              <li>
-                <Link to="">
-                  <IconHdHeart />
-                  <span className="sr-only">HEART</span>
-                </Link>
-              </li>
+              {isLogin ? (
+                <>
+                  <li>
+                    <Link to="/account">
+                      <IconHdUser />
+                      <span className="sr-only">LOGIN</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="">
+                      <IconHdHeart />
+                      <span className="sr-only">HEART</span>
+                    </Link>
+                  </li>
+                </>
+              ) : (
+                <li>
+                  <Link to="/login">
+                    <IconLogin />
+                    <span className="sr-only">Login</span>
+                  </Link>
+                </li>
+              )}
             </ul>
           </div>
         </header>
@@ -81,19 +103,29 @@ const Header = () => {
           </ul>
           <ul className="flex flex-col text-[28px] leading-[80px]">
             <li className="hover:text-primary">
-              <Link to="/category/cooking" onClick={toggleNav}>Cooking</Link>
+              <Link to="/category/cooking" onClick={toggleNav}>
+                Cooking
+              </Link>
             </li>
             <li className="hover:text-primary">
-              <Link to="/category/art-culture" onClick={toggleNav}>Art & Culture</Link>
+              <Link to="/category/art-culture" onClick={toggleNav}>
+                Art & Culture
+              </Link>
             </li>
             <li className="hover:text-primary">
-              <Link to="/category/beauty-fashion" onClick={toggleNav}>Beauty & Fashion</Link>
+              <Link to="/category/beauty-fashion" onClick={toggleNav}>
+                Beauty & Fashion
+              </Link>
             </li>
             <li className="hover:text-primary">
-              <Link to="/category/diy" onClick={toggleNav}>DIY</Link>
+              <Link to="/category/diy" onClick={toggleNav}>
+                DIY
+              </Link>
             </li>
             <li className="hover:text-primary">
-              <Link to="/category/activities" onClick={toggleNav}>Activities</Link>
+              <Link to="/category/activities" onClick={toggleNav}>
+                Activities
+              </Link>
             </li>
           </ul>
           <div

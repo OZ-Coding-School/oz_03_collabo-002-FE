@@ -9,8 +9,8 @@ const useClassStore = create<ClassState>((set, get) => ({
   fetchClasses: async () => {
     try {
       const response = await axios.get(`/classes`);
-      console.log('응답 상태 코드:', response.status);
-      console.log(response.data)
+      //console.log('응답 상태 코드:', response.status);
+      //console.log(response.data);
       // console.log('응답 헤더:', response.headers['content-type']);
       if (response.data && Array.isArray(response.data)) {
         set({ classes: response.data });

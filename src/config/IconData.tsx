@@ -32,6 +32,8 @@ import { ReactComponent as IconRemove } from '../assets/icon/icon-remove.svg';
 import { ReactComponent as IconArrowUp } from '../assets/icon/icon-arrow-up.svg';
 import { ReactComponent as IconArrowDown } from '../assets/icon/icon-arrow-down.svg';
 import { ReactComponent as IconArrowLeft } from '../assets/icon/icon-arrow-left.svg';
+import { ReactComponent as IconLogin } from '../assets/icon/icon-login.svg';
+import { ReactComponent as IconEdit } from '../assets/icon/icon-edit.svg';
 
 export {
   IconPaginationLeft,
@@ -68,4 +70,6 @@ export {
   IconArrowUp,
   IconArrowDown,
   IconArrowLeft,
+  IconLogin,
+  IconEdit
 };
