@@ -1,6 +1,6 @@
 import arrowLeft from '../../icon/icon-arrow-left.svg';
 import { useModalOpenCloseStore } from '../../store/useModal';
-const ModalGoodsQuestion = () => {
+const QuestionModal = () => {
   const { clearModal } = useModalOpenCloseStore();
   const handleClose = () => {
     clearModal();
@@ -38,4 +38,4 @@ Please leave a comment. I will check it out quickly and get back to you!"
   );
 };
 
-export default ModalGoodsQuestion;
+export default QuestionModal;
