@@ -38,7 +38,9 @@ const useAccountStore = create<AccountState & AccountActions>()(
       }
     },
 
-    updateUser: async (name) => {
+    updateUser: async (
+      updateData: Partial<{ name: string; avatar: File | string | null }>,
+    ) => {
       const setModal = useModalStore.getState().setModal;
       const user = get().user;
 
@@ -46,11 +48,22 @@ const useAccountStore = create<AccountState & AccountActions>()(
         console.error('User ID is missing or undefined');
         return;
       }
-      const updateData: { name: string } = {
-        name: name,
-      };
+
+      // UpdateData에서 name과 avatar를 선택적으로 가져옵니다.
+      const { name, avatar } = updateData;
+
+      const dataToSend: { name?: string; avatar?: File | string | null } = {};
+
+      if (name) {
+        dataToSend.name = name;
+      }
+
+      if (avatar) {
+        dataToSend.avatar = avatar;
+      }
+
       try {
-        const response = await axios.patch('/users/detail', updateData);
+        const response = await axios.patch('/users/detail', dataToSend);
         console.log(response);
         setModal('Success to update');
         get().fetchUser();
