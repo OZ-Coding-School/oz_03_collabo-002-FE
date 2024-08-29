@@ -1,89 +1,44 @@
-import axios from '../api/axios';
 import { create } from 'zustand';
-
-type ClassDate = {
-  startDate: string;
-  startTime: string;
-  endTime: string;
-  endDate: string;
-  participants: number;
-};
-
-export type Class = {
-  id: string;
-  name: string;
-  owner: string;
-  date: ClassDate[];
-  people: { max: number; require: number };
-  averageScore: number;
-  popular: boolean;
-  price: number;
-  discountRate: number;
-  discountPrice: number;
-  description: string;
-  photoGallery: string[];
-  photoFinished: string[];
-  place: { state: string; city: string; address: string };
-  createAt: string;
-  tag?: string;
-};
-
-type ClassState = {
-  classes: Class[] | null;
-  filteredClasses: Record<string, Class[]>;
-  fetchClasses: () => Promise<void>;
-  filterClasses: (kind: string) => void;
-};
+import { ClassState, Class } from '../type/class';
+import axios from '../api/axios';
 
 const useClassStore = create<ClassState>((set, get) => ({
-  classes: null,
+  classes: [],
   filteredClasses: {},
 
   fetchClasses: async () => {
     try {
-      const response = await axios.get(`/classlist`);
-      set({ classes: response.data });
-      // 데이터를 가져온 후에 모든 kind에 대해 필터링 수행
-      Object.keys(get().filteredClasses).forEach((kind) => {
-        get().filterClasses(kind);
-      });
+      const response = await axios.get(`/classes`);
+      console.log('응답 상태 코드:', response.status);
+      console.log('응답 헤더:', response.headers['content-type']);
+      if (response.data && Array.isArray(response.data)) {
+        set({ classes: response.data });
+      } else {
+        console.error('Unexpected data format:', response.data);
+        //set({ classes: [] });
+      }
     } catch (error) {
-      console.log('Error fetching data :', error);
+      console.error('Error fetching data:', error);
+      set({ classes: [] });
     }
   },
+
+  setClasses: (data: Class[]) => {
+    if (data) {
+      set(() => ({ classes: [...data] }));
+    } else {
+      set(() => ({ classes: [] }));
+    }
+  },
+
   filterClasses: (kind: string) => {
-    set(() => {
-      const classes = get().classes ?? [];
-      const filteredClasses = { ...get().filteredClasses };
-      const today = new Date();
-      const thirtyDaysAgo = new Date();
-      thirtyDaysAgo.setDate(today.getDate() - 30);
+    const classes = get().classes ?? [];
+    const filteredClasses = { ...get().filteredClasses };
 
-      let filtered = classes;
+    const filtered = classes;
 
-      if (kind === 'popular') {
-        // 현재는 popular만 가능
-        filtered = filtered.filter((classItem) => classItem.popular === true);
-        // TODO 종류별, 카테고리 별 보기는 추후 추가 예정
-        // } else if (kind === 'custom-k-pick') {
-        //   // 추후에 로직 추가
-        // } else if (kind === 'newest') {
-        //   filtered = filtered.filter(
-        //     (classItem) => new Date(classItem.createAt) > thirtyDaysAgo,
-        //   );
-        // } else if (kind === 'today') {
-        //   filtered = filtered.filter((classItem) =>
-        //     classItem.date.some(
-        //       (dateItem) =>
-        //         new Date(dateItem.startDate).toDateString() ===
-        //         today.toDateString(),
-        //     ),
-        //   );
-      }
-
-      filteredClasses[kind] = filtered;
-      return { filteredClasses };
-    });
+    filteredClasses[kind] = filtered;
+    set({ filteredClasses });
   },
 }));
 
