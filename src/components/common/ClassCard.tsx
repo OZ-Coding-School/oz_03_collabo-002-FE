@@ -24,7 +24,7 @@ const ClassCard = ({ classItem }: ClassCardProps) => {
 
   const averageScore = classItem.averageScore || 0;
   const priceInUsd = classItem.price_in_usd || 0;
-  const originalPrice = classItem.price || 0;
+  //const originalPrice = classItem.price || 0;
 
   return (
     <div className="w-[42.5vw] max-w-[206px] relative">
