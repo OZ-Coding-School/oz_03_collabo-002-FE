@@ -18,7 +18,7 @@ const KpickClasses = () => {
     ?.filter((classItem) => classItem.is_best === true)
     .slice(0, 2);
 
-  console.log(KpickClasses, 'kpick');
+  //console.log(KpickClasses, 'kpick');
 
   return (
     <div className="px-6">
