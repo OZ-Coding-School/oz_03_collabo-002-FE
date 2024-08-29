@@ -1,5 +1,4 @@
 import { create } from 'zustand';
-
 import { ClassState, Class } from '../type/class.type';
 import axios from '../api/axios';
 
@@ -9,26 +8,18 @@ const useClassStore = create<ClassState>((set, get) => ({
 
   fetchClasses: async () => {
     try {
-      const response = await axiosInstance.get(`/classes`);
-
+      const response = await axios.get(`/classes`);
+      //console.log('응답 상태 코드:', response.status);
+      //console.log(response.data);
+      // console.log('응답 헤더:', response.headers['content-type']);
       if (response.data && Array.isArray(response.data)) {
         set({ classes: response.data });
       } else {
         console.error('Unexpected data format:', response.data);
-        set({ classes: [] });
+        //set({ classes: [] });
       }
-    } catch (error: unknown) {
-      // axios 모듈의 isAxiosError 함수 사용
-      if (axios.isAxiosError(error)) {
-        // AxiosError 타입으로 처리
-        console.error(
-          'Error fetching data:',
-          error.response?.data || error.message,
-        );
-      } else {
-        // AxiosError가 아닌 에러에 대한 처리
-        console.error('An unexpected error occurred:', error);
-      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
       set({ classes: [] });
     }
   },
