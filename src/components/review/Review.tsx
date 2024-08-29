@@ -2,7 +2,6 @@ import { useParams } from 'react-router-dom';
 import ReviewList from './ReviewList';
 import RatingAverage from '../common/RatingAverage';
 
-
 const Review = () => {
   const { id } = useParams();
 

@@ -13,6 +13,7 @@ import LikesPage from './pages/LikesPage';
 import ClassDetailQnaAll from './components/classDetail/ClassDetailQnaAll';
 import Redirection from './pages/Redirection';
 import Category from './components/classByCategory/Category';
+import ModalReviewWrite from './components/common/ModalReviewWrite';
 
 function App() {
   const path = location.pathname;
@@ -47,11 +48,13 @@ function App() {
             <Route path="admin" element={<Admin />} />
             <Route path="/likes" element={<LikesPage />} />
             <Route path="/question/:id" element={<ClassDetailQnaAll />} />
-            <Route path="/review/:id" element={<Review />} />
+            <Route path="/review" element={<Review />} />
+            {/* <Route path="/review/:id" element={<Review />} /> */}
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/auth" element={<Redirection />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/reviewModal" element={<ModalReviewWrite />} />
         </Routes>
       </Router>
     </>

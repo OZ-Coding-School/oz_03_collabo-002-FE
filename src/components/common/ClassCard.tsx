@@ -1,6 +1,6 @@
+import { Link } from 'react-router-dom';
 import { IconReviewStar } from '../../config/IconData';
 import { Class } from '../../type/class.type';
-
 type ClassCardProps = {
   classItem: Class;
   // tag?: string | null;
@@ -21,8 +21,13 @@ const ClassCard = ({ classItem }: ClassCardProps) => {
   // const addressState = classItem.address.split(" ",1);
   const [addressState, addressCity] = classItem.address.split(' ', 2);
 
+  //const averageScore = classItem.average_rating || 0;
+  //const discountPrice = classItem.price_in_usd || classItem.price || 0;
+  //const originalPrice = classItem.price || 0;
+
   return (
-    <div className="w-[42.5vw] max-w-[206px]">
+    <div className="w-[42.5vw] max-w-[206px] relative">
+      <Link to="" className="absolute inset-0"></Link>
       {/* image */}
       <div className="w-full rounded-sm mb-4">
         <img src={classItem.images[0].image_url} alt={classItem.description} />
@@ -61,8 +66,9 @@ const ClassCard = ({ classItem }: ClassCardProps) => {
                 key={index}
                 value={'#' + tag}
                 className="bg-gray/40 text-sm px-2 py-1/2 rounded-full mr-2"
-               >#{tag}</button>
-               
+              >
+                #{tag}
+              </button>
             ))}
         </div>
       </div>

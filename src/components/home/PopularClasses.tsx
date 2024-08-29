@@ -14,12 +14,10 @@ const PopularClasses: React.FC = () => {
     return <div>Loading...</div>;
   }
 
-  //console.log(classes, 'classes');
+  console.log(classes, 'classes');
   const popularClasses = classes
     ?.filter((classItem) => classItem.is_viewed === true)
     .slice(0, 2);
-
-  //console.log(popularClasses, 'pop');
 
   return (
     <div className="px-6">
@@ -29,11 +27,7 @@ const PopularClasses: React.FC = () => {
       <div className="grid grid-cols-2 gap-[15px]">
         {popularClasses && popularClasses.length > 0 ? (
           popularClasses.map((classItem) => (
-            <ClassCard
-              key={classItem.id}
-              classItem={classItem}
-              
-            />
+            <ClassCard key={classItem.id} classItem={classItem} />
           ))
         ) : (
           <div>no data</div>

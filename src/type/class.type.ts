@@ -33,6 +33,7 @@ export interface Class {
   class_type: string;
   is_viewed: boolean;
   averageScore: number;
+  average_rating: number;
 }
 
 export type ClassState = {

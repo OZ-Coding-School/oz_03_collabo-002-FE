@@ -5,7 +5,7 @@
 // import fullHeart from '../../assets/icon/full-heart.svg';
 import { useEffect, useState } from 'react';
 import { IconReviewStar } from '../../config/IconData';
-import ReviewModal from './ReviewModal';
+import ReviewReviewModal from './ReviewPhotoModal';
 import { Review } from '../../type/review.type';
 
 interface ReviewProps {
@@ -128,7 +128,7 @@ const ReviewItem = ({ review }: ReviewProps) => {
         {isModalOpen ? (
           <div className="absolute w-full h-full left-0 top-0 flex bg-black/80 z-30 ">
             <div className="m-auto w-3/4 h-fit z-40">
-              <ReviewModal
+              <ReviewReviewModal
                 key={review.id}
                 review={review}
                 setIsModalOpen={setIsModalOpen}

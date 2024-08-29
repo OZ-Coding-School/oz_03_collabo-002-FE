@@ -20,8 +20,11 @@ const Redirection = () => {
 
       const fetchAuthLogin = async () => {
         try {
+          const url = `${import.meta.env.VITE_CALLBACK_URL}${state}/callback/`;
+          console.log('요청 URL: ', url);
+          console.log('body: ', code, state);
           const response = await axios.post(
-            `${import.meta.env.VITE_CALLBACK_URL}${state}/callback`,
+            url,
             // { code: code, state: state, clientId: clientId },
             { code: code, state: state },
             // { code: code },
@@ -32,6 +35,7 @@ const Redirection = () => {
               withCredentials: true,
             },
           );
+
           console.log(response);
           if (response) {
             setTimeout(() => {
