@@ -5,9 +5,9 @@ import path from 'path';
 // NCP Object Storage 설정
 const endpoint = new AWS.Endpoint('https://kr.object.ncloudstorage.com');
 const region = 'kr-standard'; // NCP의 리전
-const accessKeyId = import.meta.env.VITE_NCP_ACCESS_KEY_ID;
-const secretAccessKey = import.meta.env.VITE_NCP_SECRET_ACCESS_KEY;
-const bucketName = import.meta.env.NCP_BUCKET_NAME;
+const accessKeyId = process.env.VITE_NCP_ACCESS_KEY_ID;
+const secretAccessKey = process.env.VITE_NCP_SECRET_ACCESS_KEY;
+const bucketName = process.env.NCP_BUCKET_NAME;
 
 const s3 = new AWS.S3({
   endpoint: endpoint,
