@@ -6,17 +6,16 @@ import successCheck from '../assets/icon/success-check.svg';
 const Redirection = () => {
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
+  const code = new URL(window.location.href).searchParams.get('code');
+  const state = new URL(window.location.href).searchParams.get('state');
 
   useEffect(() => {
-    const code = new URL(window.location.href).searchParams.get('code');
-    const state = new URL(window.location.href).searchParams.get('state');
     // const clientId = new URL(window.location.href).searchParams.get(
     //   'client_id',
     // );
     if (code) {
       console.log('Auth code:', code);
       console.log('state:', state);
-      // console.log('client_id:', clientId);
 
       const fetchAuthLogin = async () => {
         try {
@@ -26,7 +25,7 @@ const Redirection = () => {
           const response = await axios.post(
             url,
             // { code: code, state: state, clientId: clientId },
-            { code: code, state: state },
+            { code: code },
             // { code: code },
             {
               headers: {
@@ -52,7 +51,7 @@ const Redirection = () => {
       };
       fetchAuthLogin();
     }
-  }, [navigate]);
+  }, [navigate, code, state]);
 
   return (
     <div className="flex flex-col max-w-[475px] w-full min-h-screen h-full m-auto border-x border-gray-200 relative bg-gray-100">
@@ -66,7 +65,7 @@ const Redirection = () => {
                   Logging in...
                 </h2>
                 <p className="text-gray-500 text-center">
-                  We're processing your kakao login. Please wait a moment.
+                  We're processing your {state} login. Please wait a moment.
                 </p>
               </>
             ) : (
