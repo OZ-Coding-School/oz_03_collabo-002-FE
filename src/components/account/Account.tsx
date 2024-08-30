@@ -9,7 +9,6 @@ import AccountUserInfo from './AccountUserInfo';
 import AccountHeader from './AccountHeader';
 import useAccountStore from '../../store/useAccountStore';
 import { useUserStore } from '../../store/useUser';
-import useLikeStore from '../../store/useLikeStore';
 import MyLike from './MyLike';
 
 const Account = () => {
@@ -19,7 +18,6 @@ const Account = () => {
   const [headerTitle, setHeaderTitle] = useState('Account');
   const user = useUserStore((state) => state.user);
   const fetchUser = useAccountStore((state) => state.fetchUser);
-  const likedClasses = useLikeStore((state) => state.likedClasses);
   const navigate = useNavigate();
 
   useEffect(() => {
