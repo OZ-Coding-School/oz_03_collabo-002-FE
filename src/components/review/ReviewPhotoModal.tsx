@@ -20,7 +20,7 @@ const ReviewPhotoModal = ({ review, setIsModalOpen }: ReviewModalProps) => {
         loop={true}
       >
         {review.images.map((image, index) => (
-          <SwiperSlide key={image.id}>
+          <SwiperSlide key={index}>
             <div className="relative w-full h-fit">
               <img
                 src={image.image_url}
