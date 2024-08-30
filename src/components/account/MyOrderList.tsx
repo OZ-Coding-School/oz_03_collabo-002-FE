@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import useAccountStore from '../../store/useAccountStore';
 import useClassStore from '../../store/useClassStore';
 import { Link } from 'react-router-dom';
-import { IconCheck, IconPaginationRight } from '../../config/IconData';
+import { IconCheck } from '../../config/IconData';
 import { myOrder } from '../../type/account.type';
 
 const MyOrderList = () => {
@@ -68,68 +68,67 @@ const MyOrderList = () => {
           </label>
         </div>
         {/* 전체 목록 리스트 */}
-        <ul className="relative list-none px-6">
-          {Object.keys(groupedOrders).map((date) => (
-            <li
-              key={date}
-              className="border border-gray  rounded-2xl p-5 mb-[15px] "
-            >
-              <div className="flex justify-between items-center mb-[15px]">
-                <h2 className="inline-block text-lg font-bold">{date}</h2>
-                <div className="flex items-center text-right">
-                  <Link to="" className="block mr-2 text-sm text-gray">
-                    Order Detail
-                  </Link>
-                  <IconPaginationRight className="inline-block" />
-                </div>
-              </div>
-              {/* 결제 일자 별 묶음 보기 */}
-              <ul>
-                {groupedOrders[date].map((order) => {
-                  const foundClass = classes.find(
-                    (cls) => cls.id === order.class.id,
-                  );
-                  const imageUrl = foundClass
-                    ? foundClass.images[0].image_url
-                    : '';
-                  return (
-                    <li
-                      key={order.history_id}
-                      className="relative flex flex-col items-start "
-                    >
-                      <div className="flex">
-                        <Link
-                          to={`/category/${order.class.id}`}
-                          className="block w-20 h-20 mr-5"
-                        >
-                          <img
-                            src={imageUrl}
-                            alt="Go to class"
-                            className="rounded-md"
-                          />
-                        </Link>
-                        <div className="flex-1 mb-[15px]">
-                          <h2 className="font-bold">{order.class.title}</h2>
-                          <p>
-                            <strong>Payment Price: </strong>
-                            {order.payment.price}$
-                          </p>
-                          <p>
-                            <strong>State: </strong>
-                            {order.payment.status}
-                          </p>
-                          <p>
-                            <strong>Review: </strong>
-                            {order.review?.review_text || 'No review yet'}
-                          </p>
-                        </div>
-                      </div>
-                    </li>
-                  );
-                })}
-              </ul>
+        <ul className="relative w-full list-none px-6">
+          {Object.keys(groupedOrders).length === 0 ? (
+            <li className="inline-flex w-full aspect-square text-gray-500">
+              <span className="m-auto font-extralight text-gray text-xl">
+                No data
+              </span>
             </li>
-          ))}
+          ) : (
+            Object.keys(groupedOrders).map((date) => (
+              <li
+                key={date}
+                className="border border-gray rounded-2xl p-5 mb-[15px]"
+              >
+                {/* 결제 일자 별 묶음 보기 */}
+                <ul>
+                  {groupedOrders[date].map((order) => {
+                    const foundClass = classes.find(
+                      (cls) => cls.id === order.class.id,
+                    );
+                    const imageUrl = foundClass
+                      ? foundClass.images[0].image_url
+                      : '';
+                    return (
+                      <li
+                        key={order.history_id}
+                        className="relative flex flex-col items-start"
+                      >
+                        <div className="flex">
+                          <Link
+                            to={`/category/${order.class.id}`}
+                            className="block w-20 h-20 mr-5"
+                          >
+                            <img
+                              src={imageUrl}
+                              alt="Go to class"
+                              className="rounded-md"
+                            />
+                          </Link>
+                          <div className="flex-1 mb-[15px]">
+                            <h2 className="font-bold">{order.class.title}</h2>
+                            <p>
+                              <strong>Payment Price: </strong>
+                              {order.payment.price}$
+                            </p>
+                            <p>
+                              <strong>State: </strong>
+                              {order.payment.status}
+                            </p>
+                            <p>
+                              <strong>Review: </strong>
+                              {order.review?.review_text || 'No review yet'}
+                            </p>
+                          </div>
+                        </div>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </li>
+            ))
+          )}
         </ul>
       </div>
     </div>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import MyOrderList from './MyOrderList';
-import MyQuestion from '../question/MyQuestion';
+import MyQuestion from './MyQuestion';
 import MyReview from './MyReview';
 import AccountDashboard from './AccountDashboard';
 import AccountEditProfile from './AccountEditProfile';
@@ -26,8 +26,6 @@ const Account = () => {
 
   // const isLogin = !!localStorage.getItem("access");
   const isLogin = !!user;
-
-  if (!user) navigate('/login');
 
   useEffect(() => {
     switch (page) {
