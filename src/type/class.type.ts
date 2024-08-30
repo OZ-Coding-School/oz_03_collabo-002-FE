@@ -1,3 +1,9 @@
+type Address = {
+  state?: string;
+  city?: string;
+  street?: string;
+};
+
 export interface Class {
   id: string;
   dates: [
@@ -29,11 +35,10 @@ export interface Class {
   max_person: number;
   require_person: number;
   price: number;
-  address: string;
   class_type: string;
   is_viewed: boolean;
   averageScore: number;
-  average_rating: number;
+  address: string | Address;
 }
 
 export type ClassState = {

@@ -1,41 +1,52 @@
 import { Link } from 'react-router-dom';
 import { IconReviewStar } from '../../config/IconData';
 import { Class } from '../../type/class.type';
+
 type ClassCardProps = {
   classItem: Class;
-  // tag?: string | null;
 };
 
 const ClassCard = ({ classItem }: ClassCardProps) => {
   const tags: string[] = [];
-  if (classItem.is_new) {
-    tags.push('new');
-  }
-  if (classItem.is_best) {
-    tags.push('best');
-  }
-  if (classItem.is_viewed) {
-    tags.push('viewed');
+  if (classItem.is_new) tags.push('new');
+  if (classItem.is_best) tags.push('best');
+  if (classItem.is_viewed) tags.push('viewed');
+
+  let addressState = '';
+  let addressCity = '';
+
+  // 타입 가드로 address 타입 확인
+  if (typeof classItem.address === 'string') {
+    [addressState, addressCity] = classItem.address.split(' ', 2);
+  } else if (
+    typeof classItem.address === 'object' &&
+    classItem.address !== null
+  ) {
+    addressState = classItem.address.state || '';
+    addressCity = classItem.address.city || '';
   }
 
-  // const addressState = classItem.address.split(" ",1);
-  const [addressState, addressCity] = classItem.address.split(' ', 2);
+  const imageUrl =
+    classItem.images && classItem.images.length > 0
+      ? classItem.images[0].image_url
+      : './public/images/img-sample.jpg';
 
-  //const averageScore = classItem.average_rating || 0;
-  //const discountPrice = classItem.price_in_usd || classItem.price || 0;
-  //const originalPrice = classItem.price || 0;
+  const averageScore = classItem.averageScore || 0;
+  const priceInUsd = classItem.price_in_usd || 0;
 
   return (
     <div className="w-[42.5vw] max-w-[206px] relative">
       <Link to="" className="absolute inset-0"></Link>
       {/* image */}
       <div className="w-full rounded-sm mb-4">
-        <img src={classItem.images[0].image_url} alt={classItem.description} />
+        <img src={imageUrl} alt={classItem.description} />
       </div>
       {/* content */}
       <div className="w-full">
         <div className="text-gray text-sm">
-          {addressState + ` > ` + addressCity}
+          {addressState && addressCity
+            ? `${addressState} > ${addressCity}`
+            : ''}
         </div>
         <h2 className="w-full text-black font-bold text-lg line-clamp-2">
           {classItem.title}
@@ -44,19 +55,18 @@ const ClassCard = ({ classItem }: ClassCardProps) => {
           <span>
             <IconReviewStar />
           </span>
-          <span>{` ` + classItem.averageScore}</span>
+          <span>{` ` + averageScore}</span>
         </div>
         <span className="text-red text-2xl font-extrabold mr-1">
+          {/* 여기에 할인율이 있다면 표시 */}
           0%
-          {/* {classItem.discountRate + `%`} */}
         </span>
         <span className="text-black font-extrabold text-2xl">
-          {Math.ceil(classItem.price_in_usd).toFixed(0)}
-          {/* {Math.ceil(classItem.price).toFixed(2)} */}
+          {Math.ceil(priceInUsd).toFixed(0)}
         </span>
         <span className="font-extrabold">$</span>
         <span className="text-gray line-through">
-          {Math.ceil(classItem.price_in_usd).toFixed(0) + `$`}
+          {Math.ceil(priceInUsd).toFixed(0) + `$`}
         </span>
         <div>
           {/* 태그가 있는 경우 모든 태그를 버튼으로 표시 */}
