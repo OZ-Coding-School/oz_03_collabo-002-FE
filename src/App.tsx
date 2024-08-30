@@ -21,7 +21,7 @@ function App() {
   useEffect(() => {
     const footer = document.querySelector('footer');
     if (footer) {
-      if (location.pathname === '/classdetail') {
+      if (location.pathname.includes('/class/')) {
         footer.style.paddingBottom = '350px';
       } else {
         footer.style.paddingBottom = '';
