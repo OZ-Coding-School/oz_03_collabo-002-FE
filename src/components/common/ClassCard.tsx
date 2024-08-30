@@ -1,12 +1,14 @@
-import { Link } from 'react-router-dom';
-import { IconReviewStar } from '../../config/IconData';
+import { Link, useNavigate } from 'react-router-dom';
+import { IconOptionHeart, IconReviewStar } from '../../config/IconData';
 import { Class } from '../../type/class.type';
+import useLikeStore from '../../store/useLikeStore';
 
 type ClassCardProps = {
   classItem: Class;
 };
 
 const ClassCard = ({ classItem }: ClassCardProps) => {
+  const navigate = useNavigate()
   const tags: string[] = [];
   if (classItem.is_new) tags.push('new');
   if (classItem.is_best) tags.push('best');
@@ -29,17 +31,30 @@ const ClassCard = ({ classItem }: ClassCardProps) => {
   const imageUrl =
     classItem.images && classItem.images.length > 0
       ? classItem.images[0].image_url
-      : './public/images/img-sample.jpg';
+      : '/images/img-sample.jpg';
 
   const averageScore = classItem.averageScore || 0;
   const priceInUsd = classItem.price_in_usd || 0;
+
+  const { toggleLike, isLiked } = useLikeStore();
+  const liked = isLiked(classItem.id);
 
   return (
     <div className="w-[42.5vw] max-w-[206px] relative">
       <Link to="" className="absolute inset-0"></Link>
       {/* image */}
-      <div className="w-full rounded-sm mb-4">
+      <div className="relative w-full aspect-square rounded-sm mb-4" onClick={() => navigate(`/class/${classItem.id}`)}>
         <img src={imageUrl} alt={classItem.description} />
+        <button
+          name="likeBtn"
+          onClick={() => toggleLike(classItem.id)}
+          className="absolute right-2 top-2"
+        >
+          <IconOptionHeart
+            className={`${liked ? 'fill-primary ' : 'fill-none '}`}
+          />
+          <span className="sr-only">heart</span>
+        </button>
       </div>
       {/* content */}
       <div className="w-full">

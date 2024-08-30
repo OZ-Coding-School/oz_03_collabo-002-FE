@@ -9,6 +9,7 @@ import AccountUserInfo from './AccountUserInfo';
 import AccountHeader from './AccountHeader';
 import useAccountStore from '../../store/useAccountStore';
 import { useUserStore } from '../../store/useUser';
+import MyLike from './MyLike';
 
 const Account = () => {
   const location = useLocation();
@@ -42,6 +43,9 @@ const Account = () => {
       case 'review':
         setHeaderTitle('My Reviews');
         break;
+      case 'like':
+        setHeaderTitle('My Likes');
+        break;
       default:
         setHeaderTitle('Account Dashboard');
         break;
@@ -58,6 +62,8 @@ const Account = () => {
         return <MyQuestion />;
       case 'review':
         return <MyReview />;
+      case 'like':
+        return <MyLike />;
       default:
         return <AccountDashboard />;
     }
