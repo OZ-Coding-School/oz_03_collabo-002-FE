@@ -23,5 +23,5 @@ export type ReviewState = {
 
 export type ReviewAction = {
   getReviews: (classId: string | undefined) => Promise<void>;
-  getMyReviews: (userId: string) => Promise<void>;
+  getMyReviews: () => Promise<void>;
 };

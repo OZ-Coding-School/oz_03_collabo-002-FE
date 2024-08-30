@@ -1,11 +1,17 @@
 import { useEffect, useState } from 'react';
 import useAccountStore from '../../store/useAccountStore';
 import useQnaStore from '../../store/useQuestionStore';
-import { IconArrowDown, IconArrowLeft, IconArrowUp, IconEdit, IconRemove } from '../../config/IconData';
+import {
+  IconArrowDown,
+  IconArrowLeft,
+  IconArrowUp,
+  IconEdit,
+  IconRemove,
+} from '../../config/IconData';
 import { useNavigate } from 'react-router-dom';
 import { useUserStore } from '../../store/useUser';
-import EditQuestionModal from './EditQuestionModal';  // 질문 수정 모달 컴포넌트
-import CreateQuestionModal from './CreateQuestionModal';  // 질문 생성 모달 컴포넌트
+import EditQuestionModal from '../question/EditQuestionModal'; // 질문 수정 모달 컴포넌트
+import CreateQuestionModal from '../question/CreateQuestionModal'; // 질문 생성 모달 컴포넌트
 import { Question } from '../../type/question.type';
 
 const MyQuestionList = () => {
@@ -16,7 +22,9 @@ const MyQuestionList = () => {
   const fetchMyQuestions = useQnaStore((state) => state.fetchMyQuestions);
   const deleteQuestion = useQnaStore((state) => state.deleteQuestion);
   const updateQuestion = useQnaStore((state) => state.updateQuestion);
-  const [openAnswers, setOpenAnswers] = useState<{ [key: string]: boolean }>({});
+  const [openAnswers, setOpenAnswers] = useState<{ [key: string]: boolean }>(
+    {},
+  );
   const [editingQuestion, setEditingQuestion] = useState<Question | null>(null);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -47,7 +55,7 @@ const MyQuestionList = () => {
   const handleDeleteQuestion = async (questionId: string) => {
     if (window.confirm('Are you sure you want to delete this question?')) {
       await deleteQuestion(user?.id ?? undefined, questionId);
-      fetchMyQuestions(user?.id ?? undefined);  // 삭제 후 목록 새로고침
+      fetchMyQuestions(user?.id ?? undefined); // 삭제 후 목록 새로고침
     }
   };
 
@@ -55,8 +63,14 @@ const MyQuestionList = () => {
     setShowCreateModal(true);
   };
 
-  if (!user) return <div>Loading..</div>;
-
+  if (!myQuestions || !user)
+    return (
+      <div className="inline-flex w-full aspect-square text-gray-500">
+        <span className="m-auto font-extralight text-gray text-xl">
+          No data
+        </span>
+      </div>
+    );
   return (
     <div className="">
       <div className="w-full flex items-center bg-gray py-[15px] px-6 mb-[15px]">
@@ -74,16 +88,25 @@ const MyQuestionList = () => {
               <div className="flex justify-between items-center">
                 <h3 className="font-[NanumSquareBold]">{data.questionTitle}</h3>
                 <div className="flex items-center space-x-2">
-                  <button onClick={() => handleEditQuestion(data)}><IconEdit /></button>
-                  <button onClick={() => handleDeleteQuestion(data.id)}><IconRemove /></button>
+                  <button onClick={() => handleEditQuestion(data)}>
+                    <IconEdit />
+                  </button>
+                  <button onClick={() => handleDeleteQuestion(data.id)}>
+                    <IconRemove />
+                  </button>
                 </div>
               </div>
-              <div id="qnaStatus" className="flex items-center mt-1 text-xs text-darkgray">
+              <div
+                id="qnaStatus"
+                className="flex items-center mt-1 text-xs text-darkgray"
+              >
                 <div>{data.complete ? 'Answered' : 'Pending'}</div>
                 <p>・</p>
                 <span>{data.author}</span>
                 <p>・</p>
-                <div>{new Date(data.createDate).toLocaleDateString('ko-KR')}</div>
+                <div>
+                  {new Date(data.createDate).toLocaleDateString('ko-KR')}
+                </div>
               </div>
             </div>
             {data.complete ? (
@@ -94,7 +117,9 @@ const MyQuestionList = () => {
           </div>
           {openAnswers[data.id] && (
             <div className="mt-2 bg-gray p-6">
-              <h3 className="font-[NanumSquareBold] mb-[15px]">{data.answerTitle}</h3>
+              <h3 className="font-[NanumSquareBold] mb-[15px]">
+                {data.answerTitle}
+              </h3>
               <p className="mb-[15px]">{data.answer}</p>
               <small className="text-sm">{data.answerDate.split('T', 1)}</small>
             </div>
@@ -118,7 +143,9 @@ const MyQuestionList = () => {
         <CreateQuestionModal
           onClose={() => setShowCreateModal(false)}
           onCreate={(newQuestion) => {
-            useQnaStore.getState().createQuestion(user?.id ?? undefined, newQuestion);
+            useQnaStore
+              .getState()
+              .createQuestion(user?.id ?? undefined, newQuestion);
             fetchMyQuestions(user?.id ?? 0);
             setShowCreateModal(false);
           }}
