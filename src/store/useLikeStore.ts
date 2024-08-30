@@ -1,8 +1,6 @@
 import { create } from 'zustand';
 
-interface LikeState {
-  // // class?
-  // likedClasess: Class[]
+type LikeState = {
   likedClasses: string[]; // 좋아요한 클래스의 ID 목록
   toggleLike: (classId: string) => void;
   isLiked: (classId: string) => boolean;
@@ -10,15 +8,15 @@ interface LikeState {
 
 const useLikeStore = create<LikeState>((set, get) => ({
   likedClasses: [],
-  toggleLike: (classId) => {
-    set((state) => {
-      const isLiked = state.likedClasses.includes(classId);
-      return {
-        likedClasses: isLiked
-          ? state.likedClasses.filter((id) => id !== classId)
-          : [...state.likedClasses, classId],
-      };
-    });
+  toggleLike: (classId: string) => {
+
+    const {likedClasses} = get()
+    if (likedClasses.includes(classId)) {
+      set({ likedClasses: likedClasses.filter(id => id !== classId) });
+    } else {
+      set({ likedClasses: [...likedClasses, classId] });
+    }
+  
   },
   isLiked: (classId) => get().likedClasses.includes(classId),
 }));
