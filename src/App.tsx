@@ -21,7 +21,7 @@ function App() {
   useEffect(() => {
     const footer = document.querySelector('footer');
     if (footer) {
-      if (location.pathname === '/classdetail') {
+      if (location.pathname.includes('/class/')) {
         footer.style.paddingBottom = '350px';
       } else {
         footer.style.paddingBottom = '';
@@ -42,7 +42,7 @@ function App() {
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
             <Route path="/category/:keyword" element={<Category />} />
-            <Route path="/classdetail" element={<ClassDetail rating={4.5} />} />
+            <Route path="/class/:id" element={<ClassDetail rating={4.5} />} />
             <Route path="/account" element={<Account />} />
             <Route path="/charge" element={<ChargePage />} />
             <Route path="admin" element={<Admin />} />
