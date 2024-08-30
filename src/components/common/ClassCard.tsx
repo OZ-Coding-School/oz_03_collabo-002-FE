@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { IconOptionHeart, IconReviewStar } from '../../config/IconData';
 import { Class } from '../../type/class.type';
 import useLikeStore from '../../store/useLikeStore';
@@ -41,9 +41,9 @@ const ClassCard = ({ classItem }: ClassCardProps) => {
 
   return (
     <div className="w-[42.5vw] max-w-[206px] relative">
-      <Link to="" className="absolute inset-0"></Link>
+      <div className="absolute inset-0 pointer-events-none"></div>
       {/* image */}
-      <div className="relative w-full aspect-square rounded-sm mb-4" onClick={() => navigate(`/class/${classItem.id}`)}>
+      <div className="relative w-full aspect-square rounded-sm mb-4">
         <img src={imageUrl} alt={classItem.description} />
         <button
           name="likeBtn"
@@ -63,7 +63,7 @@ const ClassCard = ({ classItem }: ClassCardProps) => {
             ? `${addressState} > ${addressCity}`
             : ''}
         </div>
-        <h2 className="w-full text-black font-bold text-lg line-clamp-2">
+        <h2 className="w-full text-black font-bold text-lg line-clamp-2 cursor-pointer" onClick={() => navigate(`/class/${classItem.id}`)}>
           {classItem.title}
         </h2>
         <div>
