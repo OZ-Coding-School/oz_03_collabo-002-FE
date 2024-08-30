@@ -10,10 +10,11 @@ export type Review = {
     name: string;
     profile_url: string;
   };
-  images: {
-    id: number;
-    image_url: string;
-  }[];
+  images:
+    | {
+        image_url: string;
+      }[]
+    | [];
 };
 
 export type ReviewState = {

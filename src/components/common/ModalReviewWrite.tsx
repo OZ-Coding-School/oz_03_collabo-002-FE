@@ -12,7 +12,7 @@ import axios from '../../api/axios';
 
 const ModalReviewWrite = () => {
   const stars = [1, 2, 3, 4, 5];
-  const [rating, setRating] = useState(0);
+  const [ratings, setRatings] = useState(0);
   const [uploadImgs, setUploadImgs] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [inputCount, setInputCount] = useState<number>(0);
@@ -29,11 +29,7 @@ const ModalReviewWrite = () => {
       review_text: '',
       created_at: '',
       rating: 0,
-      images: [
-        // {
-        //   image_url: '',
-        // },
-      ],
+      images: [],
     },
   });
   const reviewText = watch('review_text');
@@ -43,11 +39,7 @@ const ModalReviewWrite = () => {
       review_text: '',
       created_at: '',
       rating: 0,
-      images: [
-        // {
-        //   image_url: '',
-        // },
-      ],
+      images: [],
     });
   };
 
@@ -62,10 +54,16 @@ const ModalReviewWrite = () => {
   }, [reviewText]);
 
   const handleStar = (selectedRating: number) => {
-    setRating((prevRating) =>
+    setRatings((prevRating) =>
       selectedRating === prevRating ? prevRating - 1 : selectedRating,
     );
+    console.log('seletedRating: ', selectedRating);
   };
+
+  useEffect(() => {
+    console.log('star: ', stars);
+    console.log('ratings: ', ratings);
+  }, [ratings]);
 
   const handleInputImage = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -90,7 +88,6 @@ const ModalReviewWrite = () => {
   const handleUpload = () => {
     fileInputRef.current?.click();
   };
-  // console.log('uploadImg: ', uploadImg);
 
   const handleDelete = (indexDelete: number) => {
     console.log(indexDelete);
@@ -100,6 +97,8 @@ const ModalReviewWrite = () => {
 
   const onsubmit: SubmitHandler<Review> = async (data) => {
     try {
+      // images, rating은 form data에서 추출해 낼 수 없음 -> <img /> 여서 그런가..
+      // 그래서 form data로 review_text만 추출 가능
       const { review_text, images, rating } = data;
       const currentDate = new Date().toISOString();
       const reviewData = {
@@ -107,11 +106,13 @@ const ModalReviewWrite = () => {
         class_id: class_id,
         created_at: currentDate,
         review_text,
-        rating,
+        rating: ratings,
       };
       console.log(review_text, images, rating);
+      console.log(reviewData);
       await axios.post(
-        `reviews/${class_id}`,
+        // `reviews/${class_id}`,
+        `reviews/1`,
         // `https://api.custom-k.store/v1/reviews/1`,
         {
           reviewData,
@@ -125,7 +126,7 @@ const ModalReviewWrite = () => {
       );
       setModal('Successful Save');
       clearValue();
-      setRating(0);
+      setRatings(0);
       setUploadImgs([]);
     } catch (error) {
       console.error('Error submitting review:', error);
@@ -210,7 +211,6 @@ const ModalReviewWrite = () => {
                       alt={`Uploaded ${index + 1}`}
                       className="w-full h-full object-cover"
                       id="images"
-                      {...register('images', {})}
                     />
                     <button
                       onClick={() => handleDelete(index)}
@@ -263,13 +263,8 @@ Please honestly write down your pleasant memories, regretful memories, and thing
                       onClick={() => handleStar(star)}
                     >
                       <img
-                        src={star <= rating ? fullStar : emptyStar}
+                        src={star <= ratings ? fullStar : emptyStar}
                         alt={`${star} 점`}
-                        id="rating"
-                        {...(register('rating'),
-                        {
-                          required: 'This is a mandoatory item.',
-                        })}
                       />
                     </button>
                   ))}
