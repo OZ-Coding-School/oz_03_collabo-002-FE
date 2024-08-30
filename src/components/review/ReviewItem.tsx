@@ -105,7 +105,7 @@ const ReviewItem = ({ review }: ReviewProps) => {
           <div className="w-full flex my-[10px] gap-[15px] relative">
             {review.images.slice(0, 3).map((image, index) => (
               <div
-                key={image.id + image.image_url}
+                key={index + image.image_url}
                 className={`relative w-1/3 aspect-square ${index === 2 && imageCount > 3 ? 'opacity-50' : ''}`}
               >
                 <img
