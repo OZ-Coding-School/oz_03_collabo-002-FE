@@ -29,7 +29,7 @@ const ClassCard = ({ classItem }: ClassCardProps) => {
   const imageUrl =
     classItem.images && classItem.images.length > 0
       ? classItem.images[0].image_url
-      : './public/images/img-sample.jpg';
+      : '/images/img-sample.jpg';
 
   const averageScore = classItem.averageScore || 0;
   const priceInUsd = classItem.price_in_usd || 0;
