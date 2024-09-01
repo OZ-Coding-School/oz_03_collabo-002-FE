@@ -5,27 +5,33 @@ import successCheck from '../assets/icon/success-check.svg';
 
 const Redirection = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [isState, setIsState] = useState<string | null>('');
   const navigate = useNavigate();
   const code = new URL(window.location.href).searchParams.get('code');
   const state = new URL(window.location.href).searchParams.get('state');
 
   useEffect(() => {
-    // const clientId = new URL(window.location.href).searchParams.get(
-    //   'client_id',
-    // );
-    if (code) {
+    setIsState(state);
+    if (state !== 'google' && state !== 'kakao') {
+      setIsState('line');
+    }
+    console.log('isState:', isState);
+    if (code && isState) {
       console.log('Auth code:', code);
       console.log('state:', state);
+      console.log('isstate:', isState);
 
       const fetchAuthLogin = async () => {
         try {
-          const url = `${import.meta.env.VITE_CALLBACK_URL}${state}/callback/`;
+          console.log('isState: ', isState);
+          const url = `${import.meta.env.VITE_CALLBACK_URL}${isState}/callback/`;
           console.log('요청 URL: ', url);
           console.log('body: ', code, state);
+
           const response = await axios.post(
             url,
             // { code: code, state: state, clientId: clientId },
-            { code: code },
+            { code: code, state: state },
             // { code: code },
             {
               headers: {
@@ -51,7 +57,7 @@ const Redirection = () => {
       };
       fetchAuthLogin();
     }
-  }, [navigate, code, state]);
+  }, [navigate, code, isState]);
 
   return (
     <div className="flex flex-col max-w-[475px] w-full min-h-screen h-full m-auto border-x border-gray-200 relative bg-gray-100">
@@ -65,7 +71,7 @@ const Redirection = () => {
                   Logging in...
                 </h2>
                 <p className="text-gray-500 text-center">
-                  We're processing your {state} login. Please wait a moment.
+                  We're processing your {isState} login. Please wait a moment.
                 </p>
               </>
             ) : (
