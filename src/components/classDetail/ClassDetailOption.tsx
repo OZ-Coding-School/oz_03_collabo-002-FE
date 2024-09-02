@@ -18,7 +18,6 @@ const ClassDetailOption: React.FC<Props> = ({
   selectedDate,
   selectedTime,
   selectedClassType,
-  onBookNowClick,
   onRemoveOptionClick,
   onBookingButtonClick,
 }) => {

@@ -22,7 +22,7 @@ type ClassDetailProps = {
   rating: number;
 };
 
-const ClassDetail = ({ rating }: ClassDetailProps, value: Date) => {
+const ClassDetail = ({ rating }: ClassDetailProps) => {
   const originalPrice = 14900;
   const discountedPrice = 12900;
   const [expanded, setExpanded] = useState(false);
@@ -95,7 +95,6 @@ const ClassDetail = ({ rating }: ClassDetailProps, value: Date) => {
     setSelectedClassType(e.target.value);
   };
   useEffect(() => {
-    // 예시: 의존성 배열의 값이 변경될 때마다 상태를 업데이트한다거나, 함수를 호출한다거나 하는 작업
     gatheredBookingData = {
       language: selectLanguageType,
       class: selectedClassType ?? '',
@@ -104,7 +103,6 @@ const ClassDetail = ({ rating }: ClassDetailProps, value: Date) => {
     };
   }, [selectLanguageType, selectedClassType, selectedTime, selectedDate]);
 
-  const bookingItem = useBookingStore((state) => state.bookingItem);
   const addBookingItem = useBookingStore((state) => state.addBookingItem);
 
   const handleButtonClick = () => {
