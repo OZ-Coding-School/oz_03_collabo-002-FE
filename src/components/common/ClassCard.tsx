@@ -33,7 +33,7 @@ const ClassCard = ({ classItem }: ClassCardProps) => {
       ? classItem.images[0].image_url
       : '/images/img-sample.jpg';
 
-  const averageScore = classItem.averageScore || 0;
+  const averageScore = classItem.average_rating || 0;
   const priceInUsd = classItem.price_in_usd || 0;
 
   const { toggleLike, isLiked } = useLikeStore();

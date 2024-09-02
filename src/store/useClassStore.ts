@@ -45,8 +45,7 @@ const useClassStore = create<ClassState>((set, get) => ({
     try {
       const response = await axios.get(`/classes/${id}`);
       const data: Class[] = response.data;
-      const findData = data.find((item) => item.id === id);
-      return findData ?? null;
+      return data.find((item) => item.id === id) ?? null;
     } catch (error) {
       console.log('Failed to find class: ', error);
       return null;

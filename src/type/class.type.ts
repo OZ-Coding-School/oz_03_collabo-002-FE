@@ -37,8 +37,9 @@ export interface Class {
   price: number;
   class_type: string;
   is_viewed: boolean;
-  averageScore: number;
+  average_rating: number;
   address: string | Address;
+  genre: string;
 }
 
 export type ClassState = {
