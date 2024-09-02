@@ -5,13 +5,13 @@ import {
   IconOptionPlus,
   IconOptionRemove,
 } from '../../config/IconData';
-
 type Props = {
   selectedDate: Date | null;
   selectedTime: string | null;
   selectedClassType: string | null;
   onBookNowClick: () => void;
   onRemoveOptionClick: () => void;
+  onBookingButtonClick: () => void;
 };
 
 const ClassDetailOption: React.FC<Props> = ({
@@ -20,6 +20,7 @@ const ClassDetailOption: React.FC<Props> = ({
   selectedClassType,
   onBookNowClick,
   onRemoveOptionClick,
+  onBookingButtonClick,
 }) => {
   const [quantity, setQuantity] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
@@ -94,7 +95,7 @@ const ClassDetailOption: React.FC<Props> = ({
             </button>
             <button
               className="flex-grow text-white bg-primary rounded-xl py-4"
-              onClick={onBookNowClick}
+              onClick={onBookingButtonClick}
             >
               Book Now
             </button>

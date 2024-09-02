@@ -13,13 +13,13 @@ const ClassDetailSlide = () => {
           className="mySwiper rounded-xl overflow-hidden"
         >
           <SwiperSlide>
-            <img src="./images/img-sample.jpg" alt="sample image" />
+            <img src="../../images/img-sample.jpg" alt="sample image" />
           </SwiperSlide>
           <SwiperSlide>
-            <img src="./images/img-sample.jpg" alt="sample image" />
+            <img src="../../images/img-sample.jpg" alt="sample image" />
           </SwiperSlide>
           <SwiperSlide>
-            <img src="./images/img-sample.jpg" alt="sample image" />
+            <img src="../../images/img-sample.jpg" alt="sample image" />
           </SwiperSlide>
         </Swiper>
       </>
