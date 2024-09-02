@@ -132,6 +132,9 @@ const ClassDetail = () => {
     setSelectedClassType(null);
   };
 
+  const abc = classData?.description.split('\r\n').map((item) => <p>{item}</p>);
+  console.log(abc);
+
   return (
     <div>
       {classData ? (
@@ -183,18 +186,21 @@ const ClassDetail = () => {
                 </button>
               </div>
               {/* 완성작 정보 */}
-              <div className="mt-10 px-6">
-                <h3 className="text-[18px] font-medium">
+              <div className="mt-[15px] px-6">
+                <h3 className="text-lg">
                   Details of the Workshop Piece
                 </h3>
-                <p className="text-[13px] mt-[10px]">
+                {classData?.description
+                  .split('\r\n')
+                  .map((item) => <p className="text-[13px] mt-1">- {item}</p>)}
+                {/* <p className="text-[13px] mt-[10px]">
                   - 1 Standard Cocktail + 1 Signature Cocktail
                   <br />
                   - You can create your own Cocktail by choosing from 60
                   different ingredients.
                   <br />- You can inquire in advance about creating your desired
                   cocktail.
-                </p>
+                </p> */}
               </div>
               <GoodsDetailInfoSlide scrollImage={classData.images} />
             </div>
