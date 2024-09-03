@@ -1,21 +1,50 @@
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import {
   IconAllArw,
   IconReviewHeart,
   IconReviewStar,
+  // IconArrowDown,
+  // IconArrowUp,
 } from '../../config/IconData';
+import { useEffect } from 'react';
+import useReviewStore from '../../store/useReviewStore';
 
 const ClassDetailReview = () => {
+  const { id } = useParams<{ id: string }>();
+  console.log(id);
+
+  // const [openReviews, setOpenReviews] = useState<{ [key: string]: boolean }>(
+  //   {},
+  // );
+
+  const reviews = useReviewStore((state) => state.reviews);
+
+  const getReviews = useReviewStore((state) => state.getReviews);
+
+  useEffect(() => {
+    getReviews(id);
+  }, [getReviews, id]);
+
+  // const toggleReviewopen = (reviewId: string) => {
+  //   setOpenReviews((prev) => ({
+  //     ...prev,
+  //     [reviewId]: !prev[reviewId],
+  //   }));
+  // };
+
   return (
     <div className="mt-10">
       <h3 className="text-[20px] px-6 font-semibold flex justify-between">
         Reviews
-        <Link to="/review" className="text-[14px] font-normal flex items-center">
+        <Link
+          to="/review"
+          className="text-[14px] font-normal flex items-center"
+        >
           view all
           <IconAllArw className="ml-1" />
         </Link>
       </h3>
-      <div className="px-6 flex mt-4">
+      {/* <div className="px-6 flex mt-4">
         <div className="relative">
           <div className="flex">
             <div className="w-12 h-12 rounded-full overflow-hidden">
@@ -38,6 +67,66 @@ const ClassDetailReview = () => {
             00
           </button>
         </div>
+      </div> */}
+      <div className="mt-4">
+        {reviews
+          ?.map((data) => (
+            // <div key={data.id} className="divide-y divide-gray-200">
+            //   <div className="flex justify-between px-6 py-[15px]">
+            //     <div id="question-item" className="flex flex-col">
+            //       <div className="flex justify-between items-center">
+            //         <h3 className="font-bold">{data.questionTitle}</h3>
+            //       </div>
+            //       <div
+            //         id="qnaStatus"
+            //         className="flex items-center mt-1 text-xs text-darkgray"
+            //       >
+            //         <div>{data.complete ? 'Answered' : 'Pending'}</div>
+            //         <p>・</p>
+            //         <span>{data.author}</span>
+            //         <p>・</p>
+            //         <div>
+            //           {new Date(data.createDate).toLocaleDateString('ko-KR')}
+            //         </div>
+            //       </div>
+            //     </div>
+            //     {data.complete ? (
+            //       <button onClick={() => toggleReviewopen(data.id)}>
+            //         {openReviews[data.id] ? <IconArrowUp /> : <IconArrowDown />}
+            //       </button>
+            //     ) : null}
+            //   </div>
+            //   {openReviews[data.id] && (
+            //     <div className="mt-2 bg-gray p-6">
+            //       <h3 className="font-bold mb-[15px]">{data.answerTitle}</h3>
+            //       <p className="mb-[15px]">{data.answer}</p>
+            //       <small className="text-sm">
+            //         {data.answerDate.split('T', 1)}
+            //       </small>
+            //     </div>
+            //   )}
+            // </div>
+            <div className="relative">
+              <div className="flex">
+                <div className="w-12 h-12 rounded-full overflow-hidden">
+                  <img src={data.user.profile_url} alt="sample img"></img>
+                </div>
+                <div className="text-[14px] ml-4">
+                  <strong className="font-semibold">{data.user.name}</strong>
+                  <p className="flex items-center">
+                    <IconReviewStar className="mr-1" />
+                    {data.rating}
+                  </p>
+                </div>
+              </div>
+              <p className="text-[14px] mt-4">{data.review_text}</p>
+              <span className="absolute right-0 top-0 p-2 border border-gray-300 rounded-lg flex items-center">
+                <IconReviewHeart className="mr-1 fill-none stroke-current hover:stroke-none hover:fill-primary" />
+                {data.likes_count}
+              </span>
+            </div>
+          ))
+          .slice(0, 1)}
       </div>
     </div>
   );
