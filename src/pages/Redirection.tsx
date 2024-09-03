@@ -1,7 +1,16 @@
 import axios from 'axios';
+import { AxiosError } from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import successCheck from '../assets/icon/success-check.svg';
+
+interface ResponseData {
+  message?: string;
+  result?: {
+    email?: string;
+    profile_image: string;
+  };
+}
 
 const Redirection = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -42,6 +51,8 @@ const Redirection = () => {
           );
 
           console.log(response);
+          // const token = response.data;
+
           if (response) {
             setTimeout(() => {
               setIsLoading(false);
@@ -52,6 +63,35 @@ const Redirection = () => {
           }
         } catch (error) {
           console.log('Error: ', error);
+          if ((error as AxiosError).response) {
+            console.log((error as AxiosError).response?.data);
+            // const responseData = (error as AxiosError<ResponseData>).response
+            //   ?.data;
+            // (error as AxiosError<ResponseData>).response?.data.result;
+            // console.log(responseData);
+            console.log(
+              (error as AxiosError<ResponseData>).response?.data.result,
+            );
+            const message = (error as AxiosError<ResponseData>).response?.data
+              .message;
+            // const result = (error as AxiosError<any>).response?.data.result;
+            console.log(message);
+
+            // if(result.email === '') {
+
+            // }
+
+            if (message === '이메일이 존재하지 않습니다.') {
+              // console.log('hi');
+              navigate('lineEmail');
+            }
+          }
+
+          // if(error instanceof Error) {
+          //   if(error.response.data.result === "이메일이 존재하지 않습니다.") {
+
+          //   }
+          // }
           setIsLoading(true);
         }
       };
