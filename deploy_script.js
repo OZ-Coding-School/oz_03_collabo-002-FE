@@ -2,14 +2,15 @@ import axios from 'axios';
 import fs from 'fs';
 import path from 'path';
 import crypto from 'crypto';
-import { format } from 'date-fns';
+import * as dayjs from 'dayjs';
+
 
 // 환경 변수
 const endpoint = 'https://kr.object.ncloudstorage.com';
 const bucketName = process.env.NCP_BUCKET_NAME;
 const accessKey = process.env.NCP_ACCESS_KEY_ID;
 const secretKey = process.env.NCP_SECRET_ACCESS_KEY;
-const date = format(new Date(), "yyyyMMdd'T'HHmmss'Z'");
+const date = dayjs().format("yyyyMMdd'T'HHmmss'Z'")
 
 // 공통 요청 헤더 설정
 const getAuthHeader = (method, uri, contentLength) => {
