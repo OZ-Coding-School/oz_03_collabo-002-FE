@@ -11,12 +11,14 @@ import { LoginUser } from '../type/loginuser';
 import axios from 'axios';
 import { useModalStore } from '../store/useModal';
 import Modal from '../components/common/Modal';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { useUserStore } from '../store/useUser';
+import Cookies from 'js-cookie';
 
 const Login = () => {
   const navigate = useNavigate();
   const { showModal, setModal } = useModalStore();
+  const [accessToken, setAccessToken] = useState<string>('');
   const setUser = useUserStore((state) => state.setUser);
   const {
     register,
@@ -55,7 +57,21 @@ const Login = () => {
           },
         );
         console.log(response.data);
-        setUser(response.data);
+
+        localStorage.setItem('accessToken', response.data.access_token);
+        setAccessToken(response.data.access_token);
+        Cookies.set('refreshToken', response.data.refresh_token, {
+          expires: 7,
+          secure: true,
+          sameSite: 'strict',
+        });
+        // setUser(response.data);
+        setUser({
+          id: response.data.id,
+          name: response.data.name,
+          email: response.data.email,
+          profile_image: response.data.profile_image,
+        });
         setModal('Login Successful!');
         clearValue();
         setTimeout(() => {

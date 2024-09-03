@@ -7,7 +7,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { Review } from '../../type/review.type';
 import { useModalStore } from '../../store/useModal';
 import Modal from './Modal';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from '../../api/axios';
 
 const ModalReviewWrite = () => {
@@ -17,6 +17,7 @@ const ModalReviewWrite = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [inputCount, setInputCount] = useState<number>(0);
   const { setModal, showModal } = useModalStore();
+  const navigate = useNavigate();
   const { class_id } = useParams();
   const {
     register,
@@ -135,6 +136,10 @@ const ModalReviewWrite = () => {
     }
   };
 
+  const handleOut = () => {
+    navigate(-1);
+  };
+
   return (
     <form onSubmit={handleSubmit(onsubmit)}>
       {showModal && <Modal />}
@@ -145,6 +150,7 @@ const ModalReviewWrite = () => {
               src={arrowLeft}
               alt="나가기"
               className="mx-6 w-4 stroke-[#666666]"
+              onClick={handleOut}
             />
             <span className="w-full text-center mr-14 font-bold">Review</span>
           </div>
