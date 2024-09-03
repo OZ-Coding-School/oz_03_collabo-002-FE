@@ -3,19 +3,19 @@ import {
   IconAllArw,
   IconReviewHeart,
   IconReviewStar,
-  IconArrowDown,
-  IconArrowUp,
+  // IconArrowDown,
+  // IconArrowUp,
 } from '../../config/IconData';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import useReviewStore from '../../store/useReviewStore';
 
 const ClassDetailReview = () => {
   const { id } = useParams<{ id: string }>();
   console.log(id);
 
-  const [openReviews, setOpenReviews] = useState<{ [key: string]: boolean }>(
-    {},
-  );
+  // const [openReviews, setOpenReviews] = useState<{ [key: string]: boolean }>(
+  //   {},
+  // );
 
   const reviews = useReviewStore((state) => state.reviews);
 
@@ -25,12 +25,12 @@ const ClassDetailReview = () => {
     getReviews(id);
   }, [getReviews, id]);
 
-  const toggleReviewopen = (reviewId: string) => {
-    setOpenReviews((prev) => ({
-      ...prev,
-      [reviewId]: !prev[reviewId],
-    }));
-  };
+  // const toggleReviewopen = (reviewId: string) => {
+  //   setOpenReviews((prev) => ({
+  //     ...prev,
+  //     [reviewId]: !prev[reviewId],
+  //   }));
+  // };
 
   return (
     <div className="mt-10">
