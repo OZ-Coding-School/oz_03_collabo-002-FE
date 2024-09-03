@@ -36,8 +36,9 @@ const uploadFile = async (filePath, key) => {
     Bucket: bucketName,
     Key: key,
     Body: fileContent,
-    ContentType: contentType, // MIME 타입 설정
     ACL: 'public-read', // 파일 업로드 시 전체 공개 권한 부여
+    ContentType: contentType, // MIME 타입 설정
+    ContentDisposition: 'inline' // inline으로 설정하여 브라우저에서 열리도록 함
   };
   return s3.upload(params).promise();
 };
@@ -65,3 +66,4 @@ const distDir = path.join(process.cwd(), 'dist');
 syncDirectory(distDir, distDir)
   .then(() => console.log('Deployment completed.'))
   .catch((err) => console.error('Error during deployment:', err));
+  
