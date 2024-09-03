@@ -1,6 +1,7 @@
 import AWS from 'aws-sdk';
 import fs from 'fs';
 import path from 'path';
+import mime from 'mime-types';
 
 // NCP Object Storage 설정
 const endpoint = new AWS.Endpoint('https://kr.object.ncloudstorage.com');
@@ -18,10 +19,24 @@ const s3 = new AWS.S3({
 // 파일을 업로드하는 함수
 const uploadFile = async (filePath, key) => {
   const fileContent = fs.readFileSync(filePath);
+  let contentType = mime.lookup(filePath);
+
+  // 특정 확장자에 대해 명시적으로 MIME 타입 설정 (선택 사항)
+  const ext = path.extname(filePath).toLowerCase();
+  if (ext === '.js') {
+    contentType = 'application/javascript';
+  } else if (ext === '.css') {
+    contentType = 'text/css';
+  }
+
+  // MIME 타입이 없으면 기본값 설정
+  contentType = contentType || 'application/octet-stream';
+
   const params = {
     Bucket: bucketName,
     Key: key,
     Body: fileContent,
+    ContentType: contentType, // MIME 타입 설정
     ACL: 'public-read', // 파일 업로드 시 전체 공개 권한 부여
   };
   return s3.upload(params).promise();
