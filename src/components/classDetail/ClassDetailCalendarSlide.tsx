@@ -17,7 +17,7 @@ type Props = {
   onTimeSelect: (time: string) => void;
 };
 
-const classDetails: ClassDetail[] = [
+const initialClassDetails: ClassDetail[] = [
   { status: 'Selected', seatsLeft: 0, seat: 15, time: '12:00 - 13:30' },
   { status: 'Fully booked', seatsLeft: 0, seat: 15, time: '14:00 - 15:30' },
   { status: 'Seats available', seatsLeft: 12, seat: 15, time: '16:00 - 17:30' },
@@ -64,13 +64,21 @@ const getStatusLabelClass = (status: Status): string => {
 };
 
 const ClassDetailCalendarSlide: React.FC<Props> = ({ onTimeSelect }) => {
-  const [selectTime, setSelectTime] = useState<string | undefined>();
+  const [classDetails, setClassDetails] =
+    useState<ClassDetail[]>(initialClassDetails);
+  const handleTimeSelect = (index: number) => {
+    const updatedClassDetails = classDetails.map((detail, idx) => {
+      if (idx === index) {
+        return { ...detail, status: 'Selected' as Status };
+      }
+      return detail.status === 'Selected'
+        ? { ...detail, status: 'Seats available' as Status }
+        : detail;
+    });
 
-  useEffect(() => {
-    if (selectTime) {
-      onTimeSelect(selectTime);
-    }
-  }, [selectTime, onTimeSelect]);
+    setClassDetails(updatedClassDetails);
+    onTimeSelect(updatedClassDetails[index].time);
+  };
 
   return (
     <div className="pl-[24px]">
@@ -85,7 +93,7 @@ const ClassDetailCalendarSlide: React.FC<Props> = ({ onTimeSelect }) => {
               className={`border px-[10px] py-[12px] rounded-lg text-left ${getStatusClass(classDetail.status)}`}
               onClick={() => {
                 if (classDetail.status !== 'Fully booked') {
-                  setSelectTime(classDetail.time); // 선택된 시간을 상태로 저장
+                  handleTimeSelect(index);
                 }
               }}
             >
