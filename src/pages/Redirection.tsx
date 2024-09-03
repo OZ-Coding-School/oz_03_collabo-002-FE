@@ -4,6 +4,14 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import successCheck from '../assets/icon/success-check.svg';
 
+interface ResponseData {
+  message?: string;
+  result?: {
+    email?: string;
+    profile_image: string;
+  };
+}
+
 const Redirection = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isState, setIsState] = useState<string | null>('');
@@ -57,11 +65,15 @@ const Redirection = () => {
           console.log('Error: ', error);
           if ((error as AxiosError).response) {
             console.log((error as AxiosError).response?.data);
-            const responseData = (error as AxiosError<any>).response?.data;
-            (error as AxiosError<any>).response?.data.result;
-            console.log(responseData);
-            console.log((error as AxiosError<any>).response?.data.result);
-            const message = (error as AxiosError<any>).response?.data.message;
+            // const responseData = (error as AxiosError<ResponseData>).response
+            //   ?.data;
+            // (error as AxiosError<ResponseData>).response?.data.result;
+            // console.log(responseData);
+            console.log(
+              (error as AxiosError<ResponseData>).response?.data.result,
+            );
+            const message = (error as AxiosError<ResponseData>).response?.data
+              .message;
             // const result = (error as AxiosError<any>).response?.data.result;
             console.log(message);
 
