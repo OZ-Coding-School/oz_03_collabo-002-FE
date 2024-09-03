@@ -284,16 +284,16 @@ const ClassDetail = () => {
             >
               <h3 className="text-[20px] px-6 font-semibold">Location</h3>
               <div></div>
-              <div className="px-6 py-7 text-[14px] relative">
+              <div className="relative px-6 py-7 text-[14px] ">
                 <p>
                   <strong>We Open Class Here</strong>
                 </p>
-                <p className="text-gray-500">
+                <p className="text-gray-500 pr-20">
                   {classData.address}
                 </p>
                 <button
                   type="button"
-                  className="absolute right-6 top-6 border border-gray-300 rounded-full p-3"
+                  className="absolute right-6 top-10 border border-gray-300 rounded-full p-3"
                 >
                   <IconMapShare className="" />
                 </button>

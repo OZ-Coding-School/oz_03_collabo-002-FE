@@ -43,7 +43,7 @@ const ClassCard = ({ classItem }: ClassCardProps) => {
       <div className="absolute inset-0 pointer-events-none"></div>
       {/* image */}
       <div className="relative w-full aspect-square rounded-sm mb-4">
-        <img src={imageUrl} alt={classItem.description} />
+        <img src={imageUrl} alt={classItem.description} className='w-full aspect-square object-cover object-left-top' />
         <button
           name="likeBtn"
           onClick={() => toggleLike(classItem.id)}
