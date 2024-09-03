@@ -88,7 +88,7 @@ const MyOrderList = () => {
                       (cls) => cls.id === order.class.id,
                     );
                     const imageUrl = foundClass
-                      ? foundClass.images[0].image_url
+                      ? foundClass.images[0].thumbnail_image_urls[0]
                       : '';
                     return (
                       <li
