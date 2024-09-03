@@ -13,14 +13,14 @@ const ClassDetailSlide = ({ slideImage }: ClassDetailSlideProps) => {
             type: 'fraction',
           }}
           modules={[Pagination]}
-          className="mySwiper rounded-xl overflow-hidden"
+          className="mySwiper overflow-hidden"
         >
           {slideImage?.map((slide) => (
-            <SwiperSlide key={slide} className="w-full h-fit">
+            <SwiperSlide key={slide} className="w-full">
               <img
                 src={slide}
                 alt={'finished work' + slide}
-                className="w-full aspect-auto object-cover"
+                className="w-full aspect-square object-cover object-left-top"
               />
             </SwiperSlide>
           ))}
