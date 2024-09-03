@@ -59,6 +59,7 @@ const Login = () => {
         console.log(response.data);
 
         localStorage.setItem('accessToken', response.data.access_token);
+        console.log('accessToken: ', accessToken);
         setAccessToken(response.data.access_token);
         Cookies.set('refreshToken', response.data.refresh_token, {
           expires: 7,

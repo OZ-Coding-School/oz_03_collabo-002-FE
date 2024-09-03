@@ -43,7 +43,7 @@ const Redirection = () => {
           );
 
           console.log(response);
-          const token = response.data;
+          // const token = response.data;
 
           if (response) {
             setTimeout(() => {
