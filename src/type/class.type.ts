@@ -1,8 +1,10 @@
-type Address = {
-  state?: string;
-  city?: string;
-  street?: string;
-};
+export type ClassImages = [{
+  id: string | number,
+  class_id: string | number,
+  description_image_urls: string[];
+  detail_image_urls: string[];
+  thumbnail_image_urls: string[];
+}];
 
 export interface Class {
   id: string;
@@ -13,21 +15,15 @@ export interface Class {
       start_date: string;
       start_time: string;
       end_time: string;
-      person: 2147483647;
+      person: number;
     },
   ];
-  images: [
-    {
-      id: string;
-      class_id: string;
-      image_url: string;
-    },
-  ];
+  images: ClassImages;
   is_new: boolean;
-  category: string;
   price_in_usd: number;
   is_best: boolean;
-  formatted_address: string;
+  genre: string;
+  category: string;
   created_at: string;
   updated_at: string;
   title: string;
@@ -35,11 +31,11 @@ export interface Class {
   max_person: number;
   require_person: number;
   price: number;
+  address: string;
   class_type: string;
+  discount_rate: number;
   is_viewed: boolean;
   average_rating: number;
-  address: string | Address;
-  genre: string;
 }
 
 export type ClassState = {

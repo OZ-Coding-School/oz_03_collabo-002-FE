@@ -33,10 +33,10 @@ const Header = () => {
       <>
         <header className="bg-white sticky top-0 left-0 z-30 border-y border-gray-200 flex px-6 py-4 overflow-hidden">
           <div className="flex items-center justify-items-start flex-grow bg-white">
-            {location.pathname !== '/classdetail' ? (
+            {!location.pathname.startsWith('/class/') ? (
               <>
                 <div
-                  className="w-6 h-6 flex flex-col justify-around cursor-pointer"
+                  className="w-6 h-6 flex flex-col justify-around cursor-pointe mr-2"
                   onClick={toggleNav}
                 >
                   <span className="block border-b border-b-1 border-black w-full"></span>
@@ -85,8 +85,8 @@ const Header = () => {
 
         <div
           className={tw(
-            'bg-white max-w-[474px] w-full fixed top-0 right-2/4 -mr-[237px] h-screen',
-            'pt-[140px] px-6',
+            'bg-white max-w-[400px] w-full fixed top-0 right-2/4 -mr-[163px] h-screen',
+            'pt-[100px] px-6',
             isNavOpen ? 'z-50' : '-z-[1]',
           )}
         >
@@ -136,6 +136,14 @@ const Header = () => {
             <span className="block border-b border-b-1 border-black w-full -rotate-45 -ml-[2.5px] -mt-[3px]"></span>
           </div>
         </div>
+
+        <div
+          className={tw(
+            'bg-black opacity-90 max-w-[473px] w-full fixed top-0 right-2/4 -mr-[236px] h-screen',
+            'pt-[100px] px-6',
+            isNavOpen ? 'z-30' : '-z-[2]',
+          )}
+        ></div>
       </>
     </>
   );

@@ -2,15 +2,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
 
 type ClassDetailSlideProps = {
-  slideImage:
-    | [
-        {
-          id: string;
-          class_id: string;
-          image_url: string;
-        },
-      ]
-    | [];
+  slideImage: string[] | null;
 };
 const ClassDetailSlide = ({ slideImage }: ClassDetailSlideProps) => {
   return (
@@ -23,18 +15,15 @@ const ClassDetailSlide = ({ slideImage }: ClassDetailSlideProps) => {
           modules={[Pagination]}
           className="mySwiper rounded-xl overflow-hidden"
         >
-          {slideImage.map((slide) => (
-
-          <SwiperSlide key={slide.id} className='w-full h-fit'>
-            <img src={slide.image_url} alt={'finished work' + slide.id} className='w-full h-[280px] object-cover'/>
-          </SwiperSlide>
+          {slideImage?.map((slide) => (
+            <SwiperSlide key={slide} className="w-full h-fit">
+              <img
+                src={slide}
+                alt={'finished work' + slide}
+                className="w-full aspect-auto object-cover"
+              />
+            </SwiperSlide>
           ))}
-          {/* <SwiperSlide>
-            <img src="./images/img-sample.jpg" alt="sample image" />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img src="./images/img-sample.jpg" alt="sample image" />
-          </SwiperSlide> */}
         </Swiper>
       </>
     </div>

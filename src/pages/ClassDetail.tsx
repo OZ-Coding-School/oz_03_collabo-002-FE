@@ -1,13 +1,11 @@
 import { useState, useRef, useEffect } from 'react';
 import {
-  IconDetailShare,
   IconMapShare,
   IconMoreArw,
   IconOptionArw,
   IconReviewStar,
 } from '../config/IconData';
 import { twJoin as tw } from 'tailwind-merge';
-import GoodsDetailInfoSlide from '../components/classDetail/ClassDetailInfoSlide';
 import ClassDetailCalendarSlide from '../components/classDetail/ClassDetailCalendarSlide';
 import ClassDetailOption from '../components/classDetail/ClassDetailOption';
 import ClassDetailPhotoReview from '../components/classDetail/ClassDetailPhotoReview';
@@ -16,59 +14,54 @@ import '../components/classDetail/ClassDetail.css';
 import ClassDetailSlide from '../components/classDetail/ClassDetailSlide';
 import ClassCalendar from '../components/classDetail/ClassCalendar';
 import ClassDetailQna from '../components/classDetail/ClassDetailQna';
-// import useClassStore from '../store/useClassStore';
+import useBookingStore from '../../src/store/useBookingStore';
+import { BookingData } from '../../src/store/useBookingStore'; // import useClassStore from '../store/useClassStore';
 import { Class } from '../type/class.type';
-import axios from '../api/axios';
+import useClassStore from '../store/useClassStore';
+import ClassDetailTopInfo from '../components/classDetail/ClassDetailTopInfo';
 
 // type ClassDetailProps = {
 //   rating: number;
 // };
 
 const ClassDetail = () => {
-  // const id = location.pathname.split('/')[2];
+  const id = location.pathname.split('/')[2];
   const [classData, setClassData] = useState<Class | null>(null);
-  // const findOneClass = useClassStore((state) => state.findOneClass);
+  const findOneClass = useClassStore((state) => state.findOneClass);
 
-  // useEffect(() => {
-  //   const fetchClassData = async () => {
-  //     try {
-  //       const data = await findOneClass(id);
-  //       setClassData(data);
-  //     } catch (error) {
-  //       console.error("Error fetching class data:", error);
-  //       setClassData(null);
-  //     }
-  //   };
-
-  //   fetchClassData();
-  // }, [findOneClass, id]);
-
-  // 임시 클래스 정보 불러오기 코드
   useEffect(() => {
-    const fetchClassDetailData = async (id: string | number) => {
+    const fetchClassData = async () => {
       try {
-        const response = await axios.get(`/classes`);
-        const data: Class[] = response.data.data;
-        console.log(data[0]);
-        setClassData(data.find((item) => item.id === id) ?? null);
+        const data = await findOneClass(id);
+        setClassData(data);
+        console.log(data);
       } catch (error) {
-        console.log('Failed to find class: ', error);
-        return null;
+        console.error('Error fetching class data:', error);
+        setClassData(null);
       }
     };
-    fetchClassDetailData(1);
-  }, []);
 
-  // 할인율 discountRate 대입하여 할인가 계산, api 수정 후 변경 예정
-  let discountPrice; // 할인가
-  const discountRate = 20; // 할인율
-  if (classData) {
-    discountPrice = Math.ceil(
-      classData.price_in_usd * (1 - discountRate / 100),
-    );
-  }
+    fetchClassData();
+  }, [findOneClass, id]);
+
+  // 임시 클래스 정보 불러오기 코드
+  // useEffect(() => {
+  //   const fetchClassDetailData = async (id: string | number) => {
+  //     try {
+  //       const response = await axios.get(`/classes`);
+  //       const data: Class[] = response.data.data;
+  //       console.log(data[0]);
+  //       setClassData(data.find((item) => item.id === id) ?? null);
+  //     } catch (error) {
+  //       console.log('Failed to find class: ', error);
+  //       return null;
+  //     }
+  //   };
+  //   fetchClassDetailData(1);
+  // }, []);
+
+
   const [expanded, setExpanded] = useState(false);
-  const [isLiked, setIsLiked] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [selectedClassType, setSelectedClassType] = useState<string | null>(
@@ -78,9 +71,14 @@ const ClassDetail = () => {
   const [isCancelationVisible, setIsCancelationVisible] = useState(false);
   const [isThingsToKeepInMindVisible, setIsThingsToKeepInMindVisible] =
     useState(false);
-
+  const [selectLanguageType, setSelectLanguageType] = useState('');
   const buttonRef = useRef<HTMLButtonElement>(null);
-
+  const gatheredBookingDataRef = useRef<BookingData>({
+    language: '',
+    class: '',
+    time: '',
+    date: null,
+  });
   const detailsRef = useRef<HTMLDivElement>(null);
   const reviewsRef = useRef<HTMLDivElement>(null);
   const qaRef = useRef<HTMLDivElement>(null);
@@ -112,18 +110,10 @@ const ClassDetail = () => {
     setExpanded(!expanded);
   };
 
-  const toggleLike = () => {
-    setIsLiked((prevIsLiked) => !prevIsLiked);
-  };
+
 
   const handleBookNowClick = () => {
     console.log('Book Now clicked');
-  };
-
-  const handleClassTypeChange = (
-    event: React.ChangeEvent<HTMLSelectElement>,
-  ) => {
-    setSelectedClassType(event.target.value);
   };
 
   const handleRemoveOptionClick = () => {
@@ -132,9 +122,29 @@ const ClassDetail = () => {
     setSelectedClassType(null);
   };
 
-  const abc = classData?.description.split('\r\n').map((item) => <p>{item}</p>);
-  console.log(abc);
+  // 언어 타입 감지
+  const ChangeLanguageType = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectLanguageType(e.target.value);
+  };
 
+  // 클래스 타입 감지
+  const handleClassTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedClassType(e.target.value);
+  };
+  useEffect(() => {
+    gatheredBookingDataRef.current = {
+      language: selectLanguageType,
+      class: selectedClassType ?? '',
+      time: selectedTime ?? '',
+      date: selectedDate,
+    };
+  }, [selectLanguageType, selectedClassType, selectedTime, selectedDate]);
+
+  const addBookingItem = useBookingStore((state) => state.addBookingItem);
+
+  const handleButtonClick = () => {
+    addBookingItem(gatheredBookingDataRef.current); // useRef의 current 값 전달
+  };
   return (
     <div>
       {classData ? (
@@ -144,65 +154,10 @@ const ClassDetail = () => {
             {/* class 요약정보 */}
             <div className="pb-[80px]">
               {/* 슬라이드 영역 */}
-              <ClassDetailSlide slideImage={classData.images} />
-              {/* 클래스 정보 */}
-              <div className="relative px-6">
-                <p className="text-sm text-gray py-[15px]">
-                  클래스 카테고리
-                  {classData.genre || 'No categories'}
-                </p>
-                <p className="text-2xl pr-9 font-bold">{classData.title}</p>
-                <p className="flex items-center">
-                  <IconReviewStar />
-                  &nbsp;
-                  {/* {classData.averageScore} */}
-                  <span>{classData.average_rating}</span>
-                  <span className="text-gray-400">(00개)</span>
-                </p>
-                <div className="mt-4 text-2xl flex items-center">
-                  <p className="text-red text-2xl font-extrabold mr-2">
-                    {discountRate} %
-                  </p>
-                  <p className="text-primary text-2xl  font-bold mr-2">
-                    ${discountPrice}
-                    {/* <strong>{originalPrice.toLocaleString()}원</strong> */}
-                  </p>
-                  <p className="text-gray-400 line-through text-base">
-                    ${classData.price_in_usd}
-                    {/* {discountedPrice.toLocaleString()}원 */}
-                  </p>
-                </div>
-                <button
-                  className={tw(
-                    'w-9 h-9 border border-gray-400 rounded-full flex items-center justify-center',
-                    'absolute top-[30px] right-[14px]',
-                  )}
-                  aria-label="찜하기"
-                  onClick={toggleLike}
-                >
-                  <IconDetailShare
-                    className={isLiked ? 'fill-primary' : 'fill-none'}
-                  />
-                </button>
-              </div>
-              {/* 완성작 정보 */}
-              <div className="mt-[15px] px-6">
-                <h3 className="text-lg">
-                  Details of the Workshop Piece
-                </h3>
-                {classData?.description
-                  .split('\r\n')
-                  .map((item) => <p className="text-[13px] mt-1">- {item}</p>)}
-                {/* <p className="text-[13px] mt-[10px]">
-                  - 1 Standard Cocktail + 1 Signature Cocktail
-                  <br />
-                  - You can create your own Cocktail by choosing from 60
-                  different ingredients.
-                  <br />- You can inquire in advance about creating your desired
-                  cocktail.
-                </p> */}
-              </div>
-              <GoodsDetailInfoSlide scrollImage={classData.images} />
+              <ClassDetailSlide
+                slideImage={classData.images[0]?.thumbnail_image_urls || []}
+              />
+              <ClassDetailTopInfo classData={classData} />
             </div>
             {/* Calendar */}
             <div className="px-6">
@@ -213,7 +168,10 @@ const ClassDetail = () => {
             {/* Select 영역 */}
             <div className="px-6">
               <div className="mt-[34px] relative">
-                <select className="outline-none appearance-none border border-gray-400 rounded-lg px-4 py-[12px] w-full text-gray-400 relative">
+                <select
+                  className="outline-none appearance-none border border-gray-400 rounded-lg px-4 py-[12px] w-full text-gray-400 relative"
+                  onChange={ChangeLanguageType}
+                >
                   <option>Supporters Language Type</option>
                   <option>Supporters Language Type</option>
                   <option>Supporters Language Type</option>
@@ -246,12 +204,13 @@ const ClassDetail = () => {
               selectedClassType={selectedClassType} // selectedClassType 전달
               onBookNowClick={handleBookNowClick} // Book Now 클릭 핸들러 전달
               onRemoveOptionClick={handleRemoveOptionClick} // 옵션 제거 핸들러 전달
+              onBookingButtonClick={handleButtonClick}
             />
           </>
           {/* Main Section */}
           <>
             {/* detail title */}
-            <div className="mt-20 sticky top-[58px] bg-white z-20">
+            <div className="mt-20 sticky top-[57px] bg-white z-20">
               <ul
                 className={tw(
                   'flex items-center w-full justify-around mt-[30px] py-3',
@@ -293,10 +252,17 @@ const ClassDetail = () => {
               </ul>
             </div>
             {/* Detail */}
-            <div ref={detailsRef} className="mt-[100px] mb-10">
+            <div ref={detailsRef} className="mb-10">
               <div>
+                {classData?.images[0]?.detail_image_urls?.length > 0 ? (
+                  classData.images[0].detail_image_urls.map((url) => (
+                    <img src={url} alt={url} key={url} className='w-full object-contain'/>
+                  ))
+                ) : (
+                  <p>No detailed images available.</p>
+                )}
                 <img
-                  src="./images/img-sample3.jpg"
+                  src="../../images/img-sample3.jpg"
                   alt="sample img"
                   className={`w-full ${expanded ? '' : 'max-h-[500px]'} object-cover`}
                   style={{ maxHeight: expanded ? 'none' : '500px' }}
@@ -311,7 +277,7 @@ const ClassDetail = () => {
                 <IconMoreArw className={`${expanded ? 'rotate-180' : ''}`} />
               </button>
             </div>
-            {/* Review */}
+            {/* Review */}{' '}
             <div
               ref={reviewsRef}
               className="mt-10 pt-10 border-t border-t-1 border-t-gray-300"
@@ -323,8 +289,7 @@ const ClassDetail = () => {
                   <strong>We Open Class Here</strong>
                 </p>
                 <p className="text-gray-500">
-                  10, Dosin-ro 17-gil, Yeongdeungpo-gu,
-                  <br /> Seoul, Republic of Korea
+                  {classData.address}
                 </p>
                 <button
                   type="button"
@@ -334,7 +299,7 @@ const ClassDetail = () => {
                 </button>
               </div>
             </div>
-            {/* QnA */}
+            {/* QnA */}{' '}
             <div
               ref={qaRef}
               className="mt-10 pt-10 border-t border-t-1 border-t-gray-300"
@@ -357,7 +322,7 @@ const ClassDetail = () => {
               <ClassDetailReview />
               <ClassDetailQna />
             </div>
-            {/* Res. Policy */}
+            {/* Res. Policy */}{' '}
             <div ref={resPoliciesRef} className="mt-20">
               <dl className="border-t border-t-1 border-t-gray-300">
                 <dt className="px-6 py-7 text-[18px] font-semibold flex items-center justify-between">
@@ -394,8 +359,9 @@ const ClassDetail = () => {
                       </li>
                     </ol>
                     <p className="mt-3">
-                      Mad Night 2nd Floor, Building A, Mad Night, 52
-                      Songpa-daero 49-gil, Songpa-gu, Seoul
+                      {classData.address}
+                      {/* Mad Night 2nd Floor, Building A, Mad Night, 52
+                      Songpa-daero 49-gil, Songpa-gu, Seoul */}
                     </p>
                   </dd>
                 )}
@@ -514,7 +480,11 @@ const ClassDetail = () => {
           </>
         </div>
       ) : (
-        <p>Class not found</p>
+        <div className="w-full aspect-square flex">
+          <p className="m-auto w-4/6 text-xl text-gray text-center ">
+            Class not found. Check your network or try again.
+          </p>
+        </div>
       )}
     </div>
   );

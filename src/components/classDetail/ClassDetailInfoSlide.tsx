@@ -4,15 +4,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 
 type GoodsDetailInfoSlideProps = {
-  scrollImage:
-    | [
-        {
-          id: string;
-          class_id: string;
-          image_url: string;
-        },
-      ]
-    | [];
+  scrollImage: string[] | null;
 };
 
 const GoodsDetailInfoSlide = ({ scrollImage }: GoodsDetailInfoSlideProps) => {
@@ -26,27 +18,15 @@ const GoodsDetailInfoSlide = ({ scrollImage }: GoodsDetailInfoSlideProps) => {
       >
         {scrollImage
           ? scrollImage.map((item) => (
-              <SwiperSlide key={item.id} className="h-[120px]">
+              <SwiperSlide key={item} className="h-[120px]">
                 <img
-                  src={item.image_url}
-                  alt={'finished work' + item.id}
-                  className="w-full h-full object-cover"
+                  src={item}
+                  alt={'finished work' + item}
+                  className="w-full h-full object-cover rounded-md"
                 />
               </SwiperSlide>
             ))
           : null}
-        {/* <SwiperSlide>
-          <img src="./images/img-sample2.jpg" alt="sample image" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src="./images/img-sample2.jpg" alt="sample image" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src="./images/img-sample2.jpg" alt="sample image" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src="./images/img-sample2.jpg" alt="sample image" />
-        </SwiperSlide> */}
       </Swiper>
     </div>
   );
