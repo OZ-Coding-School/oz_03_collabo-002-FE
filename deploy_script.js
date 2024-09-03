@@ -22,31 +22,13 @@ const uploadFile = async (filePath, key) => {
     Bucket: bucketName,
     Key: key,
     Body: fileContent,
+    ACL: 'public-read', // 파일 업로드 시 전체 공개 권한 부여
   };
   return s3.upload(params).promise();
 };
 
-// 파일을 삭제하는 함수
-const deleteFile = async (key) => {
-  const params = {
-    Bucket: bucketName,
-    Key: key,
-  };
-  return s3.deleteObject(params).promise();
-};
-
-// 버킷에 있는 파일 목록을 가져오는 함수
-const listBucketFiles = async () => {
-  const params = {
-    Bucket: bucketName,
-  };
-  const data = await s3.listObjectsV2(params).promise();
-  return data.Contents.map(item => item.Key);
-};
-
 // 디렉토리의 파일을 동기화하는 함수
 const syncDirectory = async (directory, baseDir) => {
-  const localFiles = new Set();
   const files = fs.readdirSync(directory);
 
   const uploadPromises = files.map(async (file) => {
@@ -56,19 +38,11 @@ const syncDirectory = async (directory, baseDir) => {
     if (fs.statSync(fullPath).isDirectory()) {
       await syncDirectory(fullPath, baseDir);
     } else {
-      localFiles.add(relativePath);
       await uploadFile(fullPath, relativePath);
     }
   });
 
   await Promise.all(uploadPromises);
-
-  const bucketFiles = await listBucketFiles();
-  const deletePromises = bucketFiles
-    .filter(file => !localFiles.has(file))
-    .map(file => deleteFile(file));
-
-  await Promise.all(deletePromises);
 };
 
 // 스크립트 실행
