@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import {
   IconDetailShare,
   IconMapShare,
@@ -16,7 +16,8 @@ import '../components/classDetail/ClassDetail.css';
 import ClassDetailSlide from '../components/classDetail/ClassDetailSlide';
 import ClassCalendar from '../components/classDetail/ClassCalendar';
 import ClassDetailQna from '../components/classDetail/ClassDetailQna';
-
+import useBookingStore from '../../src/store/useBookingStore';
+import { BookingData } from '../../src/store/useBookingStore';
 type ClassDetailProps = {
   rating: number;
 };
@@ -35,8 +36,9 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
   const [isCancelationVisible, setIsCancelationVisible] = useState(false);
   const [isThingsToKeepInMindVisible, setIsThingsToKeepInMindVisible] =
     useState(false);
-
+  const [selectLanguageType, setSelectLanguageType] = useState('');
   const buttonRef = useRef<HTMLButtonElement>(null);
+  let gatheredBookingData = {} as BookingData;
 
   const detailsRef = useRef<HTMLDivElement>(null);
   const reviewsRef = useRef<HTMLDivElement>(null);
@@ -77,18 +79,35 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
     console.log('Book Now clicked');
   };
 
-  const handleClassTypeChange = (
-    event: React.ChangeEvent<HTMLSelectElement>,
-  ) => {
-    setSelectedClassType(event.target.value);
-  };
-
   const handleRemoveOptionClick = () => {
     setSelectedDate(null);
     setSelectedTime(null);
     setSelectedClassType(null);
   };
 
+  // 언어 타입 감지
+  const ChangeLanguageType = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectLanguageType(e.target.value);
+  };
+
+  // 클래스 타입 감지
+  const handleClassTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedClassType(e.target.value);
+  };
+  useEffect(() => {
+    gatheredBookingData = {
+      language: selectLanguageType,
+      class: selectedClassType ?? '',
+      time: selectedTime ?? '',
+      date: selectedDate,
+    };
+  }, [selectLanguageType, selectedClassType, selectedTime, selectedDate]);
+
+  const addBookingItem = useBookingStore((state) => state.addBookingItem);
+
+  const handleButtonClick = () => {
+    addBookingItem(gatheredBookingData);
+  };
   return (
     <div>
       <div className="pb-[80px]">
@@ -147,7 +166,10 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
       </div>
       <div className="px-6">
         <div className="mt-[34px] relative">
-          <select className="outline-none appearance-none border border-gray-400 rounded-lg px-4 py-[12px] w-full text-gray-400 relative">
+          <select
+            className="outline-none appearance-none border border-gray-400 rounded-lg px-4 py-[12px] w-full text-gray-400 relative"
+            onChange={ChangeLanguageType}
+          >
             <option>Supporters Language Type</option>
             <option>Supporters Language Type</option>
             <option>Supporters Language Type</option>
@@ -180,6 +202,7 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
         selectedClassType={selectedClassType} // selectedClassType 전달
         onBookNowClick={handleBookNowClick} // Book Now 클릭 핸들러 전달
         onRemoveOptionClick={handleRemoveOptionClick} // 옵션 제거 핸들러 전달
+        onBookingButtonClick={handleButtonClick}
       />
       <div className="mt-20 sticky top-[58px] bg-white z-20">
         <ul
@@ -222,11 +245,10 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
           </li>
         </ul>
       </div>
-
       <div ref={detailsRef} className="mt-[100px] mb-10">
         <div>
           <img
-            src="./images/img-sample3.jpg"
+            src="../../images/img-sample3.jpg"
             alt="sample img"
             className={`w-full ${expanded ? '' : 'max-h-[500px]'} object-cover`}
             style={{ maxHeight: expanded ? 'none' : '500px' }}
@@ -241,7 +263,6 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
           <IconMoreArw className={`${expanded ? 'rotate-180' : ''}`} />
         </button>
       </div>
-
       <div
         ref={reviewsRef}
         className="mt-10 pt-10 border-t border-t-1 border-t-gray-300"
@@ -264,7 +285,6 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
           </button>
         </div>
       </div>
-
       <div
         ref={qaRef}
         className="mt-10 pt-10 border-t border-t-1 border-t-gray-300"
@@ -287,7 +307,6 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
         <ClassDetailReview />
         <ClassDetailQna />
       </div>
-
       <div ref={resPoliciesRef} className="mt-20">
         <dl className="border-t border-t-1 border-t-gray-300">
           <dt className="px-6 py-7 text-[18px] font-semibold flex items-center justify-between">

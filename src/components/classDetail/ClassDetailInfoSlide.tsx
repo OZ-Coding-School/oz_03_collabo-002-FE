@@ -13,16 +13,16 @@ const GoodsDetailInfoSlide = () => {
         className="mySwiper mt-[18px]"
       >
         <SwiperSlide>
-          <img src="./images/img-sample2.jpg" alt="sample image" />
+          <img src="../../images/img-sample2.jpg" alt="sample image" />
         </SwiperSlide>
         <SwiperSlide>
-          <img src="./images/img-sample2.jpg" alt="sample image" />
+          <img src="../../images/img-sample2.jpg" alt="sample image" />
         </SwiperSlide>
         <SwiperSlide>
-          <img src="./images/img-sample2.jpg" alt="sample image" />
+          <img src="../../images/img-sample2.jpg" alt="sample image" />
         </SwiperSlide>
         <SwiperSlide>
-          <img src="./images/img-sample2.jpg" alt="sample image" />
+          <img src="../../images/img-sample2.jpg" alt="sample image" />
         </SwiperSlide>
       </Swiper>
     </div>

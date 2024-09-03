@@ -8,16 +8,16 @@ function ClassCalendar({
 }: {
   onDateChange: (date: Date | null) => void;
 }) {
-  const [value, setValue] = useState<Date | null>(null);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
   const handleTodayClick = () => {
     const today = new Date();
-    setValue(today);
+    setSelectedDate(today);
     onDateChange(today);
   };
 
   const handleDateChange = (newValue: Date | null) => {
-    setValue(newValue);
+    setSelectedDate(newValue);
     onDateChange(newValue);
   };
 
@@ -47,12 +47,12 @@ function ClassCalendar({
       </button>
 
       <DatePicker
-        value={value}
+        value={selectedDate}
         monthLabelFormat="YYYY.MM"
         hideOutsideDates
-        onChange={handleDateChange}
         renderDay={(date) => <CustomDay date={date} />}
         minDate={new Date()}
+        onChange={handleDateChange}
       />
     </div>
   );

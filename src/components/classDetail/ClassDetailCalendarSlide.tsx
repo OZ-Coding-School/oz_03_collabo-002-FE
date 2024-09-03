@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -64,6 +64,14 @@ const getStatusLabelClass = (status: Status): string => {
 };
 
 const ClassDetailCalendarSlide: React.FC<Props> = ({ onTimeSelect }) => {
+  const [selectTime, setSelectTime] = useState<string | undefined>();
+
+  useEffect(() => {
+    if (selectTime) {
+      onTimeSelect(selectTime);
+    }
+  }, [selectTime, onTimeSelect]);
+
   return (
     <div className="pl-[24px]">
       <Swiper
@@ -77,7 +85,7 @@ const ClassDetailCalendarSlide: React.FC<Props> = ({ onTimeSelect }) => {
               className={`border px-[10px] py-[12px] rounded-lg text-left ${getStatusClass(classDetail.status)}`}
               onClick={() => {
                 if (classDetail.status !== 'Fully booked') {
-                  onTimeSelect(classDetail.time);
+                  setSelectTime(classDetail.time); // 선택된 시간을 상태로 저장
                 }
               }}
             >
