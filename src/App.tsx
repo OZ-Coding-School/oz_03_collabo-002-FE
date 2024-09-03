@@ -14,6 +14,7 @@ import ClassDetailQnaAll from './components/classDetail/ClassDetailQnaAll';
 import Redirection from './pages/Redirection';
 import Category from './components/classByCategory/Category';
 import ModalReviewWrite from './components/common/ModalReviewWrite';
+import LineEmail from './components/Login/LineEmail';
 
 function App() {
   const path = location.pathname;
@@ -42,19 +43,19 @@ function App() {
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
             <Route path="/category/:keyword" element={<Category />} />
-            <Route path="/class/:id" element={<ClassDetail rating={4.5} />} />
+            <Route path="/class/:id" element={<ClassDetail />} />
             <Route path="/account" element={<Account />} />
             <Route path="/charge" element={<ChargePage />} />
             <Route path="admin" element={<Admin />} />
             <Route path="/likes" element={<LikesPage />} />
             <Route path="/question/:id" element={<ClassDetailQnaAll />} />
             <Route path="/review" element={<Review />} />
-            {/* <Route path="/review/:id" element={<Review />} /> */}
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/auth" element={<Redirection />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/reviewModal" element={<ModalReviewWrite />} />
+          <Route path="/auth/lineEmail" element={<LineEmail />} />
         </Routes>
       </Router>
     </>

@@ -66,8 +66,8 @@ const MyQuestionList = () => {
   if (!myQuestions || !user)
     return (
       <div className="inline-flex w-full aspect-square text-gray-500">
-        <span className="m-auto font-extralight text-gray text-xl">
-          No data
+        <span className="m-auto w-5/6 text-gray text-xl text-center">
+          {`No data`}
         </span>
       </div>
     );

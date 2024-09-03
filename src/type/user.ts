@@ -1,7 +1,15 @@
+// export type User = {
+//   id: string;
+//   email: string;
+//   password: string;
+//   name: string;
+//   profile_image?: string | null;
+// };
+
 export type User = {
   id: string;
   email: string;
-  password: string;
+  // password: string;
   name: string;
   profile_image?: string | null;
 };

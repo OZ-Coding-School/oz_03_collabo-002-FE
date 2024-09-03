@@ -8,32 +8,31 @@ type ClassCardProps = {
 };
 
 const ClassCard = ({ classItem }: ClassCardProps) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const tags: string[] = [];
   if (classItem.is_new) tags.push('new');
   if (classItem.is_best) tags.push('best');
   if (classItem.is_viewed) tags.push('viewed');
 
-  let addressState = '';
-  let addressCity = '';
-
-  // 타입 가드로 address 타입 확인
-  if (typeof classItem.address === 'string') {
-    [addressState, addressCity] = classItem.address.split(' ', 2);
-  } else if (
-    typeof classItem.address === 'object' &&
-    classItem.address !== null
-  ) {
-    addressState = classItem.address.state || '';
-    addressCity = classItem.address.city || '';
-  }
+  // let addressState = '';
+  // let addressCity = '';
+  const addressLength = classItem.address
+    .split(' (')[0]
+    .trim()
+    .split(' ').length;
+  const addressState = classItem.address.split('(')[0].split(' ')[
+    addressLength - 1
+  ];
+  const addressCity = classItem.address.split('(')[0].split(' ')[
+    addressLength - 2
+  ];
 
   const imageUrl =
     classItem.images && classItem.images.length > 0
-      ? classItem.images[0].image_url
+      ? classItem.images[0].thumbnail_image_urls[0]
       : '/images/img-sample.jpg';
 
-  const averageScore = classItem.averageScore || 0;
+  const averageScore = classItem.average_rating || 0;
   const priceInUsd = classItem.price_in_usd || 0;
 
   const { toggleLike, isLiked } = useLikeStore();
@@ -63,7 +62,10 @@ const ClassCard = ({ classItem }: ClassCardProps) => {
             ? `${addressState} > ${addressCity}`
             : ''}
         </div>
-        <h2 className="w-full text-black font-bold text-lg line-clamp-2 cursor-pointer" onClick={() => navigate(`/class/${classItem.id}`)}>
+        <h2
+          className="w-full text-black font-bold text-lg line-clamp-2 cursor-pointer"
+          onClick={() => navigate(`/class/${classItem.id}`)}
+        >
           {classItem.title}
         </h2>
         <div>

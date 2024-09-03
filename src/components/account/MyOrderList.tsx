@@ -71,8 +71,8 @@ const MyOrderList = () => {
         <ul className="relative w-full list-none px-6">
           {Object.keys(groupedOrders).length === 0 ? (
             <li className="inline-flex w-full aspect-square text-gray-500">
-              <span className="m-auto font-extralight text-gray text-xl">
-                No data
+              <span className="m-auto w-5/6 text-gray text-xl text-center">
+                {`Experience your own unique story and discover a new Korea :)`}
               </span>
             </li>
           ) : (
@@ -88,7 +88,7 @@ const MyOrderList = () => {
                       (cls) => cls.id === order.class.id,
                     );
                     const imageUrl = foundClass
-                      ? foundClass.images[0].image_url
+                      ? foundClass.images[0].thumbnail_image_urls[0]
                       : '';
                     return (
                       <li
