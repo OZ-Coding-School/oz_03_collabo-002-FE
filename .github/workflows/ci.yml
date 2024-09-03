@@ -2,9 +2,9 @@ name: Front-end CI
 
 on:
   push:
-    branches: ['develop', 'release', 'main', 'feat/*']
+    branches: ['develop', 'release', 'feat/*']
   pull_request:
-    branches: ['develop', 'release', 'main', 'feat/*']
+    branches: ['develop', 'release', 'feat/*']
 
 jobs:
   lint:
