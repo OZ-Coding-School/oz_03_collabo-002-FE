@@ -19,6 +19,8 @@ import { BookingData } from '../../src/store/useBookingStore'; // import useClas
 import { Class } from '../type/class.type';
 import useClassStore from '../store/useClassStore';
 import ClassDetailTopInfo from '../components/classDetail/ClassDetailTopInfo';
+import Button from '../components/common/Button';
+import { useNavigate } from 'react-router-dom';
 
 // type ClassDetailProps = {
 //   rating: number;
@@ -27,6 +29,7 @@ import ClassDetailTopInfo from '../components/classDetail/ClassDetailTopInfo';
 const ClassDetail = () => {
   const id = location.pathname.split('/')[2];
   const [classData, setClassData] = useState<Class | null>(null);
+  const navigate = useNavigate();
   const findOneClass = useClassStore((state) => state.findOneClass);
 
   useEffect(() => {
@@ -59,7 +62,6 @@ const ClassDetail = () => {
   //   };
   //   fetchClassDetailData(1);
   // }, []);
-
 
   const [expanded, setExpanded] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -110,8 +112,6 @@ const ClassDetail = () => {
     setExpanded(!expanded);
   };
 
-
-
   const handleBookNowClick = () => {
     console.log('Book Now clicked');
   };
@@ -120,6 +120,10 @@ const ClassDetail = () => {
     setSelectedDate(null);
     setSelectedTime(null);
     setSelectedClassType(null);
+  };
+
+  const handleWrite = () => {
+    navigate(`/reviewModal`);
   };
 
   // 언어 타입 감지
@@ -256,7 +260,12 @@ const ClassDetail = () => {
               <div>
                 {classData?.images[0]?.detail_image_urls?.length > 0 ? (
                   classData.images[0].detail_image_urls.map((url) => (
-                    <img src={url} alt={url} key={url} className='w-full object-contain'/>
+                    <img
+                      src={url}
+                      alt={url}
+                      key={url}
+                      className="w-full object-contain"
+                    />
                   ))
                 ) : (
                   <p>No detailed images available.</p>
@@ -288,9 +297,7 @@ const ClassDetail = () => {
                 <p>
                   <strong>We Open Class Here</strong>
                 </p>
-                <p className="text-gray-500 pr-20">
-                  {classData.address}
-                </p>
+                <p className="text-gray-500 pr-20">{classData.address}</p>
                 <button
                   type="button"
                   className="absolute right-6 top-10 border border-gray-300 rounded-full p-3"
@@ -320,6 +327,12 @@ const ClassDetail = () => {
               </div>
               <ClassDetailPhotoReview />
               <ClassDetailReview />
+              <Button
+                type="submit"
+                size="sm"
+                value="add review"
+                onSubmit={handleWrite}
+              />
               <ClassDetailQna />
             </div>
             {/* Res. Policy */}{' '}

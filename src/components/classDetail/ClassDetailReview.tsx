@@ -1,4 +1,4 @@
-import { Link, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
   IconAllArw,
   IconReviewHeart,
@@ -11,6 +11,7 @@ import useReviewStore from '../../store/useReviewStore';
 
 const ClassDetailReview = () => {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   console.log(id);
 
   // const [openReviews, setOpenReviews] = useState<{ [key: string]: boolean }>(
@@ -22,8 +23,12 @@ const ClassDetailReview = () => {
   const getReviews = useReviewStore((state) => state.getReviews);
 
   useEffect(() => {
-    getReviews(id);
+    getReviews(Number(id));
   }, [getReviews, id]);
+
+  const handleAllReview = () => {
+    navigate(`/review/${id}`);
+  };
 
   // const toggleReviewopen = (reviewId: string) => {
   //   setOpenReviews((prev) => ({
@@ -36,13 +41,13 @@ const ClassDetailReview = () => {
     <div className="mt-10">
       <h3 className="text-[20px] px-6 font-semibold flex justify-between">
         Reviews
-        <Link
-          to="/review"
+        <button
+          onClick={handleAllReview}
           className="text-[14px] font-normal flex items-center"
         >
           view all
           <IconAllArw className="ml-1" />
-        </Link>
+        </button>
       </h3>
       {/* <div className="px-6 flex mt-4">
         <div className="relative">
@@ -68,7 +73,7 @@ const ClassDetailReview = () => {
           </button>
         </div>
       </div> */}
-      <div className="mt-4">
+      <div className="mt-4 px-6">
         {reviews
           ?.map((data) => (
             // <div key={data.id} className="divide-y divide-gray-200">
@@ -109,7 +114,7 @@ const ClassDetailReview = () => {
             <div className="relative">
               <div className="flex">
                 <div className="w-12 h-12 rounded-full overflow-hidden">
-                  <img src={data.user.profile_url} alt="sample img"></img>
+                  <img src={data.user.profile_image_url} alt="sample img"></img>
                 </div>
                 <div className="text-[14px] ml-4">
                   <strong className="font-semibold">{data.user.name}</strong>
@@ -119,7 +124,7 @@ const ClassDetailReview = () => {
                   </p>
                 </div>
               </div>
-              <p className="text-[14px] mt-4">{data.review_text}</p>
+              <p className="text-[14px] mt-4">{data.review}</p>
               <span className="absolute right-0 top-0 p-2 border border-gray-300 rounded-lg flex items-center">
                 <IconReviewHeart className="mr-1 fill-none stroke-current hover:stroke-none hover:fill-primary" />
                 {data.likes_count}

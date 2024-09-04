@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { IconReviewStar } from '../../config/IconData';
 import ReviewReviewModal from './ReviewPhotoModal';
 import { Review } from '../../type/review.type';
+import { useUserStore } from '../../store/useUser';
 
 interface ReviewProps {
   review: Review;
@@ -39,6 +40,7 @@ const ReviewItem = ({ review }: ReviewProps) => {
   const path = location.pathname;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activePhoto, setActivePhoto] = useState(true);
+  const user = useUserStore((state) => state.user);
   const imageCount = review.images.length;
   const extraImagesCount = imageCount > 3 ? imageCount - 3 : 0;
 
@@ -47,6 +49,7 @@ const ReviewItem = ({ review }: ReviewProps) => {
       setActivePhoto(false);
     } else {
       setActivePhoto(true);
+      console.log('user: ', user);
     }
   }, [path]);
 
@@ -56,7 +59,7 @@ const ReviewItem = ({ review }: ReviewProps) => {
         {/* 작성자 정보 */}
         <div className="flex items-center mb-3">
           <img
-            src={review.user.profile_url}
+            src={review.user.profile_image_url}
             alt={`${review.user.name} profile`}
             className="w-12 h-12 rounded-full"
           />
@@ -78,12 +81,12 @@ const ReviewItem = ({ review }: ReviewProps) => {
                     className="w-4 h-4 mr-1"
                   />
                 ))} */}
-                {review.rating.toFixed(1)}
+                {review.rating}
               </p>
             </div>
           </div>
         </div>
-        <p className="text-sm mb-2">{review.review_text}</p>
+        <p className="text-sm mb-2">{review.review}</p>
         {/* 클래스 정보 */}
         <div className="flex justify-between p-2">
           <p className="text-sm text-gray">
