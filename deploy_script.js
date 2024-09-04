@@ -3,6 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import mime from 'mime-types';
 
+
 // NCP Object Storage 설정
 const endpoint = new AWS.Endpoint('https://kr.object.ncloudstorage.com');
 const region = 'kr-standard'; // NCP의 리전
