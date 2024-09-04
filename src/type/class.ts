@@ -1,47 +1,52 @@
+type Address = {
+  state?: string;
+  city?: string;
+  street?: string;
+};
 export interface Class {
-  id: number;
-  title: string;
-  owner?: string;
-  dates: {
-    id: number;
-    class_id: number;
-    start_date: string;
-    start_time: string;
-    end_time: string;
-    person: number;
-  }[];
-  people?: {
-    max: number;
-    require: number;
-  };
-  average_rating: number;
-  popular?: boolean;
+  id: string;
+  dates: [
+    {
+      id: string;
+      class_id: string;
+      start_date: string;
+      start_time: string;
+      end_time: string;
+      person: 2147483647;
+    },
+  ];
+  images: [
+    {
+      id: string;
+      class_id: string;
+      image_url: string;
+    },
+  ];
   is_new: boolean;
-  is_viewed: boolean;
+  category: string;
+  price_in_usd: number;
   is_best: boolean;
-  price: number;
-  discountRate?: number;
-  discountPrice?: number;
-  description: string;
-  images: {
-    id: number;
-    class_id: number;
-    image_url: string;
-  }[];
-  address: {
-    state: string;
-    city: string;
-    street: string;
-  };
+  formatted_address: string;
   created_at: string;
-  tag?: string;
-  price_in_usd?: number;
+  updated_at: string;
+  title: string;
+  description: string;
+  max_person: number;
+  require_person: number;
+  price: number;
+  class_type: string;
+  is_viewed: boolean;
+  averageScore: number;
+  address: string | Address;
+  kind: string;
 }
 
 export type ClassState = {
-  classes: Class[] | null;
+  classes: Class[];
   filteredClasses: Record<string, Class[]>;
   fetchClasses: () => Promise<void>;
+  setClasses: (data: Class[]) => void;
   filterClasses: (kind: string) => void;
-  setClasses: (classes: Class[]) => void;
+  fetchClassDetails: (id: string) => Promise<Class | null>;
+  fetchMaxPerson: (id: string) => Promise<number | null>;
 };

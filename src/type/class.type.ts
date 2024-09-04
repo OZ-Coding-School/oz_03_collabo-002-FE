@@ -39,12 +39,22 @@ export interface Class {
   is_viewed: boolean;
   averageScore: number;
   address: string | Address;
+  kind: string;
 }
-
-export type ClassState = {
-  classes: Class[] | null;
+export interface ClassState {
+  classes: Class[];
   filteredClasses: Record<string, Class[]>;
   fetchClasses: () => Promise<void>;
+  setClasses: (data: Class[]) => void;
   filterClasses: (kind: string) => void;
-  findOneClass: (id: string | undefined) => Promise<Class | null>;
-};
+  fetchClassDetails: (id: string) => Promise<Class | null>;
+  fetchMaxPerson: (id: string) => Promise<number | null>;
+}
+
+interface ClassCalendarProps {
+  onDateChange: (date: Date | null) => void;
+  selectedDate: Date | null;
+  onTypeChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  selectedType: string | null;
+  className?: string;
+}
