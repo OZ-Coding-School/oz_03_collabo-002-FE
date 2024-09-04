@@ -49,8 +49,10 @@ const useReviewStore = create<ReviewState & ReviewAction>()(
       try {
         const response = await axios.get('/reviews');
         const data: Review[] = response.data;
-        // const filteredData = data.filter((item) => item.user.id === user?.id);
-        // set({ myReviews: filteredData });
+        const filteredData = data.filter(
+          (item) => item.user.id.toString() === user?.id,
+        );
+        set({ myReviews: filteredData });
       } catch (error) {
         console.log('Failed to get my reviews: ', error);
       }
