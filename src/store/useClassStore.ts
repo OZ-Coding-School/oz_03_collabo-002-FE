@@ -53,12 +53,22 @@ const useClassStore = create<ClassState>((set, get) => ({
   },
 }));
 
-// util 함수로 관리되는 findOneClass
 export const findOneClass = async (
   id: string | undefined,
 ): Promise<Class | null> => {
   try {
     const response = await axios.get(`/classes/${id}`);
+    console.log('API Response:', response.data);
+
+    // 응답이 HTML일 경우 처리
+    if (typeof response.data !== 'object') {
+      console.error(
+        'Response is not a valid JSON object. HTML was returned instead.',
+      );
+      console.log('HTML Response:', response.data); // HTML 내용을 확인
+      return null;
+    }
+
     const classData = response.data?.data;
 
     if (classData && classData.id === Number(id)) {
@@ -67,8 +77,19 @@ export const findOneClass = async (
       console.error(`Class not found for id: ${id}`);
       return null;
     }
-  } catch (error) {
-    console.error('Failed to find class: ', error);
+  } catch (error: any) {
+    if (error.response) {
+      console.error(
+        'API call error:',
+        error.response.status,
+        error.response.statusText,
+      );
+      if (typeof error.response.data === 'string') {
+        console.log('Error HTML Response:', error.response.data);
+      }
+    } else {
+      console.error('Error:', error.message);
+    }
     return null;
   }
 };

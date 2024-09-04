@@ -19,24 +19,36 @@ function ClassCalendar({
       console.error('URL에서 classId를 가져오지 못했습니다.');
       return;
     }
-
     const loadClassDetail = async () => {
       console.log('findOneClass 호출, classId:', id);
+
       const detail = await findOneClass(id);
 
-      if (detail && detail.dates.length > 0) {
-        const availableDates = detail.dates.map(
-          (date) => new Date(date.start_date),
-        );
-        console.log('받아온 날짜:', availableDates);
+      // detail이 null인 경우 바로 리턴
+      if (!detail) {
+        console.log('클래스 정보를 찾을 수 없습니다.');
+        return;
+      }
+
+      console.log('받아온 클래스 정보:', detail);
+
+      // 날짜가 있는지 확인
+      if (detail.dates && detail.dates.length > 0) {
+        const availableDates = detail.dates.map((date) => {
+          const parsedDate = new Date(date.start_date);
+          console.log('Parsed Date:', parsedDate); // 각 날짜를 디버깅
+          return parsedDate;
+        });
+        console.log('사용 가능한 날짜:', availableDates);
         setAvailableDates(availableDates);
       } else {
         console.log(
           '사용 가능한 날짜가 없거나 클래스 정보를 찾을 수 없습니다.',
         );
       }
-      if (detail && detail.class_type) {
-        // class_type이 배열이 아닌 경우 배열로 변환
+
+      // 클래스 타입이 있는지 확인
+      if (detail.class_type) {
         const availableTypes = Array.isArray(detail.class_type)
           ? detail.class_type
           : [detail.class_type]; // 배열이 아니면 배열로 변환

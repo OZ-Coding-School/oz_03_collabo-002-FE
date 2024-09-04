@@ -3,19 +3,19 @@ import {
   IconDetailShare,
   IconOptionArw,
   IconReviewStar,
+  IconMoreArw,
+  IconMapShare,
 } from '../config/IconData';
 import { twJoin as tw } from 'tailwind-merge';
 import GoodsDetailInfoSlide from '../components/classDetail/ClassDetailInfoSlide';
 import ClassDetailCalendarSlide from '../components/classDetail/ClassDetailCalendarSlide';
 import ClassDetailOption from '../components/classDetail/ClassDetailOption';
-import '../components/classDetail/ClassDetail.css';
 import ClassDetailSlide from '../components/classDetail/ClassDetailSlide';
 import ClassCalendar from '../components/classDetail/ClassCalendar';
 import useBookingStore from '../../src/store/useBookingStore';
-import { BookingData } from '../../src/store/useBookingStore';
 import useClassStore, { findOneClass } from '../store/useClassStore';
-import { ClassState } from '../type/class';
 import { useParams } from 'react-router-dom';
+import ClassDetailQna from '../components/classDetail/ClassDetailQna';
 
 type ClassDetailProps = {
   rating: number;
@@ -25,9 +25,8 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
   const originalPrice = 14900;
   const discountedPrice = 12900;
   const { id: classId } = useParams<{ id: string }>();
-  const params = useParams<{ id: string }>();
 
-  // 상태들
+  // 상태 관리
   const [availableTypes, setAvailableTypes] = useState<string[]>([]);
   const [expanded, setExpanded] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
@@ -38,162 +37,81 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
   );
   const [selectLanguageType, setSelectLanguageType] = useState('');
   const [maxPerson, setMaxPerson] = useState<number | null>(null);
+  const [isReservationVisible, setIsReservationVisible] = useState(false);
+  const [isCancelationVisible, setIsCancelationVisible] = useState(false);
+  const [isThingsToKeepInMindVisible, setIsThingsToKeepInMindVisible] =
+    useState(false);
 
+  const addBookingItem = useBookingStore((state) => state.addBookingItem); // 상태 관리 훅
+
+  // 클래스 상세 정보와 최대 인원 데이터 가져오기
   const loadClassDetail = async () => {
-    const detail = await findOneClass(classId); // classId로 API에서 클래스 정보를 불러옴
-    console.log('findOneClass 호출, classId:', classId); // classId가 제대로 전달되는지 확인
-    console.log('API 응답 데이터:', detail); // API 응답 데이터 확인
+    if (!classId) return; // classId가 없으면 리턴
 
-    if (!detail) {
-      console.error('Class not found for id:', classId);
-      return;
-    }
+    try {
+      const detail = await findOneClass(classId);
+      console.log('API에서 받아온 클래스 정보:', detail);
 
-    // class_type이 있는 경우 availableTypes 상태를 업데이트
-    if (detail && detail.class_type) {
-      const availableTypes = Array.isArray(detail.class_type)
-        ? detail.class_type
-        : [detail.class_type];
-      setAvailableTypes(availableTypes); // 상태 업데이트
-    }
-
-    // max_person 데이터 업데이트
-    if (detail && detail.max_person) {
-      setMaxPerson(detail.max_person); // maxPerson 상태 업데이트
-    }
-  };
-
-  // 컴포넌트가 렌더링될 때 데이터를 불러오기 위한 useEffect
-  useEffect(() => {
-    loadClassDetail();
-  }, [classId]);
-
-  // 상태에 데이터를 모아서 BookingData로 저장
-  let gatheredBookingData = {} as BookingData;
-
-  const fetchMaxPerson = useClassStore(
-    (state: ClassState) => state.fetchMaxPerson,
-  );
-  useEffect(() => {
-    const getMaxPerson = async () => {
-      if (classId) {
-        const result = await fetchMaxPerson(classId); // fetchMaxPerson 호출
-        console.log('Max Person Result:', result); // 여기에 출력해 확인
-        setMaxPerson(result); // 상태에 저장
+      if (!detail) {
+        console.error('Class not found for id:', classId);
+        return;
       }
-    };
 
-    getMaxPerson();
-  }, [classId, fetchMaxPerson]);
-
-  useEffect(() => {
-    const getMaxPerson = async () => {
-      if (classId) {
-        const result = await fetchMaxPerson(classId); // fetchMaxPerson 호출
-        setMaxPerson(result); // 상태에 저장
-      }
-    };
-
-    getMaxPerson();
-  }, [classId, fetchMaxPerson]);
-
-  useEffect(() => {
-    const loadClassDetail = async () => {
-      const detail = await findOneClass(classId); // classId를 이용해 클래스 정보를 가져옴
-
-      if (detail && detail.class_type) {
-        const availableTypes = Array.isArray(detail.class_type)
+      // 클래스 유형 설정
+      if (detail.class_type) {
+        const types = Array.isArray(detail.class_type)
           ? detail.class_type
           : [detail.class_type];
-        setAvailableTypes(availableTypes); // 직접 availableTypes 설정
+        setAvailableTypes(types);
       }
-    };
 
-    loadClassDetail();
+      // 최대 인원 설정
+      setMaxPerson(detail.max_person || null);
+    } catch (error) {
+      console.error('API 호출 오류:', error);
+    }
+  };
+  console.log('현재 classId:', classId); // 콘솔에 출력하여 확인
+
+  useEffect(() => {
+    loadClassDetail(); // 컴포넌트가 마운트될 때 클래스 정보를 불러옵니다.
   }, [classId]);
 
-  // 기타 레퍼런스들
-  const detailsRef = useRef<HTMLDivElement>(null);
-  const reviewsRef = useRef<HTMLDivElement>(null);
-  const qaRef = useRef<HTMLDivElement>(null);
-  const resPoliciesRef = useRef<HTMLDivElement>(null);
-  const buttonRef = useRef<HTMLButtonElement>(null);
-  const stickyOffset = 58;
-  const headerOffset = 80;
-
-  // 이미지 토글 함수
-  const toggleImageSize = () => {
-    if (!expanded && buttonRef.current) {
-      const { top } = buttonRef.current.getBoundingClientRect();
-      window.scrollTo({
-        top: window.scrollY + top,
-        behavior: 'smooth',
-      });
-    }
-    setExpanded(!expanded);
-  };
-
-  // 스크롤 이동 함수
-  const scrollToSection = (ref: React.RefObject<HTMLDivElement>) => {
-    if (ref.current) {
-      const elementPosition = ref.current.getBoundingClientRect().top;
-      const offsetPosition =
-        elementPosition + window.scrollY - stickyOffset - headerOffset;
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth',
-      });
-    }
-  };
-
-  // "찜하기" 클릭 시 호출
-  const toggleLike = () => {
-    setIsLiked((prevIsLiked) => !prevIsLiked);
-  };
-
   // 예약 정보 저장
-  const addBookingItem = useBookingStore((state) => state.addBookingItem);
-
-  const handleButtonClick = () => {
-    addBookingItem(gatheredBookingData);
-  };
-
-  // 날짜 변경 핸들러
-  const handleDateChange = (date: Date | null) => {
-    setSelectedDate(date);
-  };
-
-  // 클래스 타입 변경 핸들러
-  const handleClassTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedClassType(e.target.value);
-  };
-
-  // 언어 타입 변경 핸들러
-  const ChangeLanguageType = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectLanguageType(e.target.value);
-  };
-
-  // 예약 버튼 클릭
-  const handleBookNowClick = () => {
-    console.log('Book Now clicked');
-  };
-
-  // 옵션 제거 핸들러
-  const handleRemoveOptionClick = () => {
-    setSelectedDate(null);
-    setSelectedTime(null);
-    setSelectedClassType(null);
-  };
-
-  // 예약 데이터 업데이트
-  useEffect(() => {
-    gatheredBookingData = {
+  const handleBookingClick = () => {
+    const bookingData = {
       language: selectLanguageType,
       class: selectedClassType ?? '',
       time: selectedTime ?? '',
       date: selectedDate,
     };
-  }, [selectLanguageType, selectedClassType, selectedTime, selectedDate]);
+    addBookingItem(bookingData);
+  };
+
+  // 스크롤 이동 함수
+  const scrollToSection = (ref: React.RefObject<HTMLDivElement>) => {
+    if (ref.current) {
+      window.scrollTo({
+        top: ref.current.getBoundingClientRect().top + window.scrollY - 80,
+        behavior: 'smooth',
+      });
+    }
+  };
+
+  // 기타 기능 함수들
+  const toggleImageSize = () => setExpanded(!expanded);
+  const toggleLike = () => setIsLiked(!isLiked);
+  const handleDateChange = (date: Date | null) => setSelectedDate(date);
+  const handleClassTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
+    setSelectedClassType(e.target.value);
+  const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
+    setSelectLanguageType(e.target.value);
+
+  // 레퍼런스
+  const detailsRef = useRef<HTMLDivElement>(null);
+  const reviewsRef = useRef<HTMLDivElement>(null);
+  const qaRef = useRef<HTMLDivElement>(null);
+  const resPoliciesRef = useRef<HTMLDivElement>(null);
 
   return (
     <div>
@@ -220,8 +138,7 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
           </div>
           <button
             className={tw(
-              'w-9 h-9 border border-gray-400 rounded-full flex items-center justify-center',
-              'absolute top-[30px] right-[14px]',
+              'w-9 h-9 border border-gray-400 rounded-full flex items-center justify-center absolute top-[30px] right-[14px]',
             )}
             aria-label="찜하기"
             onClick={toggleLike}
@@ -231,49 +148,32 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
             />
           </button>
         </div>
-        <div className="mt-10 px-6">
-          <h3 className="text-[18px] font-medium">
-            Details of the Workshop Piece
-          </h3>
-          <p className="text-[13px] mt-[10px]">
-            - 1 Standard Cocktail + 1 Signature Cocktail
-            <br />
-            - You can create your own Cocktail by choosing from 60 different
-            ingredients.
-            <br />- You can inquire in advance about creating your desired
-            cocktail.
-          </p>
-        </div>
         <GoodsDetailInfoSlide />
       </div>
 
-      {/* 날짜 선택 컴포넌트 */}
       <div className="px-6">
         <div className="border border-1 border-gray-400 rounded-2xl pb-3">
           <ClassCalendar onDateChange={handleDateChange} />
         </div>
-      </div>
 
-      {/* 기타 정보 및 선택 사항들 */}
-      <div className="px-6">
+        {/* 기타 정보 및 선택 사항들 */}
         <div className="mt-[34px] relative">
           <select
             className="outline-none appearance-none border border-gray-400 rounded-lg px-4 py-[12px] w-full text-gray-400 relative"
-            onChange={ChangeLanguageType}
+            onChange={handleLanguageChange}
           >
             <option>Supporters Language Type</option>
-            <option>Supporters Language Type</option>
-            <option>Supporters Language Type</option>
+            <option>English</option>
+            <option>Korean</option>
           </select>
           <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
             <IconOptionArw />
           </div>
         </div>
 
-        {/* 클래스 타입 선택 */}
         <div className="mt-[22px] relative">
           <select
-            value={''}
+            value={selectedClassType || ''}
             onChange={handleClassTypeChange}
             className="outline-none appearance-none border border-gray-400 rounded-lg px-4 py-[12px] w-full text-gray-400 relative"
           >
@@ -293,14 +193,10 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
           </div>
         </div>
 
-        {/* 최대 참여 인원 */}
         <div className="border border-1 border-gray-400 rounded-lg mt-[22px] py-[12px] px-[14px] flex justify-between text-gray-400">
-          Minimum class size :
-          {maxPerson !== null ? (
-            <>Maximum class size: {maxPerson} participants</>
-          ) : (
-            <>Loading maximum participants data...</>
-          )}
+          {maxPerson !== null
+            ? `Maximum participants: ${maxPerson}`
+            : 'Loading max participants...'}
         </div>
       </div>
 
@@ -308,13 +204,83 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
       <ClassDetailOption
         selectedDate={selectedDate}
         selectedTime={selectedTime}
-        selectedClassType={selectedClassType} // selectedClassType 전달
-        onBookNowClick={handleBookNowClick} // Book Now 클릭 핸들러 전달
-        onRemoveOptionClick={handleRemoveOptionClick} // 옵션 제거 핸들러 전달
-        onBookingButtonClick={handleButtonClick}
+        selectedClassType={selectedClassType}
+        onBookNowClick={handleBookingClick}
+        onRemoveOptionClick={() => {
+          setSelectedDate(null);
+          setSelectedTime(null);
+          setSelectedClassType(null);
+        }}
+        onBookingButtonClick={handleBookingClick}
       />
 
-      {/* 나머지 UI 요소들 (리뷰, 예약 정책 등) */}
+      {/* 예약 및 취소 정책 */}
+      <div ref={resPoliciesRef} className="mt-20">
+        <dl className="border-t border-t-1 border-t-gray-300">
+          <dt className="px-6 py-7 text-[18px] font-semibold flex items-center justify-between">
+            Reservation Process
+            <button
+              onClick={() => setIsReservationVisible(!isReservationVisible)}
+            >
+              <IconOptionArw
+                className={`${isReservationVisible ? 'rotate-180' : ''} transition`}
+              />
+            </button>
+          </dt>
+          {isReservationVisible && (
+            <dd className="px-6 py-7 pl-10 border-t border-t-1 border-t-gray-300">
+              <strong>Reservation Process</strong>
+              <ol className="list-decimal">
+                <li>
+                  Select 'Reserve' on the spot page and book your desired date
+                  and number of participants.
+                </li>
+                <li>
+                  Once your reservation is made, it will be confirmed within 2-3
+                  days.
+                </li>
+                <li>
+                  Ensure you arrive at the designated meeting point 10 minutes
+                  before the scheduled time. The class will start promptly.
+                </li>
+                <li>
+                  Please gather at <strong>Mad Night</strong>
+                </li>
+              </ol>
+              <p className="mt-3">
+                {`105 Gangbyeon Shopping Center, Seoul`} {/* 예시 주소 */}
+              </p>
+            </dd>
+          )}
+        </dl>
+
+        <dl className="border-t border-t-1 border-t-gray-300">
+          <dt className="px-6 py-7 text-[18px] font-semibold flex items-center justify-between">
+            Cancelation Policy
+            <button
+              onClick={() => setIsCancelationVisible(!isCancelationVisible)}
+            >
+              <IconOptionArw
+                className={`${isCancelationVisible ? 'rotate-180' : ''} transition`}
+              />
+            </button>
+          </dt>
+          {isCancelationVisible && (
+            <dd className="px-6 py-7 pl-10 border-t border-t-1 border-t-gray-300">
+              <strong>Cancelation Policy</strong>
+              <ul className="list-disc">
+                <li>4 days before the class: Full refund</li>
+                <li>3 days before the class: 50% refund</li>
+                <li>2 days before the class: No refund</li>
+              </ul>
+              <p>
+                The cancellation fee policy is based on the class provider's
+                business days.
+              </p>
+            </dd>
+          )}
+        </dl>
+      </div>
     </div>
   );
 };
