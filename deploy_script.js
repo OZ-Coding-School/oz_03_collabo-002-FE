@@ -1,64 +1,70 @@
-import axios from 'axios';
+import AWS from 'aws-sdk';
 import fs from 'fs';
 import path from 'path';
-import crypto from 'crypto';
-import * as dayjs from 'dayjs';
+import mime from 'mime-types';
 
 
-// 환경 변수
-const endpoint = 'https://kr.object.ncloudstorage.com';
+// NCP Object Storage 설정
+const endpoint = new AWS.Endpoint('https://kr.object.ncloudstorage.com');
+const region = 'kr-standard'; // NCP의 리전
+const accessKeyId = process.env.NCP_ACCESS_KEY_ID;
+const secretAccessKey = process.env.NCP_SECRET_ACCESS_KEY;
 const bucketName = process.env.NCP_BUCKET_NAME;
-const accessKey = process.env.NCP_ACCESS_KEY_ID;
-const secretKey = process.env.NCP_SECRET_ACCESS_KEY;
-const date = dayjs().format("yyyyMMdd'T'HHmmss'Z'")
 
-// 공통 요청 헤더 설정
-const getAuthHeader = (method, uri, contentLength) => {
-  const stringToSign = `${method}\n\n\n${contentLength}\n\n\n${uri}`;
-  const signature = crypto.createHmac('sha256', secretKey).update(stringToSign).digest('hex');
-  return `AWS ${accessKey}:${signature}`;
-};
+const s3 = new AWS.S3({
+  endpoint: endpoint,
+  region: region,
+  credentials: new AWS.Credentials(accessKeyId, secretAccessKey),
+});
 
-const uploadFile = async (filePath, objectName) => {
+// 파일을 업로드하는 함수
+const uploadFile = async (filePath, key) => {
   const fileContent = fs.readFileSync(filePath);
-  const url = `${endpoint}/${bucketName}/${objectName}`;
-  const headers = {
-    'Authorization': getAuthHeader('PUT', `/${bucketName}/${objectName}`, fileContent.length),
-    'x-amz-date': date,
-    'x-amz-content-sha256': crypto.createHash('sha256').update(fileContent).digest('hex'),
-    'Content-Length': fileContent.length,
-    'Content-Type': 'application/octet-stream',
-    'Host': new URL(endpoint).host,
-  };
+  let contentType = mime.lookup(filePath);
 
-  await axios.put(url, fileContent, { headers });
+  // 특정 확장자에 대해 명시적으로 MIME 타입 설정 (선택 사항)
+  const ext = path.extname(filePath).toLowerCase();
+  if (ext === '.js') {
+    contentType = 'application/javascript';
+  } else if (ext === '.css') {
+    contentType = 'text/css';
+  }
+
+  // MIME 타입이 없으면 기본값 설정
+  contentType = contentType || 'application/octet-stream';
+
+  const params = {
+    Bucket: bucketName,
+    Key: key,
+    Body: fileContent,
+    ACL: 'public-read', // 파일 업로드 시 전체 공개 권한 부여
+    ContentType: contentType, // MIME 타입 설정
+    ContentDisposition: 'inline' // inline으로 설정하여 브라우저에서 열리도록 함
+  };
+  return s3.upload(params).promise();
 };
 
-const deleteFile = async (objectName) => {
-  const url = `${endpoint}/${bucketName}/${objectName}`;
-  const headers = {
-    'Authorization': getAuthHeader('DELETE', `/${bucketName}/${objectName}`, 0),
-    'x-amz-date': date,
-    'Host': new URL(endpoint).host,
-  };
+// 디렉토리의 파일을 동기화하는 함수
+const syncDirectory = async (directory, baseDir) => {
+  const files = fs.readdirSync(directory);
 
-  await axios.delete(url, { headers });
+  const uploadPromises = files.map(async (file) => {
+    const fullPath = path.join(directory, file);
+    const relativePath = path.relative(baseDir, fullPath);
+
+    if (fs.statSync(fullPath).isDirectory()) {
+      await syncDirectory(fullPath, baseDir);
+    } else {
+      await uploadFile(fullPath, relativePath);
+    }
+  });
+
+  await Promise.all(uploadPromises);
 };
 
-// 스크립트 실행 예시
+// 스크립트 실행
 const distDir = path.join(process.cwd(), 'dist');
-const files = fs.readdirSync(distDir);
-
-for (const file of files) {
-  const fullPath = path.join(distDir, file);
-  const relativePath = path.relative(distDir, fullPath);
-
-  // 파일 업로드
-  await uploadFile(fullPath, relativePath);
-}
-
-// 삭제할 파일 목록 예시 (실제 구현에서는 필요에 따라 파일 목록을 유지하거나 수정)
-const filesToDelete = ['path/to/old-file.txt']; // 예시 파일 경로
-for (const file of filesToDelete) {
-  await deleteFile(file);
-}
+syncDirectory(distDir, distDir)
+  .then(() => console.log('Deployment completed.'))
+  .catch((err) => console.error('Error during deployment:', err));
+  
