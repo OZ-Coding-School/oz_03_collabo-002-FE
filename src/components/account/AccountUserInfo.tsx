@@ -1,17 +1,38 @@
+import { useEffect } from 'react';
 import { useUserStore } from '../../store/useUser';
 
 const AccountUserInfo = () => {
   const user = useUserStore((state) => state.user);
+  const logout = useUserStore((state) => state.logout);
+  const fetchUser = useUserStore((state) => state.fetchUser);
+  useEffect(() => {
+    fetchUser();
+  }, [fetchUser]);
+
+  const handleLogout = () => {
+    logout();
+  };
 
   return (
-    <div className="w-full h-50 relative flex items-center p-6">
-      <img
-        src="/images/user-empty.png"
-        className="size-14 rounded-full mr-[15px]"
-      />
-      <div className="font-bold">
-        <div className="text-lg">{user ? user?.name : 'Failed to load user.'}</div>
-        <div className="text-xs">{user ? user?.email : 'Failed to load user.'}</div>
+    <div className="w-full h-50 relative flex items-center justify-between p-6">
+      <div className="flex">
+        <img
+          src="/images/user-empty.png"
+          className="size-14 rounded-full mr-[15px]"
+        />
+        <div className="font-bold">
+          <div className="text-lg">
+            {user ? user?.name : 'Failed to load user.'}
+          </div>
+          <div className="text-xs">
+            {user ? user?.email : 'Failed to load user.'}
+          </div>
+        </div>
+      </div>
+      <div>
+        <button onClick={handleLogout} className="text-sm border border-gray px-3 py-1 rounded-xl">
+          Logout
+        </button>
       </div>
     </div>
   );

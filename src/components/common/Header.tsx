@@ -1,4 +1,4 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { twJoin as tw } from 'tailwind-merge';
 import {
   IconHdBack,
@@ -15,6 +15,7 @@ const Header = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   const toggleNav = () => {
     setIsNavOpen(!isNavOpen);
@@ -33,7 +34,7 @@ const Header = () => {
       <>
         <header className="bg-white sticky top-0 left-0 z-30 border-y border-gray-200 flex px-6 py-4 overflow-hidden">
           <div className="flex items-center justify-items-start flex-grow bg-white">
-            {!location.pathname.startsWith('/class/') ? (
+            {location.pathname === '/' ? (
               <>
                 <div
                   className="w-6 h-6 flex flex-col justify-around cursor-pointe mr-2"
@@ -45,15 +46,15 @@ const Header = () => {
                 </div>
 
                 <h1>
-                  <Link to="/">
+                  <Link to={'/'}>
                     <IconLogo className="h-[24px]" />
                   </Link>
                 </h1>
               </>
             ) : (
-              <Link to="">
+              <button onClick={() => navigate(-1)}>
                 <IconHdBack />
-              </Link>
+              </button>
             )}
             <ul className="flex items-center justify-center gap-2 text-sm absolute right-6">
               {isLogin ? (
@@ -65,7 +66,7 @@ const Header = () => {
                     </Link>
                   </li>
                   <li>
-                    <Link to="">
+                    <Link to="/account?page=like">
                       <IconHdHeart />
                       <span className="sr-only">HEART</span>
                     </Link>

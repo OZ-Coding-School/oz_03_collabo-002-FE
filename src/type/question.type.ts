@@ -1,14 +1,13 @@
 export type Question = {
-  id: string;
-  questionTitle: string;
-  question: string;
-  answerTitle: string;
-  answer: string;
-  author: string;
-  classId: string;
-  complete: boolean;
-  createDate: string;
-  answerDate: string;
+  id: string | number;
+  created_at: string
+  updated_at: string
+  question: string
+  question_title: string
+  answer: string
+  answer_title: string
+  class_id: string | number;
+  user_id: string | number;
 };
 
 export type QuestionState = {
@@ -21,12 +20,12 @@ export type QuestionActions = {
   getQuestionAll: () => Promise<void>;
   createQuestion: (
     classId: string | undefined,
-    questionData: Pick<Question, 'questionTitle' | 'question'>,
+    questionData: Pick<Question, 'question_title' | 'question'>,
   ) => Promise<void>;
   updateQuestion: (
     classId: string | undefined,
     questionId: string | undefined,
-    questionData: Pick<Question, 'questionTitle' | 'question'>,
+    questionData: Pick<Question, 'question_title' | 'question'>,
   ) => Promise<void>;
   deleteQuestion: (
     classId: string | undefined,

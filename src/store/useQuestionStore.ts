@@ -15,7 +15,7 @@ const useQnaStore = create<QuestionState & QuestionActions>()(
     // 특정 클래스의 질문 목록을 가져오는 함수
     fetchQuestionDetail: async (classId) => {
       try {
-        const response = await axios.get(`/v1/question/${classId}/`);
+        const response = await axios.get(`/question/${classId}/`);
         const data: Question[] = response.data;
         set({ questions: data });
       } catch (error) {
@@ -26,10 +26,10 @@ const useQnaStore = create<QuestionState & QuestionActions>()(
     // 내 질문 목록을 가져오는 함수
     fetchMyQuestions: async (userId) => {
       try {
-        const response = await axios.get(`/v1/question/`);
+        const response = await axios.get(`/question/`);
         const data: Question[] = response.data;
         const filteredMyQuestions = data.filter(
-          (question: Question) => question.author === userId?.toString(),
+          (question: Question) => question.user_id === userId?.toString(),
         );
         set({ myQuestions: filteredMyQuestions });
       } catch (error) {

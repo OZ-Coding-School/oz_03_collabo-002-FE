@@ -1,20 +1,20 @@
 import { useEffect, useState } from 'react';
-import useAccountStore from '../../store/useAccountStore';
+import {useUserStore} from '../../store/useUser';
 import useClassStore from '../../store/useClassStore';
 import { Link } from 'react-router-dom';
 import { IconCheck } from '../../config/IconData';
 import { myOrder } from '../../type/account.type';
 
 const MyOrderList = () => {
-  const myOrders = useAccountStore((state) => state.myOrders);
+  const myOrders = useUserStore((state) => state.myOrders);
   const classes = useClassStore((state) => state.classes);
-  const fetchMyOrder = useAccountStore((state) => state.fetchMyOrder);
+  const fetchMyOrder = useUserStore((state) => state.fetchMyOrder);
   const fetchClasses = useClassStore((state) => state.fetchClasses);
 
   const [showTodayClasses, setShowTodayClasses] = useState(false);
 
   useEffect(() => {
-    fetchMyOrder('token');
+    fetchMyOrder();
     fetchClasses();
   }, [fetchMyOrder, fetchClasses]);
 

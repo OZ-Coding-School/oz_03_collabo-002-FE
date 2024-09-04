@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import useAccountStore from '../../store/useAccountStore';
+import {useUserStore} from '../../store/useUser';
 import useQnaStore from '../../store/useQuestionStore';
 import {
   IconArrowDown,
@@ -9,7 +9,6 @@ import {
   IconRemove,
 } from '../../config/IconData';
 import { useNavigate } from 'react-router-dom';
-import { useUserStore } from '../../store/useUser';
 import EditQuestionModal from '../question/EditQuestionModal'; // 질문 수정 모달 컴포넌트
 import CreateQuestionModal from '../question/CreateQuestionModal'; // 질문 생성 모달 컴포넌트
 import { Question } from '../../type/question.type';
@@ -18,7 +17,7 @@ const MyQuestionList = () => {
   const navigate = useNavigate();
   const user = useUserStore((state) => state.user);
   const myQuestions = useQnaStore((state) => state.myQuestions);
-  const fetchUser = useAccountStore((state) => state.fetchUser);
+  const fetchUser = useUserStore((state) => state.fetchUser);
   const fetchMyQuestions = useQnaStore((state) => state.fetchMyQuestions);
   const deleteQuestion = useQnaStore((state) => state.deleteQuestion);
   const updateQuestion = useQnaStore((state) => state.updateQuestion);
@@ -75,7 +74,7 @@ const MyQuestionList = () => {
     <div className="">
       <div className="w-full flex items-center bg-gray py-[15px] px-6 mb-[15px]">
         <IconArrowLeft className="mr-[15px]" onClick={() => navigate(-1)} />
-        <h1 className="text-lg font-[NanumSquareBold] mr-1 ">My Question</h1>
+        <h1 className="text-lg font-bold mr-1 ">My Question</h1>
         <span className="font-sans">({myQuestions?.length})</span>
         <button onClick={handleCreateQuestion} className="ml-auto">
           Add Question
@@ -86,12 +85,12 @@ const MyQuestionList = () => {
           <div className="flex justify-between px-6 py-[15px] items-center">
             <div id="question-item" className="flex flex-col flex-grow">
               <div className="flex justify-between items-center">
-                <h3 className="font-[NanumSquareBold]">{data.questionTitle}</h3>
+                <h3 className="font-[NanumSquareBold]">{data.question_title}</h3>
                 <div className="flex items-center space-x-2">
                   <button onClick={() => handleEditQuestion(data)}>
                     <IconEdit />
                   </button>
-                  <button onClick={() => handleDeleteQuestion(data.id)}>
+                  <button onClick={() => handleDeleteQuestion(String(data.id))}>
                     <IconRemove />
                   </button>
                 </div>
@@ -100,17 +99,17 @@ const MyQuestionList = () => {
                 id="qnaStatus"
                 className="flex items-center mt-1 text-xs text-darkgray"
               >
-                <div>{data.complete ? 'Answered' : 'Pending'}</div>
+                <div>{data.answer !== '' ? 'Answered' : 'Pending'}</div>
                 <p>・</p>
-                <span>{data.author}</span>
+                <span>{data.user_id}</span>
                 <p>・</p>
                 <div>
-                  {new Date(data.createDate).toLocaleDateString('ko-KR')}
+                  {new Date(data.created_at).toLocaleDateString('ko-KR')}
                 </div>
               </div>
             </div>
-            {data.complete ? (
-              <button onClick={() => toggleAnswerOpen(data.id)}>
+            {data.answer !== '' ? (
+              <button onClick={() => toggleAnswerOpen(String(data.id))}>
                 {openAnswers[data.id] ? <IconArrowUp /> : <IconArrowDown />}
               </button>
             ) : null}
@@ -118,16 +117,16 @@ const MyQuestionList = () => {
           {openAnswers[data.id] && (
             <div className="mt-2 bg-gray p-6">
               <h3 className="font-[NanumSquareBold] mb-[15px]">
-                {data.answerTitle}
+                {data.answer_title}
               </h3>
               <p className="mb-[15px]">{data.answer}</p>
-              <small className="text-sm">{data.answerDate.split('T', 1)}</small>
+              <small className="text-sm">{data.updated_at.split('T', 1)}</small>
             </div>
           )}
         </div>
       ))}
 
-      {showEditModal && editingQuestion && (
+      {/* {showEditModal && editingQuestion && (
         <EditQuestionModal
           question={editingQuestion}
           onClose={() => setShowEditModal(false)}
@@ -150,7 +149,7 @@ const MyQuestionList = () => {
             setShowCreateModal(false);
           }}
         />
-      )}
+      )} */}
     </div>
   );
 };

@@ -13,7 +13,6 @@ import ClassDetailReview from '../components/classDetail/ClassDetailReview';
 import '../components/classDetail/ClassDetail.css';
 import ClassDetailSlide from '../components/classDetail/ClassDetailSlide';
 import ClassCalendar from '../components/classDetail/ClassCalendar';
-import ClassDetailQna from '../components/classDetail/ClassDetailQna';
 import useBookingStore from '../../src/store/useBookingStore';
 import { BookingData } from '../../src/store/useBookingStore'; // import useClassStore from '../store/useClassStore';
 import { Class } from '../type/class.type';
@@ -320,7 +319,6 @@ const ClassDetail = () => {
               </div>
               <ClassDetailPhotoReview />
               <ClassDetailReview />
-              <ClassDetailQna />
             </div>
             {/* Res. Policy */}{' '}
             <div ref={resPoliciesRef} className="mt-20">

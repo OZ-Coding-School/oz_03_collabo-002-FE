@@ -10,11 +10,12 @@ import Login from './pages/Login';
 import Review from './components/review/Review';
 import Account from './components/account/Account';
 import LikesPage from './pages/LikesPage';
-import ClassDetailQnaAll from './components/classDetail/ClassDetailQnaAll';
+import ClassDetailQnaAll from './components/question/ClassDetailQnaAll';
 import Redirection from './pages/Redirection';
 import Category from './components/classByCategory/Category';
 import ModalReviewWrite from './components/common/ModalReviewWrite';
 import LineEmail from './components/Login/LineEmail';
+import MyLike from './components/account/MyLike';
 
 function App() {
   const path = location.pathname;
@@ -47,7 +48,7 @@ function App() {
             <Route path="/account" element={<Account />} />
             <Route path="/charge" element={<ChargePage />} />
             <Route path="admin" element={<Admin />} />
-            <Route path="/likes" element={<LikesPage />} />
+            <Route path="/likes" element={<MyLike />} />
             <Route path="/question/:id" element={<ClassDetailQnaAll />} />
             <Route path="/review" element={<Review />} />
           </Route>

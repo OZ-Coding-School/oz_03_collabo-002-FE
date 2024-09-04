@@ -24,12 +24,11 @@ export type myOrder = {
 };
 
 export type User = {
-  id?: string;
+  id: string;
   name: string;
-  phone?: string;
   email: string;
-  avatar?: File | string | null;
-} | null;
+  profile_image?: string | null;
+}
 
 export type AccountState = {
   user: User | null;
@@ -40,7 +39,8 @@ export type AccountState = {
 
 export type AccountActions = {
   fetchUser: () => Promise<void>;
-  fetchMyOrder: (token: string) => Promise<void>;
+  fetchMyOrder: () => Promise<void>;
   updateUser: (updateData: Partial<{ name: string; avatar: File | string | null }>) => Promise<void>;
+  logout: () => Promise<void>;
   deleteUser: () => Promise<void>;
 };

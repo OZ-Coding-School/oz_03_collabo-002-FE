@@ -24,6 +24,8 @@ const ClassDetailQna = () => {
     }));
   };
 
+  if(!questions) return null;
+
   return (
     <div className="mt-10">
       <h3 className="text-[20px] px-6 font-semibold flex justify-between">
@@ -44,24 +46,24 @@ const ClassDetailQna = () => {
                 <div id="question-item" className="flex flex-col">
                   <div className="flex justify-between items-center">
                     <h3 className="font-bold">
-                      {data.questionTitle}
+                      {data.question_title}
                     </h3>
                   </div>
                   <div
                     id="qnaStatus"
                     className="flex items-center mt-1 text-xs text-darkgray"
                   >
-                    <div>{data.complete ? 'Answered' : 'Pending'}</div>
+                    <div>{data.answer !== '' ? 'Answered' : 'Pending'}</div>
                     <p>・</p>
-                    <span>{data.author}</span>
+                    <span>{data.user_id}</span>
                     <p>・</p>
                     <div>
-                      {new Date(data.createDate).toLocaleDateString('ko-KR')}
+                      {new Date(data.created_at).toLocaleDateString('ko-KR')}
                     </div>
                   </div>
                 </div>
-                {data.complete ? (
-                  <button onClick={() => toggleAnswerOpen(data.id)}>
+                {data.answer !== '' ? (
+                  <button onClick={() => toggleAnswerOpen(String(data.id))}>
                     {openAnswers[data.id] ? <IconArrowUp /> : <IconArrowDown />}
                   </button>
                 ) : null}
@@ -69,11 +71,11 @@ const ClassDetailQna = () => {
               {openAnswers[data.id] && (
                 <div className="mt-2 bg-gray p-6">
                   <h3 className="font-bold mb-[15px]">
-                    {data.answerTitle}
+                    {data.answer_title}
                   </h3>
                   <p className="mb-[15px]">{data.answer}</p>
                   <small className="text-sm">
-                    {data.answerDate.split('T', 1)}
+                    {data.updated_at.split('T', 1)}
                   </small>
                 </div>
               )}
