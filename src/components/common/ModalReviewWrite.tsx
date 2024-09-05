@@ -9,6 +9,7 @@ import { useModalStore } from '../../store/useModal';
 import Modal from './Modal';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from '../../api/axios';
+import { useUserStore } from '../../store/useUser';
 
 const ModalReviewWrite = () => {
   const stars = [1, 2, 3, 4, 5];
@@ -17,8 +18,10 @@ const ModalReviewWrite = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [inputCount, setInputCount] = useState<number>(0);
   const { setModal, showModal } = useModalStore();
+  const user = useUserStore((state) => state.user);
   const navigate = useNavigate();
-  const { class_id } = useParams();
+  const { id } = useParams();
+  const [accessToken, setAccessToken] = useState<string | null>('');
   const {
     register,
     handleSubmit,
@@ -66,6 +69,16 @@ const ModalReviewWrite = () => {
     console.log('ratings: ', ratings);
   }, [ratings]);
 
+  useEffect(() => {
+    console.log('id: ', id);
+    console.log('user: ', user);
+    if (user) {
+      const Token = localStorage.getItem('accessToken');
+      setAccessToken(Token);
+      console.log('accessToken: ', Token);
+    }
+  }, []);
+
   const handleInputImage = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const files = e.target.files;
@@ -100,27 +113,28 @@ const ModalReviewWrite = () => {
     try {
       // images, rating은 form data에서 추출해 낼 수 없음 -> <img /> 여서 그런가..
       // 그래서 form data로 review_text만 추출 가능
-      const { review, images, rating } = data;
+      const { review } = data;
       const currentDate = new Date().toISOString();
       const reviewData = {
-        images: uploadImgs.map((img) => ({ image_url: img })),
-        class_id: class_id,
+        images:
+          uploadImgs.length > 0
+            ? uploadImgs.map((img) => ({ image_url: img }))
+            : [],
+        class_id: Number(id),
         created_at: currentDate,
         review,
-        rating: ratings,
+        rating: ratings.toString(),
       };
-      console.log(review, images, rating);
       console.log(reviewData);
       await axios.post(
-        // `reviews/${class_id}`,
-        `reviews/1`,
-        // `https://api.custom-k.store/v1/reviews/1`,
-        {
-          reviewData,
-        },
+        `reviews/${id}`,
+
+        reviewData,
+
         {
           headers: {
             'Content-Type': 'application/json',
+            Authorization: `Bearer ${accessToken}`,
           },
           withCredentials: true,
         },
@@ -129,6 +143,9 @@ const ModalReviewWrite = () => {
       clearValue();
       setRatings(0);
       setUploadImgs([]);
+      setTimeout(() => {
+        navigate(`class/${id}`);
+      }, 2000);
     } catch (error) {
       console.error('Error submitting review:', error);
 

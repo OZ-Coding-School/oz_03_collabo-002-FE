@@ -54,7 +54,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/auth" element={<Redirection />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/reviewModal" element={<ModalReviewWrite />} />
+          <Route path="/reviewModal/:id" element={<ModalReviewWrite />} />
           <Route path="/auth/lineEmail" element={<LineEmail />} />
         </Routes>
       </Router>

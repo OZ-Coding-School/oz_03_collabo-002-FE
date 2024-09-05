@@ -123,7 +123,7 @@ const ClassDetail = () => {
   };
 
   const handleWrite = () => {
-    navigate(`/reviewModal`);
+    navigate(`/reviewModal/${id}`);
   };
 
   // 언어 타입 감지
