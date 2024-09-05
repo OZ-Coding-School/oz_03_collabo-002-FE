@@ -104,7 +104,7 @@ const SignUp = () => {
         console.log('1');
         console.log('imgFile:', imgFile);
         await axiosRequest.post(
-          `/signup`,
+          `/users/signup`,
           signupData,
           {
             headers: {
