@@ -13,14 +13,11 @@ import ClassDetailReview from '../components/classDetail/ClassDetailReview';
 import '../components/classDetail/ClassDetail.css';
 import ClassDetailSlide from '../components/classDetail/ClassDetailSlide';
 import ClassCalendar from '../components/classDetail/ClassCalendar';
-import ClassDetailQna from '../components/classDetail/ClassDetailQna';
 import useBookingStore from '../../src/store/useBookingStore';
 import { BookingData } from '../../src/store/useBookingStore'; // import useClassStore from '../store/useClassStore';
 import { Class } from '../type/class.type';
 import useClassStore from '../store/useClassStore';
 import ClassDetailTopInfo from '../components/classDetail/ClassDetailTopInfo';
-import Button from '../components/common/Button';
-import { useNavigate } from 'react-router-dom';
 
 // type ClassDetailProps = {
 //   rating: number;
@@ -29,7 +26,6 @@ import { useNavigate } from 'react-router-dom';
 const ClassDetail = () => {
   const id = location.pathname.split('/')[2];
   const [classData, setClassData] = useState<Class | null>(null);
-  const navigate = useNavigate();
   const findOneClass = useClassStore((state) => state.findOneClass);
 
   useEffect(() => {
@@ -122,9 +118,9 @@ const ClassDetail = () => {
     setSelectedClassType(null);
   };
 
-  const handleWrite = () => {
-    navigate(`/reviewModal/${id}`);
-  };
+  // const handleWrite = () => {
+  //   navigate(`/reviewModal`);
+  // };
 
   // 언어 타입 감지
   const ChangeLanguageType = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -327,13 +323,6 @@ const ClassDetail = () => {
               </div>
               <ClassDetailPhotoReview />
               <ClassDetailReview />
-              <Button
-                type="submit"
-                size="sm"
-                value="add review"
-                onSubmit={handleWrite}
-              />
-              <ClassDetailQna />
             </div>
             {/* Res. Policy */}{' '}
             <div ref={resPoliciesRef} className="mt-20">

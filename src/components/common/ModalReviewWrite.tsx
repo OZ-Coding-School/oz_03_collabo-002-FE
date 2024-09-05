@@ -32,7 +32,7 @@ const ModalReviewWrite = () => {
     defaultValues: {
       review: '',
       created_at: '',
-      rating: '0',
+      rating: 0,
       images: [],
     },
   });
@@ -42,7 +42,7 @@ const ModalReviewWrite = () => {
     reset({
       review: '',
       created_at: '',
-      rating: '0',
+      rating: 0,
       images: [],
     });
   };
@@ -61,13 +61,13 @@ const ModalReviewWrite = () => {
     setRatings((prevRating) =>
       selectedRating === prevRating ? prevRating - 1 : selectedRating,
     );
-    console.log('seletedRating: ', selectedRating);
+    console.log('selectedRating: ', selectedRating);
   };
 
   useEffect(() => {
     console.log('star: ', stars);
     console.log('ratings: ', ratings);
-  }, [ratings]);
+  }, [ratings, stars]);
 
   useEffect(() => {
     console.log('id: ', id);
@@ -77,7 +77,7 @@ const ModalReviewWrite = () => {
       setAccessToken(Token);
       console.log('accessToken: ', Token);
     }
-  }, []);
+  }, [id, user]);
 
   const handleInputImage = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {

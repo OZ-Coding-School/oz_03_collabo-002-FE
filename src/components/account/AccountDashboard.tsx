@@ -16,6 +16,16 @@ const AccountDashboard = () => {
       </Link>
       {/* 주문내역 보기 */}
       <Link
+        to={'/account?page=like'}
+        className="w-full h-[60px] flex justify-between items-center"
+      >
+        <h3>My Likes</h3>
+        <div className="w-6 h-6">
+          <IconPaginationRight />
+        </div>
+      </Link>
+      {/* 주문내역 보기 */}
+      <Link
         to={'/account?page=orders'}
         className="w-full h-[60px] flex justify-between items-center"
       >

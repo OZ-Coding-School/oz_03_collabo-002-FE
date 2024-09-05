@@ -17,24 +17,25 @@
 // };
 
 export type Review = {
-  class_id: number;
-  id: number;
+  class_id: string | number;
+  id: string | number;
   review: string;
-  rating: string;
+  rating: number;
   created_at: string;
   updated_at: string;
   likes_count: number;
   user: {
-    id: number;
+    id: string | number;
     email: string;
     name: string;
     profile_image_url: string;
   };
-  images:
-    | {
-        image_url: string;
-      }[]
-    | [];
+  images: [
+    {
+      id: string | number;
+      image_url: string;
+    },
+  ];
 };
 
 export type AllReview = {

@@ -38,8 +38,8 @@ const ClassDetailReview = () => {
   // };
 
   return (
-    <div className="mt-10">
-      <h3 className="text-[20px] px-6 font-semibold flex justify-between">
+    <div className="mt-10 px-6">
+      <h3 className="text-[20px] font-semibold flex justify-between">
         Reviews
         <button
           onClick={handleAllReview}
@@ -75,12 +75,12 @@ const ClassDetailReview = () => {
       </div> */}
       <div className="mt-4 px-6">
         {reviews
-          ?.map((data) => (
+          ?.map((review) => (
             // <div key={data.id} className="divide-y divide-gray-200">
             //   <div className="flex justify-between px-6 py-[15px]">
             //     <div id="question-item" className="flex flex-col">
             //       <div className="flex justify-between items-center">
-            //         <h3 className="font-bold">{data.questionTitle}</h3>
+            //         <h3 className="font-bold">{data.question_title}</h3>
             //       </div>
             //       <div
             //         id="qnaStatus"
@@ -114,20 +114,21 @@ const ClassDetailReview = () => {
             <div className="relative">
               <div className="flex">
                 <div className="w-12 h-12 rounded-full overflow-hidden">
-                  <img src={data.user.profile_image_url} alt="sample img"></img>
+                  {}
+                  <img src={review.user.profile_image_url || '/images/user-empty.png'} alt="sample img"></img>
                 </div>
                 <div className="text-[14px] ml-4">
-                  <strong className="font-semibold">{data.user.name}</strong>
+                  <strong className="font-semibold">{review.user.name}</strong>
                   <p className="flex items-center">
                     <IconReviewStar className="mr-1" />
-                    {data.rating}
+                    {review.rating}
                   </p>
                 </div>
               </div>
-              <p className="text-[14px] mt-4">{data.review}</p>
+              <p className="text-[14px] mt-4">{review.review}</p>
               <span className="absolute right-0 top-0 p-2 border border-gray-300 rounded-lg flex items-center">
                 <IconReviewHeart className="mr-1 fill-none stroke-current hover:stroke-none hover:fill-primary" />
-                {data.likes_count}
+                {review.likes_count}
               </span>
             </div>
           ))

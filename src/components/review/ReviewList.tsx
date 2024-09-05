@@ -12,7 +12,7 @@ const ReviewsList = () => {
     getReviews(Number(id));
     console.log('id: ', id);
     console.log('reviews: ', reviews);
-  }, [getReviews, id]);
+  }, [getReviews, id, reviews]);
 
   if (!reviews) return <h1>Loading..</h1>;
 
