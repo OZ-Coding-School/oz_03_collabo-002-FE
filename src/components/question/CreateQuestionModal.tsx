@@ -1,74 +1,107 @@
 import { useState } from 'react';
-import { IconArrowLeft } from '../../config/IconData';
+import { IconRemove } from '../../config/IconData';
 import { useModalOpenCloseStore } from '../../store/useModal';
-import { Question } from '../../type/question.type';
+import useClassStore from '../../store/useClassStore';
+import useQnaStore from '../../store/useQuestionStore';
+import Button from '../common/Button';
+import { motion } from 'framer-motion';
 
-interface CreateQuestionModalProps {
+type CreateQuestionModalProps = {
   onClose: () => void;
-  onCreate: (newQuestion: Pick<Question, 'questionTitle' | 'question'>) => void;
-}
+  handleAfterClose: () => void;
+};
 
 const CreateQuestionModal = ({
   onClose,
-  onCreate,
+  handleAfterClose,
 }: CreateQuestionModalProps) => {
   const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
+  const [inquiry, setInquiry] = useState('');
+  const [classId, setClassId] = useState('');
 
+  const classTitle = useClassStore((state) => state.classTitle);
+  const createQuestion = useQnaStore((state) => state.createQuestion);
   const { clearModal } = useModalOpenCloseStore();
 
   const handleCreate = () => {
-    if (title.trim() === '' || content.trim() === '') {
+    if (title.trim() === '' || inquiry.trim() === '' || classId === '') {
       return;
     }
-    onCreate({ questionTitle: title, question: content });
+    console.log(title, inquiry, classId);
+    const questionData = { question_title: title, question: inquiry };
+    createQuestion(classId, questionData);
+    handleClose();
   };
 
   const handleClose = () => {
     clearModal();
     onClose();
+    handleAfterClose();
   };
 
+  if (!classTitle) return null;
+
+  const boxStyle =
+    'w-full text-darkgray mb-[15px] border border-darkgray rounded-xl text-sm';
+
   return (
-    <form>
+    <motion.aside
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3, ease: 'easeInOut' }}
+    >
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/25">
-        <div className="border rounded-2xl w-[440px] h-[550px] bg-white flex flex-col items-center">
-          <div className="flex justify-between w-full mt-4">
-            <IconArrowLeft
-              className="mx-6 w-4 stroke-[#666666] "
+        <div className="border rounded-2xl w-11/12 max-w-[450px] bg-white flex flex-col items-center">
+          <div className="relative flex justify-center w-full mt-4">
+            <span className="w-full text-center font-bold ">New Inquiry</span>
+            <IconRemove
+              className="absolute w-5 h-5 right-4 top-1/2 -translate-y-1/2 text-darkgray "
               onClick={handleClose}
             />
-            <span className="w-full text-center mr-14 font-bold">
-              New Inquiry
-            </span>
           </div>
           <hr className="border-b-1 w-full mt-4" />
-          <div className="w-full h-full mt-6 px-8">
+          <div typeof="submit" className="w-full h-full mt-6 px-8">
             <p className="font-bold mb-4">Please leave your inquiry.</p>
+            <select
+              className={`h-10 ${boxStyle}`}
+              value={classId}
+              onChange={(e) => setClassId(e.target.value)}
+              required
+            >
+              <option autoFocus disabled>
+                Please select a class.
+              </option>
+              {classTitle?.map((item) => (
+                <option key={item.id} value={item.id}>
+                  {item.title}
+                </option>
+              ))}
+            </select>
             <input
               type="text"
-              className="w-full border border-gray-800 p-3 rounded-xl mb-4 text-xs"
+              className={`p-3 ${boxStyle} `}
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Enter question title"
             />
             <textarea
-              className="w-full h-[250px] border border-gray-800 p-3 rounded-xl resize-none text-xs"
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
+              className={`h-[250px] p-3 ${boxStyle}`}
+              value={inquiry}
+              onChange={(e) => setInquiry(e.target.value)}
               placeholder="Enter question content"
             ></textarea>
-            <button
+            <Button
               type="button"
-              className="bg-primary w-full h-11 text-white font-bold rounded-lg my-2"
+              size="full"
+              className="mb-5 rounded-xl"
+              value="Save"
               onClick={handleCreate}
-            >
-              Save
-            </button>
+            />
           </div>
         </div>
       </div>
-    </form>
+    </motion.aside>
   );
 };
 

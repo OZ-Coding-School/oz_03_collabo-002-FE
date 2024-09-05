@@ -38,9 +38,15 @@ export interface Class {
   average_rating: number;
 }
 
+export type ClassTitle = {
+  id: string | number;
+  title: string;
+}
+
 export type ClassState = {
   classes: Class[] | null;
   filteredClasses: Record<string, Class[]>;
+  classTitle: ClassTitle[] | null;
   fetchClasses: () => Promise<void>;
   filterClasses: (kind: string) => void;
   findOneClass: (id: string | undefined) => Promise<Class | null>;

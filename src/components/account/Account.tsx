@@ -7,24 +7,17 @@ import AccountDashboard from './AccountDashboard';
 import AccountEditProfile from './AccountEditProfile';
 import AccountUserInfo from './AccountUserInfo';
 import AccountHeader from './AccountHeader';
-import useAccountStore from '../../store/useAccountStore';
-import { useUserStore } from '../../store/useUser';
+import {useUserStore} from '../../store/useUser';
 import MyLike from './MyLike';
 
 const Account = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const page = searchParams.get('page'); // 'user', 'orders', 'questions', 'reviews', 'workshops'
+  const page = searchParams.get('page'); 
   const [headerTitle, setHeaderTitle] = useState('Account');
   const user = useUserStore((state) => state.user);
-  const fetchUser = useAccountStore((state) => state.fetchUser);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    fetchUser();
-  }, [fetchUser]);
-
-  // const isLogin = !!localStorage.getItem("access");
   const isLogin = !!user;
 
   useEffect(() => {
