@@ -15,7 +15,7 @@ export const useUserStore = create(
     }),
     {
       name: 'userInfo',
-      // serialize: (state) => JSON.stringify(state.state?.user),
+      serialize: (state) => JSON.stringify(state.state?.user),
     },
   ),
 );
