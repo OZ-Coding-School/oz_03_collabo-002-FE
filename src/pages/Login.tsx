@@ -9,6 +9,7 @@ import { handleLine } from '../components/Login/Line';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { LoginUser } from '../type/loginuser';
 import axios from 'axios';
+import axiosRequest from '../api/axios';
 import { useModalStore } from '../store/useModal';
 import Modal from '../components/common/Modal';
 import { useCallback, useState } from 'react';
@@ -45,8 +46,8 @@ const Login = () => {
     async (data) => {
       const { email, password } = data;
       try {
-        const response = await axios.post(
-          `${import.meta.env.VITE_CALLBACK_URL}login/`,
+        const response = await axiosRequest.post(
+          `/users/login/`,
           {
             email,
             password,
