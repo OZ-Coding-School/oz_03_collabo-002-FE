@@ -1,3 +1,5 @@
+export type Status = 'Selected' | 'Fully booked' | 'Seats available';
+
 type Address = {
   state?: string;
   city?: string;
@@ -47,11 +49,19 @@ export interface Class {
   averageScore: number;
   address: string | Address;
 }
+export type ClassDetail = {
+  status: Status;
+  seatsLeft: number;
+  time: string;
+  seat: number;
+};
 
 export type ClassState = {
   classes: Class[] | null;
   filteredClasses: Record<string, Class[]>;
+  classDetails: ClassDetail[];
   fetchClasses: () => Promise<void>;
   filterClasses: (kind: string) => void;
   findOneClass: (id: string | undefined) => Promise<Class | null>;
+  fetchClassesTime: (id: string) => Promise<void>;
 };
