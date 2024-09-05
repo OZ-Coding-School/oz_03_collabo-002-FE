@@ -9,7 +9,9 @@ const ReviewsList = () => {
   const getReviews = useReviewStore((state) => state.getReviews);
 
   useEffect(() => {
-    getReviews(id);
+    getReviews(Number(id));
+    console.log('id: ', id);
+    console.log('reviews: ', reviews);
   }, [getReviews, id]);
 
   if (!reviews) return <h1>Loading..</h1>;

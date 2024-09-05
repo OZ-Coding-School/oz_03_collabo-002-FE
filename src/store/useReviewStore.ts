@@ -1,6 +1,10 @@
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
-import { Review, ReviewAction, ReviewState } from '../type/review.type';
+import {
+  Review,
+  ReviewAction,
+  ReviewState,
+} from '../type/review.type';
 import axios from '../api/axios';
 
 const useReviewStore = create<ReviewState & ReviewAction>()(

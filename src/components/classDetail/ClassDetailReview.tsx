@@ -1,4 +1,4 @@
-import { Link, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
   IconAllArw,
   IconReviewHeart,
@@ -11,6 +11,8 @@ import useReviewStore from '../../store/useReviewStore';
 
 const ClassDetailReview = () => {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  console.log(id);
 
   // const [openReviews, setOpenReviews] = useState<{ [key: string]: boolean }>(
   //   {},
@@ -21,8 +23,12 @@ const ClassDetailReview = () => {
   const getReviews = useReviewStore((state) => state.getReviews);
 
   useEffect(() => {
-    getReviews(id);
+    getReviews(Number(id));
   }, [getReviews, id]);
+
+  const handleAllReview = () => {
+    navigate(`/review/${id}`);
+  };
 
   // const toggleReviewopen = (reviewId: string) => {
   //   setOpenReviews((prev) => ({
@@ -35,13 +41,13 @@ const ClassDetailReview = () => {
     <div className="mt-10 px-6">
       <h3 className="text-[20px] font-semibold flex justify-between">
         Reviews
-        <Link
-          to={`/review/${id}`}
+        <button
+          onClick={handleAllReview}
           className="text-[14px] font-normal flex items-center"
         >
           view all
           <IconAllArw className="ml-1" />
-        </Link>
+        </button>
       </h3>
       {/* <div className="px-6 flex mt-4">
         <div className="relative">
@@ -67,7 +73,7 @@ const ClassDetailReview = () => {
           </button>
         </div>
       </div> */}
-      <div className="mt-4">
+      <div className="mt-4 px-6">
         {reviews
           ?.map((review) => (
             // <div key={data.id} className="divide-y divide-gray-200">

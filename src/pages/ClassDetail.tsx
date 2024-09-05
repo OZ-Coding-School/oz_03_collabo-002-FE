@@ -59,7 +59,6 @@ const ClassDetail = () => {
   //   fetchClassDetailData(1);
   // }, []);
 
-
   const [expanded, setExpanded] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
@@ -109,8 +108,6 @@ const ClassDetail = () => {
     setExpanded(!expanded);
   };
 
-
-
   const handleBookNowClick = () => {
     console.log('Book Now clicked');
   };
@@ -120,6 +117,10 @@ const ClassDetail = () => {
     setSelectedTime(null);
     setSelectedClassType(null);
   };
+
+  // const handleWrite = () => {
+  //   navigate(`/reviewModal`);
+  // };
 
   // 언어 타입 감지
   const ChangeLanguageType = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -255,7 +256,12 @@ const ClassDetail = () => {
               <div>
                 {classData?.images[0]?.detail_image_urls?.length > 0 ? (
                   classData.images[0].detail_image_urls.map((url) => (
-                    <img src={url} alt={url} key={url} className='w-full object-contain'/>
+                    <img
+                      src={url}
+                      alt={url}
+                      key={url}
+                      className="w-full object-contain"
+                    />
                   ))
                 ) : (
                   <p>No detailed images available.</p>
@@ -287,9 +293,7 @@ const ClassDetail = () => {
                 <p>
                   <strong>We Open Class Here</strong>
                 </p>
-                <p className="text-gray-500 pr-20">
-                  {classData.address}
-                </p>
+                <p className="text-gray-500 pr-20">{classData.address}</p>
                 <button
                   type="button"
                   className="absolute right-6 top-10 border border-gray-300 rounded-full p-3"

@@ -8,6 +8,7 @@ import { IconReviewStar } from '../../config/IconData';
 import ReviewReviewModal from './ReviewPhotoModal';
 import { Review } from '../../type/review.type';
 import useClassStore from '../../store/useClassStore';
+import { useUserStore } from '../../store/useUser';
 
 interface ReviewProps {
   review: Review;
@@ -42,6 +43,7 @@ const ReviewItem = ({ review }: ReviewProps) => {
   const classTitle = useClassStore((state) => state.classTitle);
   const [activePhoto, setActivePhoto] = useState(true);
   const imageCount = review.images ? review.images.length : 0;
+  const user = useUserStore((state) => state.user);
   const extraImagesCount = imageCount > 3 ? imageCount - 3 : 0;
   const fetchClasses = useClassStore((state) => state.fetchClasses);
 
@@ -54,6 +56,7 @@ const ReviewItem = ({ review }: ReviewProps) => {
       setActivePhoto(false);
     } else {
       setActivePhoto(true);
+      console.log('user: ', user);
     }
   }, [path]);
 
@@ -118,7 +121,7 @@ const ReviewItem = ({ review }: ReviewProps) => {
             {review.images.length > 0 &&
               review.images.slice(0, 3).map((image, index) => (
                 <div
-                  key={index + image.id}
+                  key={index + String(image.id)}
                   className={`relative w-1/3 aspect-square ${index === 2 && imageCount > 3 ? 'opacity-50' : ''}`}
                 >
                   <img
