@@ -4,7 +4,7 @@ import {
   IconArrowDown,
   IconArrowLeft,
   IconArrowUp,
-} from './../../config/IconData';
+} from '../../config/IconData';
 import useQnaStore from '../../store/useQuestionStore';
 
 const ClassDetailQnaAll = () => {
@@ -41,32 +41,32 @@ const ClassDetailQnaAll = () => {
           <div className="flex justify-between px-6 py-[15px]">
             <div id="question-item" className="flex flex-col">
               <div className="flex justify-between items-center">
-                <h3 className="font-bold">{data.questionTitle}</h3>
+                <h3 className="font-bold">{data.question_title}</h3>
               </div>
               <div
                 id="qnaStatus"
                 className="flex items-center mt-1 text-xs text-darkgray"
               >
-                <div>{data.complete ? 'Answered' : 'Pending'}</div>
+                <div>{data.answer !== '' ? 'Answered' : 'Pending'}</div>
                 <p>・</p>
-                <span>{data.author}</span>
+                <span>{data.id}</span>
                 <p>・</p>
                 <div>
-                  {new Date(data.createDate).toLocaleDateString('ko-KR')}
+                  {new Date(data.created_at).toLocaleDateString('ko-KR')}
                 </div>
               </div>
             </div>
-            {data.complete ? (
-              <button onClick={() => toggleAnswerOpen(data.id)}>
-                {openAnswers[data.id] ? <IconArrowUp /> : <IconArrowDown />}
+            {data.answer !== '' ? (
+              <button onClick={() => toggleAnswerOpen(String(data.id))}>
+                {openAnswers[data.id ?? ''] ? <IconArrowUp /> : <IconArrowDown />}
               </button>
             ) : null}
           </div>
-          {openAnswers[data.id] && (
+          {openAnswers[data.id ?? ''] && (
             <div className="mt-2 bg-gray p-6">
-              <h3 className="font-bold mb-[15px]">{data.answerTitle}</h3>
+              <h3 className="font-bold mb-[15px]">{data.answer_title}</h3>
               <p className="mb-[15px]">{data.answer}</p>
-              <small className="text-sm">{data.answerDate.split('T', 1)}</small>
+              <small className="text-sm">{data.updated_at?.split('T', 1)}</small>
             </div>
           )}
         </div>
