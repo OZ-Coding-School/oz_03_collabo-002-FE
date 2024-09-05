@@ -13,6 +13,7 @@ import { handleGoogle } from '../components/Login/Google';
 import axios from 'axios';
 import { useCallback, useMemo, useRef, useState } from 'react';
 import ModalProfile from '../components/common/ModalProfile';
+import { User } from '../type/user';
 
 const SignUp = () => {
   const { setModal, showModal } = useModalStore();
@@ -94,16 +95,16 @@ const SignUp = () => {
     async (data) => {
       try {
         const { name, email, password } = data;
+        const signupData: User = { name, email, password };
+        if (img) {
+          signupData.profile_image = img;
+        }
+
         console.log('1');
         console.log('imgFile:', imgFile);
         await axios.post(
           `${import.meta.env.VITE_CALLBACK_URL}signup/`,
-          {
-            name,
-            email,
-            password,
-            profile_image: img,
-          },
+          signupData,
           {
             headers: {
               'Content-Type': 'application/json',
