@@ -14,6 +14,7 @@ import axios from 'axios';
 import { useCallback, useMemo, useRef, useState } from 'react';
 import ModalProfile from '../components/common/ModalProfile';
 import { User } from '../type/user';
+import axiosRequest from '../api/axios.ts'
 
 const SignUp = () => {
   const { setModal, showModal } = useModalStore();
@@ -102,8 +103,8 @@ const SignUp = () => {
 
         console.log('1');
         console.log('imgFile:', imgFile);
-        await axios.post(
-          `${import.meta.env.VITE_CALLBACK_URL}signup/`,
+        await axiosRequest.post(
+          `/signup`,
           signupData,
           {
             headers: {
