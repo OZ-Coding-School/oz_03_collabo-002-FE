@@ -22,7 +22,6 @@ const SignUp = () => {
   const [imgFile, setImgFile] = useState<File>();
   const [preview, setPreview] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  // const [croppedImage, setCroppedImage] = useState<string | null>(null);
   const navigate = useNavigate();
 
   const {
@@ -96,6 +95,7 @@ const SignUp = () => {
         const { name, email, password } = data;
         console.log('1');
         console.log('imgFile:', imgFile);
+
         await axios.post(
           `${import.meta.env.VITE_CALLBACK_URL}signup/`,
           {

@@ -7,7 +7,10 @@ export const useUserStore = create(
     (set) => ({
       user: null,
 
-      setUser: (user) => {set({ user }); console.log(user)},
+      setUser: (user) => {
+        set({ user });
+        console.log(user);
+      },
       clearUser: () => set({ user: null }),
 
       updateProfileImage: (imageUrl) =>
@@ -17,6 +20,7 @@ export const useUserStore = create(
     }),
     {
       name: 'userInfo',
-      storage: createJSONStorage(() => localStorage)    },
+      storage: createJSONStorage(() => localStorage),
+    },
   ),
 );
