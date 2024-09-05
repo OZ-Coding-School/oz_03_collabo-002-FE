@@ -14,13 +14,6 @@ import axios from 'axios';
 import { useCallback, useMemo, useRef, useState } from 'react';
 import ModalProfile from '../components/common/ModalProfile';
 
-type SignData = {
-  name: string;
-  profile_image?: string | null;
-  password: string;
-  email: string;
-};
-
 const SignUp = () => {
   const { setModal, showModal } = useModalStore();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -29,8 +22,6 @@ const SignUp = () => {
   const [imgFile, setImgFile] = useState<File>();
   const [preview, setPreview] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [signData, setSignData] = useState<SignData>();
-  // const [croppedImage, setCroppedImage] = useState<string | null>(null);
   const navigate = useNavigate();
 
   const {
@@ -104,22 +95,6 @@ const SignUp = () => {
         const { name, email, password } = data;
         console.log('1');
         console.log('imgFile:', imgFile);
-
-        // const signData = {
-        //   name,
-        //   email,
-        //   password,
-        //   profile_image: img,
-        // };
-        // if (img === '') {
-        //   setSignData({
-        //     name,
-        //     email,
-        //     password,
-        //     profile_image: null,
-        //   });
-        // }
-        // console.log('signData: ', signData);
 
         await axios.post(
           `${import.meta.env.VITE_CALLBACK_URL}signup/`,
