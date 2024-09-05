@@ -7,10 +7,10 @@ const Footer = () => {
     <footer className="relative pt-20 z-10 pb-10">
       <ul className="absolute right-[24px] top-20 flex text-s gap-6 text-sm">
         <li>
-          <Link to="./Terms">Terms and conditions</Link>
+          <Link to="">Terms and conditions</Link>
         </li>
         <li>
-          <Link to="./Policy">Privacy policy</Link>
+          <Link to="">Privacy policy</Link>
         </li>
       </ul>
       <div className="px-6 text-sm">

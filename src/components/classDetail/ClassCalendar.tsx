@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DatePicker } from '@mantine/dates';
 import './ClassDetail.css';
 import { IconDetailCalendar } from '../../config/IconData';
+import { useParams } from 'react-router-dom';
 import { findOneClass } from '../../store/useClassStore';
-import { useParams } from 'react-router-dom'; // useParams 사용
 
 function ClassCalendar({
   onDateChange,
@@ -11,9 +11,11 @@ function ClassCalendar({
   onDateChange: (date: Date | null) => void;
 }) {
   const { id } = useParams<{ id: string }>();
+
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [availableDates, setAvailableDates] = useState<Date[]>([]);
-  const [availableTypes, setAvailableTypes] = useState<string[]>([]); // string 배열로 수정
+  const [availableTypes, setAvailableTypes] = useState<string[]>([]);
+
   useEffect(() => {
     if (!id) {
       console.error('URL에서 classId를 가져오지 못했습니다.');
@@ -24,7 +26,6 @@ function ClassCalendar({
 
       const detail = await findOneClass(id);
 
-      // detail이 null인 경우 바로 리턴
       if (!detail) {
         console.log('클래스 정보를 찾을 수 없습니다.');
         return;
@@ -32,31 +33,23 @@ function ClassCalendar({
 
       console.log('받아온 클래스 정보:', detail);
 
-      // 날짜가 있는지 확인
       if (detail.dates && detail.dates.length > 0) {
         const availableDates = detail.dates.map((date) => {
           const parsedDate = new Date(date.start_date);
-          console.log('Parsed Date:', parsedDate); // 각 날짜를 디버깅
           return parsedDate;
         });
-        console.log('사용 가능한 날짜:', availableDates);
         setAvailableDates(availableDates);
       } else {
-        console.log(
-          '사용 가능한 날짜가 없거나 클래스 정보를 찾을 수 없습니다.',
-        );
+        console.log('사용 가능한 날짜가 없습니다.');
       }
 
-      // 클래스 타입이 있는지 확인
       if (detail.class_type) {
         const availableTypes = Array.isArray(detail.class_type)
           ? detail.class_type
-          : [detail.class_type]; // 배열이 아니면 배열로 변환
-
-        console.log('받아온 클래스 타입:', availableTypes);
-        setAvailableTypes(availableTypes); // 배열을 상태로 설정
+          : [detail.class_type];
+        setAvailableTypes(availableTypes);
       } else {
-        console.log('클래스 타입이 없거나 클래스 정보를 찾을 수 없습니다.');
+        console.log('클래스 타입이 없습니다.');
       }
     };
 
@@ -74,23 +67,33 @@ function ClassCalendar({
     onDateChange(newValue);
   };
 
-  const isDateSelectable = (date: Date) => {
-    return availableDates.some(
-      (availableDate) =>
-        availableDate.toISOString().split('T')[0] ===
-        date.toISOString().split('T')[0],
-    );
-  };
+  // 버튼에 클래스 적용하는 함수
+  const renderDay = (date: Date) => {
+    const today = new Date();
+    const isPastDate = date.getTime() < today.setHours(0, 0, 0, 0);
 
-  const CustomDay = ({ date }: { date: Date }) => {
-    const selectable = isDateSelectable(date);
+    // 날짜가 클릭 가능한지 확인
+    const isAvailable = availableDates.some(
+      (availableDate) => availableDate.toDateString() === date.toDateString(),
+    );
+
+    // 버튼에 적용할 클래스 이름 결정
+    const buttonClassName = isAvailable
+      ? 'clickable-button'
+      : 'disabled-button';
+
     return (
-      <button
-        className={`custom-day-button ${selectable ? 'selectable' : 'not-selectable'}`}
-        disabled={!selectable}
-      >
-        {date.getDate()}
-      </button>
+      <td>
+        <button
+          className={buttonClassName}
+          style={{
+            color: isPastDate ? '#999' : '',
+          }}
+          disabled={!isAvailable} // 버튼 비활성화 여부
+        >
+          {date.getDate()}
+        </button>
+      </td>
     );
   };
 
@@ -108,7 +111,7 @@ function ClassCalendar({
         value={selectedDate}
         monthLabelFormat="YYYY.MM"
         hideOutsideDates
-        renderDay={(date) => <CustomDay date={date} />}
+        renderDay={renderDay}
         minDate={new Date()}
         onChange={handleDateChange}
       />

@@ -1,54 +1,86 @@
 import { create } from 'zustand';
-import axios from 'axios';
-import { Class, ClassState } from '../type/class.type';
+import { ClassState, Class } from '../type/class.type';
+import axios from '../api/axios';
 
-// zustand 스토어 정의
 const useClassStore = create<ClassState>((set, get) => ({
   classes: [],
   filteredClasses: {},
   fetchClasses: async () => {
     try {
       const response = await axios.get(`/classes`);
-      const data = response.data;
-      if (data && Array.isArray(data.data)) {
-        set({ classes: data.data });
+      console.log(response.data);
+      console.log('응답 헤더:', response.headers['content-type']);
+
+      // 응답 데이터가 객체인지 확인하고, 그 안의 data 속성이 배열인지 확인
+      if (response.data && Array.isArray(response.data.data)) {
+        set({ classes: response.data.data }); // data 배열을 사용
       } else {
-        console.error('Unexpected data format:', data);
-        set({ classes: [] });
+        console.error('Unexpected data format:', response.data);
+        set({ classes: [] }); // 형식이 예상과 다를 경우 빈 배열로 초기화
       }
     } catch (error) {
       console.error('Error fetching data:', error);
       set({ classes: [] });
     }
   },
+
   setClasses: (data: Class[]) => {
-    set({ classes: data ? [...data] : [] });
+    if (data) {
+      set(() => ({ classes: [...data] }));
+    } else {
+      set(() => ({ classes: [] }));
+    }
   },
+
   filterClasses: (kind: string) => {
     const classes = get().classes ?? [];
     const filteredClasses = { ...get().filteredClasses };
-    const filtered = classes.filter((cls) => cls.kind === kind);
+
+    const filtered = classes;
+
     filteredClasses[kind] = filtered;
     set({ filteredClasses });
   },
-  fetchClassDetails: async (id: string): Promise<Class | null> => {
+  findOneClass: async (id) => {
     try {
-      const detail = await findOneClass(id);
-      return detail;
+      const response = await axios.get(`/classes/${id}`);
+      const data: Class[] = response.data;
+      const findData = data.find((item) => item.id === id);
+      return findData ?? null;
     } catch (error) {
-      console.error('Failed to fetch class details:', error);
+      console.log('Failed to find class: ', error);
       return null;
     }
   },
 
-  // 최대 인원 가져오기
-  fetchMaxPerson: async (id: string): Promise<number | null> => {
+  // 클래스의 시간 데이터를 가져오는 함수
+  fetchClassesTime: async (id: string) => {
     try {
-      const detail = await findOneClass(id);
-      return detail?.max_person ?? null;
+      const response = await axios.get(`/classes/${id}`);
+      const data = response.data;
+
+      if (data.status === 'success') {
+        const { start_time, end_time, person } = data.data.dates[0];
+
+        // 시간 블록 생성
+        const timeBlocks = generateTimeBlocks(start_time, end_time);
+
+        // 각 시간 블록에 대한 ClassDetail 생성
+        const generatedClassDetails = timeBlocks.map((timeBlock, index) => {
+          return {
+            status: index === 0 ? 'Selected' : 'Seats available',
+            seatsLeft: 15 - person,
+            seat: 15,
+            time: timeBlock,
+          };
+        });
+
+        set({ classes: generatedClassDetails });
+      } else {
+        console.error('Failed to fetch class times:', data.message);
+      }
     } catch (error) {
-      console.error('Failed to fetch max person:', error);
-      return null;
+      console.error('API 호출 중 오류 발생:', error);
     }
   },
 }));
