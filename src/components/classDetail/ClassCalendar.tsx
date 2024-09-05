@@ -7,14 +7,17 @@ import { findOneClass } from '../../store/useClassStore';
 
 function ClassCalendar({
   onDateChange,
+  onTypeChange,
 }: {
   onDateChange: (date: Date | null) => void;
+  onTypeChange: (type: string) => void; // 추가된 콜백
 }) {
   const { id } = useParams<{ id: string }>();
 
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [availableDates, setAvailableDates] = useState<Date[]>([]);
   const [availableTypes, setAvailableTypes] = useState<string[]>([]);
+  const [selectedType, setSelectedType] = useState<string | null>(null); // 선택된 타입
 
   useEffect(() => {
     if (!id) {
@@ -34,7 +37,6 @@ function ClassCalendar({
           return parsedDate;
         });
         setAvailableDates(availableDates);
-      } else {
       }
 
       if (detail.class_type) {
@@ -42,12 +44,13 @@ function ClassCalendar({
           ? detail.class_type
           : [detail.class_type];
         setAvailableTypes(availableTypes);
-      } else {
+        setSelectedType(availableTypes[0]); // 첫 번째 타입을 기본 선택
+        onTypeChange(availableTypes[0]); // 기본 선택된 타입 콜백 호출
       }
     };
 
     loadClassDetail();
-  }, [id]);
+  }, [id, onTypeChange]);
 
   const handleTodayClick = () => {
     const today = new Date();
@@ -58,6 +61,12 @@ function ClassCalendar({
   const handleDateChange = (newValue: Date | null) => {
     setSelectedDate(newValue);
     onDateChange(newValue);
+  };
+
+  const handleTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedType = event.target.value;
+    setSelectedType(selectedType);
+    onTypeChange(selectedType); // 선택된 타입을 상위 컴포넌트에 전달
   };
 
   // 버튼에 클래스 적용하는 함수
@@ -100,6 +109,7 @@ function ClassCalendar({
         <span className="sr-only">오늘 날짜</span>
       </button>
 
+      {/* 날짜 선택 UI */}
       <DatePicker
         value={selectedDate}
         monthLabelFormat="YYYY.MM"
@@ -108,6 +118,25 @@ function ClassCalendar({
         minDate={new Date()}
         onChange={handleDateChange}
       />
+
+      {/* 클래스 타입 선택 드롭다운 */}
+      {availableTypes.length > 0 && (
+        <div className="mt-4">
+          <label htmlFor="classType">Select Class Type:</label>
+          <select
+            id="classType"
+            value={selectedType ?? ''}
+            onChange={handleTypeChange}
+            className="class-type-dropdown"
+          >
+            {availableTypes.map((type, index) => (
+              <option key={index} value={type}>
+                {type}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
     </div>
   );
 }

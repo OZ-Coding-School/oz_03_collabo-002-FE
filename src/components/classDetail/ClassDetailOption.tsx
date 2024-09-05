@@ -10,8 +10,8 @@ type Props = {
   selectedTime: string | null;
   selectedClassType: string | null;
   onBookNowClick: () => void;
-  onRemoveOptionClick: () => void;
-  onBookingButtonClick: () => void;
+  onRemoveOptionClick?: () => void;
+  onBookingButtonClick?: () => void;
 };
 
 const ClassDetailOption: React.FC<Props> = ({

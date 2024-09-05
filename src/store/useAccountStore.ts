@@ -61,7 +61,7 @@ const useAccountStore = create<AccountState & AccountActions>()(
       }
 
       try {
-        const response = await axios.patch('/users/detail', dataToSend);
+        //const response = await axios.patch('/users/detail', dataToSend);
         setModal('Success to update');
         get().fetchUser();
       } catch (error) {
@@ -74,7 +74,7 @@ const useAccountStore = create<AccountState & AccountActions>()(
       const setModal = useModalStore.getState().setModal;
 
       try {
-        const response = await axios.delete('/users/detail');
+        // const response = await axios.delete('/users/detail');
         set({ user: null });
         setModal('Success to delete account');
       } catch (error) {

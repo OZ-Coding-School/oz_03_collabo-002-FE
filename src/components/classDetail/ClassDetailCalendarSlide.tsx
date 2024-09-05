@@ -4,9 +4,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import { IconDetailChecked } from '../../config/IconData';
 import useClassStore from '../../store/useClassStore';
-import { ClassDetail } from '../../type/class.type';
 import { useParams } from 'react-router-dom';
-import { Status } from '../../type/class.type';
 
 type Props = {
   onTimeSelect: (time: string | null) => void; // 선택 해제 시 null 전달

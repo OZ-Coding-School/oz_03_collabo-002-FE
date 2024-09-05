@@ -5,14 +5,6 @@ type Address = {
   city?: string;
   street?: string;
 };
-type ClassDetailOptionProps = {
-  selectedDate: Date | null;
-  selectedTime: string | null;
-  selectedClassType: string | null;
-  onBookNowClick: () => void;
-  onRemoveOptionClick: () => void;
-  onBookingButtonClick: () => void;
-};
 export interface Class {
   id: string;
   dates: [

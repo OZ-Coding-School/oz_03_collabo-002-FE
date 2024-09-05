@@ -1,8 +1,6 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import {
   IconDetailShare,
-  IconMapShare,
-  IconMoreArw,
   IconOptionArw,
   IconReviewStar,
 } from '../config/IconData';
@@ -10,14 +8,11 @@ import { twJoin as tw } from 'tailwind-merge';
 import GoodsDetailInfoSlide from '../components/classDetail/ClassDetailInfoSlide';
 import ClassDetailCalendarSlide from '../components/classDetail/ClassDetailCalendarSlide';
 import ClassDetailOption from '../components/classDetail/ClassDetailOption';
-import ClassDetailPhotoReview from '../components/classDetail/ClassDetailPhotoReview';
-import ClassDetailReview from '../components/classDetail/ClassDetailReview';
 import '../components/classDetail/ClassDetail.css';
 import ClassDetailSlide from '../components/classDetail/ClassDetailSlide';
 import ClassCalendar from '../components/classDetail/ClassCalendar';
-import ClassDetailQna from '../components/classDetail/ClassDetailQna';
 import useBookingStore from '../../src/store/useBookingStore';
-import useClassStore, { findOneClass } from '../store/useClassStore';
+import { findOneClass } from '../store/useClassStore';
 import { useParams } from 'react-router-dom';
 
 type ClassDetailProps = {
@@ -31,18 +26,13 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
 
   // 상태 관리
   const [availableTypes, setAvailableTypes] = useState<string[]>([]);
-  const [expanded, setExpanded] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [selectedClassType, setSelectedClassType] = useState<string | null>(
     null,
   );
-  const [isReservationVisible, setIsReservationVisible] = useState(false);
-  const [isCancelationVisible, setIsCancelationVisible] = useState(false);
-  const [isThingsToKeepInMindVisible, setIsThingsToKeepInMindVisible] =
-    useState(false);
-  const [selectLanguageType, setSelectLanguageType] = useState('');
+  const [selectLanguageType, setSelectLanguageType] = useState<string>(''); // 언어 선택 상태 추가
   const [maxPerson, setMaxPerson] = useState<number | null>(null);
 
   // 클래스 상세 정보와 최대 인원 데이터 가져오기
@@ -79,7 +69,7 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
   // 예약 정보 저장
   const handleBookingClick = () => {
     const bookingData = {
-      language: selectLanguageType,
+      language: selectLanguageType, // 선택한 언어 추가
       class: selectedClassType ?? '',
       time: selectedTime ?? '',
       date: selectedDate,
@@ -87,30 +77,16 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
     addBookingItem(bookingData);
   };
 
-  // 스크롤 이동 함수
-  const scrollToSection = (ref: React.RefObject<HTMLDivElement>) => {
-    if (ref.current) {
-      window.scrollTo({
-        top: ref.current.getBoundingClientRect().top + window.scrollY - 80,
-        behavior: 'smooth',
-      });
-    }
-  };
-
-  // 기타 기능 함수들
-  const toggleImageSize = () => setExpanded(!expanded);
+  // 찜하기 토글 함수
   const toggleLike = () => setIsLiked(!isLiked);
-  const handleDateChange = (date: Date | null) => setSelectedDate(date);
+
+  // 클래스 유형 변경 함수
   const handleClassTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
     setSelectedClassType(e.target.value);
-  const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
-    setSelectLanguageType(e.target.value);
 
-  // 레퍼런스
-  const detailsRef = useRef<HTMLDivElement>(null);
-  const reviewsRef = useRef<HTMLDivElement>(null);
-  const qaRef = useRef<HTMLDivElement>(null);
-  const resPoliciesRef = useRef<HTMLDivElement>(null);
+  // 언어 변경 함수 추가
+  const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
+    setSelectLanguageType(e.target.value); // 선택한 언어 상태로 저장
 
   const addBookingItem = useBookingStore((state) => state.addBookingItem);
 
@@ -160,16 +136,23 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
             <ClassCalendar onDateChange={setSelectedDate} />
           </div>
         </div>
+        {/* 언어 선택 드롭다운 */}
         <div className="mt-[22px] relative mx-6">
-          <select className="outline-none appearance-none border border-gray-400 rounded-lg px-4 py-[12px] w-full text-gray-400 relative">
-            <option>Supporters Language Type</option>
-            <option>Korean</option>
-            <option>English</option>
+          <select
+            value={selectLanguageType} // 상태 값을 드롭다운과 연결
+            onChange={handleLanguageChange} // 변경 핸들러 연결
+            className="outline-none appearance-none border border-gray-400 rounded-lg px-4 py-[12px] w-full text-gray-400 relative"
+          >
+            <option value="">Supporters Language Type</option>
+            <option value="Korean">Korean</option>
+            <option value="English">English</option>
           </select>
           <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
             <IconOptionArw />
           </div>
         </div>
+
+        {/* 클래스 유형 선택 드롭다운 */}
         <div className="mt-[22px] relative mx-6">
           <select
             value={selectedClassType || ''}
@@ -192,6 +175,7 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
           </div>
         </div>
 
+        {/* 최대 인원 표시 */}
         <div className="border border-1 border-gray-400 rounded-lg mx-6 mt-[22px] py-[12px] px-[14px] flex justify-between text-gray-400">
           {maxPerson !== null
             ? `Minimum class size ${maxPerson} participants`
