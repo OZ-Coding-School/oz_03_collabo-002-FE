@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { ClassState, Class, Status } from '../type/class.type';
+import axios from '../api/axios';
 import { generateTimeBlocks } from '../utils/timeUtils'; // 함수 import
-import axios from 'axios';
 
 const useClassStore = create<ClassState>((set, get) => ({
   classes: [],
@@ -50,7 +50,6 @@ const useClassStore = create<ClassState>((set, get) => ({
       return findData ?? null;
     } catch (error) {
       console.error(error);
-      return null;
     }
   },
 
@@ -73,7 +72,7 @@ const useClassStore = create<ClassState>((set, get) => ({
         // 각 시간 블록에 대한 ClassDetail 생성
         const generatedClassDetails = timeBlocks.map((timeBlock, index) => ({
           status: index === 0 ? 'Selected' : ('Seats available' as Status),
-          seatsLeft: max_person - person,
+          seatsLeft: person,
           seat: max_person,
           time: timeBlock,
         }));
@@ -89,8 +88,8 @@ const useClassStore = create<ClassState>((set, get) => ({
 }));
 
 export const findOneClass = async (
-  id: string | undefined,
-): Promise<Class | null> => {
+  id: string | undefined, //: Promise<Class | null>
+) => {
   try {
     const response = await axios.get(`/classes/${id}`);
 
@@ -110,20 +109,7 @@ export const findOneClass = async (
       return null;
     }
   } catch (error) {
-    // error가 AxiosError 타입인지 확인
-    if (axios.isAxiosError(error)) {
-      console.error(
-        'API call error:',
-        error.response?.status,
-        error.response?.statusText,
-      );
-      if (typeof error.response?.data === 'string') {
-        console.log('Error HTML Response:', error.response.data);
-      }
-    } else {
-      console.error('Error:', (error as Error).message);
-    }
-    return null;
+    console.error(error);
   }
 };
 export default useClassStore;

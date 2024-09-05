@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {
   IconDetailShare,
   IconOptionArw,
@@ -28,6 +28,7 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
   const [availableTypes, setAvailableTypes] = useState<string[]>([]);
   const [isLiked, setIsLiked] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [availableDates, setAvailableDates] = useState<Date[]>([]);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [selectedClassType, setSelectedClassType] = useState<string | null>(
     null,
@@ -57,6 +58,17 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
 
       // 최대 인원 설정
       setMaxPerson(detail.max_person || null);
+
+      // 사용 가능한 날짜 설정
+      if (detail.dates && detail.dates.length > 0) {
+        const availableDates = detail.dates.map(
+          (date: { start_date: string }) => {
+            const parsedDate = new Date(date.start_date);
+            return parsedDate;
+          },
+        );
+        setAvailableDates(availableDates);
+      }
     } catch (error) {
       console.error('API 호출 오류:', error);
     }
@@ -79,10 +91,6 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
 
   // 찜하기 토글 함수
   const toggleLike = () => setIsLiked(!isLiked);
-
-  // 클래스 유형 변경 함수
-  const handleClassTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
-    setSelectedClassType(e.target.value);
 
   // 언어 변경 함수 추가
   const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
@@ -133,9 +141,17 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
 
         <div className="px-6">
           <div className="border border-1 border-gray-400 rounded-2xl pb-3">
-            <ClassCalendar onDateChange={setSelectedDate} />
+            <ClassCalendar
+              selectedDate={selectedDate}
+              availableDates={availableDates}
+              availableTypes={availableTypes}
+              selectedClassType={selectedClassType}
+              onDateChange={setSelectedDate}
+              onTypeChange={setSelectedClassType}
+            />
           </div>
         </div>
+
         {/* 언어 선택 드롭다운 */}
         <div className="mt-[22px] relative mx-6">
           <select
@@ -146,29 +162,6 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
             <option value="">Supporters Language Type</option>
             <option value="Korean">Korean</option>
             <option value="English">English</option>
-          </select>
-          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-            <IconOptionArw />
-          </div>
-        </div>
-
-        {/* 클래스 유형 선택 드롭다운 */}
-        <div className="mt-[22px] relative mx-6">
-          <select
-            value={selectedClassType || ''}
-            onChange={handleClassTypeChange}
-            className="outline-none appearance-none border border-gray-400 rounded-lg px-4 py-[12px] w-full text-gray-400 relative"
-          >
-            <option value="">Select class type</option>
-            {availableTypes.length === 0 ? (
-              <option disabled>Loading class types...</option>
-            ) : (
-              availableTypes.map((type, index) => (
-                <option key={index} value={type}>
-                  {type}
-                </option>
-              ))
-            )}
           </select>
           <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
             <IconOptionArw />
