@@ -10,7 +10,7 @@ const Review = () => {
     getMyReviews();
   }, [getMyReviews]);
 
-  if (!myReviews)
+  if (!myReviews) {
     return (
       <div className="inline-flex w-full aspect-square text-gray-500">
         <span className="m-auto w-5/6 text-gray text-xl text-center">
@@ -18,6 +18,9 @@ const Review = () => {
         </span>
       </div>
     );
+  }
+
+  console.log(myReviews)
 
   return (
     <div className="w-full px-6">
@@ -27,10 +30,10 @@ const Review = () => {
         ))
       ) : (
         <div className="inline-flex w-full aspect-square text-gray-500">
-        <span className="m-auto w-3/4 text-gray text-xl text-center">
-          {`Please share your cherished moments while experiencing the class!`}
-        </span>
-      </div>
+          <span className="m-auto w-3/4 text-gray text-xl text-center">
+            {`Please share your cherished moments while experiencing the class!`}
+          </span>
+        </div>
       )}
     </div>
   );

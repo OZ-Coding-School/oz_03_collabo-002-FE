@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { IconReviewStar } from '../../config/IconData';
 import ReviewReviewModal from './ReviewPhotoModal';
 import { Review } from '../../type/review.type';
+import useClassStore from '../../store/useClassStore';
 
 interface ReviewProps {
   review: Review;
@@ -38,9 +39,15 @@ const ReviewItem = ({ review }: ReviewProps) => {
   // };
   const path = location.pathname;
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const classTitle = useClassStore((state) => state.classTitle);
   const [activePhoto, setActivePhoto] = useState(true);
-  const imageCount = review.images.length;
+  const imageCount = review.images ? review.images.length : 0;
   const extraImagesCount = imageCount > 3 ? imageCount - 3 : 0;
+  const fetchClasses = useClassStore((state) => state.fetchClasses);
+
+  useEffect(() => {
+    fetchClasses();
+  }, [fetchClasses]);
 
   useEffect(() => {
     if (!path.includes('review')) {
@@ -50,14 +57,22 @@ const ReviewItem = ({ review }: ReviewProps) => {
     }
   }, [path]);
 
+  // class_id에 해당하는 클래스 제목 찾기
+  const classInfo = classTitle?.find((item) => item.id === review.class_id);
+  const className = classInfo
+    ? classInfo.title
+    : '클래스 정보를 찾을 수 없습니다';
+
+  console.log(review);
+
   return (
     <>
       <div key={review.id} className="py-[15px] px-6">
         {/* 작성자 정보 */}
         <div className="flex items-center mb-3">
           <img
-            src={review.user.profile_url}
-            alt={`${review.user.name} profile`}
+            src={review.user.profile_image_url || '/images/user-empty.png'}
+            alt={`${review.user.name}_profile`}
             className="w-12 h-12 rounded-full"
           />
           <div className="w-full flex flex-col mx-3">
@@ -78,18 +93,15 @@ const ReviewItem = ({ review }: ReviewProps) => {
                     className="w-4 h-4 mr-1"
                   />
                 ))} */}
-                {review.rating.toFixed(1)}
+                {review.rating}
               </p>
             </div>
           </div>
         </div>
-        <p className="text-sm mb-2">{review.review_text}</p>
+        <p className="text-sm mb-2">{review.review}</p>
         {/* 클래스 정보 */}
         <div className="flex justify-between p-2">
-          <p className="text-sm text-gray">
-            [일반과정] 칵테일 : 노멀 만들기 클래스
-            {/* review.class_type */}
-          </p>
+          <p className="text-sm text-gray">{className}</p>
           {/* <div className="border-[1.5px] w-16 flex rounded-2xl justify-center py-1 gap-1 items-center">
             <img
               src={isLiked ? fullHeart : emptyHeart}
@@ -101,28 +113,29 @@ const ReviewItem = ({ review }: ReviewProps) => {
           </div> */}
         </div>
         {/* 포토 리뷰 */}
-        {activePhoto ? (
+        {activePhoto && review.images && review.images.length > 0 ? (
           <div className="w-full flex my-[10px] gap-[15px] relative">
-            {review.images.slice(0, 3).map((image, index) => (
-              <div
-                key={index + image.image_url}
-                className={`relative w-1/3 aspect-square ${index === 2 && imageCount > 3 ? 'opacity-50' : ''}`}
-              >
-                <img
-                  src={image.image_url}
-                  alt="이미지 첨부 사진"
-                  className="min-w-full min-h-full rounded-xl object-cover" // 너비 또는 높이 중 작은 값을 기준으로 나머지 부분을 자름
-                />
-                {index === 2 && imageCount > 3 && (
-                  <div
-                    onClick={() => setIsModalOpen(true)}
-                    className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 text-white text-xs font-bold rounded-xl"
-                  >
-                    +{extraImagesCount}
-                  </div>
-                )}
-              </div>
-            ))}
+            {review.images.length > 0 &&
+              review.images.slice(0, 3).map((image, index) => (
+                <div
+                  key={index + image.id}
+                  className={`relative w-1/3 aspect-square ${index === 2 && imageCount > 3 ? 'opacity-50' : ''}`}
+                >
+                  <img
+                    src={image.image_url}
+                    alt="이미지 첨부 사진"
+                    className="min-w-full min-h-full rounded-xl object-cover" // 너비 또는 높이 중 작은 값을 기준으로 나머지 부분을 자름
+                  />
+                  {index === 2 && imageCount > 3 && (
+                    <div
+                      onClick={() => setIsModalOpen(true)}
+                      className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 text-white text-xs font-bold rounded-xl"
+                    >
+                      +{extraImagesCount}
+                    </div>
+                  )}
+                </div>
+              ))}
           </div>
         ) : null}
         {isModalOpen ? (

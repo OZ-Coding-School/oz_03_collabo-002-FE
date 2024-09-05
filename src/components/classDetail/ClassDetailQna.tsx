@@ -40,7 +40,10 @@ const ClassDetailQna = () => {
       </h3>
       <div className='mt-4'>
         {questions
-          ?.map((data) => (
+          ?.map((data) => {
+            const qnaId = data.id ?? '';
+
+            return (
             <div key={data.id} className="divide-y divide-gray-200">
               <div className="flex justify-between px-6 py-[15px]">
                 <div id="question-item" className="flex flex-col">
@@ -63,24 +66,25 @@ const ClassDetailQna = () => {
                   </div>
                 </div>
                 {data.answer !== '' ? (
-                  <button onClick={() => toggleAnswerOpen(String(data.id))}>
-                    {openAnswers[data.id] ? <IconArrowUp /> : <IconArrowDown />}
+                  <button onClick={() => toggleAnswerOpen(String(qnaId))}>
+                    {openAnswers[qnaId] ? <IconArrowUp /> : <IconArrowDown />}
                   </button>
                 ) : null}
               </div>
-              {openAnswers[data.id] && (
+              {openAnswers[qnaId] && (
                 <div className="mt-2 bg-gray p-6">
                   <h3 className="font-bold mb-[15px]">
                     {data.answer_title}
                   </h3>
                   <p className="mb-[15px]">{data.answer}</p>
                   <small className="text-sm">
-                    {data.updated_at.split('T', 1)}
+                    {/* {data.updated_at.split('T', 1)} */}
                   </small>
                 </div>
               )}
             </div>
-          ))
+            )
+              })
           .slice(0, 1)}
         {/* 첫 번째 인덱스로부터 1개의 값만 출력되도록 함 */}
       </div>

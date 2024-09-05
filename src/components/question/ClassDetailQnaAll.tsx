@@ -58,15 +58,15 @@ const ClassDetailQnaAll = () => {
             </div>
             {data.answer !== '' ? (
               <button onClick={() => toggleAnswerOpen(String(data.id))}>
-                {openAnswers[data.id] ? <IconArrowUp /> : <IconArrowDown />}
+                {openAnswers[data.id ?? ''] ? <IconArrowUp /> : <IconArrowDown />}
               </button>
             ) : null}
           </div>
-          {openAnswers[data.id] && (
+          {openAnswers[data.id ?? ''] && (
             <div className="mt-2 bg-gray p-6">
               <h3 className="font-bold mb-[15px]">{data.answer_title}</h3>
               <p className="mb-[15px]">{data.answer}</p>
-              <small className="text-sm">{data.updated_at.split('T', 1)}</small>
+              <small className="text-sm">{data.updated_at?.split('T', 1)}</small>
             </div>
           )}
         </div>

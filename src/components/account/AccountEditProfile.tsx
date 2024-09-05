@@ -4,28 +4,22 @@ import Modal from '../common/Modal';
 import { useModalStore } from '../../store/useModal';
 import { useUserStore } from '../../store/useUser';
 import AccountEditPhoto from './AccountEditPhoto';
+import useAccountStore from '../../store/useAccountStore';
 
 const AccountEditProfile = () => {
   const [name, setName] = useState<string>('');
   const [avatar, setAvatar] = useState<string>('');
 
   const user = useUserStore((state) => state.user);
-  const fetchUser = useUserStore((state) => state.fetchUser);
-  const updateUser = useUserStore((state) => state.updateUser);
-  const deleteUser = useUserStore((state) => state.deleteUser);
+  const getUserDetail = useAccountStore((state) => state.getUserDetail);
+  const updateUser = useAccountStore((state) => state.updateUser);
+  const deleteUser = useAccountStore((state) => state.deleteUser);
   const { showModal } = useModalStore();
 
-  // useEffect(() => {
-  //   fetchUser();
-  // }, [fetchUser]);
-
   useEffect(() => {
-    if (user) {
-      setName(user.name);
-    } else {
-      fetchUser()
-    }
-  }, [user]);
+    getUserDetail();
+    
+  }, [getUserDetail]);
 
   const handleSaveUserinfo = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -61,7 +55,7 @@ const AccountEditProfile = () => {
     updateUser(validUpdateData);
   };
 
-  if (!user) return <div>Loading...</div>;
+  if (!user) return null;
 
   const labelStyle = 'mb-[15px] text-lg font-bold';
 
@@ -74,22 +68,25 @@ const AccountEditProfile = () => {
           </label>
           <input
             type="text"
-            id={name}
-            placeholder={user?.name}
+            id="name"
+            placeholder={user.name}
             value={name}
             onChange={(e) => setName(e.target.value)}
             className="w-full border border-gray-400 py-1 px-2 rounded-md"
           />
-          
         </div>
-        <AccountEditPhoto avatar={avatar} setAvatar={setAvatar} labelStyle={labelStyle}/>
+        <AccountEditPhoto
+          avatar={avatar}
+          setAvatar={setAvatar}
+          labelStyle={labelStyle}
+        />
 
         <div className="my-6">
           <Button
-            type="submit"
+            type="button"
             size="full"
             value="Save"
-            onSubmit={handleSaveUserinfo}
+            onClick={handleSaveUserinfo}
           />
         </div>
       </form>

@@ -11,8 +11,8 @@ const Category = () => {
   const fetchClasses = useClassStore((state) => state.fetchClasses);
   const location = useLocation();
   const path = String(location.pathname.split('/').slice(-1)) || '';
-  console.log(path)
-  const [category, setCategory] = useState('')
+  console.log(path);
+  const [category, setCategory] = useState('');
 
   useEffect(() => {
     fetchClasses();
@@ -20,47 +20,45 @@ const Category = () => {
 
   useEffect(() => {
     switch (path) {
-      case "cooking":
-        setCategory("Cooking");
+      case 'cooking':
+        setCategory('Cooking');
         break;
-      case "art-culture":
-        setCategory("Art & Culture");
+      case 'art-culture':
+        setCategory('Art & Culture');
         break;
-      case "test2":
-        setCategory("Test2");
+      case 'test2':
+        setCategory('Test2');
         break;
-      case "beauty-fashion":
-        setCategory("Beauty & Fashion");
+      case 'beauty-fashion':
+        setCategory('Beauty & Fashion');
         break;
-      case "diy":
-        setCategory("DIY");
+      case 'diy':
+        setCategory('DIY');
         break;
-      case "activities":
-        setCategory("Activities");
+      case 'activities':
+        setCategory('Activities');
         break;
-      case "test":
-        setCategory("Test");
+      case 'test':
+        setCategory('Test');
         break;
       default:
-        setCategory("all");
+        setCategory('all');
         break;
     }
-  }, [path])
-  
-  
+  }, [path]);
 
   const filteredClasses = useMemo<Class[]>(() => {
     if (category === 'all') {
       return classes || [];
     }
     return classes?.filter((item) => item.category === category) || [];
-  }, [classes, path]);
+  }, [classes, category]);
 
   if (!classes) return null;
 
   return (
     <div className="w-full px-6">
-      <CategoryHeader path={category}/>
+      <CategoryHeader path={category} />
       {filteredClasses.length > 0 ? (
         <div className="grid gap-x-[15px] gap-y-6 grid-cols-2">
           {filteredClasses.map((item) => (

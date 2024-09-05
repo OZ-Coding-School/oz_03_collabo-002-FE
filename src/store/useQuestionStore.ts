@@ -4,8 +4,10 @@ import axios from '../api/axios';
 import {
   Question,
   QuestionActions,
+  QuestionRequest,
   QuestionState,
 } from '../type/question.type';
+import { useModalStore } from './useModal';
 
 const useQnaStore = create<QuestionState & QuestionActions>()(
   immer((set) => ({
@@ -17,32 +19,25 @@ const useQnaStore = create<QuestionState & QuestionActions>()(
       try {
         const response = await axios.get(`/question/${classId}/`);
         const data: Question[] = response.data;
-        set({ questions: data });
+        set((state) => {
+          state.questions = data;
+        });
       } catch (error) {
         console.error('Failed to fetch QnA data for Class: ', error);
       }
     },
 
-    // 내 질문 목록을 가져오는 함수
-    fetchMyQuestions: async (userId) => {
-      try {
-        const response = await axios.get(`/question/`);
-        const data: Question[] = response.data;
-        const filteredMyQuestions = data.filter(
-          (question: Question) => question.user_id === userId?.toString(),
-        );
-        set({ myQuestions: filteredMyQuestions });
-      } catch (error) {
-        console.error('Failed to fetch my questions', error);
-      }
-    },
-
     // 모든 질문을 가져오는 함수
-    getQuestionAll: async () => {
+    getMyQuestions: async () => {
       try {
-        const response = await axios.get('/v1/question/');
-        const data = response.data;
-        set({ questions: data });
+        const response = await axios.get<QuestionRequest>(
+          '/question/?page=1&size=10',
+        );
+        console.log(response.data);
+        const data = response.data.questions;
+        set((state) => {
+          state.myQuestions = data;
+        });
       } catch (error) {
         console.error('Failed to get all questions: ', error);
       }
@@ -51,10 +46,7 @@ const useQnaStore = create<QuestionState & QuestionActions>()(
     // 새로운 질문을 생성하는 함수
     createQuestion: async (classId, questionData) => {
       try {
-        const response = await axios.post(
-          `/v1/question/${classId}/`,
-          questionData,
-        );
+        const response = await axios.post(`/question/${classId}`, questionData);
         const newQuestion: Question = response.data;
         set((state) => ({
           questions: [...(state.questions || []), newQuestion],
@@ -65,14 +57,11 @@ const useQnaStore = create<QuestionState & QuestionActions>()(
     },
 
     // 질문을 수정하는 함수
-    updateQuestion: async (classId, questionId, questionData) => {
+    updateQuestion: async (classId, questionData) => {
       try {
         const response = await axios.patch(
-          `/v1/question/${classId}/`,
+          `/question/${classId}/`,
           questionData,
-          {
-            params: { question_id: questionId },
-          },
         );
         const updatedQuestion: Question = response.data;
         set((state) => ({
@@ -88,14 +77,14 @@ const useQnaStore = create<QuestionState & QuestionActions>()(
     // 질문을 삭제하는 함수
     deleteQuestion: async (classId, questionId) => {
       try {
-        await axios.delete(`/v1/question/${classId}/`, {
-          params: { question_id: questionId },
-        });
+        await axios.delete(`/v1/question/${classId}/${questionId}/`);
         set((state) => ({
           questions: state.questions?.filter((q) => q.id !== questionId),
         }));
+        useModalStore.getState().setModal('Success to remove your question');
       } catch (error) {
         console.error('Failed to delete question: ', error);
+        useModalStore.getState().setModal('Failed to remove');
       }
     },
   })),

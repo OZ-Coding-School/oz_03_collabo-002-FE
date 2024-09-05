@@ -27,17 +27,17 @@ const ModalReviewWrite = () => {
     formState: { errors },
   } = useForm<Review>({
     defaultValues: {
-      review_text: '',
+      review: '',
       created_at: '',
       rating: 0,
       images: [],
     },
   });
-  const reviewText = watch('review_text');
+  const reviewText = watch('review');
 
   const clearValue = () => {
     reset({
-      review_text: '',
+      review: '',
       created_at: '',
       rating: 0,
       images: [],
@@ -58,13 +58,13 @@ const ModalReviewWrite = () => {
     setRatings((prevRating) =>
       selectedRating === prevRating ? prevRating - 1 : selectedRating,
     );
-    console.log('seletedRating: ', selectedRating);
+    console.log('selectedRating: ', selectedRating);
   };
 
   useEffect(() => {
     console.log('star: ', stars);
     console.log('ratings: ', ratings);
-  }, [ratings]);
+  }, [ratings, stars]);
 
   const handleInputImage = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -100,16 +100,16 @@ const ModalReviewWrite = () => {
     try {
       // images, rating은 form data에서 추출해 낼 수 없음 -> <img /> 여서 그런가..
       // 그래서 form data로 review_text만 추출 가능
-      const { review_text, images, rating } = data;
+      const { review, images, rating } = data;
       const currentDate = new Date().toISOString();
       const reviewData = {
         images: uploadImgs.map((img) => ({ image_url: img })),
         class_id: class_id,
         created_at: currentDate,
-        review_text,
+        review,
         rating: ratings,
       };
-      console.log(review_text, images, rating);
+      console.log(review, images, rating);
       console.log(reviewData);
       await axios.post(
         // `reviews/${class_id}`,
@@ -251,7 +251,7 @@ const ModalReviewWrite = () => {
 Please honestly write down your pleasant memories, regretful memories, and things you felt during the experience.`}
                   // onChange={handleInputChange}
                   minLength={20}
-                  {...register('review_text', {
+                  {...register('review', {
                     required: 'Review text is required',
                     minLength: {
                       value: 20,
@@ -259,7 +259,7 @@ Please honestly write down your pleasant memories, regretful memories, and thing
                     },
                   })}
                 ></textarea>
-                {errors.review_text && <p>{errors.review_text.message}</p>}
+                {errors.review && <p>{errors.review.message}</p>}
                 <hr className="border-b-gray-300" />
                 <div className="flex justify-center mt-1 gap-2">
                   {stars.map((star) => (

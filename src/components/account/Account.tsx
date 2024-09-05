@@ -13,17 +13,11 @@ import MyLike from './MyLike';
 const Account = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const page = searchParams.get('page'); // 'user', 'orders', 'questions', 'reviews', 'workshops'
+  const page = searchParams.get('page'); 
   const [headerTitle, setHeaderTitle] = useState('Account');
   const user = useUserStore((state) => state.user);
-  // const fetchUser = useUserStore((state) => state.fetchUser);
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   fetchUser();
-  // }, [fetchUser]);
-
-  // const isLogin = !!localStorage.getItem("access");
   const isLogin = !!user;
 
   useEffect(() => {
