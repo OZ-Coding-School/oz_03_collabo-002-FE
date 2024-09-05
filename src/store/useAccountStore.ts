@@ -22,7 +22,6 @@ const useAccountStore = create<AccountState & AccountActions>()(
         set((state) => {
           state.myOrders = response.data;
         });
-        console.log('Fetched Orders: ', get().myOrders);
       } catch (error) {
         console.error('Failed to fetch orders', error);
       }
@@ -32,7 +31,6 @@ const useAccountStore = create<AccountState & AccountActions>()(
       try {
         const response = await axios.get('/users/detail');
         set({ user: response.data });
-        console.log('Fetched User: ', get().user);
       } catch (error) {
         console.error('Failed to fetch user', error);
       }
@@ -64,7 +62,6 @@ const useAccountStore = create<AccountState & AccountActions>()(
 
       try {
         const response = await axios.patch('/users/detail', dataToSend);
-        console.log(response);
         setModal('Success to update');
         get().fetchUser();
       } catch (error) {
@@ -78,7 +75,6 @@ const useAccountStore = create<AccountState & AccountActions>()(
 
       try {
         const response = await axios.delete('/users/detail');
-        console.log(response);
         set({ user: null });
         setModal('Success to delete account');
       } catch (error) {

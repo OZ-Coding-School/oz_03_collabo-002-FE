@@ -11,8 +11,6 @@ const useClassStore = create<ClassState>((set, get) => ({
   fetchClasses: async () => {
     try {
       const response = await axios.get(`/classes`);
-      console.log(response.data);
-      console.log('응답 헤더:', response.headers['content-type']);
 
       if (response.data && Array.isArray(response.data.data)) {
         set({ classes: response.data.data }); // data 배열을 사용
@@ -51,7 +49,6 @@ const useClassStore = create<ClassState>((set, get) => ({
       const findData = data.find((item) => item.id === id);
       return findData ?? null;
     } catch (error) {
-      console.log('Failed to find class: ', error);
       return null;
     }
   },
@@ -60,16 +57,13 @@ const useClassStore = create<ClassState>((set, get) => ({
 
   fetchClassesTime: async (id: string) => {
     try {
-      console.log(`Fetching class data for id: ${id}`); // ID 확인
       const response = await axios.get(`/classes/${id}`);
-      console.log('API response:', response.data); // API 응답 확인
 
       const data = response.data;
       if (data.status === 'success') {
         const { start_time, end_time, person = 0 } = data.data.dates[0]; // dates 배열에서 시간 관련 정보 가져옴
 
         const max_person = data.data.max_person; // 최상위 객체에서 max_person 가져옴
-        console.log('Class details:', start_time, end_time, person, max_person); // 값 확인
 
         // 시간 블록 생성
         const timeBlocks = generateTimeBlocks(start_time, end_time);
@@ -82,8 +76,6 @@ const useClassStore = create<ClassState>((set, get) => ({
           seat: max_person,
           time: timeBlock,
         }));
-
-        console.log('Generated class details:', generatedClassDetails); // 결과 확인
 
         set({ classDetails: generatedClassDetails });
       } else {
@@ -100,13 +92,11 @@ export const findOneClass = async (
 ): Promise<Class | null> => {
   try {
     const response = await axios.get(`/classes/${id}`);
-    console.log('API Response:', response.data);
 
     if (typeof response.data !== 'object') {
       console.error(
         'Response is not a valid JSON object. HTML was returned instead.',
       );
-      console.log('HTML Response:', response.data);
       return null;
     }
 
@@ -126,7 +116,6 @@ export const findOneClass = async (
         error.response.statusText,
       );
       if (typeof error.response.data === 'string') {
-        console.log('Error HTML Response:', error.response.data);
       }
     } else {
       console.error('Error:', error.message);

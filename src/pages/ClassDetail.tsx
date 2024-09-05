@@ -51,7 +51,6 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
 
     try {
       const detail = await findOneClass(classId);
-      console.log('API에서 받아온 클래스 정보:', detail);
 
       if (!detail) {
         console.error('Class not found for id:', classId);
@@ -72,10 +71,9 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
       console.error('API 호출 오류:', error);
     }
   };
-  console.log('현재 classId:', classId); // 콘솔에 출력하여 확인
 
   useEffect(() => {
-    loadClassDetail(); // 컴포넌트가 마운트될 때 클래스 정보를 불러옵니다.
+    loadClassDetail();
   }, [classId]);
 
   // 예약 정보 저장

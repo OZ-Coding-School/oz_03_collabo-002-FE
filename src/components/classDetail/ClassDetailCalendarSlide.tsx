@@ -9,7 +9,7 @@ import { useParams } from 'react-router-dom';
 import { Status } from '../../type/class.type';
 
 type Props = {
-  onTimeSelect: (time: string) => void;
+  onTimeSelect: (time: string | null) => void; // 선택 해제 시 null 전달
 };
 
 const ClassDetailCalendarSlide: React.FC<Props> = ({ onTimeSelect }) => {
@@ -22,17 +22,21 @@ const ClassDetailCalendarSlide: React.FC<Props> = ({ onTimeSelect }) => {
   useEffect(() => {
     if (id) {
       fetchClassesTime(id);
+      console.log('13');
     }
   }, [id, fetchClassesTime]);
 
   const handleTimeSelect = (index: number) => {
     if (classDetails[index].status === 'Fully booked') return;
 
-    // 선택된 인덱스를 저장
-    setSelectedIndex(index);
-
-    // 선택된 시간에 대한 콜백 실행
-    onTimeSelect(classDetails[index].time);
+    // 이미 선택된 항목을 다시 클릭한 경우 선택 해제
+    if (selectedIndex === index) {
+      setSelectedIndex(null);
+      onTimeSelect(null); // 선택 해제 시 null 전달
+    } else {
+      setSelectedIndex(index);
+      onTimeSelect(classDetails[index].time); // 선택된 시간 전달
+    }
   };
 
   return (

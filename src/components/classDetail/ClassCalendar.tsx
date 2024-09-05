@@ -22,16 +22,11 @@ function ClassCalendar({
       return;
     }
     const loadClassDetail = async () => {
-      console.log('findOneClass 호출, classId:', id);
-
       const detail = await findOneClass(id);
 
       if (!detail) {
-        console.log('클래스 정보를 찾을 수 없습니다.');
         return;
       }
-
-      console.log('받아온 클래스 정보:', detail);
 
       if (detail.dates && detail.dates.length > 0) {
         const availableDates = detail.dates.map((date) => {
@@ -40,7 +35,6 @@ function ClassCalendar({
         });
         setAvailableDates(availableDates);
       } else {
-        console.log('사용 가능한 날짜가 없습니다.');
       }
 
       if (detail.class_type) {
@@ -49,7 +43,6 @@ function ClassCalendar({
           : [detail.class_type];
         setAvailableTypes(availableTypes);
       } else {
-        console.log('클래스 타입이 없습니다.');
       }
     };
 
