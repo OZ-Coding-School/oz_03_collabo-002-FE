@@ -36,7 +36,7 @@ const ModalReviewWrite: React.FC<props> = ({
   const { id } = useParams();
   const [accessToken, setAccessToken] = useState<string | null>('');
   const isUpdate = useReviewStore((state) => state.setIsUpdate);
-  let review_id: number | string;
+  // let review_id: number | string;
   // const [value, setValue] = useState<string>('');
   const {
     register,

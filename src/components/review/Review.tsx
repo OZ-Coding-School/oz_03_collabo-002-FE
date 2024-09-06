@@ -7,7 +7,7 @@ const Review = () => {
 
   return (
     <>
-      {/* <RatingAverage id={id} /> */}
+      <RatingAverage id={id} />
       <div className="w-full border border-b-gray-200 border-b-[0.5px] border-transparent" />
       <ReviewList />
     </>

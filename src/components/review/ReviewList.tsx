@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import ReviewItem from './ReviewItem';
 import useReviewStore from '../../store/useReviewStore';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 const ReviewsList = () => {
   const { id } = useParams();
