@@ -3,24 +3,44 @@ import { immer } from 'zustand/middleware/immer';
 import { AccountActions, AccountState } from '../type/account.type';
 import axios from '../api/axios';
 import { useModalStore } from './useModal';
+import { createJSONStorage, persist } from 'zustand/middleware';
+import { useUserStore } from './useUser';
 
 const useAccountStore = create<AccountState & AccountActions>()(
-  immer((set, get) => ({
-    user: null,
-    access: null,
-    refresh: null,
-    myOrders: [],
+  persist(
+    immer((set, get) => ({
+      myOrders: [],
 
-    fetchMyOrder: async (token) => {
-      try {
-        const response = await axios.get('/history', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+      regenerateToken: async () => {
+        try {
+          const response = await axios.post(
+            '/users/token/refresh/',
+            {},
+            { withCredentials: true },
+          );
+          const { accessToken } = response.data;
+          if (accessToken) {
+            localStorage.setItem('accessToken', accessToken);
+            console.log('Token refreshed successfully');
+          } else {
+            console.log('Token refresh failed: no accessToken returned');
+          }
+        } catch (error) {
+          console.error('Failed to refresh token: ', error);
+          // Optionally, you might want to clear the user session if token refresh fails
+          localStorage.removeItem('userInfo');
+          localStorage.removeItem('accessToken');
+          useUserStore.getState().setUser(null);
+          useModalStore
+            .getState()
+            .setModal('Session expired, please log in again.');
+        }
+      },
 
+      fetchMyOrder: () => {
+        //
         set((state) => {
-          state.myOrders = response.data;
+          state.myOrders = [];
         });
       } catch (error) {
         console.error('Failed to fetch orders', error);
@@ -81,8 +101,9 @@ const useAccountStore = create<AccountState & AccountActions>()(
         console.error('Failed delete user: ', error);
         setModal('Failed to delete account');
       }
+
     },
-  })),
+  ),
 );
 
 export default useAccountStore;

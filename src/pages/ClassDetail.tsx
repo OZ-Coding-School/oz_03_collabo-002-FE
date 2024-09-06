@@ -5,7 +5,6 @@ import {
   IconReviewStar,
 } from '../config/IconData';
 import { twJoin as tw } from 'tailwind-merge';
-import GoodsDetailInfoSlide from '../components/classDetail/ClassDetailInfoSlide';
 import ClassDetailCalendarSlide from '../components/classDetail/ClassDetailCalendarSlide';
 import ClassDetailOption from '../components/classDetail/ClassDetailOption';
 import '../components/classDetail/ClassDetail.css';
@@ -27,6 +26,7 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
   // 상태 관리
   const [availableTypes, setAvailableTypes] = useState<string[]>([]);
   const [isLiked, setIsLiked] = useState(false);
+
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [availableDates, setAvailableDates] = useState<Date[]>([]);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
@@ -35,6 +35,7 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
   );
   const [selectLanguageType, setSelectLanguageType] = useState<string>(''); // 언어 선택 상태 추가
   const [maxPerson, setMaxPerson] = useState<number | null>(null);
+
 
   // 클래스 상세 정보와 최대 인원 데이터 가져오기
   const loadClassDetail = async () => {
@@ -72,7 +73,6 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
     } catch (error) {
       console.error('API 호출 오류:', error);
     }
-  };
 
   useEffect(() => {
     loadClassDetail();
@@ -82,6 +82,7 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
   const handleBookingClick = () => {
     const bookingData = {
       language: selectLanguageType, // 선택한 언어 추가
+
       class: selectedClassType ?? '',
       time: selectedTime ?? '',
       date: selectedDate,
@@ -183,6 +184,7 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
         onBookNowClick={handleBookingClick}
       />
     </>
+
   );
 };
 

@@ -1,6 +1,8 @@
 import AWS from 'aws-sdk';
 import fs from 'fs';
 import path from 'path';
+import mime from 'mime-types';
+
 
 // NCP Object Storage 설정
 const endpoint = new AWS.Endpoint('https://kr.object.ncloudstorage.com');
@@ -15,30 +17,49 @@ const s3 = new AWS.S3({
   credentials: new AWS.Credentials(accessKeyId, secretAccessKey),
 });
 
-// 디렉토리 내의 파일을 업로드 및 삭제
+// 파일을 업로드하는 함수
+const uploadFile = async (filePath, key) => {
+  const fileContent = fs.readFileSync(filePath);
+  let contentType = mime.lookup(filePath);
+
+  // 특정 확장자에 대해 명시적으로 MIME 타입 설정 (선택 사항)
+  const ext = path.extname(filePath).toLowerCase();
+  if (ext === '.js') {
+    contentType = 'application/javascript';
+  } else if (ext === '.css') {
+    contentType = 'text/css';
+  }
+
+  // MIME 타입이 없으면 기본값 설정
+  contentType = contentType || 'application/octet-stream';
+
+  const params = {
+    Bucket: bucketName,
+    Key: key,
+    Body: fileContent,
+    ACL: 'public-read', // 파일 업로드 시 전체 공개 권한 부여
+    ContentType: contentType, // MIME 타입 설정
+    ContentDisposition: 'inline' // inline으로 설정하여 브라우저에서 열리도록 함
+  };
+  return s3.upload(params).promise();
+};
+
+// 디렉토리의 파일을 동기화하는 함수
 const syncDirectory = async (directory, baseDir) => {
-  const localFiles = new Set();
   const files = fs.readdirSync(directory);
 
-  for (const file of files) {
+  const uploadPromises = files.map(async (file) => {
     const fullPath = path.join(directory, file);
     const relativePath = path.relative(baseDir, fullPath);
-    
+
     if (fs.statSync(fullPath).isDirectory()) {
       await syncDirectory(fullPath, baseDir);
     } else {
-      localFiles.add(relativePath);
       await uploadFile(fullPath, relativePath);
     }
-  }
+  });
 
-  // 기존 파일 목록과 비교하여 삭제할 파일 확인
-  const bucketFiles = await listBucketFiles();
-  for (const file of bucketFiles) {
-    if (!localFiles.has(file)) {
-      await deleteFile(file);
-    }
-  }
+  await Promise.all(uploadPromises);
 };
 
 // 스크립트 실행
@@ -46,3 +67,4 @@ const distDir = path.join(process.cwd(), 'dist');
 syncDirectory(distDir, distDir)
   .then(() => console.log('Deployment completed.'))
   .catch((err) => console.error('Error during deployment:', err));
+  

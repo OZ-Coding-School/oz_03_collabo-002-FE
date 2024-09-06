@@ -14,7 +14,7 @@ const Modal = () => {
       <div className="border rounded-2xl w-[300px] h-[200px] bg-white flex flex-col  justify-evenly items-center">
         {/* <label className="font-bold text-xl mb-5">Info</label> */}
 
-        <div className="my-5 text-center font-bold text-xl">
+        <div className="my-5 text-center font-bold text-xl p-5">
           {modalMessage}
           {/* Login Success! */}
         </div>

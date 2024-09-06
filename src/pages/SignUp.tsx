@@ -22,7 +22,6 @@ const SignUp = () => {
   const [imgFile, setImgFile] = useState<File>();
   const [preview, setPreview] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  // const [croppedImage, setCroppedImage] = useState<string | null>(null);
   const navigate = useNavigate();
 
   const {
@@ -96,6 +95,7 @@ const SignUp = () => {
         const { name, email, password } = data;
         console.log('1');
         console.log('imgFile:', imgFile);
+
         await axios.post(
           `${import.meta.env.VITE_CALLBACK_URL}signup/`,
           {
@@ -327,7 +327,7 @@ const SignUp = () => {
                       />
                       <span>
                         I agree to the terms and conditions{' '}
-                        <span className="text-red-500">(required)</span>
+                        <span className="text-primary">(required)</span>
                       </span>
                     </label>
                   </div>
@@ -337,7 +337,7 @@ const SignUp = () => {
                     </p>
                   )}
                   <div className="flex felx-col">
-                    <label>
+                    <label className="flex items-center">
                       <input
                         type="checkbox"
                         id="agree2"
@@ -362,11 +362,11 @@ const SignUp = () => {
                 </div>
                 <button
                   type="submit"
-                  className="bg-primary text-white w-full rounded-xl h-10"
+                  className="bg-primary text-white w-full rounded-xl h-10 mt-2"
                 >
                   Sign Up
                 </button>
-                <div className="mt-4 flex flex-col text-center">
+                <div className="mt-4 flex flex-col text-center text-sm">
                   Do you have an ID ?
                   <Link to="/login" className="text-primary ml-3">
                     Login

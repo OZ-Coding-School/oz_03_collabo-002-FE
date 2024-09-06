@@ -14,21 +14,15 @@ export interface Class {
       start_date: string;
       start_time: string;
       end_time: string;
-      person: 2147483647;
+      person: number;
     },
   ];
-  images: [
-    {
-      id: string;
-      class_id: string;
-      image_url: string;
-    },
-  ];
+  images: ClassImages;
   is_new: boolean;
-  category: string;
   price_in_usd: number;
   is_best: boolean;
-  formatted_address: string;
+  genre: string;
+  category: string;
   created_at: string;
   updated_at: string;
   title: string;
@@ -36,10 +30,16 @@ export interface Class {
   max_person: number;
   require_person: number;
   price: number;
+  address: string;
   class_type: string;
+  discount_rate: number;
   is_viewed: boolean;
-  averageScore: number;
-  address: string | Address;
+  average_rating: number;
+}
+
+export type ClassTitle = {
+  id: string | number;
+  title: string;
 }
 export type ClassDetail = {
   status: Status;

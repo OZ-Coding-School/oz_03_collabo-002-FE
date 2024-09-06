@@ -14,9 +14,28 @@ const useClassStore = create<ClassState>((set, get) => ({
 
       if (response.data && Array.isArray(response.data.data)) {
         set({ classes: response.data.data }); // data 배열을 사용
+
       } else {
-        console.error('Unexpected data format:', response.data);
-        set({ classes: [] }); // 형식이 예상과 다를 경우 빈 배열로 초기화
+        set(() => ({ classes: [] }));
+      }
+    },
+
+    filterClasses: (kind: string) => {
+      const classes = get().classes ?? [];
+      const filteredClasses = { ...get().filteredClasses };
+
+      const filtered = classes;
+
+      filteredClasses[kind] = filtered;
+      set({ filteredClasses });
+    },
+    findOneClass: async (id) => {
+      try {
+        const response = await axios.get(`/classes/${id}`);
+        return response.data.data as Class;
+      } catch (error) {
+        console.log('Failed to find class: ', error);
+        return null;
       }
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -86,6 +105,7 @@ const useClassStore = create<ClassState>((set, get) => ({
     }
   },
 }));
+
 
 export const findOneClass = async (
   id: string | undefined, //: Promise<Class | null>

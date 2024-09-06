@@ -7,17 +7,21 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { Review } from '../../type/review.type';
 import { useModalStore } from '../../store/useModal';
 import Modal from './Modal';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from '../../api/axios';
+import { useUserStore } from '../../store/useUser';
 
 const ModalReviewWrite = () => {
   const stars = [1, 2, 3, 4, 5];
-  const [rating, setRating] = useState(0);
+  const [ratings, setRatings] = useState(0);
   const [uploadImgs, setUploadImgs] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [inputCount, setInputCount] = useState<number>(0);
   const { setModal, showModal } = useModalStore();
-  const { class_id } = useParams();
+  const user = useUserStore((state) => state.user);
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const [accessToken, setAccessToken] = useState<string | null>('');
   const {
     register,
     handleSubmit,
@@ -26,28 +30,20 @@ const ModalReviewWrite = () => {
     formState: { errors },
   } = useForm<Review>({
     defaultValues: {
-      review_text: '',
+      review: '',
       created_at: '',
       rating: 0,
-      images: [
-        // {
-        //   image_url: '',
-        // },
-      ],
+      images: [],
     },
   });
-  const reviewText = watch('review_text');
+  const reviewText = watch('review');
 
   const clearValue = () => {
     reset({
-      review_text: '',
+      review: '',
       created_at: '',
       rating: 0,
-      images: [
-        // {
-        //   image_url: '',
-        // },
-      ],
+      images: [],
     });
   };
 
@@ -62,10 +58,26 @@ const ModalReviewWrite = () => {
   }, [reviewText]);
 
   const handleStar = (selectedRating: number) => {
-    setRating((prevRating) =>
+    setRatings((prevRating) =>
       selectedRating === prevRating ? prevRating - 1 : selectedRating,
     );
+    console.log('selectedRating: ', selectedRating);
   };
+
+  useEffect(() => {
+    console.log('star: ', stars);
+    console.log('ratings: ', ratings);
+  }, [ratings, stars]);
+
+  useEffect(() => {
+    console.log('id: ', id);
+    console.log('user: ', user);
+    if (user) {
+      const Token = localStorage.getItem('accessToken');
+      setAccessToken(Token);
+      console.log('accessToken: ', Token);
+    }
+  }, [id, user]);
 
   const handleInputImage = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -90,7 +102,6 @@ const ModalReviewWrite = () => {
   const handleUpload = () => {
     fileInputRef.current?.click();
   };
-  // console.log('uploadImg: ', uploadImg);
 
   const handleDelete = (indexDelete: number) => {
     console.log(indexDelete);
@@ -100,38 +111,50 @@ const ModalReviewWrite = () => {
 
   const onsubmit: SubmitHandler<Review> = async (data) => {
     try {
-      const { review_text, images, rating } = data;
+      // images, rating은 form data에서 추출해 낼 수 없음 -> <img /> 여서 그런가..
+      // 그래서 form data로 review_text만 추출 가능
+      const { review } = data;
       const currentDate = new Date().toISOString();
       const reviewData = {
-        images: uploadImgs.map((img) => ({ image_url: img })),
-        class_id: class_id,
+        images:
+          uploadImgs.length > 0
+            ? uploadImgs.map((img) => ({ image_url: img }))
+            : [],
+        class_id: Number(id),
         created_at: currentDate,
-        review_text,
-        rating,
+        review,
+        rating: ratings.toString(),
       };
-      console.log(review_text, images, rating);
+      console.log(reviewData);
       await axios.post(
-        `reviews/${class_id}`,
-        // `https://api.custom-k.store/v1/reviews/1`,
-        {
-          reviewData,
-        },
+        `reviews/${id}`,
+
+        reviewData,
+
         {
           headers: {
             'Content-Type': 'application/json',
+            Authorization: `Bearer ${accessToken}`,
           },
           withCredentials: true,
         },
       );
       setModal('Successful Save');
       clearValue();
-      setRating(0);
+      setRatings(0);
       setUploadImgs([]);
+      setTimeout(() => {
+        navigate(`class/${id}`);
+      }, 2000);
     } catch (error) {
       console.error('Error submitting review:', error);
 
       setModal('Please fill out all the requirements.');
     }
+  };
+
+  const handleOut = () => {
+    navigate(-1);
   };
 
   return (
@@ -144,6 +167,7 @@ const ModalReviewWrite = () => {
               src={arrowLeft}
               alt="나가기"
               className="mx-6 w-4 stroke-[#666666]"
+              onClick={handleOut}
             />
             <span className="w-full text-center mr-14 font-bold">Review</span>
           </div>
@@ -210,7 +234,6 @@ const ModalReviewWrite = () => {
                       alt={`Uploaded ${index + 1}`}
                       className="w-full h-full object-cover"
                       id="images"
-                      {...register('images', {})}
                     />
                     <button
                       onClick={() => handleDelete(index)}
@@ -245,7 +268,7 @@ const ModalReviewWrite = () => {
 Please honestly write down your pleasant memories, regretful memories, and things you felt during the experience.`}
                   // onChange={handleInputChange}
                   minLength={20}
-                  {...register('review_text', {
+                  {...register('review', {
                     required: 'Review text is required',
                     minLength: {
                       value: 20,
@@ -253,7 +276,7 @@ Please honestly write down your pleasant memories, regretful memories, and thing
                     },
                   })}
                 ></textarea>
-                {errors.review_text && <p>{errors.review_text.message}</p>}
+                {errors.review && <p>{errors.review.message}</p>}
                 <hr className="border-b-gray-300" />
                 <div className="flex justify-center mt-1 gap-2">
                   {stars.map((star) => (
@@ -263,13 +286,8 @@ Please honestly write down your pleasant memories, regretful memories, and thing
                       onClick={() => handleStar(star)}
                     >
                       <img
-                        src={star <= rating ? fullStar : emptyStar}
+                        src={star <= ratings ? fullStar : emptyStar}
                         alt={`${star} 점`}
-                        id="rating"
-                        {...(register('rating'),
-                        {
-                          required: 'This is a mandoatory item.',
-                        })}
                       />
                     </button>
                   ))}
