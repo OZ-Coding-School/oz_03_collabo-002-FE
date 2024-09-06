@@ -26,7 +26,7 @@ export interface Class {
       start_date: string;
       start_time: string;
       end_time: string;
-      person: 2147483647;
+      person: number;
     },
   ];
   images: [
@@ -38,10 +38,10 @@ export interface Class {
     },
   ];
   is_new: boolean;
-  category: string;
   price_in_usd: number;
   is_best: boolean;
-  formatted_address: string;
+  genre: string;
+  category: string;
   created_at: string;
   updated_at: string;
   title: string;
@@ -49,11 +49,13 @@ export interface Class {
   max_person: number;
   require_person: number;
   price: number;
+  address: string;
   class_type: string;
+  discount_rate: number;
   is_viewed: boolean;
   averageScore: number;
-  address: string;
   name?: string;
+  average_rating: number;
 }
 export type ClassDetail = {
   status: Status;
@@ -61,13 +63,14 @@ export type ClassDetail = {
   time: string;
   seat: number;
 };
-
-export type ClassState = {
-  classes: Class[] | null;
-  filteredClasses: Record<string, Class[]>;
+export interface ClassState {
+  classes: Class[];
+  filteredClasses: { [key: string]: Class[] };
   classDetails: ClassDetail[];
   fetchClasses: () => Promise<void>;
   filterClasses: (kind: string) => void;
   findOneClass: (id: string | undefined) => Promise<Class | null>;
+  setClasses: (data: Class[]) => void;
+  setClassDetails: (updatedClassDetails: ClassDetail[]) => void;
   fetchClassesTime: (id: string) => Promise<void>;
-};
+}

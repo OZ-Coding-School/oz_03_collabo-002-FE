@@ -20,7 +20,7 @@ const ReviewPhotoModal = ({ review, setIsModalOpen }: ReviewModalProps) => {
         loop={true}
       >
         {review.images.map((image, index) => (
-          <SwiperSlide key={image.id}>
+          <SwiperSlide key={index}>
             <div className="relative w-full h-fit">
               <img
                 src={image.image_url}
@@ -40,7 +40,7 @@ const ReviewPhotoModal = ({ review, setIsModalOpen }: ReviewModalProps) => {
         onClick={() => setIsModalOpen(false)}
         className="absolute p-1 right-2 top-2 z-50 bg-white/50 rounded-full "
       >
-        <IconRemove className="text-black" />
+        <IconRemove className="w-5 h-5 text-black" />
       </button>
     </div>
   );

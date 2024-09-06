@@ -1,31 +1,46 @@
 import axios from 'axios';
+import { AxiosError } from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import successCheck from '../assets/icon/success-check.svg';
 
+interface ResponseData {
+  message?: string;
+  result?: {
+    email?: string;
+    profile_image: string;
+  };
+}
+
 const Redirection = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [isState, setIsState] = useState<string | null>('');
   const navigate = useNavigate();
   const code = new URL(window.location.href).searchParams.get('code');
   const state = new URL(window.location.href).searchParams.get('state');
 
   useEffect(() => {
-    // const clientId = new URL(window.location.href).searchParams.get(
-    //   'client_id',
-    // );
-    if (code) {
+    setIsState(state);
+    if (state !== 'google' && state !== 'kakao') {
+      setIsState('line');
+    }
+    console.log('isState:', isState);
+    if (code && isState) {
       console.log('Auth code:', code);
       console.log('state:', state);
+      console.log('isstate:', isState);
 
       const fetchAuthLogin = async () => {
         try {
-          const url = `${import.meta.env.VITE_CALLBACK_URL}${state}/callback/`;
+          console.log('isState: ', isState);
+          const url = `${import.meta.env.VITE_CALLBACK_URL}${isState}/callback/`;
           console.log('요청 URL: ', url);
           console.log('body: ', code, state);
+
           const response = await axios.post(
             url,
             // { code: code, state: state, clientId: clientId },
-            { code: code },
+            { code: code, state: state },
             // { code: code },
             {
               headers: {
@@ -36,6 +51,8 @@ const Redirection = () => {
           );
 
           console.log(response);
+          // const token = response.data;
+
           if (response) {
             setTimeout(() => {
               setIsLoading(false);
@@ -46,12 +63,41 @@ const Redirection = () => {
           }
         } catch (error) {
           console.log('Error: ', error);
+          if ((error as AxiosError).response) {
+            console.log((error as AxiosError).response?.data);
+            // const responseData = (error as AxiosError<ResponseData>).response
+            //   ?.data;
+            // (error as AxiosError<ResponseData>).response?.data.result;
+            // console.log(responseData);
+            console.log(
+              (error as AxiosError<ResponseData>).response?.data.result,
+            );
+            const message = (error as AxiosError<ResponseData>).response?.data
+              .message;
+            // const result = (error as AxiosError<any>).response?.data.result;
+            console.log(message);
+
+            // if(result.email === '') {
+
+            // }
+
+            if (message === '이메일이 존재하지 않습니다.') {
+              // console.log('hi');
+              navigate('lineEmail');
+            }
+          }
+
+          // if(error instanceof Error) {
+          //   if(error.response.data.result === "이메일이 존재하지 않습니다.") {
+
+          //   }
+          // }
           setIsLoading(true);
         }
       };
       fetchAuthLogin();
     }
-  }, [navigate, code, state]);
+  }, [navigate, code, isState]);
 
   return (
     <div className="flex flex-col max-w-[475px] w-full min-h-screen h-full m-auto border-x border-gray-200 relative bg-gray-100">
@@ -65,7 +111,7 @@ const Redirection = () => {
                   Logging in...
                 </h2>
                 <p className="text-gray-500 text-center">
-                  We're processing your {state} login. Please wait a moment.
+                  We're processing your {isState} login. Please wait a moment.
                 </p>
               </>
             ) : (

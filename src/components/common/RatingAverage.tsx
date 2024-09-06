@@ -21,7 +21,7 @@ const RatingAverage = ({ id }: RatingAverageProps) => {
 
   if (!thisClass) return <div>Loading...</div>;
 
-  const average_rate = Math.round(thisClass.averageScore);
+  const average_rate = Math.round(thisClass.average_rating);
 
   if (average_rate > 5 || average_rate < 0) {
     return (

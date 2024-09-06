@@ -14,17 +14,17 @@ const EditQuestionModal = ({
   onClose,
   onSave,
 }: EditQuestionModalProps) => {
-  const [title, setTitle] = useState(question.questionTitle);
+  const [title, setTitle] = useState(question.question_title);
   const [content, setContent] = useState(question.question);
 
   const { clearModal } = useModalStore();
 
   const handleSave = () => {
-    onSave({ ...question, questionTitle: title, question: content });
+    onSave({ ...question, question_title: title, question: content });
   };
 
   useEffect(() => {
-    setTitle(question.questionTitle);
+    setTitle(question.question_title);
     setContent(question.question);
   }, [question]);
 

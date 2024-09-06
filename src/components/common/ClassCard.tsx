@@ -19,12 +19,15 @@ const ClassCard = ({ classItem }: ClassCardProps) => {
   let addressCity = '';
 
   const imageUrl =
-    classItem.images && classItem.images.length > 0
-      ? classItem.images[0].image_url
+    classItem.images &&
+    classItem.images.length > 0 &&
+    classItem.images[0].detail_image_urls.length > 0
+      ? classItem.images[0].detail_image_urls[0]
       : '/images/img-sample.jpg';
 
-  const averageScore = classItem.averageScore || 0;
+  const averageScore = classItem.average_rating || 0;
   const priceInUsd = classItem.price_in_usd || 0;
+  const discountInUsd = (priceInUsd * (100 - classItem.discount_rate)) / 100;
 
   const { toggleLike, isLiked } = useLikeStore();
   const liked = isLiked(classItem.id);
@@ -34,7 +37,11 @@ const ClassCard = ({ classItem }: ClassCardProps) => {
       <div className="absolute inset-0 pointer-events-none"></div>
       {/* image */}
       <div className="relative w-full aspect-square rounded-sm mb-4">
-        <img src={imageUrl} alt={classItem.description} />
+        <img
+          src={imageUrl}
+          alt={classItem.description}
+          className="w-full aspect-square object-cover object-left-top"
+        />
         <button
           name="likeBtn"
           onClick={() => toggleLike(classItem.id)}
@@ -48,7 +55,8 @@ const ClassCard = ({ classItem }: ClassCardProps) => {
       </div>
       {/* content */}
       <div className="w-full">
-        <div className="text-gray text-sm">
+        {/* location */}
+        <div className="text-gray text-sm mb-2">
           {addressState && addressCity
             ? `${addressState} > ${addressCity}`
             : ''}
@@ -59,25 +67,35 @@ const ClassCard = ({ classItem }: ClassCardProps) => {
         >
           {classItem.title}
         </h2>
-        <div>
-          <span>
-            <IconReviewStar />
-          </span>
-          <span>{` ` + averageScore}</span>
+        {/* price */}
+        {classItem.discount_rate !== 0 ? (
+          <div className="mb-2">
+            <span className="text-black font-extrabold text-2xl">
+              {Math.ceil(discountInUsd).toFixed(0)}
+              <span className="font-extrabold text-base">$</span>
+            </span>
+            <span className="text-gray line-through mr-2">
+              {Math.ceil(priceInUsd).toFixed(0) + `$`}
+            </span>
+            <span className="text-red text-2xl font-extrabold mr-2 rounded-md">
+              {classItem.discount_rate}%
+            </span>
+          </div>
+        ) : (
+          <div className="mb-2">
+            <span className="text-black font-extrabold text-2xl">
+              {Math.ceil(discountInUsd).toFixed(0)}
+            </span>
+            <span className="font-extrabold">$</span>
+          </div>
+        )}
+        {/* average rating */}
+        <div className="flex items-center mb-2">
+          <IconReviewStar className="mr-2" />
+          <span>{averageScore.toFixed(1)}</span>
         </div>
-        <span className="text-red text-2xl font-extrabold mr-1">
-          {/* 여기에 할인율이 있다면 표시 */}
-          0%
-        </span>
-        <span className="text-black font-extrabold text-2xl">
-          {Math.ceil(priceInUsd).toFixed(0)}
-        </span>
-        <span className="font-extrabold">$</span>
-        <span className="text-gray line-through">
-          {Math.ceil(priceInUsd).toFixed(0) + `$`}
-        </span>
+        {/* tag - new, best */}
         <div>
-          {/* 태그가 있는 경우 모든 태그를 버튼으로 표시 */}
           {tags.length > 0 &&
             tags.map((tag, index) => (
               <button

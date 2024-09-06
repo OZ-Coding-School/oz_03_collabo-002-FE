@@ -21,26 +21,17 @@ export type myOrder = {
     review_text?: string;
     rating: number;
   };
-};
-
-export type User = {
-  id?: string;
-  name: string;
-  phone?: string;
-  email: string;
-  avatar?: File | string | null;
-} | null;
+} | [];
 
 export type AccountState = {
-  user: User | null;
-  access: string | null;
-  refresh: string | null;
   myOrders: myOrder[] | [];
 };
 
 export type AccountActions = {
-  fetchUser: () => Promise<void>;
-  fetchMyOrder: (token: string) => Promise<void>;
+  regenerateToken: () => Promise<void>;
+  getUserDetail: () => Promise<void>;
+  fetchMyOrder: () => void;
   updateUser: (updateData: Partial<{ name: string; avatar: File | string | null }>) => Promise<void>;
-  deleteUser: () => Promise<void>;
+  logout: () => Promise<void>;
+  deleteUser: () => Promise<void>
 };

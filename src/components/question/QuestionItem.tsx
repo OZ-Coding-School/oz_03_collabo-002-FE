@@ -20,20 +20,20 @@ const QuestionItem = ({ question, onEdit, onDelete }: QuestionItemProps) => {
       <div className="flex justify-between px-6 py-4">
         <div className="flex flex-col">
           <div className="flex justify-between items-center">
-            <h3 className="font-bold">{question.questionTitle}</h3>
+            <h3 className="font-bold">{question.question_title}</h3>
           </div>
           <div className="flex items-center mt-1 text-xs text-gray-600">
-            <div>{question.complete ? 'Answered' : 'Pending'}</div>
+            <div>{question.answer !== '' ? 'Answered' : 'Pending'}</div>
             <p>・</p>
-            <span>{question.author}</span>
+            <span>{question.user_id}</span>
             <p>・</p>
-            <div>{new Date(question.createDate).toLocaleDateString()}</div>
+            <div>{new Date(question.created_at).toLocaleDateString()}</div>
           </div>
         </div>
         <div>
           <button onClick={() => onEdit(question)}>수정</button>
-          <button onClick={() => onDelete(question.id)}>삭제</button>
-          {question.complete && (
+          <button onClick={() => onDelete(String(question.id))}>삭제</button>
+          {question.answer !== '' && (
             <button onClick={toggleAnswerOpen}>
               {openAnswers ? <IconArrowUp /> : <IconArrowDown />}
             </button>
@@ -42,9 +42,9 @@ const QuestionItem = ({ question, onEdit, onDelete }: QuestionItemProps) => {
       </div>
       {openAnswers && (
         <div className="mt-2 bg-gray-100 p-6">
-          <h3 className="font-bold mb-4">{question.answerTitle}</h3>
+          <h3 className="font-bold mb-4">{question.answer_title}</h3>
           <p className="mb-4">{question.answer}</p>
-          <small className="text-sm">{question.answerDate.split('T')[0]}</small>
+          {/* <small className="text-sm">{question.created_at.split('T')[0]}</small> */}
         </div>
       )}
     </div>

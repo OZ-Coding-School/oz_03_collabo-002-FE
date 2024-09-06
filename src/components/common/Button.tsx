@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 
 type ButtonProp = {
   type?: 'button' | 'reset' | 'submit';
   size: 'sm' | 'md' | 'lg' | 'full';
   value: string;
-  onSubmit: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  className?: string;
+  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
 };
-const Button = ({ size, value, onSubmit, type = 'button' }: ButtonProp) => {
+const Button = ({ size, value, onClick, type = 'button', className = '' }: ButtonProp) => {
   const [btnSize, setBtnSize] = useState('');
 
   useEffect(() => {
@@ -27,13 +29,15 @@ const Button = ({ size, value, onSubmit, type = 'button' }: ButtonProp) => {
   }, [size]);
 
   return (
-    <button
+    <motion.button
+    initial={{ scale: 1}}
+    whileTap={{ scale: 0.9}}
       type={type}
-      className={`${btnSize} bg-primary text-white rounded-full`}
-      onClick={onSubmit}
+      className={`${btnSize} ${className} bg-primary text-white rounded-full`}
+      onClick={onClick}
     >
       {value}
-    </button>
+    </motion.button>
   );
 };
 
