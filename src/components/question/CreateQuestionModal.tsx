@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { IconArrowLeft } from '../../config/IconData';
-import { useModalOpenCloseStore } from '../../store/useModal';
+import { useModalStore } from '../../store/useModal'; // 대신에 useModalStore 사용
 import { Question } from '../../type/question.type';
 
 interface CreateQuestionModalProps {
@@ -15,7 +15,7 @@ const CreateQuestionModal = ({
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
 
-  const { clearModal } = useModalOpenCloseStore();
+  const { clearModal } = useModalStore();
 
   const handleCreate = () => {
     if (title.trim() === '' || content.trim() === '') {

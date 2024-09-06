@@ -87,7 +87,7 @@ const Header = () => {
           className={tw(
             'bg-white max-w-[400px] w-full fixed top-0 right-2/4 -mr-[163px] h-screen',
             'pt-[100px] px-6',
-            isNavOpen ? 'z-50' : '-z-[1]',
+            isNavOpen ? 'z-50 visible' : '-z-[1] hidden',
           )}
         >
           <ul className="flex gap-6 pb-10">
@@ -102,6 +102,11 @@ const Header = () => {
             </li>
           </ul>
           <ul className="flex flex-col text-[28px] leading-[80px]">
+            <li className="hover:text-primary">
+              <Link to="/category/all" onClick={toggleNav}>
+                ALL
+              </Link>
+            </li>
             <li className="hover:text-primary">
               <Link to="/category/cooking" onClick={toggleNav}>
                 Cooking
@@ -141,7 +146,7 @@ const Header = () => {
           className={tw(
             'bg-black opacity-90 max-w-[473px] w-full fixed top-0 right-2/4 -mr-[236px] h-screen',
             'pt-[100px] px-6',
-            isNavOpen ? 'z-30' : '-z-[2]',
+            isNavOpen ? 'z-30 visible' : '-z-[2] hidden',
           )}
         ></div>
       </>

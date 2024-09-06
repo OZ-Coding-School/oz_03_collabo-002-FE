@@ -1,10 +1,22 @@
 export type Status = 'Selected' | 'Fully booked' | 'Seats available';
+// type ClassItem = {
+//   address?:
+//     | {
+//         state?: string;
+//         city?: string;
+//       }
+//     | string;
+//   // other properties
+// };
 
-type Address = {
-  state?: string;
-  city?: string;
-  street?: string;
-};
+//type Address = string | { state: string; city: string };
+
+// type Address = {
+//   state?: string;
+//   city?: string;
+//   street?: string;
+// };
+
 export interface Class {
   id: string;
   dates: [
@@ -19,6 +31,7 @@ export interface Class {
   ];
   images: [
     {
+      detail_image_urls: string[];
       id: string;
       class_id: string;
       image_url: string;
@@ -39,7 +52,8 @@ export interface Class {
   class_type: string;
   is_viewed: boolean;
   averageScore: number;
-  address: string | Address;
+  address: string;
+  name?: string;
 }
 export type ClassDetail = {
   status: Status;

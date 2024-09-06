@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { ClassState, Class, Status } from '../type/class.type';
+import { ClassState, Class, Status, ClassDetail } from '../type/class.type';
 import axios from '../api/axios';
 import { generateTimeBlocks } from '../utils/timeUtils'; // 함수 import
 
@@ -42,17 +42,19 @@ const useClassStore = create<ClassState>((set, get) => ({
     set({ filteredClasses });
   },
 
-  findOneClass: async (id) => {
+  findOneClass: async (id: string | undefined) => {
     try {
       const response = await axios.get(`/classes/${id}`);
-      const data: Class[] = response.data;
-      const findData = data.find((item) => item.id === id);
-      return findData ?? null;
+      return response.data.data;
     } catch (error) {
-      console.error(error);
+      console.error('Error fetching class data:', error);
+      return null;
     }
   },
 
+  setClassDetails: (updatedClassDetails: ClassDetail[]) => {
+    set({ classDetails: updatedClassDetails });
+  },
   // 클래스의 시간 데이터를 가져오는 함수
 
   fetchClassesTime: async (id: string) => {

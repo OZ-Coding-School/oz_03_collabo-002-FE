@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 const HomeCategoryList = () => {
   return (
     <div>
-      <div className="mt-[80px] mb-[50px] px-[60px]">
-        <ul className="flex text-center justify-between gap-4">
+      <div className="mt-[50px] mb-[50px] px-[20px]">
+        <ul className="flex text-center justify-between gap-5">
           <li className="flex-1">
             <Link to="/category/all" className="block py-2 text-[13px]">
               <img
@@ -46,7 +46,7 @@ const HomeCategoryList = () => {
             </Link>
           </li>
         </ul>
-        <ul className="flex text-center justify-between gap-4">
+        <ul className="flex text-center justify-between gap-5">
           <li className="flex-1">
             <Link
               to="/category/beauty-fashion"

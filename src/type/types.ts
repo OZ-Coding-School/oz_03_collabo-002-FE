@@ -3,6 +3,7 @@ export interface ModalState {
   modalMessage: string;
   setModal: (message: string) => void;
   clearModal: () => void;
+  modalContent: null;
 }
 
 export interface ModalDefaultState {

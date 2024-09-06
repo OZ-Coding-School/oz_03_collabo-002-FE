@@ -4,6 +4,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import useClassStore from '../../store/useClassStore';
 import { useParams } from 'react-router-dom';
+import { IconCheck } from '../../config/IconData';
 
 type Props = {
   onTimeSelect: (time: string | null) => void; // 선택 해제 시 null 전달
@@ -13,17 +14,17 @@ const ClassDetailCalendarSlide: React.FC<Props> = ({ onTimeSelect }) => {
   const { classDetails, fetchClassesTime } = useClassStore();
   const { id } = useParams<{ id: string }>();
 
-  // 선택된 시간을 추적하는 state 추가
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null); // 선택된 시간을 추적하는 state
 
   useEffect(() => {
     if (id) {
-      fetchClassesTime(id);
+      fetchClassesTime(id); // 클래스를 가져오는 API 호출
     }
   }, [id, fetchClassesTime]);
 
+  // 시간 선택 핸들러
   const handleTimeSelect = (index: number) => {
-    if (classDetails[index].status === 'Fully booked') return;
+    if (classDetails[index].status === 'Fully booked') return; // 'Fully booked'일 경우 선택 불가
 
     // 이미 선택된 항목을 다시 클릭한 경우 선택 해제
     if (selectedIndex === index) {
@@ -58,18 +59,22 @@ const ClassDetailCalendarSlide: React.FC<Props> = ({ onTimeSelect }) => {
                 onClick={() => handleTimeSelect(index)} // 선택된 인덱스 업데이트
               >
                 <p
-                  className={`text-[10px] mt-[3px] font-bold ${
-                    selectedIndex === index
-                      ? 'text-primary' // 선택된 경우
-                      : classDetail.status === 'Fully booked' // 인원이 꽉 찬 경우
-                        ? 'text-[#D91010]' // 스타일 적용 (빨간색)
-                        : 'text-gray-600' // 그 외의 경우
+                  className={`flex items-center text-xs mt-1 font-bold ${
+                    classDetail.status === 'Fully booked'
+                      ? 'text-red-600'
+                      : selectedIndex === index
+                        ? 'text-primary'
+                        : 'text-gray-600'
                   }`}
                 >
+                  {selectedIndex === index && (
+                    <IconCheck className="mr-1 text-primary" />
+                  )}
                   {classDetail.status === 'Fully booked'
                     ? 'Fully booked'
-                    : 'Seats available'}
-                  {/* 상태 텍스트 */}
+                    : selectedIndex === index
+                      ? 'Selected'
+                      : 'Seats available'}
                 </p>
 
                 <p>

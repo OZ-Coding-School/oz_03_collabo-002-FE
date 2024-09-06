@@ -8,25 +8,15 @@ type ClassCardProps = {
 };
 
 const ClassCard = ({ classItem }: ClassCardProps) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const tags: string[] = [];
   if (classItem.is_new) tags.push('new');
   if (classItem.is_best) tags.push('best');
   if (classItem.is_viewed) tags.push('viewed');
 
+  // 타입 가드로 address 타입 확인
   let addressState = '';
   let addressCity = '';
-
-  // 타입 가드로 address 타입 확인
-  if (typeof classItem.address === 'string') {
-    [addressState, addressCity] = classItem.address.split(' ', 2);
-  } else if (
-    typeof classItem.address === 'object' &&
-    classItem.address !== null
-  ) {
-    addressState = classItem.address.state || '';
-    addressCity = classItem.address.city || '';
-  }
 
   const imageUrl =
     classItem.images && classItem.images.length > 0
@@ -48,10 +38,10 @@ const ClassCard = ({ classItem }: ClassCardProps) => {
         <button
           name="likeBtn"
           onClick={() => toggleLike(classItem.id)}
-          className="absolute right-2 top-2"
+          className="absolute right-1 top-2"
         >
           <IconOptionHeart
-            className={`${liked ? 'fill-primary ' : 'fill-none '}`}
+            className={`${liked ? 'fill-primary ' : 'fill-white '}`}
           />
           <span className="sr-only">heart</span>
         </button>
@@ -63,7 +53,10 @@ const ClassCard = ({ classItem }: ClassCardProps) => {
             ? `${addressState} > ${addressCity}`
             : ''}
         </div>
-        <h2 className="w-full text-black font-bold text-lg line-clamp-2 cursor-pointer" onClick={() => navigate(`/class/${classItem.id}`)}>
+        <h2
+          className="w-full text-black font-bold text-lg line-clamp-2 cursor-pointer"
+          onClick={() => navigate(`/class/${classItem.id}`)}
+        >
           {classItem.title}
         </h2>
         <div>
