@@ -12,21 +12,17 @@ const ClassCard = ({ classItem }: ClassCardProps) => {
   const tags: string[] = [];
   if (classItem.is_new) tags.push('new');
   if (classItem.is_best) tags.push('best');
+  if (classItem.is_viewed) tags.push('viewed');
 
-  const addressLength = classItem.address
-    .split(' (')[0]
-    .trim()
-    .split(' ').length;
-  const addressState = classItem.address.split('(')[0].split(' ')[
-    addressLength - 1
-  ];
-  const addressCity = classItem.address.split('(')[0].split(' ')[
-    addressLength - 2
-  ];
+  // 타입 가드로 address 타입 확인
+  let addressState = '';
+  let addressCity = '';
 
   const imageUrl =
-    classItem.images && classItem.images.length > 0
-      ? classItem.images[0].thumbnail_image_urls[0]
+    classItem.images &&
+    classItem.images.length > 0 &&
+    classItem.images[0].detail_image_urls.length > 0
+      ? classItem.images[0].detail_image_urls[0]
       : '/images/img-sample.jpg';
 
   const averageScore = classItem.average_rating || 0;
@@ -49,10 +45,10 @@ const ClassCard = ({ classItem }: ClassCardProps) => {
         <button
           name="likeBtn"
           onClick={() => toggleLike(classItem.id)}
-          className="absolute right-2 top-2"
+          className="absolute right-1 top-2"
         >
           <IconOptionHeart
-            className={`${liked ? 'fill-primary ' : 'fill-none '}`}
+            className={`${liked ? 'fill-primary ' : 'fill-white '}`}
           />
           <span className="sr-only">heart</span>
         </button>
@@ -65,9 +61,8 @@ const ClassCard = ({ classItem }: ClassCardProps) => {
             ? `${addressState} > ${addressCity}`
             : ''}
         </div>
-        {/* class title */}
         <h2
-          className="w-full text-black font-bold text-lg line-clamp-2 cursor-pointer mb-2"
+          className="w-full text-black font-bold text-lg line-clamp-2 cursor-pointer"
           onClick={() => navigate(`/class/${classItem.id}`)}
         >
           {classItem.title}

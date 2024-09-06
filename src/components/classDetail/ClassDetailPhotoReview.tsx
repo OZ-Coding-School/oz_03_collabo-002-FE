@@ -1,12 +1,15 @@
-import { Link } from 'react-router-dom';
 import { IconAllArw } from '../../config/IconData';
+import { Link } from 'react-router-dom';
 
 const ClassDetailPhotoReview = () => {
   return (
     <div>
       <h3 className="text-[20px] px-6 font-semibold flex justify-between">
         Photo Reviews
-        <Link to="/review" className="text-[14px] font-normal flex items-center">
+        <Link
+          to="/review"
+          className="text-[14px] font-normal flex items-center"
+        >
           view all
           <IconAllArw className="ml-1" />
         </Link>
