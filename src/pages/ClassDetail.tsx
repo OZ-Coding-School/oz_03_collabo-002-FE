@@ -18,6 +18,8 @@ import { BookingData } from '../../src/store/useBookingStore'; // import useClas
 import { Class } from '../type/class.type';
 import useClassStore from '../store/useClassStore';
 import ClassDetailTopInfo from '../components/classDetail/ClassDetailTopInfo';
+import Button from '../components/common/Button';
+import { useNavigate } from 'react-router-dom';
 
 // type ClassDetailProps = {
 //   rating: number;
@@ -27,6 +29,7 @@ const ClassDetail = () => {
   const id = location.pathname.split('/')[2];
   const [classData, setClassData] = useState<Class | null>(null);
   const findOneClass = useClassStore((state) => state.findOneClass);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchClassData = async () => {
@@ -118,9 +121,9 @@ const ClassDetail = () => {
     setSelectedClassType(null);
   };
 
-  // const handleWrite = () => {
-  //   navigate(`/reviewModal`);
-  // };
+  const handleWrite = () => {
+    navigate(`/reviewModal/${id}`);
+  };
 
   // 언어 타입 감지
   const ChangeLanguageType = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -323,6 +326,12 @@ const ClassDetail = () => {
               </div>
               <ClassDetailPhotoReview />
               <ClassDetailReview />
+              <Button
+                type="button"
+                size="sm"
+                value="Add Review"
+                onClick={handleWrite}
+              />
             </div>
             {/* Res. Policy */}{' '}
             <div ref={resPoliciesRef} className="mt-20">

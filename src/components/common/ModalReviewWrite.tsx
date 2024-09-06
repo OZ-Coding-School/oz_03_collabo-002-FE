@@ -10,8 +10,21 @@ import Modal from './Modal';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from '../../api/axios';
 import { useUserStore } from '../../store/useUser';
+import useReviewStore from '../../store/useReviewStore';
 
-const ModalReviewWrite = () => {
+interface props {
+  // setIsUpdate: React.Dispatch<React.SetStateAction<boolean>>;
+  // isUpdate: boolean;
+  reviews: string | number;
+  clickedReviewId: string | number;
+}
+
+const ModalReviewWrite: React.FC<props> = ({
+  // setIsUpdate,
+  // isUpdate,
+  // reviews,
+  clickedReviewId,
+}) => {
   const stars = [1, 2, 3, 4, 5];
   const [ratings, setRatings] = useState(0);
   const [uploadImgs, setUploadImgs] = useState<string[]>([]);
@@ -22,6 +35,9 @@ const ModalReviewWrite = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [accessToken, setAccessToken] = useState<string | null>('');
+  const isUpdate = useReviewStore((state) => state.setIsUpdate);
+  let review_id: number | string;
+  // const [value, setValue] = useState<string>('');
   const {
     register,
     handleSubmit,
@@ -48,8 +64,26 @@ const ModalReviewWrite = () => {
   };
 
   useEffect(() => {
-    console.log('uploadImgs: ', uploadImgs);
-  }, [uploadImgs]);
+    // console.log('isUpdate: ', isUpdate);
+    // console.log('review: ', reviews);
+    // console.log('reviews: ', reviews.id);
+    // review_id = Number(reviews.id);
+    // review_id = reviews;
+    // console.log(review_id);
+    console.log('clickedReviewId: ', clickedReviewId);
+  }, [clickedReviewId]);
+
+  // const dedounceHandleChange = useCallback((text: string) => {
+  //   const handler = setTimeout(() => {
+  //     setValue(text)
+  //   }, 300)
+  // },[]
+
+  // )
+
+  // useEffect(() => {
+  //   console.log('uploadImgs: ', uploadImgs);
+  // }, [uploadImgs]);
 
   useEffect(() => {
     if (typeof reviewText === 'string') {
@@ -64,20 +98,20 @@ const ModalReviewWrite = () => {
     console.log('selectedRating: ', selectedRating);
   };
 
-  useEffect(() => {
-    console.log('star: ', stars);
-    console.log('ratings: ', ratings);
-  }, [ratings, stars]);
+  // useEffect(() => {
+  //   console.log('star: ', stars);
+  //   console.log('ratings: ', ratings);
+  // }, [ratings, stars]);
 
   useEffect(() => {
-    console.log('id: ', id);
-    console.log('user: ', user);
+    // console.log('id: ', id);
+    // console.log('user: ', user);
     if (user) {
       const Token = localStorage.getItem('accessToken');
       setAccessToken(Token);
       console.log('accessToken: ', Token);
     }
-  }, [id, user]);
+  }, [user]);
 
   const handleInputImage = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -126,25 +160,46 @@ const ModalReviewWrite = () => {
         rating: ratings.toString(),
       };
       console.log(reviewData);
-      await axios.post(
-        `reviews/${id}`,
+      if (!isUpdate) {
+        console.log('isUpdate: ', isUpdate);
+        await axios.post(
+          `reviews/${id}`,
 
-        reviewData,
+          reviewData,
 
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${accessToken}`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${accessToken}`,
+            },
+            withCredentials: true,
           },
-          withCredentials: true,
-        },
-      );
+        );
+      } else if (isUpdate && clickedReviewId) {
+        console.log('isUpdate: ', isUpdate);
+        console.log(reviewData);
+        await axios.patch(
+          `reviews/${id}/update/${clickedReviewId}`,
+          reviewData,
+
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${accessToken}`,
+            },
+            withCredentials: true,
+          },
+        );
+        isUpdate();
+      }
+      console.log('isUpdate: ', isUpdate);
+
       setModal('Successful Save');
       clearValue();
       setRatings(0);
       setUploadImgs([]);
       setTimeout(() => {
-        navigate(`class/${id}`);
+        navigate(`/class/${id}`);
       }, 2000);
     } catch (error) {
       console.error('Error submitting review:', error);
@@ -261,6 +316,7 @@ const ModalReviewWrite = () => {
             <div className="mt-4">
               <div className="border border-gray-800 rounded-lg h-[250px] w-full">
                 <textarea
+                  // value={value}
                   id="review_text"
                   required
                   className="w-full h-[200px] p-3  rounded-xl resize-none text-xs"

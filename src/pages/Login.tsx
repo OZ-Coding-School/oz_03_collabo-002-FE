@@ -8,7 +8,8 @@ import { handleGoogle } from '../components/Login/Google';
 import { handleLine } from '../components/Login/Line';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { LoginUser } from '../type/loginuser';
-import axios from 'axios';
+import axios from '../api/axios';
+// import axios from 'axios';
 import { useModalStore } from '../store/useModal';
 import Modal from '../components/common/Modal';
 import { useCallback, useState } from 'react';
@@ -46,7 +47,8 @@ const Login = () => {
       const { email, password } = data;
       try {
         const response = await axios.post(
-          `${import.meta.env.VITE_CALLBACK_URL}login/`,
+          // `${import.meta.env.VITE_CALLBACK_URL}login/`,
+          `/users/login/`,
           {
             email,
             password,
@@ -61,7 +63,7 @@ const Login = () => {
         localStorage.setItem('accessToken', response.data.access_token);
         console.log('accessToken: ', accessToken);
         setAccessToken(response.data.access_token);
-        Cookies.set('refreshToken', response.data.refresh_token, {
+        Cookies.set('refresh_token', response.data.refresh_token, {
           expires: 7,
           secure: true,
           sameSite: 'strict',
@@ -79,19 +81,19 @@ const Login = () => {
           navigate('/');
         }, 2000);
       } catch (error) {
-        if (axios.isAxiosError(error)) {
-          if (error.response) {
-            setModal(
-              `Login failed: ${error.response.data.message || 'Unknown error'}`,
-            );
-          } else if (error.request) {
-            setModal('Network error. Please try again.');
-          } else {
-            setModal('An unexpected error occurred.');
-          }
-        } else {
-          setModal('An unexpected error occurred.');
-        }
+        // if (axios.isAxiosError(error)) {
+        //   if (error.response) {
+        //     setModal(
+        //       `Login failed: ${error.response.data.message || 'Unknown error'}`,
+        //     );
+        //   } else if (error.request) {
+        //     setModal('Network error. Please try again.');
+        //   } else {
+        //     setModal('An unexpected error occurred.');
+        //   }
+        // } else {
+        //   setModal('An unexpected error occurred.');
+        // }
         console.error('Login error:', error);
       }
     },

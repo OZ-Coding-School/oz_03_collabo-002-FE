@@ -51,9 +51,11 @@ export type ReviewState = {
   reviews: Review[] | null;
   // reviews: { review: Review }[] | null;
   myReviews: Review[] | null;
+  isUpdate: boolean;
 };
 
 export type ReviewAction = {
   getReviews: (classId: number | undefined) => Promise<void>;
   getMyReviews: () => Promise<void>;
+  setIsUpdate: () => void;
 };

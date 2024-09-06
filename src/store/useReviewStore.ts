@@ -1,16 +1,13 @@
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
-import {
-  Review,
-  ReviewAction,
-  ReviewState,
-} from '../type/review.type';
+import { Review, ReviewAction, ReviewState } from '../type/review.type';
 import axios from '../api/axios';
 
 const useReviewStore = create<ReviewState & ReviewAction>()(
   immer((set) => ({
     reviews: null,
     myReviews: null,
+    isUpdate: false,
 
     getReviews: async (classId) => {
       try {
@@ -37,6 +34,7 @@ const useReviewStore = create<ReviewState & ReviewAction>()(
         console.log('Failed to get my reviews: ', error);
       }
     },
+    setIsUpdate: () => set((state) => ({ isUpdate: !state.isUpdate })),
   })),
 );
 

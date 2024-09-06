@@ -10,7 +10,8 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { Signup } from '../type/signup';
 import { handleKaKao } from '../components/Login/Kakao';
 import { handleGoogle } from '../components/Login/Google';
-import axios from 'axios';
+// import axios from 'axios';
+import axios from '../api/axios';
 import { useCallback, useMemo, useRef, useState } from 'react';
 import ModalProfile from '../components/common/ModalProfile';
 
@@ -95,15 +96,26 @@ const SignUp = () => {
         const { name, email, password } = data;
         console.log('1');
         console.log('imgFile:', imgFile);
+        let signData;
+        if (img === '') {
+          signData = {
+            name: name,
+            email: email,
+            password: password,
+          };
+        } else {
+          signData = {
+            name: name,
+            email: email,
+            password: password,
+            profile_image: img,
+          };
+        }
 
         await axios.post(
-          `${import.meta.env.VITE_CALLBACK_URL}signup/`,
-          {
-            name,
-            email,
-            password,
-            profile_image: img,
-          },
+          // `${import.meta.env.VITE_CALLBACK_URL}signup/`,
+          `/users/signup/`,
+          signData,
           {
             headers: {
               'Content-Type': 'application/json',
@@ -121,18 +133,18 @@ const SignUp = () => {
         }, 2000);
       } catch (error) {
         console.error('Error during signup:', error);
-        if (axios.isAxiosError(error)) {
-          if (error.response) {
-            console.error('Response data:', error.response.data);
-            console.error('Response status:', error.response.status);
-          } else if (error.request) {
-            console.error('No response received:', error.request);
-          } else {
-            console.error('Error setting up request:', error.message);
-          }
-        } else {
-          console.error('Unexpected error:', error);
-        }
+        // if (axios.isAxiosError(error)) {
+        //   if (error.response) {
+        //     console.error('Response data:', error.response.data);
+        //     console.error('Response status:', error.response.status);
+        //   } else if (error.request) {
+        //     console.error('No response received:', error.request);
+        //   } else {
+        //     console.error('Error setting up request:', error.message);
+        //   }
+        // } else {
+        //   console.error('Unexpected error:', error);
+        // }
         setModal('Signup failed. Please try again.');
       }
     },

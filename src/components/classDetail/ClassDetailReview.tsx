@@ -111,11 +111,16 @@ const ClassDetailReview = () => {
             //     </div>
             //   )}
             // </div>
-            <div className="relative">
+            <div className="relative" key={review.id}>
               <div className="flex">
                 <div className="w-12 h-12 rounded-full overflow-hidden">
                   {}
-                  <img src={review.user.profile_image_url || '/images/user-empty.png'} alt="sample img"></img>
+                  <img
+                    src={
+                      review.user.profile_image_url || '/images/user-empty.png'
+                    }
+                    alt="sample img"
+                  ></img>
                 </div>
                 <div className="text-[14px] ml-4">
                   <strong className="font-semibold">{review.user.name}</strong>
