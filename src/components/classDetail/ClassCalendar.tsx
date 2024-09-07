@@ -40,20 +40,21 @@ function ClassCalendar({
       (availableDate) => availableDate.toDateString() === date.toDateString(),
     );
 
-    const buttonClassName = isAvailable
-      ? 'clickable-button'
-      : 'disabled-button';
+    const dayClassName = isAvailable ? 'clickable-day' : 'disabled-day';
 
     return (
-      <td>
-        <button
-          className={buttonClassName}
-          style={{ color: isPastDate ? '#999' : '' }}
-          disabled={!isAvailable}
-        >
-          {date.getDate()}
-        </button>
-      </td>
+      <div
+        className={dayClassName}
+        style={{
+          color: isPastDate ? '#999' : '',
+          cursor: isAvailable ? 'pointer' : 'default',
+        }}
+        onClick={() => {
+          if (isAvailable) handleDateChange(date);
+        }}
+      >
+        {date.getDate()}
+      </div>
     );
   };
 

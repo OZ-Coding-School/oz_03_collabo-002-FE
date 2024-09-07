@@ -163,7 +163,7 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
       <div>
         <div className="pb-[80px]">
           <ClassDetailSlide
-            slideImage={classItem.images[0].detail_image_urls}
+            slideImage={classItem?.images?.[0]?.detail_image_urls || []}
           />
           <div className="relative px-6">
             <p className="text-[13px] text-gray-400 font-bold pt-[14px]">

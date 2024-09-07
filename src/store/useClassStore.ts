@@ -33,7 +33,7 @@ const useClassStore = create<ClassState>((set, get) => ({
     const classes = get().classes ?? [];
     const filteredClasses = { ...get().filteredClasses };
 
-    const filtered = classes; // 여기에 필터링 로직을 추가해야 할 수도 있습니다
+    const filtered = classes;
 
     filteredClasses[kind] = filtered;
     set({ filteredClasses });
