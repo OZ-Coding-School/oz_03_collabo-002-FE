@@ -71,7 +71,7 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
   const addBookingItem = useBookingStore((state) => state.addBookingItem);
   const [selectedType, setSelectedType] = useState<string | null>(null); // 선택된 타입
   const [showTimes, setShowTimes] = useState(false); // 슬라이드를 보여줄지 여부를 결정하는 상태
-  const [classItem, setClassItem] = useState<Class | null>(null); // Class는 타입 정의
+  const [classItem] = useState<Class | null>(null); // Class는 타입 정의
 
   useEffect(() => {
     const loadClassDetail = async () => {
