@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import useClassStore from '../../store/useClassStore';
+import { useClassStore } from '../../store/useClassStore';
 import ClassCard from './ClassCard';
 
 type CardListProps = {

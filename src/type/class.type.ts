@@ -1,4 +1,9 @@
-export type Status = 'Selected' | 'Fully booked' | 'Seats available';
+export enum Status {
+  selected = 'Selected',
+  FullyBooked = 'Fully booked',
+  Available = 'Seats available',
+}
+
 // type ClassItem = {
 //   address?:
 //     | {
@@ -31,6 +36,7 @@ export interface Class {
   ];
   images: [
     {
+      description_image_urls: never[];
       detail_image_urls: string[];
       id: string;
       class_id: string;
@@ -64,13 +70,12 @@ export type ClassDetail = {
   seat: number;
 };
 export interface ClassState {
+  fetchClasses: any;
+  classItem: Class | null;
   classes: Class[];
   filteredClasses: { [key: string]: Class[] };
   classDetails: ClassDetail[];
-  fetchClasses: () => Promise<void>;
-  filterClasses: (kind: string) => void;
-  findOneClass: (id: string | undefined) => Promise<Class | null>;
-  setClasses: (data: Class[]) => void;
-  setClassDetails: (updatedClassDetails: ClassDetail[]) => void;
+  findOneClass: (id: string) => Promise<Class | null>;
   fetchClassesTime: (id: string) => Promise<void>;
+  setClassDetails: (details: ClassDetail[]) => void;
 }

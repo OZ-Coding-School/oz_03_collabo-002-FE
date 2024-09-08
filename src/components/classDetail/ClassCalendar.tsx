@@ -7,18 +7,18 @@ import { CSSTransition } from 'react-transition-group';
 
 type ClassCalendarProps = {
   selectedDate: Date | null;
+  onDateChange: Dispatch<SetStateAction<Date | null>>;
   availableDates: Date[];
   availableTypes: string[];
   selectedClassType: string | null;
-  onDateChange: Dispatch<SetStateAction<Date | null>>;
   onTypeChange: Dispatch<SetStateAction<string | null>>;
 };
 
-function ClassCalendar({
+const ClassCalendar = ({
   selectedDate,
   availableDates,
   onDateChange,
-}: ClassCalendarProps) {
+}: ClassCalendarProps) => {
   const [showCalendar, setShowCalendar] = useState(true);
 
   const handleTodayClick = () => {
@@ -49,9 +49,7 @@ function ClassCalendar({
           color: isPastDate ? '#999' : '',
           cursor: isAvailable ? 'pointer' : 'default',
         }}
-        onClick={() => {
-          if (isAvailable) handleDateChange(date);
-        }}
+        onClick={() => handleDateChange(date)}
       >
         {date.getDate()}
       </div>
@@ -85,6 +83,6 @@ function ClassCalendar({
       </CSSTransition>
     </div>
   );
-}
+};
 
 export default ClassCalendar;

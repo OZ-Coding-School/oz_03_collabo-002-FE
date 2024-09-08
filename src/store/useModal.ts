@@ -1,6 +1,11 @@
 import { create } from 'zustand';
 import { ReactNode } from 'react';
-
+interface ModalState {
+  showModal: boolean;
+  modalContent: string; // Add modalContent to the state
+  clearModal: () => void;
+  setModalContent: (content: string) => void; // Function to set content
+}
 export interface ModalMessageState {
   showModal: boolean;
   modalMessage: ReactNode | null;
@@ -14,21 +19,6 @@ export interface ModalContentState {
   setModal: (content: ReactNode) => void;
   clearModal: () => void;
 }
-
-export const useModalStore = create<ModalMessageState>((set) => ({
-  showModal: false,
-  modalMessage: null,
-  setModal: (message: ReactNode) =>
-    set(() => ({
-      showModal: true,
-      modalMessage: message,
-    })),
-  clearModal: () =>
-    set(() => ({
-      showModal: false,
-      modalMessage: null,
-    })),
-}));
 
 export const useModalOpenCloseStore = create<ModalContentState>((set) => ({
   showModal: false,

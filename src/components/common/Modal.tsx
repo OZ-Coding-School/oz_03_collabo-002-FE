@@ -1,7 +1,7 @@
-import { useModalStore } from '../../store/useModal';
+import { useModalOpenCloseStore } from '../../store/useModal';
 
 const Modal = () => {
-  const { clearModal, showModal, modalContent } = useModalStore(); // modalContent 가져오기
+  const { clearModal, showModal, modalContent } = useModalOpenCloseStore(); // modalContent should now work
 
   if (!showModal) return null;
 
@@ -17,7 +17,7 @@ const Modal = () => {
           onClick={handleClear}
           className="bg-primary border rounded-md w-16 h-8 text-white hover:bg-primary/90"
         >
-          close
+          Close
         </button>
       </div>
     </div>

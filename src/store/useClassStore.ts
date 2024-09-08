@@ -1,101 +1,76 @@
-import axios from 'axios';
-import { ClassState, Class, ClassDetail, Status } from '../type/class.type';
+import axios, { AxiosError } from 'axios';
 import { create } from 'zustand';
-import { generateTimeBlocks } from '../utils/timeUtils'; // 함수 import
-import { AxiosError } from 'axios';
+import { ClassState, Class, ClassDetail, Status } from '../type/class.type';
 
-const useClassStore = create<ClassState>((set, get) => ({
+axios.defaults.baseURL = 'https://api.custom-k.store/v1'; // Setting baseURL for axios
+
+export const useClassStore = create<ClassState>((set) => ({
+  classItem: null,
   classes: [],
-  filteredClasses: {} as { [key: string]: Class[] }, // 초기화 수정
+  filteredClasses: {},
   classDetails: [],
 
-  fetchClasses: async () => {
-    try {
-      const response = await axios.get(`/classes`);
-      if (response.data && Array.isArray(response.data.data)) {
-        set({ classes: response.data.data });
-      } else {
-        set(() => ({ classes: [] }));
-      }
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        console.error(
-          'Axios error message:',
-          error.response?.data || error.message,
-        );
-      } else {
-        console.error('Unexpected error:', error);
-      }
-    }
-  },
-
-  filterClasses: (kind: string) => {
-    const classes = get().classes ?? [];
-    const filteredClasses = { ...get().filteredClasses };
-
-    const filtered = classes;
-
-    filteredClasses[kind] = filtered;
-    set({ filteredClasses });
-  },
-
-  findOneClass: async (id: string | undefined) => {
+  findOneClass: async (id: string) => {
     try {
       const response = await axios.get(`/classes/${id}`);
-      return response.data.data as Class;
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        console.error(
-          'Axios error message:',
-          error.response?.data || error.message,
-        );
+      if (response.data.status === 'success') {
+        return response.data.data;
       } else {
-        console.error('Unexpected error:', error);
+        return null;
       }
-      set({ classes: [] });
+    } catch (error) {
+      console.error('Error fetching class:', error);
       return null;
     }
-  },
-
-  setClasses: (data: Class[]) => {
-    set(() => ({ classes: data || [] }));
-  },
-
-  setClassDetails: (updatedClassDetails: ClassDetail[]) => {
-    set({ classDetails: updatedClassDetails });
   },
 
   fetchClassesTime: async (id: string) => {
     try {
       const response = await axios.get(`/classes/${id}`);
-      const data = response.data;
-      if (data.status === 'success') {
-        const { start_time, end_time, person = 0 } = data.data.dates[0];
-        const max_person = data.data.max_person;
-        const timeBlocks = generateTimeBlocks(start_time, end_time);
+      console.log('Class Time Response:', response.data);
 
-        const generatedClassDetails = timeBlocks.map((timeBlock, index) => ({
-          status: index === 0 ? 'Selected' : ('Seats available' as Status),
-          seatsLeft: person,
-          seat: max_person,
-          time: timeBlock,
+      const data = response.data;
+      if (data.status === 'success' && data.data.dates.length > 0) {
+        const dates = data.data.dates;
+
+        const generatedClassDetails = dates.map((date) => ({
+          status:
+            date.person >= data.data.max_person ? 'Fully booked' : 'Available',
+          seatsLeft: date.person,
+          seat: data.data.max_person,
+          time: `${date.start_time.substring(0, 5)} - ${date.end_time.substring(0, 5)}`, // 초(second)를 제외한 시간 형식으로 변경
         }));
 
         set({ classDetails: generatedClassDetails });
       } else {
-        console.error('Failed to fetch class times:', data.message);
+        console.error(`Failed to fetch class times for ID ${id}:`, data);
       }
     } catch (error) {
       if (error instanceof AxiosError) {
         console.error(
-          'Axios error message:',
+          `Axios error fetching class times for ID ${id}:`,
           error.response?.data || error.message,
         );
       } else {
-        console.error('Unexpected error:', error);
+        console.error(`Error fetching class times for ID ${id}:`, error);
       }
     }
   },
-}));
 
-export default useClassStore;
+  fetchClasses: async () => {
+    try {
+      const response = await axios.get('/classes');
+      if (response.data.status === 'success') {
+        set({ classes: response.data.data });
+      }
+    } catch (error) {
+      console.error('Error fetching classes:', error);
+    }
+  },
+
+  // Setter for classes array
+  setClasses: (classes: Class[]) => set({ classes }),
+
+  // Setter for class details array
+  setClassDetails: (details: ClassDetail[]) => set({ classDetails: details }),
+}));

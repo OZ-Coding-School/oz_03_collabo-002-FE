@@ -5,7 +5,7 @@ import line from '../assets/icon/line.svg';
 import signup_profile from '../assets/icon/signup_profile.svg';
 import { Link, useNavigate } from 'react-router-dom';
 import Modal from '../components/common/Modal';
-import { useModalStore } from '../store/useModal';
+import { useModalOpenCloseStore } from '../store/useModal';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Signup } from '../type/signup';
 import { handleKaKao } from '../components/Login/Kakao';
@@ -15,7 +15,7 @@ import { useCallback, useMemo, useRef, useState } from 'react';
 import ModalProfile from '../components/common/ModalProfile';
 
 const SignUp = () => {
-  const { setModal, showModal } = useModalStore();
+  const { setModal, showModal } = useModalOpenCloseStore();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [originalFileName, setOriginalFileName] = useState<string>('');
   const [img, setImg] = useState<string>('');

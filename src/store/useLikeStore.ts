@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { Class } from '../type/class.type';
-import useClassStore from './useClassStore';
+import { useClassStore } from './useClassStore';
 
 type LikeState = {
   likedClasses: string[]; // 좋아요한 클래스의 ID 목록

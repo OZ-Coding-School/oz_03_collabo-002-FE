@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import { IconReviewStar } from '../../config/IconData';
 import ReviewReviewModal from './ReviewPhotoModal';
 import { Review } from '../../type/review.type';
-import useClassStore from '../../store/useClassStore';
+import { useClassStore } from '../../store/useClassStore';
 import { useUserStore } from '../../store/useUser';
 
 interface ReviewProps {

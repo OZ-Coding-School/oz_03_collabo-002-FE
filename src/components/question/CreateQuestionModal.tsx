@@ -1,20 +1,12 @@
 import { useState } from 'react';
 import { IconRemove } from '../../config/IconData';
 import { useModalOpenCloseStore } from '../../store/useModal';
-import useClassStore from '../../store/useClassStore';
+import { useClassStore } from '../../store/useClassStore';
 import useQnaStore from '../../store/useQuestionStore';
 import Button from '../common/Button';
 import { motion } from 'framer-motion';
 
-type CreateQuestionModalProps = {
-  onClose: () => void;
-  handleAfterClose: () => void;
-};
-
-const CreateQuestionModal = ({
-  onClose,
-  handleAfterClose,
-}: CreateQuestionModalProps) => {
+const CreateQuestionModal = ({ onClose, handleAfterClose }) => {
   const [title, setTitle] = useState('');
   const [inquiry, setInquiry] = useState('');
   const [classId, setClassId] = useState('');
@@ -38,6 +30,9 @@ const CreateQuestionModal = ({
     onClose();
     handleAfterClose();
   };
+
+  // Debugging classTitle to verify it's populated
+  console.log(classTitle);
 
   if (!classTitle) return null;
 

@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { useEffect, useMemo, useState } from 'react';
-import useClassStore from '../../store/useClassStore';
+import { useClassStore } from '../../store/useClassStore';
 import ClassCard from '../common/ClassCard';
 import { useLocation } from 'react-router-dom';
 import { Class } from '../../type/class.type';

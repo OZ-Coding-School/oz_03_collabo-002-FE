@@ -1,6 +1,6 @@
 // import { useEffect } from 'react';
 import ClassCard from '../common/ClassCard';
-import useClassStore from '../../store/useClassStore';
+import { useClassStore } from '../../store/useClassStore';
 // import classList from '../../mocks/data/classList.json';
 
 const NewClasses = () => {

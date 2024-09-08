@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import useClassStore from '../store/useClassStore';
+import { useClassStore } from '../store/useClassStore';
 // import useLikeStore from '../store/useLikeStore';
 import ClassCard from '../components/common/ClassCard';
 
