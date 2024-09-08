@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import useBookingStore from '../../src/store/useBookingStore';
 import useClassStore from '../store/useClassStore';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import ClassDetailSlide from '../components/classDetail/ClassDetailSlide';
 import {
   IconMapShare,
@@ -65,6 +65,7 @@ const ClassDetail = () => {
   const addBookingItem = useBookingStore((state) => state.addBookingItem);
   const [selectedType, setSelectedType] = useState<string | null>(null); // 선택된 타입
   const [showTimes, setShowTimes] = useState(false); // 슬라이드를 보여줄지 여부를 결정하는 상태
+  const navigate = useNavigate();
 
   useEffect(() => {
     const loadClassDetail = async () => {
@@ -99,14 +100,33 @@ const ClassDetail = () => {
     setSelectedType(selectedType);
   };
 
+  const calculateDiscountedPrice = (originalPrice: number, discountRate: number) => {
+    if (discountRate === 0) return originalPrice;
+    return Math.ceil(originalPrice * (1 - discountRate / 100));
+  };
+
   const handleBookingClick = () => {
+    if (!classData || !selectedDate || !selectedTime) {
+      alert('Please select all required options');
+      return;
+    }
+    const originalPrice = classData.price_in_usd || 0;
+    const discountedPrice = calculateDiscountedPrice(originalPrice, classData.discount_rate);
+
     const bookingData = {
-      language: selectLanguageType,
-      class: selectedClassType ?? '',
-      time: selectedTime ?? '',
-      date: selectedDate,
+      class_id: classData?.id,
+      class_date_id: selectedDate?.getTime(), // 임시로 Date 객체의 timestamp를 사용
+      quantity: 1, // 기본값으로 1을 설정하거나, 별도의 상태로 관리할 수 있습니다
+      options: selectedClassType || '',
+      amount: discountedPrice, // 클래스 가격 정보가 있다고 가정
+      title: classData?.title,
+      // language: selectLanguageType,
+      // class: selectedClassType ?? '',
+      // time: selectedTime ?? '',
+      // date: selectedDate,
     };
     addBookingItem(bookingData);
+    navigate('/charge/');
   };
 
   const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -238,7 +258,12 @@ const ClassDetail = () => {
         selectedDate={selectedDate}
         selectedTime={selectedTime}
         selectedClassType={selectedClassType}
-        onBookNowClick={handleBookingClick}
+        onBookingClick={handleBookingClick}
+        onRemoveOptionClick={() => {
+          setSelectedDate(null);
+          setSelectedTime(null);
+          setSelectedClassType(null);
+        }}
       />
       {/* Main Section */}
       <>

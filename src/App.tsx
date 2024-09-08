@@ -14,6 +14,8 @@ import Redirection from './pages/Redirection';
 import Category from './components/classByCategory/Category';
 import ModalReviewWrite from './components/common/ModalReviewWrite';
 import LineEmail from './components/Login/LineEmail';
+import OrderCompletePage from './components/order/OrderPayPalBtn';
+import OrderDepositPage from './components/order/OrderDepositPage';
 
 function App() {
   const path = location.pathname;
@@ -43,15 +45,17 @@ function App() {
             <Route index element={<Home />} />
             <Route path="/category/:keyword" element={<Category />} />
             <Route path="/class/:id" element={<ClassDetail />} />
-            <Route path="/account" element={<Account />} />
-            <Route path="/charge" element={<ChargePage />} />
-            <Route path="admin" element={<Admin />} />
+            <Route path="/account/" element={<Account />} />
+            <Route path="/charge/" element={<ChargePage />} />
+            <Route path="/order-complete/" element={<OrderCompletePage />} />
+            <Route path="/wire-transfer/" element={<OrderDepositPage />} />{' '}
+            <Route path="/admin/" element={<Admin />} />
             <Route path="/question/:id" element={<ClassDetailQnaAll />} />
             <Route path="/review/:id" element={<Review />} />
           </Route>
-          <Route path="/login" element={<Login />} />
-          <Route path="/auth" element={<Redirection />} />
-          <Route path="/signup" element={<SignUp />} />
+          <Route path="/login/" element={<Login />} />
+          <Route path="/auth/" element={<Redirection />} />
+          <Route path="/signup/" element={<SignUp />} />
           <Route path="/reviewModal/:id" element={<ModalReviewWrite />} />
           <Route path="/auth/lineEmail" element={<LineEmail />} />
         </Routes>
