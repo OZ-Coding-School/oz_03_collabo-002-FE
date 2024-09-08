@@ -15,14 +15,15 @@ const ClassCard = ({ classItem }: ClassCardProps) => {
   if (classItem.is_viewed) tags.push('viewed');
 
   // 타입 가드로 address 타입 확인
-  let addressState = '';
-  let addressCity = '';
+  const addressState = '';
+  const addressCity = '';
 
   const imageUrl =
     classItem.images &&
+    classItem.images[0] !== undefined &&
     classItem.images.length > 0 &&
     classItem.images[0].detail_image_urls.length > 0
-      ? classItem.images[0].detail_image_urls[0]
+      ? classItem.images[0]?.detail_image_urls[0]
       : '/images/img-sample.jpg';
 
   const averageScore = classItem.average_rating || 0;

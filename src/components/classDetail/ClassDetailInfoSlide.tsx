@@ -4,10 +4,12 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 
 type GoodsDetailInfoSlideProps = {
-  scrollImage: string[] | null;
+  scrollImage: string[] | [] | undefined;
 };
 
 const GoodsDetailInfoSlide = ({ scrollImage }: GoodsDetailInfoSlideProps) => {
+
+  if (scrollImage?.length === 0) return null;
   return (
     <div className="pl-6">
       <Swiper

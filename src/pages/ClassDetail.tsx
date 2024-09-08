@@ -71,7 +71,6 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
   const addBookingItem = useBookingStore((state) => state.addBookingItem);
   const [selectedType, setSelectedType] = useState<string | null>(null); // 선택된 타입
   const [showTimes, setShowTimes] = useState(false); // 슬라이드를 보여줄지 여부를 결정하는 상태
-  const [classItem, setClassItem] = useState<Class | null>(null); // Class는 타입 정의
 
   useEffect(() => {
     const loadClassDetail = async () => {
@@ -158,12 +157,14 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
     }
   };
 
+  if(!classData) return null;
+  
   return (
     <>
       <div>
         <div className="pb-[80px]">
           <ClassDetailSlide
-            slideImage={classItem.images[0].detail_image_urls}
+            slideImage={classData.images[0]?.thumbnail_image_urls}
           />
           <div className="relative px-6">
             <p className="text-[13px] text-gray-400 font-bold pt-[14px]">
@@ -197,7 +198,7 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
               />
             </button> */}
           </div>
-          <GoodsDetailInfoSlide scrollImage={null} />
+          <GoodsDetailInfoSlide scrollImage={classData.images[0]?.description_image_urls} />
         </div>
 
         <div className="px-6">

@@ -7,6 +7,7 @@ import { AxiosError } from 'axios';
 const useClassStore = create<ClassState>((set, get) => ({
   classes: [],
   filteredClasses: {} as { [key: string]: Class[] }, // 초기화 수정
+  classTitle: null,
   classDetails: [],
 
   fetchClasses: async () => {
