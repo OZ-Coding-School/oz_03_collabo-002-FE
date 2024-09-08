@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../api/axios';
 import { ClassState, Class, ClassDetail, Status } from '../type/class.type';
 import { create } from 'zustand';
 import { generateTimeBlocks } from '../utils/timeUtils'; // 함수 import
