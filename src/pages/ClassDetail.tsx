@@ -10,21 +10,15 @@ import {
   IconReviewStar,
 } from '../config/IconData';
 import { twJoin } from 'tailwind-merge';
-import GoodsDetailInfoSlide from '../components/classDetail/ClassDetailInfoSlide';
 import ClassCalendar from '../components/classDetail/ClassCalendar';
 import ClassDetailCalendarSlide from '../components/classDetail/ClassDetailCalendarSlide';
 import ClassDetailOption from '../components/classDetail/ClassDetailOption';
 import ClassDetailPhotoReview from '../components/classDetail/ClassDetailPhotoReview';
 import ClassDetailReview from '../components/classDetail/ClassDetailReview';
 import { Class } from '../type/class.type';
+import ClassDetailTopInfo from '../components/classDetail/ClassDetailTopInfo';
 
-const originalPrice = 14900; // 원래 가격
-const discountedPrice = 12900; // 할인된 가격
-type ClassDetailProps = {
-  rating: number;
-};
-
-const ClassDetail = ({ rating }: ClassDetailProps) => {
+const ClassDetail = () => {
   const { id } = useParams<{ id: string }>();
   const [classData, setClassData] = useState<Class | null>(null);
   const findOneClass = useClassStore((state) => state.findOneClass);
@@ -157,8 +151,8 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
     }
   };
 
-  if(!classData) return null;
-  
+  if (!classData) return null;
+
   return (
     <>
       <div>
@@ -166,28 +160,9 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
           <ClassDetailSlide
             slideImage={classData.images[0]?.thumbnail_image_urls}
           />
-          <div className="relative px-6">
-            <p className="text-[13px] text-gray-400 font-bold pt-[14px]">
-              클래스 카테고리
-            </p>
-            <strong className="text-[32px] font-normal">
-              상품 클래스 이름
-            </strong>
-            <p className="flex items-center">
-              <IconReviewStar />
-              &nbsp;{rating}
-              <span className="text-gray-400">(00개)</span>
-            </p>
-            <div className="mt-4 text-2xl flex items-center">
-              <p className="text-[#D91010] font-[20px] text-bold mr-2">28%</p>
-              <p className="text-primary text-[24px]">
-                <strong>{originalPrice.toLocaleString()}원</strong>
-              </p>
-              <p className="text-gray-400 line-through ml-2 text-base">
-                {discountedPrice.toLocaleString()}원
-              </p>
-            </div>
-            {/* <button
+          <ClassDetailTopInfo classData={classData} />
+          {/* <div className="relative px-6">
+            <button
               className={twJoin(
                 'w-9 h-9 border border-gray-400 rounded-full flex items-center justify-center absolute top-[30px] right-[14px]',
               )}
@@ -196,9 +171,8 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
               <IconDetailShare
                 className={isLiked ? 'fill-primary' : 'fill-none'}
               />
-            </button> */}
-          </div>
-          <GoodsDetailInfoSlide scrollImage={classData.images[0]?.description_image_urls} />
+            </button>
+          </div> */}
         </div>
 
         <div className="px-6">
