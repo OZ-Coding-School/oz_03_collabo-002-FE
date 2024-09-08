@@ -51,7 +51,7 @@ const Category = () => {
     if (category === 'all') {
       return classes || [];
     }
-    return classes?.filter((item) => item.category === category) || [];
+    return classes?.filter((item) => item.category.includes(category)) || [];
   }, [classes, category]);
 
   if (!classes) return null;
