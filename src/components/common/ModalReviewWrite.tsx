@@ -36,6 +36,8 @@ const ModalReviewWrite: React.FC<props> = ({
   const { id } = useParams();
   const [accessToken, setAccessToken] = useState<string | null>('');
   const isUpdate = useReviewStore((state) => state.setIsUpdate);
+  // const [iseditImage, setIseditImage] = useState()
+  // const [isEdit, setIsEdit] = useState<AllReview>();
   // let review_id: number | string;
   // const [value, setValue] = useState<string>('');
   const {
@@ -71,7 +73,16 @@ const ModalReviewWrite: React.FC<props> = ({
     // review_id = reviews;
     // console.log(review_id);
     console.log('clickedReviewId: ', clickedReviewId);
-  }, [clickedReviewId]);
+    const getReviews = async () => {
+      try {
+        const response = axios.get(`reviews/${id}`);
+        console.log('get reviews: ', response);
+      } catch (error) {
+        console.log('getReview error : ', error);
+      }
+    };
+    getReviews();
+  }, [isUpdate]);
 
   // const dedounceHandleChange = useCallback((text: string) => {
   //   const handler = setTimeout(() => {
@@ -177,10 +188,17 @@ const ModalReviewWrite: React.FC<props> = ({
         );
       } else if (isUpdate && clickedReviewId) {
         console.log('isUpdate: ', isUpdate);
-        console.log(reviewData);
+        const updateData = {
+          images:
+            uploadImgs.length > 0
+              ? uploadImgs.map((img) => ({ image_url: img }))
+              : [],
+          review,
+          rating: ratings.toString(),
+        };
         await axios.patch(
           `reviews/${id}/update/${clickedReviewId}`,
-          reviewData,
+          updateData,
 
           {
             headers: {

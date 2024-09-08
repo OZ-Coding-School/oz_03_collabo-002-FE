@@ -8,6 +8,7 @@ const ReviewsList = () => {
   const reviews = useReviewStore((state) => state.reviews);
   const getReviews = useReviewStore((state) => state.getReviews);
   const isUpdate = useReviewStore((state) => state.setIsUpdate);
+  const isDelete = useReviewStore((state) => state.setIsDelete);
   // const [isUpdate, setIsUpdate] = useState<boolean>(false);
 
   useEffect(() => {
@@ -16,7 +17,7 @@ const ReviewsList = () => {
       console.log('id: ', id);
       console.log('reviews: ', reviews);
     }
-  }, [getReviews, isUpdate, id]);
+  }, [getReviews, isUpdate, id, isDelete]);
 
   if (!reviews) return <h1>Loading..</h1>;
 
@@ -27,6 +28,7 @@ const ReviewsList = () => {
           <ReviewItem
             key={review.id}
             review={review}
+            classId={id}
             // setIsUpdate={setIsUpdate}
             // isUpdate={isUpdate}
           />

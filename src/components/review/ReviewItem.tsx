@@ -11,11 +11,13 @@ import useClassStore from '../../store/useClassStore';
 import { useUserStore } from '../../store/useUser';
 import ModalReviewWrite from '../common/ModalReviewWrite';
 import useReviewStore from '../../store/useReviewStore';
+// import axios from '../../api/axios';
 
 interface ReviewProps {
   review: Review;
   // setIsUpdate: React.Dispatch<React.SetStateAction<boolean>>;
   // isUpdate: boolean;
+  classId: string | undefined;
 }
 
 // 날짜 포맷 변환 함수
@@ -30,7 +32,7 @@ const formatDate = (isoString: string): string => {
   return `${year}년 ${month}월 ${day}일 ${hours}시 ${minutes}분 작성`;
 };
 
-const ReviewItem = ({ review }: ReviewProps) => {
+const ReviewItem = ({ review, classId }: ReviewProps) => {
   // const stars = [1, 2, 3, 4, 5];
   // const [isLiked, setIsLiked] = useState<boolean | null>(false);
   // const [count, setCount] = useState<number>(review.likes_count);
@@ -53,6 +55,7 @@ const ReviewItem = ({ review }: ReviewProps) => {
   const [clickedReviewId, setClickedReviewId] = useState<string | number>('');
   const [openWrite, setOpenWrite] = useState<boolean>(false);
   const isUpdate = useReviewStore((state) => state.setIsUpdate);
+  const isDelete = useReviewStore((state) => state.setIsDelete);
 
   useEffect(() => {
     if (user) {
@@ -98,7 +101,23 @@ const ReviewItem = ({ review }: ReviewProps) => {
     }
   };
 
-  const handleDelete = () => {};
+  const handleDelete = async () => {
+    // try {
+    //   // const response = await axios.delete(
+    //   //   `reviews/${classId}/update/${review.id}`,
+    //   // );
+    //   // console.log('delete response: ', response);
+    //   await axios.delete(`reviews/${classId}/update/${review.id}`);
+    // } catch (error) {
+    //   console.log('error: ', error);
+    // }
+    // try {
+    //   isDelete(Number(classId), Number(review.id));
+    // } catch (error) {
+    //   console.log('filter delete error: ', error);
+    // }
+    isDelete(Number(classId), Number(review.id));
+  };
 
   // console.log(review);
 
@@ -147,7 +166,7 @@ const ReviewItem = ({ review }: ReviewProps) => {
                   </button>
                   <span> | </span>
                   <button className="text-red" onClick={handleDelete}>
-                    cancel
+                    delete
                   </button>
                 </div>
               ) : (

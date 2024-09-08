@@ -8,6 +8,7 @@ const useReviewStore = create<ReviewState & ReviewAction>()(
     reviews: null,
     myReviews: null,
     isUpdate: false,
+    isDelete: null,
 
     getReviews: async (classId) => {
       try {
@@ -35,6 +36,20 @@ const useReviewStore = create<ReviewState & ReviewAction>()(
       }
     },
     setIsUpdate: () => set((state) => ({ isUpdate: !state.isUpdate })),
+    setIsDelete: async (classId, reviewId) => {
+      try {
+        const response = await axios.delete(
+          `reviews/${classId}/update/${reviewId}`,
+        );
+        console.log('delete response: ', response);
+        set((state) => ({
+          reviews:
+            state.reviews?.filter((review) => review.id !== reviewId) || null,
+        }));
+      } catch (error) {
+        console.log('delete error: ', error);
+      }
+    },
   })),
 );
 
