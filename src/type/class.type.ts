@@ -22,6 +22,18 @@ export enum Status {
 //   street?: string;
 // };
 
+type ClassImage =
+  | [
+      {
+        description_image_urls: string[] | [];
+        detail_image_urls: string[] | []
+        thumbnail_image_urls: string[] | [];
+        id: string;
+        class_id: string;
+      },
+    ]
+  | [];
+
 export interface Class {
   id: string;
   dates: [
@@ -69,11 +81,18 @@ export type ClassDetail = {
   time: string;
   seat: number;
 };
+
+export type ClassTitle = {
+  id: string | number;
+  title: string;
+};
+
 export interface ClassState {
   fetchClasses: any;
   classItem: Class | null;
   classes: Class[];
   filteredClasses: { [key: string]: Class[] };
+  classTitle: ClassTitle[] | null;
   classDetails: ClassDetail[];
   findOneClass: (id: string) => Promise<Class | null>;
   fetchClassesTime: (id: string) => Promise<void>;

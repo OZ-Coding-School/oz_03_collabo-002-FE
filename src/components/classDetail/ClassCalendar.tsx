@@ -11,8 +11,7 @@ type ClassCalendarProps = {
   availableDates: Date[];
   availableTypes: string[];
   selectedClassType: string | null;
-  onTypeChange: Dispatch<SetStateAction<string | null>>;
-};
+  onDateChange: (newDate: Date | null) => void;
 
 const ClassCalendar = ({
   selectedDate,
