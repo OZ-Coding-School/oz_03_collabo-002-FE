@@ -14,10 +14,6 @@ const ClassCard = ({ classItem }: ClassCardProps) => {
   if (classItem.is_best) tags.push('best');
   if (classItem.is_viewed) tags.push('viewed');
 
-  // 타입 가드로 address 타입 확인
-  const addressState = '';
-  const addressCity = '';
-
   const imageUrl =
     classItem.images &&
     classItem.images[0] !== undefined &&
@@ -51,9 +47,7 @@ const ClassCard = ({ classItem }: ClassCardProps) => {
       <div className="w-full">
         {/* location */}
         <div className="text-gray text-sm mb-2">
-          {addressState && addressCity
-            ? `${addressState} > ${addressCity}`
-            : ''}
+          {classItem?.category[0] ? `Class > ` + classItem?.category[0] : `Class > All`}
         </div>
         <h2 className="w-full text-black font-bold text-lg line-clamp-2 ">
           {classItem.title}
