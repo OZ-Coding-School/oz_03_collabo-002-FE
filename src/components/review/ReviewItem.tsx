@@ -17,7 +17,7 @@ interface ReviewProps {
   review: Review;
   // setIsUpdate: React.Dispatch<React.SetStateAction<boolean>>;
   // isUpdate: boolean;
-  classId: string | undefined;
+  classId?: string | undefined;
 }
 
 // 날짜 포맷 변환 함수

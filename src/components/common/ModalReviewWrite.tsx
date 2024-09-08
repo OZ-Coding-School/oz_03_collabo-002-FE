@@ -15,8 +15,8 @@ import useReviewStore from '../../store/useReviewStore';
 interface props {
   // setIsUpdate: React.Dispatch<React.SetStateAction<boolean>>;
   // isUpdate: boolean;
-  reviews: string | number;
-  clickedReviewId: string | number;
+  reviews?: string | number;
+  clickedReviewId?: string | number;
 }
 
 const ModalReviewWrite: React.FC<props> = ({
