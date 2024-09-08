@@ -14,7 +14,6 @@ import axios from 'axios';
 import { useCallback, useMemo, useRef, useState } from 'react';
 import ModalProfile from '../components/common/ModalProfile';
 import { User } from '../type/user';
-import axiosRequest from '../api/axios.ts'
 
 const SignUp = () => {
   const { setModal, showModal } = useModalStore();
