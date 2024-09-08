@@ -1,8 +1,8 @@
 import axios, { AxiosError } from 'axios';
 import { create } from 'zustand';
-import { ClassState, Class, ClassDetail, Status } from '../type/class.type';
+import { ClassState, Class, ClassDetail } from '../type/class.type';
 
-axios.defaults.baseURL = 'https://api.custom-k.store/v1'; // Setting baseURL for axios
+axios.defaults.baseURL = 'https://api.custom-k.store/v1';
 
 export const useClassStore = create<ClassState>((set) => ({
   classItem: null,
@@ -13,7 +13,7 @@ export const useClassStore = create<ClassState>((set) => ({
   findOneClass: async (id: string) => {
     try {
       const response = await axios.get(`/classes/${id}`);
-      if (response.data.status === 'success') {
+      if (response.data?.status === 'success' && response.data.data) {
         return response.data.data;
       } else {
         return null;
@@ -27,19 +27,23 @@ export const useClassStore = create<ClassState>((set) => ({
   fetchClassesTime: async (id: string) => {
     try {
       const response = await axios.get(`/classes/${id}`);
-      console.log('Class Time Response:', response.data);
 
       const data = response.data;
       if (data.status === 'success' && data.data.dates.length > 0) {
         const dates = data.data.dates;
 
-        const generatedClassDetails = dates.map((date) => ({
-          status:
-            date.person >= data.data.max_person ? 'Fully booked' : 'Available',
-          seatsLeft: date.person,
-          seat: data.data.max_person,
-          time: `${date.start_time.substring(0, 5)} - ${date.end_time.substring(0, 5)}`, // 초(second)를 제외한 시간 형식으로 변경
-        }));
+        const generatedClassDetails = dates.map(
+          (date: { person: number; start_time: string; end_time: string }) => ({
+            date,
+            status:
+              date.person >= data.data.max_person
+                ? 'Fully booked'
+                : 'Available',
+            seatsLeft: date.person,
+            seat: data.data.max_person,
+            time: `${date.start_time.substring(0, 5)} - ${date.end_time.substring(0, 5)}`, // 초(second)를 제외한 시간 형식으로 변경
+          }),
+        );
 
         set({ classDetails: generatedClassDetails });
       } else {
@@ -49,7 +53,8 @@ export const useClassStore = create<ClassState>((set) => ({
       if (error instanceof AxiosError) {
         console.error(
           `Axios error fetching class times for ID ${id}:`,
-          error.response?.data || error.message,
+          error.response?.data || 'No response data',
+          error.message,
         );
       } else {
         console.error(`Error fetching class times for ID ${id}:`, error);

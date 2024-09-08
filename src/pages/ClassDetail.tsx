@@ -36,17 +36,14 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
   useEffect(() => {
     if (id) {
       findOneClass(id).then((data) => {
-        console.log('API 응답 데이터:', data);
         if (data) {
           setClassItemState(data);
-          console.log('Class Item State:', data);
           setAvailableTypes(
             Array.isArray(data.class_type)
               ? data.class_type
               : [data.class_type],
           );
         } else {
-          console.log('No data found for ID:', id);
         }
       });
     }
@@ -89,7 +86,6 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
     const fetchClass = async () => {
       if (id) {
         const data = await findOneClass(id);
-        console.log('Fetched class data:', data);
 
         if (data) {
           setClassItemState({
@@ -113,18 +109,15 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
             setAvailableTypes(types);
           }
         } else {
-          console.log('No data found for ID:', id);
         }
       }
     };
     fetchClass();
   }, [id, findOneClass]);
 
-  console.log('Images: ', classItem?.images);
-  console.log('Class Item Price: ', classItem?.price, classItem?.price_in_usd);
-
-  const originalPrice = classItem?.price || classItem?.price_in_usd || 0;
-  const discountRate = classItem?.discount_rate || 0;
+  const originalPrice =
+    classItemState?.price || classItemState?.price_in_usd || 0;
+  const discountRate = classItemState?.discount_rate || 0;
   const discountedPrice = originalPrice - (originalPrice * discountRate) / 100;
 
   const handleTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -145,20 +138,37 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
   const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectLanguageType(e.target.value);
   };
-
+  useEffect(() => {
+    if (classItemState) {
+      console.log('Updated Class Item State:', classItemState);
+    }
+  }, [classItemState]);
+  useEffect(() => {
+    if (id) {
+      findOneClass(id).then((data) => {
+        if (data) {
+          setClassItemState(data); // 상태를 설정
+          setAvailableTypes(data.class_type ? [data.class_type] : []);
+          setAvailableDates(
+            data.dates ? data.dates.map((d) => new Date(d.start_date)) : [],
+          );
+        }
+      });
+    }
+  }, [id, findOneClass]);
   return (
     <>
       <div>
         <div className="pb-[80px]">
           {/* 이미지가 있을 때만 슬라이드 렌더링 */}
-          {classItem &&
-          classItem.images &&
-          classItem.images[0] &&
-          classItem.images[0].detail_image_urls?.length > 0 ? (
+          {classItemState?.images &&
+          classItemState.images[0]?.detail_image_urls?.length > 0 ? (
             <ClassDetailSlide
-              slideImage={classItem.images[0].detail_image_urls}
+              slideImage={classItemState.images[0].detail_image_urls}
             />
-          ) : null}
+          ) : (
+            <div>No images available</div>
+          )}
 
           <div className="relative px-6">
             <p className="text-[13px] text-gray-400 font-bold pt-[14px]">
@@ -177,8 +187,7 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
             </p>
 
             <div className="mt-4 text-2xl flex items-center">
-              {/* 가격 정보가 있을 때만 렌더링 */}
-              {discountedPrice > 0 ? (
+              {originalPrice > 0 ? (
                 <>
                   {discountRate > 0 && (
                     <p className="text-[#D91010] text-[20px] font-bold mr-2">
