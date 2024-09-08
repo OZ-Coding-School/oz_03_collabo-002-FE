@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
-import { IconOptionHeart, IconReviewStar } from '../../config/IconData';
+import { IconReviewStar } from '../../config/IconData';
 import { Class } from '../../type/class.type';
-import useLikeStore from '../../store/useLikeStore';
+import ToggleButtonHeart from './ToggleButtonHeart';
 
 type ClassCardProps = {
   classItem: Class;
@@ -30,11 +30,13 @@ const ClassCard = ({ classItem }: ClassCardProps) => {
   const priceInUsd = classItem.price_in_usd || 0;
   const discountInUsd = (priceInUsd * (100 - classItem.discount_rate)) / 100;
 
-  const { toggleLike, isLiked } = useLikeStore();
-  const liked = isLiked(classItem.id);
+
 
   return (
-    <div className="w-[42.5vw] max-w-[206px] relative">
+    <div
+      className="w-[42.5vw] max-w-[206px] relative cursor-pointer"
+      onClick={() => navigate(`/class/${classItem.id}`)}
+    >
       <div className="absolute inset-0 pointer-events-none"></div>
       {/* image */}
       <div className="relative w-full aspect-square rounded-sm mb-4">
@@ -43,16 +45,7 @@ const ClassCard = ({ classItem }: ClassCardProps) => {
           alt={classItem.description}
           className="w-full aspect-square object-cover object-left-top"
         />
-        <button
-          name="likeBtn"
-          onClick={() => toggleLike(classItem.id)}
-          className="absolute right-1 top-2"
-        >
-          <IconOptionHeart
-            className={`${liked ? 'fill-primary ' : 'fill-white '}`}
-          />
-          <span className="sr-only">heart</span>
-        </button>
+        <ToggleButtonHeart classId={classItem.id} />
       </div>
       {/* content */}
       <div className="w-full">
@@ -62,10 +55,7 @@ const ClassCard = ({ classItem }: ClassCardProps) => {
             ? `${addressState} > ${addressCity}`
             : ''}
         </div>
-        <h2
-          className="w-full text-black font-bold text-lg line-clamp-2 cursor-pointer"
-          onClick={() => navigate(`/class/${classItem.id}`)}
-        >
+        <h2 className="w-full text-black font-bold text-lg line-clamp-2 ">
           {classItem.title}
         </h2>
         {/* price */}
