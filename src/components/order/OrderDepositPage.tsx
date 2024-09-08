@@ -1,5 +1,4 @@
 import { useLocation, Link } from 'react-router-dom';
-import { IconArrowLeft } from '../../config/IconData'; // 아이콘 import 필요
 
 const OrderDepositPage = () => {
   const location = useLocation();

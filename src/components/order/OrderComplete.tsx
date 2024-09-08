@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
+type OrderResult = {
+  status: string | null;
+  paymentId: string | null;
+};
+
 const OrderResult: React.FC = () => {
-  const [result, setResult] = useState(null);
+  const [result, setResult] = useState<OrderResult | null>(null);
   const location = useLocation();
   const query = new URLSearchParams(location.search);
 

@@ -19,14 +19,14 @@ const useBookingStore = create<BookingState>((set, get) => ({
   bookingItem: null,
 
   addBookingItem: (bookingData: BookingData) => {
-    // const currentBooking = get().bookingItem;
+    const currentBooking = get().bookingItem;
     set({ bookingItem: bookingData });
 
-    // if (!currentBooking) {
-    //   set({ bookingItem: bookingData });
-    // } else {
-    //   console.log('이미 예약이 존재합니다.');
-    // }
+    if (!currentBooking) {
+      set({ bookingItem: bookingData });
+    } else {
+      console.log('이미 예약이 존재합니다.');
+    }
   },
 }));
 
