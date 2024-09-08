@@ -58,7 +58,7 @@ const ReviewItem = ({ review }: ReviewProps) => {
       setActivePhoto(true);
       console.log('user: ', user);
     }
-  }, [path]);
+  }, [path, user]);
 
   // class_id에 해당하는 클래스 제목 찾기
   const classInfo = classTitle?.find((item) => item.id === review.class_id);

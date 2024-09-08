@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { IconRemove } from '../../config/IconData';
-import { useModalOpenCloseStore } from '../../store/useModal';
+import { useModalStore } from '../../store/useModal';
 import useClassStore from '../../store/useClassStore';
 import useQnaStore from '../../store/useQuestionStore';
 import Button from '../common/Button';
@@ -21,7 +21,7 @@ const CreateQuestionModal = ({
 
   const classTitle = useClassStore((state) => state.classTitle);
   const createQuestion = useQnaStore((state) => state.createQuestion);
-  const { clearModal } = useModalOpenCloseStore();
+  const { clearModal } = useModalStore();
 
   const handleCreate = () => {
     if (title.trim() === '' || inquiry.trim() === '' || classId === '') {

@@ -96,7 +96,7 @@ const Login = () => {
         console.error('Login error:', error);
       }
     },
-    [setUser, setModal, clearValue, navigate],
+    [setUser, setModal, clearValue, navigate, accessToken],
   );
 
   return (

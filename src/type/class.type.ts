@@ -1,10 +1,33 @@
-export type ClassImages = [{
-  id: string | number,
-  class_id: string | number,
-  description_image_urls: string[];
-  detail_image_urls: string[];
-  thumbnail_image_urls: string[];
-}];
+export type Status = 'Selected' | 'Fully booked' | 'Seats available';
+// type ClassItem = {
+//   address?:
+//     | {
+//         state?: string;
+//         city?: string;
+//       }
+//     | string;
+//   // other properties
+// };
+
+//type Address = string | { state: string; city: string };
+
+// type Address = {
+//   state?: string;
+//   city?: string;
+//   street?: string;
+// };
+
+type ClassImage =
+  | [
+      {
+        description_image_urls: string[] | [];
+        detail_image_urls: string[] | []
+        thumbnail_image_urls: string[] | [];
+        id: string;
+        class_id: string;
+      },
+    ]
+  | [];
 
 export interface Class {
   id: string;
@@ -18,7 +41,7 @@ export interface Class {
       person: number;
     },
   ];
-  images: ClassImages;
+  images: ClassImage;
   is_new: boolean;
   price_in_usd: number;
   is_best: boolean;
@@ -35,19 +58,31 @@ export interface Class {
   class_type: string;
   discount_rate: number;
   is_viewed: boolean;
+  averageScore: number;
+  name?: string;
   average_rating: number;
 }
+export type ClassDetail = {
+  status: Status;
+  seatsLeft: number;
+  time: string;
+  seat: number;
+};
 
 export type ClassTitle = {
   id: string | number;
   title: string;
-}
+};
 
-export type ClassState = {
-  classes: Class[] | null;
-  filteredClasses: Record<string, Class[]>;
+export interface ClassState {
+  classes: Class[];
+  filteredClasses: { [key: string]: Class[] };
   classTitle: ClassTitle[] | null;
+  classDetails: ClassDetail[];
   fetchClasses: () => Promise<void>;
   filterClasses: (kind: string) => void;
   findOneClass: (id: string | undefined) => Promise<Class | null>;
-};
+  setClasses: (data: Class[]) => void;
+  setClassDetails: (updatedClassDetails: ClassDetail[]) => void;
+  fetchClassesTime: (id: string) => Promise<void>;
+}

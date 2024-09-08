@@ -14,7 +14,6 @@ import axios from 'axios';
 import { useCallback, useMemo, useRef, useState } from 'react';
 import ModalProfile from '../components/common/ModalProfile';
 import { User } from '../type/user';
-import axiosRequest from '../api/axios.ts'
 
 const SignUp = () => {
   const { setModal, showModal } = useModalStore();
@@ -24,7 +23,6 @@ const SignUp = () => {
   const [imgFile, setImgFile] = useState<File>();
   const [preview, setPreview] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  // const [croppedImage, setCroppedImage] = useState<string | null>(null);
   const navigate = useNavigate();
 
   const {
@@ -103,9 +101,16 @@ const SignUp = () => {
 
         console.log('1');
         console.log('imgFile:', imgFile);
-        await axiosRequest.post(
-          `/users/signup`,
-          signupData,
+
+        await axios.post(
+          `${import.meta.env.VITE_CALLBACK_URL}signup/`,
+          {
+            name,
+            email,
+            password,
+            profile_image: img,
+          },
+
           {
             headers: {
               'Content-Type': 'application/json',

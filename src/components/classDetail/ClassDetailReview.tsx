@@ -111,7 +111,7 @@ const ClassDetailReview = () => {
             //     </div>
             //   )}
             // </div>
-            <div className="relative">
+            <div className="relative" key={review.id}>
               <div className="flex">
                 <div className="w-12 h-12 rounded-full overflow-hidden">
                   {}

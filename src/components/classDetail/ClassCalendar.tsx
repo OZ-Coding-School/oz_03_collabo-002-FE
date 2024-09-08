@@ -1,38 +1,59 @@
-import { useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import { DatePicker } from '@mantine/dates';
 import './ClassDetail.css';
 import { IconDetailCalendar } from '../../config/IconData';
+import { useState } from 'react';
+import { CSSTransition } from 'react-transition-group';
+
+type ClassCalendarProps = {
+  selectedDate: Date | null;
+  availableDates: Date[];
+  availableTypes: string[];
+  selectedClassType: string | null;
+  onDateChange: (newDate: Date | null) => void;
+  onTypeChange: Dispatch<SetStateAction<string | null>>;
+};
 
 function ClassCalendar({
+  selectedDate,
+  availableDates,
   onDateChange,
-}: {
-  onDateChange: (date: Date | null) => void;
-}) {
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+}: ClassCalendarProps) {
+  const [showCalendar, setShowCalendar] = useState(true);
 
   const handleTodayClick = () => {
     const today = new Date();
-    setSelectedDate(today);
     onDateChange(today);
+    setShowCalendar(false); // 날짜를 선택하면 애니메이션으로 캘린더 숨김
   };
 
   const handleDateChange = (newValue: Date | null) => {
-    setSelectedDate(newValue);
     onDateChange(newValue);
+    setShowCalendar(true); // 날짜를 선택하면 애니메이션으로 캘린더 표시
   };
 
-  const CustomDay = ({ date }: { date: Date }) => {
+  const renderDay = (date: Date) => {
     const today = new Date();
     const isPastDate = date.getTime() < today.setHours(0, 0, 0, 0);
 
+    const isAvailable = availableDates.some(
+      (availableDate) => availableDate.toDateString() === date.toDateString(),
+    );
+
+    const buttonClassName = isAvailable
+      ? 'clickable-button'
+      : 'disabled-button';
+
     return (
-      <div
-        style={{
-          color: isPastDate ? '#999' : 'inherit',
-        }}
-      >
-        {date.getDate()}
-      </div>
+      <td>
+        <button
+          className={buttonClassName}
+          style={{ color: isPastDate ? '#999' : '' }}
+          disabled={!isAvailable}
+        >
+          {date.getDate()}
+        </button>
+      </td>
     );
   };
 
@@ -46,14 +67,21 @@ function ClassCalendar({
         <span className="sr-only">오늘 날짜</span>
       </button>
 
-      <DatePicker
-        value={selectedDate}
-        monthLabelFormat="YYYY.MM"
-        hideOutsideDates
-        renderDay={(date) => <CustomDay date={date} />}
-        minDate={new Date()}
-        onChange={handleDateChange}
-      />
+      <CSSTransition
+        in={showCalendar}
+        timeout={300}
+        classNames="calendar"
+        unmountOnExit
+      >
+        <DatePicker
+          value={selectedDate}
+          monthLabelFormat="YYYY.MM"
+          hideOutsideDates
+          renderDay={renderDay}
+          minDate={new Date()}
+          onChange={handleDateChange}
+        />
+      </CSSTransition>
     </div>
   );
 }

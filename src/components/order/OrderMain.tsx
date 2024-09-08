@@ -1,14 +1,13 @@
-import { OrderData } from '../../type/order.type';
 import OrderHeader from './OrderHeader';
 import OrderDetail from './OrderDetail';
 import OrderButton from './OrderButton';
+import { BookingData } from '../../store/useBookingStore';
 
 type OrderProp = {
-  data: OrderData;
+  data: BookingData;
 };
 
-const Order = ({ data }: OrderProp) => {
-
+const OrderMain = ({ data }: OrderProp) => {
   return (
     <>
       <OrderHeader />
@@ -18,4 +17,4 @@ const Order = ({ data }: OrderProp) => {
   );
 };
 
-export default Order;
+export default OrderMain;

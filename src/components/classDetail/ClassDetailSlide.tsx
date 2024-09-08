@@ -2,7 +2,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
 
 type ClassDetailSlideProps = {
-  slideImage: string[] | null;
+  slideImage: string[] | null | undefined;
 };
 const ClassDetailSlide = ({ slideImage }: ClassDetailSlideProps) => {
   return (

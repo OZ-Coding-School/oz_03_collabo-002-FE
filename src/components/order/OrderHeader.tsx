@@ -1,12 +1,8 @@
-import { IconRemove } from '../../config/IconData';
-
 const OrderHeader = () => {
   return (
-    <div className="w-full h-fit flex relative py-[15px]">
+    <div className="absolute py-[15px] top-0 z-50 left-1/2 -translate-x-1/2 text-center">
       <div className="m-auto font-extrabold">Proceed to Payment</div>
-      <button className="absolute right-5 ">
-        <IconRemove />
-      </button>
+      <button className="absolute right-5 "></button>
     </div>
   );
 };
