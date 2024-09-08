@@ -1,75 +1,69 @@
-import { useState } from 'react';
-import { OrderData } from '../../type/order.type';
+import { useEffect, useState } from 'react';
+import { BookingData } from '../../store/useBookingStore';
+import useClassStore from '../../store/useClassStore';
+import { Class } from '../../type/class.type';
 
-type OrderDetailProps = {
-  data: OrderData;
+type Props = {
+  data: BookingData;
 };
+const OrderDetail = ({ data }: Props) => {
+  const findOneClass = useClassStore((state) => state.findOneClass);
+  const [classInfo, setClassInfo] = useState<Class | null>(null);
 
-const OrderDetail = ({ data }: OrderDetailProps) => {
-  const [participantName, setParticipantName] = useState(data.name);
-  console.log(data);
-  const date = new Date(data.date);
-  const classDate = date.toDateString();
+  useEffect(() => {
+    const fetchClassInfo = async () => {
+      if (data.class_id) {
+        const currentClass = await findOneClass(String(data.class_id));
+        setClassInfo(currentClass);
+      }
+    };
+    fetchClassInfo();
+  }, [data.class_id, findOneClass]);
+
+  if (!classInfo) return <div>Loading...</div>;
 
   return (
-    <div className="w-full relative text-black px-6 py-[15px]">
-      {/* 선택 클래스 정보 */}
-      <div className="flex w-full mb-10">
-        <div className="w-20 h-20 bg-gray rounded-xl mr-5">
-          <img src="/" alt="classThumbnail" />
-        </div>
-        <div className="leading-relaxed">
-          <div>{data.classTitle}</div>
-          <div>
-            {classDate} / {data.time}
-          </div>
-          <div className="font-bold">
-            Payment for {data.numberOfPeople} Person
-          </div>
-          <div>
-            <span className="w-11 h-4 border border-darkgray text-darkgray text-xs mr-1 px-0.5">
-              Option
-            </span>
-            <small className="   text-darkgray text-xs">
-              {'Required Options : ' + data.option}
-            </small>
-          </div>
+    <div className="px-6 py-[30px]">
+      <div className="flex items-center mb-4">
+        <div className="w-16 h-16 bg-gray-200 mr-4"></div>
+        <div>
+          <h2 className="font-bold text-lg">{classInfo.title}</h2>
+          <p className="text-sm text-gray-600">{data.class_date_id}</p>
+          <p className="text-sm">Payment for {data.quantity} Person</p>
         </div>
       </div>
-      {/* 클래스 참여자 정보 입력 */}
-      <div className="mb-5">
-        <div className="flex">
-          <h2 className="text-lg font-extrabold mb-3">
-            Application Details
-          </h2>
-          <span className="text-red font-[NanumSquareBold] ml-2">*</span>
-        </div>
+
+      <div className="mb-4">
+        <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">
+          Option
+        </span>
+        <span className="text-sm text-gray-600">
+          Required Options : {data.options}
+        </span>
+      </div>
+
+      <div className="mb-4">
+        <h3 className="font-bold mb-2">Application Details *</h3>
         <input
-          value={participantName}
-          onChange={(e) => setParticipantName(e.target.value)}
-          className="w-96 h-8  rounded-lg border border-darkgray px-3 py-5"
+          type="text"
           placeholder="Please enter your name."
-          required
+          className="w-full p-2 border rounded"
         />
       </div>
-      {/* 결제 정보 */}
-      <div className="mb-5">
-        <h2 className="text-lg font-extrabold mb-3">
-          Payment Amount
-        </h2>
-        <div className="flex justify-between leading-loose">
-          <div>Base Workship Amount</div>
-          <div>{data.baseWorkshopAmount + '$'}</div>
+
+      <div className="mb-4">
+        <h3 className="font-bold mb-2">Payment Amount</h3>
+        <div className="flex justify-between mb-1">
+          <span>Base Workshop Amount</span>
+          <span>${data.amount}</span>
         </div>
-        <div className="flex justify-between  leading-loose">
-          <div>Language Support</div>
-          <div>{data.languageSupport + '$'}</div>
+        <div className="flex justify-between mb-1">
+          <span>Language Support</span>
+          <span>0$</span>
         </div>
-        <div className="flex justify-between  leading-loose">
-          <div className="font-[NanumSquareBold]">Total Amount</div>
-          <div className="font-[NanumSquareBold] text-red">
-            {data.baseWorkshopAmount + data.languageSupport + '$'}
-          </div>
+        <div className="flex justify-between font-bold text-red-500">
+          <span>Total Amount</span>
+          <span>${data.amount}</span>
         </div>
       </div>
     </div>

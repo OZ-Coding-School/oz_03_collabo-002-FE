@@ -1,24 +1,53 @@
-import { OrderData } from '../../type/order.type';
+import { useNavigate } from 'react-router-dom';
+import { useOrderStore } from '../../store/useOrderStore';
+import { Order } from '../../type/order.type';
+import { useState } from 'react';
 
 type OrderButtonProps = {
-  data: OrderData;
+  data: Order;
 };
 
 const OrderButton = ({ data }: OrderButtonProps) => {
-  console.log(data);
+  const navigate = useNavigate();
+  const { createPayPalOrder, capturePayPalOrder } = useOrderStore()
+  const [loading, setLoading] = useState(false);
+
+  const handlePayPal = async () => {
+    setLoading(true);
+    try {
+      const orderId = await createPayPalOrder(String(data.amount));
+      const result = await capturePayPalOrder(String(orderId), data);
+      navigate('/order-complete', { state: { orderResult: result } });
+    } catch (error) {
+      console.error('PayPal payment failed:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleWireTransfer = () => {
+    navigate('/wire-transfer', { state: { orderData: data } });
+  };
 
   return (
-    <div className="px-6 mb-5">
-      <h2 className="text-lg font-extrabold mb-3">Payment Method</h2>
-      <div className="flex gap-3 flex-wrap sm:flex-nowrap">
-        <button className="w-full rounded-lg border border-darkgray py-2">
-          Paypal
-        </button>
-        <button className="w-full rounded-lg border border-darkgray py-2">
-          Wire Transfer
-        </button>
-      </div>
+    <div className="px-6 py-4">
+    <h3 className="font-bold mb-2">Payment Method</h3>
+    <div className="flex justify-between gap-4">
+      <button 
+        className="flex-1 p-2 border rounded bg-blue-500 text-white"
+        onClick={handlePayPal}
+        disabled={loading}
+      >
+        {loading ? 'Processing...' : 'Paypal'}
+      </button>
+      <button 
+        className="flex-1 p-2 border rounded"
+        onClick={handleWireTransfer}
+      >
+        Wire Transfer
+      </button>
     </div>
+  </div>
   );
 };
 
