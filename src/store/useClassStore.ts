@@ -7,11 +7,47 @@ axios.defaults.baseURL = 'https://api.custom-k.store/v1';
 export const useClassStore = create<ClassState>((set) => ({
   classItem: null,
   classes: [],
-  filteredClasses: {},
+  filteredClasses: {} as { [key: string]: Class[] }, // 초기화 수정
+  classTitle: [],
   classDetails: [],
   isLoading: false,
 
-  findOneClass: async (id: string) => {
+  fetchClasses: async () => {
+    try {
+      const response = await axios.get(`/classes`);
+      if (response.data && Array.isArray(response.data.data)) {
+        set({ classes: response.data.data });
+        const titles = response.data.data.map((classItem: Class) => ({
+          id: classItem.id,
+          title: classItem.title,
+        }));
+        set({ classTitle: titles });
+      } else {
+        set(() => ({ classes: [] }));
+      }
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        console.error(
+          'Axios error message:',
+          error.response?.data || error.message,
+        );
+      } else {
+        console.error('Unexpected error:', error);
+      }
+    }
+  },
+
+  filterClasses: (kind: string) => {
+    const classes = get().classes ?? [];
+    const filteredClasses = { ...get().filteredClasses };
+
+    const filtered = classes; // 여기에 필터링 로직을 추가해야 할 수도 있습니다
+
+    filteredClasses[kind] = filtered;
+    set({ filteredClasses });
+  },
+
+  findOneClass: async (id: string | undefined) => {
     try {
       const response = await axios.get(`/classes/${id}`);
       if (response.data?.status === 'success' && response.data.data) {

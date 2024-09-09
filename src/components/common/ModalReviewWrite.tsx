@@ -100,7 +100,8 @@ const ModalReviewWrite: React.FC<props> = ({
   // }, [isUpdate]);
 
   useEffect(() => {
-    if (isUpdate && clickedReviewId) {
+    // if (isUpdate && clickedReviewId) {
+    if (clickedReviewId) {
       const getReview = async () => {
         try {
           const response = await axios.get(`reviews/${id}`);
@@ -168,6 +169,7 @@ const ModalReviewWrite: React.FC<props> = ({
       setAccessToken(Token);
       console.log('accessToken: ', Token);
     }
+    console.log('clickedReviewId: ', clickedReviewId);
   }, [user]);
 
   const handleInputImage = useCallback(
@@ -190,7 +192,8 @@ const ModalReviewWrite: React.FC<props> = ({
     [uploadImgs],
   );
 
-  const handleUpload = () => {
+  const handleUpload = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     fileInputRef.current?.click();
   };
 
@@ -217,11 +220,11 @@ const ModalReviewWrite: React.FC<props> = ({
         rating: ratings.toString(),
       };
       console.log(reviewData);
-      if (!isUpdate) {
+      if (!clickedReviewId) {
         console.log('isUpdate: ', isUpdate);
+        console.log('hihihihihihihihihihihi');
         await axios.post(
           `reviews/${id}`,
-
           reviewData,
 
           {
@@ -232,8 +235,9 @@ const ModalReviewWrite: React.FC<props> = ({
             withCredentials: true,
           },
         );
-      } else if (isUpdate && clickedReviewId) {
+      } else if (clickedReviewId) {
         console.log('isUpdate: ', isUpdate);
+        console.log('hellohellohello');
         const updateData = {
           images:
             uploadImgs.length > 0
@@ -274,11 +278,11 @@ const ModalReviewWrite: React.FC<props> = ({
 
   const handleOut = () => {
     navigate(-1);
-    if (isUpdate) {
-      setIsUpdate();
-      console.log('out isUpdate: ', isUpdate);
-      navigate(`/review/${id}`);
-    }
+    // if (isUpdate) {
+    //   setIsUpdate();
+    //   console.log('out isUpdate: ', isUpdate);
+    //   navigate(`/review/${id}`);
+    // }
   };
 
   return (
