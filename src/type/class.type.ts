@@ -1,28 +1,13 @@
+// Status Enum 정의
 export enum Status {
   selected = 'Selected',
   FullyBooked = 'Fully booked',
   Available = 'Seats available',
 }
 
-// type ClassItem = {
-//   address?:
-//     | {
-//         state?: string;
-//         city?: string;
-//       }
-//     | string;
-//   // other properties
-// };
-
-//type Address = string | { state: string; city: string };
-
-// type Address = {
-//   state?: string;
-//   city?: string;
-//   street?: string;
-// };
-
+// Class 인터페이스 정의
 export interface Class {
+  map: any;
   id: string;
   dates: [
     {
@@ -63,19 +48,24 @@ export interface Class {
   name?: string;
   average_rating: number;
 }
+
+// ClassDetail 타입 정의
 export type ClassDetail = {
   status: Status;
   seatsLeft: number;
   time: string;
   seat: number;
 };
+
+// ClassState 인터페이스 정의
 export interface ClassState {
-  fetchClasses: any;
   classItem: Class | null;
   classes: Class[];
   filteredClasses: { [key: string]: Class[] };
   classDetails: ClassDetail[];
+  fetchClasses: () => Promise<void>;
+  filterClasses: (category: string) => void;
   findOneClass: (id: string) => Promise<Class | null>;
-  fetchClassesTime: (id: string) => Promise<void>;
+  setClasses: (classes: Class[]) => void;
   setClassDetails: (details: ClassDetail[]) => void;
 }

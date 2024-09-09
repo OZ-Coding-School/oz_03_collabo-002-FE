@@ -1,11 +1,11 @@
 import { create } from 'zustand';
 import { ReactNode } from 'react';
-interface ModalState {
-  showModal: boolean;
-  modalContent: string; // Add modalContent to the state
-  clearModal: () => void;
-  setModalContent: (content: string) => void; // Function to set content
-}
+// interface ModalState {
+//   showModal: boolean;
+//   modalContent: string; // Add modalContent to the state
+//   clearModal: () => void;
+//   setModalContent: (content: string) => void; // Function to set content
+// }
 export interface ModalMessageState {
   showModal: boolean;
   modalMessage: ReactNode | null;

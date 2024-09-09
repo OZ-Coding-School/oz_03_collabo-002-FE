@@ -15,19 +15,19 @@ const LikesPage: React.FC = () => {
   // const indexOfLastClass: number = page * classPerPage;
   // const indexOfFirstClass: number = indexOfLastClass - classPerPage;
 
-  const { filteredClasses, fetchClasses, filterClasses } = useClassStore(
+  const { filteredClasses, fetchClasses, applyFilterToClasses } = useClassStore(
     (state) => ({
-      filteredClasses: state.filteredClasses['popular'] || [], // kind에 해당하는 필터링된 데이터, 없으면 빈 배열
+      filteredClasses: state.filteredClasses['popular'] || [], // use 'popular' key
       fetchClasses: state.fetchClasses,
-      filterClasses: state.filterClasses,
+      applyFilterToClasses: state.filterClasses, // ensure this exists in the state
     }),
   );
 
   useEffect(() => {
     fetchClasses().then(() => {
-      filterClasses('popular');
+      applyFilterToClasses('popular'); // filter popular classes
     });
-  }, [fetchClasses, filterClasses]);
+  }, [fetchClasses, applyFilterToClasses]);
 
   // const likeClasses = useMemo(() => {
   //   return filteredClasses.slice(indexOfFirstClass, indexOfLastClass);

@@ -5,13 +5,20 @@ import { useClassStore } from '../../store/useClassStore';
 import useQnaStore from '../../store/useQuestionStore';
 import Button from '../common/Button';
 import { motion } from 'framer-motion';
+import { Class } from '../../type/class.type';
 
-const CreateQuestionModal = ({ onClose, handleAfterClose }) => {
+const CreateQuestionModal = ({
+  onClose,
+  handleAfterClose,
+}: {
+  onClose: () => void;
+  handleAfterClose: () => void;
+}) => {
   const [title, setTitle] = useState('');
   const [inquiry, setInquiry] = useState('');
   const [classId, setClassId] = useState('');
 
-  const classTitle = useClassStore((state) => state.classTitle);
+  const classTitle = useClassStore((state) => state.classItem);
   const createQuestion = useQnaStore((state) => state.createQuestion);
   const { clearModal } = useModalOpenCloseStore();
 
@@ -67,7 +74,7 @@ const CreateQuestionModal = ({ onClose, handleAfterClose }) => {
               <option autoFocus disabled>
                 Please select a class.
               </option>
-              {classTitle?.map((item) => (
+              {classTitle?.map((item: Class) => (
                 <option key={item.id} value={item.id}>
                   {item.title}
                 </option>

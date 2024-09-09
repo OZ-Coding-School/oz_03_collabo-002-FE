@@ -9,6 +9,7 @@ export const useClassStore = create<ClassState>((set) => ({
   classes: [],
   filteredClasses: {},
   classDetails: [],
+  isLoading: false,
 
   findOneClass: async (id: string) => {
     try {
@@ -63,16 +64,21 @@ export const useClassStore = create<ClassState>((set) => ({
   },
 
   fetchClasses: async () => {
+    set({ isLoading: true });
     try {
       const response = await axios.get('/classes');
-      if (response.data.status === 'success') {
+      if (response.data?.status === 'success') {
         set({ classes: response.data.data });
+      } else {
+        console.error('Failed to fetch classes');
       }
     } catch (error) {
       console.error('Error fetching classes:', error);
+      set({ classes: [] });
+    } finally {
+      set({ isLoading: false });
     }
   },
-
   // Setter for classes array
   setClasses: (classes: Class[]) => set({ classes }),
 

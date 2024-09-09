@@ -16,7 +16,7 @@ type ClassDetailProps = {
 
 const ClassDetail = ({ rating }: ClassDetailProps) => {
   const { id } = useParams<{ id: string }>();
-  const classItem = useClassStore((state) => state.classItem);
+  //const classItem = useClassStore((state) => state.classItem);
   const findOneClass = useClassStore((state) => state.findOneClass);
   const [classItemState, setClassItemState] = useState<Class | null>(null);
   const [availableTypes, setAvailableTypes] = useState<string[]>([]);
@@ -32,22 +32,31 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
   const [selectedType, setSelectedType] = useState<string | null>(null);
   const [showTimes, setShowTimes] = useState(false);
   const [availableTimes, setAvailableTimes] = useState<string[]>([]);
-
   useEffect(() => {
     if (id) {
-      findOneClass(id).then((data) => {
-        if (data) {
-          setClassItemState(data);
-          setAvailableTypes(
-            Array.isArray(data.class_type)
-              ? data.class_type
-              : [data.class_type],
-          );
-        } else {
-        }
-      });
+      findOneClass(id)
+        .then((data: Class | null) => {
+          // data의 타입 명시
+          if (data) {
+            // 데이터가 존재하는 경우
+            setClassItemState(data);
+            setAvailableTypes(
+              Array.isArray(data.class_type)
+                ? data.class_type
+                : [data.class_type],
+            );
+          } else {
+            // 데이터가 없을 경우 처리
+            console.error('No data found for the given ID');
+          }
+        })
+        .catch((error: any) => {
+          // error의 타입 명시
+          // Promise가 실패한 경우에 대한 에러 처리
+          console.error('Error fetching class data:', error);
+        });
     }
-  }, [id, findOneClass]);
+  }, [id]);
 
   useEffect(() => {
     if (selectedDate) {
@@ -145,17 +154,24 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
   }, [classItemState]);
   useEffect(() => {
     if (id) {
-      findOneClass(id).then((data) => {
+      findOneClass(id).then((data: Class | null) => {
+        // data의 타입을 명확히 지정
         if (data) {
           setClassItemState(data); // 상태를 설정
           setAvailableTypes(data.class_type ? [data.class_type] : []);
           setAvailableDates(
-            data.dates ? data.dates.map((d) => new Date(d.start_date)) : [],
+            data.dates
+              ? data.dates.map(
+                  (dateItem: { start_date: string }) =>
+                    new Date(dateItem.start_date),
+                )
+              : [], // dateItem의 타입을 명시적으로 지정
           );
         }
       });
     }
   }, [id, findOneClass]);
+
   return (
     <>
       <div>
@@ -183,7 +199,7 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
             <p className="flex items-center">
               <IconReviewStar />
               &nbsp;{rating}
-              <span className="text-gray-400">(00개)</span>
+              {/* <span className="text-gray-400">(00개)</span> */}
             </p>
 
             <div className="mt-4 text-2xl flex items-center">

@@ -42,11 +42,7 @@ function App() {
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
             <Route path="/category/:keyword" element={<Category />} />
-            <Route
-              path="/class/:id"
-              element={<ClassDetail rating={1.2} id={''} />}
-            />
-
+            <Route path="/class/:id" element={<ClassDetail rating={1.2} />} />
             <Route path="/account" element={<Account />} />
             <Route path="/charge" element={<ChargePage />} />
             <Route path="admin" element={<Admin />} />

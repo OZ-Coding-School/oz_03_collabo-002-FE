@@ -12,7 +12,7 @@ const CardList = ({ kind }: CardListProps) => {
     (state) => ({
       filteredClasses: state.filteredClasses[kind] || [], // kind에 해당하는 필터링된 데이터, 없으면 빈 배열
       fetchClasses: state.fetchClasses,
-      filterClasses: state.filterClasses,
+      filteredClassList: state.filteredClasses,
     }),
   );
   const scrollContainerRef = useRef<HTMLDivElement>(null);

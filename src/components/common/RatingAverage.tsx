@@ -13,7 +13,7 @@ const RatingAverage = ({ id }: RatingAverageProps) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const classData = await findOneClass(id);
+      const classData = await findOneClass(id ?? '');
       setThisClass(classData);
     };
     fetchData();
