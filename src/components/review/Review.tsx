@@ -1,15 +1,10 @@
 import { useParams } from 'react-router-dom';
 import ReviewList from './ReviewList';
 import RatingAverage from '../common/RatingAverage';
-import { useEffect } from 'react';
 
 const Review = () => {
   const { id } = useParams();
   console.log('id:', id);
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
 
   return (
     <>

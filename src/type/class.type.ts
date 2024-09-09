@@ -63,7 +63,6 @@ export interface ClassState {
   classes: Class[];
   filteredClasses: { [key: string]: Class[] };
   classDetails: ClassDetail[];
-  classTitle: Class[] | null;
   isLoading: boolean; // isLoading 추가
   fetchClasses: () => Promise<void>;
   filterClasses: (category: string) => void;
