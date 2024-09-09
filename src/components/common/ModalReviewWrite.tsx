@@ -117,7 +117,7 @@ const ModalReviewWrite: React.FC<props> = ({
             // 이미지 설정
             if (findReview.images && findReview.images.length > 0) {
               const imageUrls = findReview.images.map(
-                (img: any) => img.image_url,
+                (img: { image_url: string }) => img.image_url,
               );
               setUploadImgs(imageUrls);
             }
