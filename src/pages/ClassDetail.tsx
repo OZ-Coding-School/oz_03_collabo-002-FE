@@ -201,7 +201,39 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
         }
       });
     }
-  }, [id, findOneClass]);
+    setExpanded(!expanded);
+  };
+
+  const handleCopy = () => {
+    if (typeof classData?.address === 'string') {
+      navigator.clipboard
+        .writeText(classData.address)
+        .then(() => {
+          alert('Address copied to clipboard.');
+        })
+        .catch((err) => {
+          console.error('Failed to copy: ', err);
+        });
+    }
+  };
+  const handleDateChange = (newDate: Date | null) => {
+    setSelectedDate(newDate); // 상태를 직접 업데이트
+    if (newDate) {
+      setShowTimes(true); // 날짜가 선택되면 슬라이드 표시
+    } else {
+      setShowTimes(false); // 날짜가 선택되지 않으면 슬라이드 숨기기
+    }
+  };
+
+  const priceInUsd = classData?.price_in_usd || 0;
+  const discountInUsd = classData?.discount_rate ? (priceInUsd * (100 - classData.discount_rate)) / 100 : priceInUsd;
+
+  if (!classData) return null;
+
+  const handleCreate = () => {
+    navigate(`/reviewModal/${id}`);
+  };
+
   return (
     <>
       <div>
@@ -327,6 +359,205 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
         onBookNowClick={handleBookingClick}
 
       />
+        {/* Review */}
+        <div
+          ref={reviewsRef}
+          className="mt-10 pt-10 border-t border-t-1 border-t-gray-300"
+        >
+          <h3 className="text-[20px] px-6 font-semibold">Location</h3>
+          <div></div>
+          <div className="relative px-6 py-7 text-[14px] ">
+            <p>
+              <strong>We Open Class Here</strong>
+            </p>
+            <p className="text-gray-500 pr-20">
+              {typeof classData?.address === 'string' ? classData.address : ''}
+            </p>
+            <button
+              type="button"
+              onClick={handleCopy}
+              className="absolute right-6 top-10 border border-gray-300 rounded-full p-3"
+            >
+              <IconMapShare className="" />
+            </button>
+          </div>
+        </div>
+        {/* QnA */}
+        <div
+          ref={qaRef}
+          className="mt-10 pt-10 border-t border-t-1 border-t-gray-300"
+        >
+          <div className="text-center mb-4">
+            <strong className="flex items-center justify-center text-[20px] font-semibold">
+              <div className="flex mr-1">
+                {[...Array(5)].map((_, i) => (
+                  <IconReviewStar key={i} className="" />
+                ))}
+              </div>
+              <span className="text-primary">320</span>&nbsp;reviews
+            </strong>
+            <p className="text-[14px] leading-[34px]">
+              <strong className="text-primary">97%</strong> of participants are
+              satisfied with the workshop!
+            </p>
+          </div>
+          <ClassDetailPhotoReview />
+          <ClassDetailReview />
+          <Button
+            type="button"
+            size="full"
+            className="mb-5 rounded-xl"
+            value="add ReviewWrite"
+            onClick={handleCreate}
+          />
+        </div>
+        {/* Res. Policy */}
+        <div ref={resPoliciesRef} className="mt-20">
+          <dl className="border-t border-t-1 border-t-gray-300">
+            <dt className="px-6 py-7 text-[18px] font-semibold flex items-center justify-between">
+              Reservation Process
+              <button
+                onClick={() => setIsReservationVisible(!isReservationVisible)}
+              >
+                <IconOptionArw
+                  className={`${isReservationVisible ? 'rotate-180' : ''} transition`}
+                />
+              </button>
+            </dt>
+            {isReservationVisible && (
+              <dd className="px-6 py-7 pl-10 border-t border-t-1 border-t-gray-300">
+                <strong>Reservation Process</strong>
+                <ol className="list-decimal">
+                  <li>
+                    Select 'Reserve' on the spot page and book your desired date
+                    and number of participants.
+                  </li>
+                  <li>
+                    Once your reservation is made, it will be confirmed within
+                    2-3 days.
+                  </li>
+                  <li>
+                    Ensure you arrive at the designated meeting point 10 minutes
+                    before the scheduled time. The class will start promptly.
+                  </li>
+                  <li>
+                    Please gather at <strong>Mad Night</strong>
+                  </li>
+                </ol>
+                <p className="mt-3">
+                  {typeof classData?.address === 'string'
+                    ? classData.address
+                    : ''}
+                </p>
+              </dd>
+            )}
+          </dl>
+
+          <dl className="border-t border-t-1 border-t-gray-300">
+            <dt className="px-6 py-7 text-[18px] font-semibold flex items-center justify-between">
+              Cancelation Policy
+              <button
+                onClick={() => setIsCancelationVisible(!isCancelationVisible)}
+              >
+                <IconOptionArw
+                  className={`${isCancelationVisible ? 'rotate-180' : ''} transition`}
+                />
+              </button>
+            </dt>
+            {isCancelationVisible && (
+              <dd className="px-6 py-7 pl-10 border-t border-t-1 border-t-gray-300">
+                <strong>Cancelation Policy</strong>
+                <ul className="list-disc">
+                  <li>4 days before the class: Full refund</li>
+                  <li>3 days before the class: 50% refund</li>
+                  <li>2 days before the class: No refund</li>
+                </ul>
+                <p>
+                  The cancellation fee policy is based on the class provider's
+                  business days.
+                </p>
+                <p>
+                  If a cancellation request is made on non-business days, the
+                  cancellation fee will be applied based on the next business
+                  day.
+                </p>
+                <p>(Non-business days: weekends and public holidays)</p>
+              </dd>
+            )}
+          </dl>
+
+          <dl className="border-t border-t-1 border-t-gray-300 border-b border-b-1 border-b-gray-300">
+            <dt className="px-6 py-7 text-[18px] font-semibold flex items-center justify-between">
+              Things To Keep In Mind
+              <button
+                onClick={() =>
+                  setIsThingsToKeepInMindVisible(!isThingsToKeepInMindVisible)
+                }
+              >
+                <IconOptionArw
+                  className={`${isThingsToKeepInMindVisible ? 'rotate-180' : ''} transition`}
+                />
+              </button>
+            </dt>
+            {isThingsToKeepInMindVisible && (
+              <dd className="px-6 py-7 pl-10 border-t border-t-1 border-t-gray-300">
+                <ul className="list-disc">
+                  <li>
+                    If the class is canceled due to the provider's
+                    circumstances, you will be notified by email 1-2 days in
+                    advance.
+                  </li>
+                  <li>
+                    Please arrive 10 minutes before the class starts. Latecomers
+                    will not be accommodated.
+                  </li>
+                  <li>This class is held indoors.</li>
+                  <li>
+                    The class requires a minimum of 2 participants & maximum of
+                    10 participants to proceed.
+                  </li>
+                  <li>
+                    This is not a private class and will include participants
+                    from various countries. However, instruction will be given
+                    in English, Japanese, Chinese, and Korean. (Please inform us
+                    in advance which language you need.)
+                  </li>
+                  <li>
+                    Reservation confirmations may take 2-3 days on the
+                    provider's non-business days (weekends and public holidays).
+                    For example, if you book on a Friday, the confirmation will
+                    be processed after Monday.
+                  </li>
+                  <li>
+                    The class will proceed as scheduled even in rainy weather,
+                    and no refunds will be provided for weather-related
+                    cancellations during the class.
+                  </li>
+                  <li>
+                    Recording or filming the instructor's explanations during
+                    the class is prohibited.
+                  </li>
+                  <li>
+                    Pets are not allowed, and there are no facilities for them.
+                  </li>
+                  <li>
+                    If you have dietary restrictions or allergies, please inform
+                    us in advance.
+                  </li>
+                  <li>
+                    Cancellations and refunds due to natural disasters are not
+                    possible, but date changes are allowed.
+                  </li>
+                  <li>
+                    For reservation changes or other inquiries, please contact
+                    customk7878@gmail.com.
+                  </li>
+                </ul>
+              </dd>
+            )}
+          </dl>
+        </div>
+      </>
     </>
   );
 };

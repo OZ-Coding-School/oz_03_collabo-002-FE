@@ -52,8 +52,9 @@ const ReviewItem = ({ review, classId }: ReviewProps) => {
   const fetchClasses = useClassStore((state) => state.fetchClasses);
   const [clickedReviewId, setClickedReviewId] = useState<string | number>('');
   const [openWrite, setOpenWrite] = useState<boolean>(false);
-  const isUpdate = useReviewStore((state) => state.setIsUpdate);
-  const isDelete = useReviewStore((state) => state.setIsDelete);
+  const isUpdate = useReviewStore((state) => state.isUpdate);
+  const setIsUpdate = useReviewStore((state) => state.setIsUpdate);
+  const setIsDelete = useReviewStore((state) => state.setIsDelete);
 
   useEffect(() => {
     if (user) {
@@ -92,7 +93,8 @@ const ReviewItem = ({ review, classId }: ReviewProps) => {
     try {
       // setIsUpdate(true);
       setOpenWrite(true);
-      isUpdate();
+      setIsUpdate();
+      console.log('isUpdate: ', isUpdate);
       console.log('hi');
       console.log('review의 id: ', review.id);
       setClickedReviewId(review.id);
@@ -101,6 +103,10 @@ const ReviewItem = ({ review, classId }: ReviewProps) => {
       console.log('error: ', error);
     }
   };
+
+  useEffect(() => {
+    console.log('isUpdate: ', isUpdate);
+  }, [isUpdate]);
 
   const handleDelete = async () => {
     // try {
@@ -117,14 +123,14 @@ const ReviewItem = ({ review, classId }: ReviewProps) => {
     // } catch (error) {
     //   console.log('filter delete error: ', error);
     // }
-    isDelete(Number(classId), Number(review.id));
+    setIsDelete(Number(classId), Number(review.id));
   };
 
   // console.log(review);
 
   return (
     <>
-      {openWrite && (
+      {openWrite && isUpdate && (
         <ModalReviewWrite
           // setIsUpdate={setIsUpdate}
           // isUpdate={isUpdate}
@@ -176,7 +182,9 @@ const ReviewItem = ({ review, classId }: ReviewProps) => {
             </div>
           </div>
         </div>
-        <p className="text-sm mb-2">{review.review}</p>
+        <p className="text-sm mb-2 whitespace-pre-wrap break-words">
+          {review.review}
+        </p>
         {/* 클래스 정보 */}
         <div className="flex justify-between p-2">
           <p className="text-sm text-gray">{className}</p>

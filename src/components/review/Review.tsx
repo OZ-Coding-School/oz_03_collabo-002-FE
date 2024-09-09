@@ -4,6 +4,7 @@ import RatingAverage from '../common/RatingAverage';
 
 const Review = () => {
   const { id } = useParams();
+  console.log('id:', id);
 
   return (
     <>
