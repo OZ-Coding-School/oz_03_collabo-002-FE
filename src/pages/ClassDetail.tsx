@@ -100,7 +100,10 @@ const ClassDetail = () => {
     setSelectedType(selectedType);
   };
 
-  const calculateDiscountedPrice = (originalPrice: number, discountRate: number) => {
+  const calculateDiscountedPrice = (
+    originalPrice: number,
+    discountRate: number,
+  ) => {
     if (discountRate === 0) return originalPrice;
     return Math.ceil(originalPrice * (1 - discountRate / 100));
   };
@@ -111,7 +114,10 @@ const ClassDetail = () => {
       return;
     }
     const originalPrice = classData.price_in_usd || 0;
-    const discountedPrice = calculateDiscountedPrice(originalPrice, classData.discount_rate);
+    const discountedPrice = calculateDiscountedPrice(
+      originalPrice,
+      classData.discount_rate,
+    );
 
     const bookingData = {
       class_id: classData?.id,

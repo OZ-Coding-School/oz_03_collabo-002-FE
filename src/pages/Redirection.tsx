@@ -1,4 +1,5 @@
-import axios from 'axios';
+// import axios from 'axios';
+import axios from '../api/axios';
 import { AxiosError } from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -33,12 +34,12 @@ const Redirection = () => {
       const fetchAuthLogin = async () => {
         try {
           console.log('isState: ', isState);
-          const url = `${import.meta.env.VITE_CALLBACK_URL}${isState}/callback/`;
-          console.log('요청 URL: ', url);
+          // const url = `${import.meta.env.VITE_CALLBACK_URL}${isState}/callback/`;
+          // console.log('요청 URL: ', url);
           console.log('body: ', code, state);
 
           const response = await axios.post(
-            url,
+            `/users/${isState}/callback/`,
             // { code: code, state: state, clientId: clientId },
             { code: code, state: state },
             // { code: code },
