@@ -1,6 +1,4 @@
 import axios from 'axios';
-import useAccountStore from '../store/useAccountStore';
-import { useNavigate } from 'react-router-dom';
 
 const instance = axios.create({
   baseURL: 'https://api.custom-k.store/v1/',
@@ -11,45 +9,56 @@ const instance = axios.create({
 });
 
 // 요청 인터셉터: 요청에 엑세스 토큰 추가
-instance.interceptors.request.use(config => {
-  const accessToken = localStorage.getItem('accessToken');
-  if (accessToken) {
-    config.headers.Authorization = `Bearer ${accessToken}`;
-  }
-  return config;
-}, error => Promise.reject(error));
+instance.interceptors.request.use(
+  (config) => {
+    const accessToken = localStorage.getItem('accessToken');
+    if (accessToken) {
+      config.headers.Authorization = `Bearer ${accessToken}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error),
+);
 
 // 응답 인터셉터: 401 오류 시 토큰 갱신
 instance.interceptors.response.use(
-  response => response,
-  async error => {
+  (response) => response,
+  async (error) => {
     const { config, response } = error;
     const originalRequest = config;
 
     // 모든 401 오류에 대해 토큰 갱신 시도
     if (response && response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
+      console.log('refresh token으로 재발급');
 
-      const regenerateToken = useAccountStore.getState().regenerateToken;
       try {
-        await regenerateToken();
-        const accessToken = localStorage.getItem('accessToken');
-        if (accessToken) {
-          originalRequest.headers.Authorization = `Bearer ${accessToken}`;
+        // 토큰 재발급 요청
+        const refreshResponse = await axios.post(
+          'https://api.custom-k.store/v1/users/token/refresh/',
+          {},
+          {
+            withCredentials: true,
+          },
+        );
+
+        const { access_token } = refreshResponse.data;
+        if (access_token) {
+          localStorage.setItem('accessToken', access_token);
+          originalRequest.headers.Authorization = `Bearer ${access_token}`;
+          return axios(originalRequest);
         }
-        return axios(originalRequest);
       } catch (refreshError) {
         console.error('토큰 갱신 실패: ', refreshError);
-
-        // 사용자를 로그인 페이지로 리다이렉션
-        const navigate = useNavigate(); // React Router를 사용하는 경우
-        navigate('/login'); // 로그인 페이지로 이동
-        return Promise.reject(refreshError);
+        // 토큰 갱신 실패 시 로컬 스토리지 클리어
+        localStorage.removeItem('accessToken');
+        // 여기서 직접 리다이렉트하는 대신 에러를 던져서 컴포넌트에서 처리하도록 함
+        return Promise.reject({ ...error, tokenRefreshFailed: true });
       }
     }
 
     return Promise.reject(error);
-  }
+  },
 );
 
 export default instance;

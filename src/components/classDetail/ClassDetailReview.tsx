@@ -115,7 +115,12 @@ const ClassDetailReview = () => {
               <div className="flex">
                 <div className="w-12 h-12 rounded-full overflow-hidden">
                   {}
-                  <img src={review.user.profile_image_url || '/images/user-empty.png'} alt="sample img"></img>
+                  <img
+                    src={
+                      review.user.profile_image_url || '/images/user-empty.png'
+                    }
+                    alt="sample img"
+                  ></img>
                 </div>
                 <div className="text-[14px] ml-4">
                   <strong className="font-semibold">{review.user.name}</strong>

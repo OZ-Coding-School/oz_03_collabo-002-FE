@@ -9,9 +9,15 @@ import ReviewReviewModal from './ReviewPhotoModal';
 import { Review } from '../../type/review.type';
 import useClassStore from '../../store/useClassStore';
 import { useUserStore } from '../../store/useUser';
+import ModalReviewWrite from '../common/ModalReviewWrite';
+import useReviewStore from '../../store/useReviewStore';
+// import axios from '../../api/axios';
 
 interface ReviewProps {
   review: Review;
+  // setIsUpdate: React.Dispatch<React.SetStateAction<boolean>>;
+  // isUpdate: boolean;
+  classId?: string | undefined;
 }
 
 // 날짜 포맷 변환 함수
@@ -26,7 +32,7 @@ const formatDate = (isoString: string): string => {
   return `${year}년 ${month}월 ${day}일 ${hours}시 ${minutes}분 작성`;
 };
 
-const ReviewItem = ({ review }: ReviewProps) => {
+const ReviewItem = ({ review, classId }: ReviewProps) => {
   // const stars = [1, 2, 3, 4, 5];
   // const [isLiked, setIsLiked] = useState<boolean | null>(false);
   // const [count, setCount] = useState<number>(review.likes_count);
@@ -46,6 +52,17 @@ const ReviewItem = ({ review }: ReviewProps) => {
   const user = useUserStore((state) => state.user);
   const extraImagesCount = imageCount > 3 ? imageCount - 3 : 0;
   const fetchClasses = useClassStore((state) => state.fetchClasses);
+  const [clickedReviewId, setClickedReviewId] = useState<string | number>('');
+  const [openWrite, setOpenWrite] = useState<boolean>(false);
+  const isUpdate = useReviewStore((state) => state.setIsUpdate);
+  const isDelete = useReviewStore((state) => state.setIsDelete);
+
+  useEffect(() => {
+    if (user) {
+      // console.log('user: ', user);
+      // console.log('user: ', user.id);
+    }
+  }, [user]);
 
   useEffect(() => {
     fetchClasses();
@@ -56,9 +73,13 @@ const ReviewItem = ({ review }: ReviewProps) => {
       setActivePhoto(false);
     } else {
       setActivePhoto(true);
-      console.log('user: ', user);
+      // console.log('user: ', user);
     }
-  }, [path, user]);
+  }, [path]);
+
+  useEffect(() => {
+    console.log('review: ', review);
+  }, []);
 
   // class_id에 해당하는 클래스 제목 찾기
   const classInfo = classTitle?.find((item) => item.id === review.class_id);
@@ -66,10 +87,50 @@ const ReviewItem = ({ review }: ReviewProps) => {
     ? classInfo.title
     : '클래스 정보를 찾을 수 없습니다';
 
-  console.log(review);
+  const handleEdit = async () => {
+    try {
+      // setIsUpdate(true);
+      setOpenWrite(true);
+      isUpdate();
+      console.log('hi');
+      console.log('review의 id: ', review.id);
+      setClickedReviewId(review.id);
+      return;
+    } catch (error) {
+      console.log('error: ', error);
+    }
+  };
+
+  const handleDelete = async () => {
+    // try {
+    //   // const response = await axios.delete(
+    //   //   `reviews/${classId}/update/${review.id}`,
+    //   // );
+    //   // console.log('delete response: ', response);
+    //   await axios.delete(`reviews/${classId}/update/${review.id}`);
+    // } catch (error) {
+    //   console.log('error: ', error);
+    // }
+    // try {
+    //   isDelete(Number(classId), Number(review.id));
+    // } catch (error) {
+    //   console.log('filter delete error: ', error);
+    // }
+    isDelete(Number(classId), Number(review.id));
+  };
+
+  // console.log(review);
 
   return (
     <>
+      {openWrite && (
+        <ModalReviewWrite
+          // setIsUpdate={setIsUpdate}
+          // isUpdate={isUpdate}
+          reviews={review.id}
+          clickedReviewId={clickedReviewId}
+        />
+      )}
       <div key={review.id} className="py-[15px] px-6">
         {/* 작성자 정보 */}
         <div className="flex items-center mb-3">
@@ -85,7 +146,7 @@ const ReviewItem = ({ review }: ReviewProps) => {
                 {formatDate(review.created_at)}
               </span>
             </div>
-            <div className="flex items-center">
+            <div className="flex items-center justify-between">
               <p className="flex items-center">
                 <IconReviewStar className="mr-2" />
                 {/* {stars.map((star, index) => (
@@ -98,6 +159,19 @@ const ReviewItem = ({ review }: ReviewProps) => {
                 ))} */}
                 {review.rating}
               </p>
+              {user?.id === review.user.id ? (
+                <div className="ml-3 text-xs  mt-1">
+                  <button className="text-blue-600" onClick={handleEdit}>
+                    edit
+                  </button>
+                  <span> | </span>
+                  <button className="text-red" onClick={handleDelete}>
+                    delete
+                  </button>
+                </div>
+              ) : (
+                <></>
+              )}
             </div>
           </div>
         </div>
@@ -122,12 +196,14 @@ const ReviewItem = ({ review }: ReviewProps) => {
               review.images.slice(0, 3).map((image, index) => (
                 <div
                   key={index + String(image.id)}
-                  className={`relative w-1/3 aspect-square ${index === 2 && imageCount > 3 ? 'opacity-50' : ''}`}
+                  className={`relative w-[130px] h-[130px] ${
+                    index === 2 && imageCount > 3 ? 'opacity-50' : ''
+                  }`}
                 >
                   <img
                     src={image.image_url}
                     alt="이미지 첨부 사진"
-                    className="min-w-full min-h-full rounded-xl object-cover" // 너비 또는 높이 중 작은 값을 기준으로 나머지 부분을 자름
+                    className="w-full h-full rounded-xl object-cover"
                   />
                   {index === 2 && imageCount > 3 && (
                     <div
