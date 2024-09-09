@@ -1,12 +1,18 @@
+// import { useNavigate } from 'react-router-dom';
 import useAccountStore from '../../store/useAccountStore';
 import { useUserStore } from '../../store/useUser';
 
 const AccountUserInfo = () => {
   const user = useUserStore((state) => state.user);
   const logout = useAccountStore((state) => state.logout);
+  // const navigate = useNavigate();
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    try {
+      await logout();
+    } catch (error) {
+      console.log('LogOut error: ', error);
+    }
   };
 
   return (

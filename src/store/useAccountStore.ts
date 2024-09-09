@@ -125,6 +125,7 @@ const useAccountStore = create<AccountState & AccountActions>()(
       logout: async () => {
         const accessToken = localStorage.getItem('accessToken');
         const setModal = useModalStore.getState().setModal;
+        const clearUser = useUserStore.getState().clearUser;
         try {
           const response = await axios.post('/users/logout', {
             headers: {
@@ -133,6 +134,7 @@ const useAccountStore = create<AccountState & AccountActions>()(
           });
           console.log(response);
           setModal('Success to logout');
+          clearUser();
           localStorage.removeItem('userInfo');
           localStorage.removeItem('accessToken');
         } catch (error) {
