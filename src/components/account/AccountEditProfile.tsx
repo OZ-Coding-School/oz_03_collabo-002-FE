@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Button from '../common/Button';
 import Modal from '../common/Modal';
-import { useModalStore } from '../../store/useModal';
+import { useModalOpenCloseStore } from '../../store/useModal';
 import { useUserStore } from '../../store/useUser';
 import AccountEditPhoto from './AccountEditPhoto';
 import useAccountStore from '../../store/useAccountStore';
@@ -14,11 +14,10 @@ const AccountEditProfile = () => {
   const getUserDetail = useAccountStore((state) => state.getUserDetail);
   const updateUser = useAccountStore((state) => state.updateUser);
   const deleteUser = useAccountStore((state) => state.deleteUser);
-  const { showModal } = useModalStore();
+  const { showModal } = useModalOpenCloseStore();
 
   useEffect(() => {
     getUserDetail();
-    
   }, [getUserDetail]);
 
   const handleSaveUserinfo = (e: React.MouseEvent<HTMLButtonElement>) => {

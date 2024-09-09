@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Class } from '../../type/class.type';
-import useClassStore from '../../store/useClassStore';
+import { useClassStore } from '../../store/useClassStore';
 import { IconReviewStar, IconReviewStarEmpty } from '../../config/IconData';
 import axios from '../../api/axios';
 import { AllReview } from '../../type/review.type';
@@ -18,19 +18,8 @@ const RatingAverage = ({ id }: RatingAverageProps) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (id) {
-        try {
-          // Promise.all을 사용하여 두 개의 비동기 요청을 병렬로 처리
-          const [allReviewData, classData] = await Promise.all([
-            axios.get(`/reviews/${id}`),
-            findOneClass(id),
-          ]);
-          setThisReview(allReviewData.data);
-          setThisClass(classData);
-        } catch (error) {
-          console.error('Error fetching data:', error);
-        }
-      }
+      const classData = await findOneClass(id ?? '');
+      setThisClass(classData);
     };
     fetchData();
   }, [id, findOneClass, reviews]); // 의존성 배열에서 thisReview와 thisClass를 제거

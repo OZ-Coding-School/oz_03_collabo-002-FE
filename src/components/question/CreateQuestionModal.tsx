@@ -1,25 +1,24 @@
 import { useState } from 'react';
 import { IconRemove } from '../../config/IconData';
-import { useModalStore } from '../../store/useModal';
-import useClassStore from '../../store/useClassStore';
+import { useModalOpenCloseStore } from '../../store/useModal';
+import { useClassStore } from '../../store/useClassStore';
 import useQnaStore from '../../store/useQuestionStore';
 import Button from '../common/Button';
 import { motion } from 'framer-motion';
-
-type CreateQuestionModalProps = {
-  onClose: () => void;
-  handleAfterClose: () => void;
-};
+import { Class } from '../../type/class.type';
 
 const CreateQuestionModal = ({
   onClose,
   handleAfterClose,
-}: CreateQuestionModalProps) => {
+}: {
+  onClose: () => void;
+  handleAfterClose: () => void;
+}) => {
   const [title, setTitle] = useState('');
   const [inquiry, setInquiry] = useState('');
   const [classId, setClassId] = useState('');
 
-  const classTitle = useClassStore((state) => state.classTitle);
+  const classTitle = useClassStore((state) => state.classItem);
   const createQuestion = useQnaStore((state) => state.createQuestion);
   const { clearModal } = useModalStore();
 
@@ -38,6 +37,9 @@ const CreateQuestionModal = ({
     onClose();
     handleAfterClose();
   };
+
+  // Debugging classTitle to verify it's populated
+  console.log(classTitle);
 
   if (!classTitle) return null;
 
@@ -72,7 +74,7 @@ const CreateQuestionModal = ({
               <option autoFocus disabled>
                 Please select a class.
               </option>
-              {classTitle?.map((item) => (
+              {classTitle?.map((item: Class) => (
                 <option key={item.id} value={item.id}>
                   {item.title}
                 </option>

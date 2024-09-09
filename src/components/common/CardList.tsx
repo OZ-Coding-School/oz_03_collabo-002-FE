@@ -1,20 +1,20 @@
 import { useEffect, useRef } from 'react';
-import useClassStore from '../../store/useClassStore';
+import { useClassStore } from '../../store/useClassStore';
 import ClassCard from './ClassCard';
 
 type CardListProps = {
   kind: string;
 };
-// popular, custom-k-pick, newest, today
 
 const CardList = ({ kind }: CardListProps) => {
   const { filteredClasses, fetchClasses, filterClasses } = useClassStore(
     (state) => ({
-      filteredClasses: state.filteredClasses[kind] || [], // kind에 해당하는 필터링된 데이터, 없으면 빈 배열
+      filteredClasses: state.filteredClasses[kind] || [], // kind에 해당하는 필터링된 데이터
       fetchClasses: state.fetchClasses,
-      filterClasses: state.filterClasses,
+      filterClasses: state.filterClasses, // filterClasses 추가
     }),
   );
+
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -43,7 +43,6 @@ const CardList = ({ kind }: CardListProps) => {
 
   return (
     <div className="relative mx-5 ">
-      {/* 왼쪽 스크롤 버튼 */}
       <button
         onClick={scrollLeft}
         className="absolute w-10 h-10 left-[-20px] top-1/4 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-md"
@@ -51,7 +50,6 @@ const CardList = ({ kind }: CardListProps) => {
         {'<'}
       </button>
 
-      {/* 카드 리스트 */}
       <div
         ref={scrollContainerRef}
         className="flex gap-5 overflow-x-scroll hide-scrollbar custom-scrollbar pr-5"
@@ -65,7 +63,6 @@ const CardList = ({ kind }: CardListProps) => {
           ))}
       </div>
 
-      {/* 오른쪽 스크롤 버튼 */}
       <button
         onClick={scrollRight}
         className="absolute w-10 h-10 right-[-20px] top-1/4 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-md"

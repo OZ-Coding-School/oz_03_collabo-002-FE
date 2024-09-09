@@ -1,51 +1,27 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import useBookingStore from '../../src/store/useBookingStore';
-import useClassStore from '../store/useClassStore';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useClassStore } from '../store/useClassStore';
+
 import ClassDetailSlide from '../components/classDetail/ClassDetailSlide';
-import {
-  IconMapShare,
-  IconMoreArw,
-  IconOptionArw,
-  IconReviewStar,
-} from '../config/IconData';
-import { twJoin } from 'tailwind-merge';
+import { IconOptionArw, IconReviewStar } from '../config/IconData';
+import GoodsDetailInfoSlide from '../components/classDetail/ClassDetailInfoSlide';
+
 import ClassCalendar from '../components/classDetail/ClassCalendar';
 import ClassDetailCalendarSlide from '../components/classDetail/ClassDetailCalendarSlide';
 import ClassDetailOption from '../components/classDetail/ClassDetailOption';
-import ClassDetailPhotoReview from '../components/classDetail/ClassDetailPhotoReview';
-import ClassDetailReview from '../components/classDetail/ClassDetailReview';
 import { Class } from '../type/class.type';
-import ClassDetailTopInfo from '../components/classDetail/ClassDetailTopInfo';
-import Button from '../components/common/Button';
+import { useParams } from 'react-router-dom';
 
-const ClassDetail = () => {
+type ClassDetailProps = {
+  rating: number;
+};
+
+const ClassDetail = ({ rating }: ClassDetailProps) => {
+
   const { id } = useParams<{ id: string }>();
-  const [classData, setClassData] = useState<Class | null>(null);
+  //const classItem = useClassStore((state) => state.classItem);
   const findOneClass = useClassStore((state) => state.findOneClass);
-  const buttonRef = useRef<HTMLButtonElement>(null);
-  const [expanded, setExpanded] = useState(false); // expanded 상태 추가
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
-  useEffect(() => {
-    const fetchClass = async () => {
-      if (id) {
-        const data = await findOneClass(id);
-        if (data) {
-          setClassData({
-            ...data,
-            name: data.title, // title을 name으로 변환
-          });
-        }
-      }
-    };
-    fetchClass();
-  }, [id, findOneClass]);
-
-  const [bookingQuantity, setBookingQuantity] = useState<number>(1);
+  const [classItemState, setClassItemState] = useState<Class | null>(null);
   const [availableTypes, setAvailableTypes] = useState<string[]>([]);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [availableDates, setAvailableDates] = useState<Date[]>([]);
@@ -53,49 +29,111 @@ const ClassDetail = () => {
   const [selectedClassType, setSelectedClassType] = useState<string | null>(
     null,
   );
-  const [isReservationVisible, setIsReservationVisible] = useState(false);
-  const [isThingsToKeepInMindVisible, setIsThingsToKeepInMindVisible] =
-    useState(false);
-  const [isCancelationVisible, setIsCancelationVisible] = useState(false);
-
   const [selectLanguageType, setSelectLanguageType] = useState<string>('');
   const [maxPerson, setMaxPerson] = useState<number | null>(null);
-  const detailsRef = useRef<HTMLDivElement>(null);
-  const reviewsRef = useRef<HTMLDivElement>(null);
-  const qaRef = useRef<HTMLDivElement>(null);
-  const resPoliciesRef = useRef<HTMLDivElement>(null);
   const addBookingItem = useBookingStore((state) => state.addBookingItem);
-  const [selectedType, setSelectedType] = useState<string | null>(null); // 선택된 타입
-  const [showTimes, setShowTimes] = useState(false); // 슬라이드를 보여줄지 여부를 결정하는 상태
-  const navigate = useNavigate();
+  const [selectedType, setSelectedType] = useState<string | null>(null);
+  const [showTimes, setShowTimes] = useState(false);
+  const [availableTimes, setAvailableTimes] = useState<string[]>([]);
+  useEffect(() => {
+    if (id) {
+      findOneClass(id)
+        .then((data: Class | null) => {
+          // data의 타입 명시
+          if (data) {
+            // 데이터가 존재하는 경우
+            setClassItemState(data);
+            setAvailableTypes(
+              Array.isArray(data.class_type)
+                ? data.class_type
+                : [data.class_type],
+            );
+          } else {
+            // 데이터가 없을 경우 처리
+            console.error('No data found for the given ID');
+          }
+        })
+        .catch((error: any) => {
+          // error의 타입 명시
+          // Promise가 실패한 경우에 대한 에러 처리
+          console.error('Error fetching class data:', error);
+        });
+    }
+  }, [id]);
 
   useEffect(() => {
-    const loadClassDetail = async () => {
-      if (!id) return;
-      try {
-        const detail = await findOneClass(id);
-        if (!detail) return;
+    if (selectedDate) {
+      setShowTimes(true);
+    } else {
+      setShowTimes(false);
+    }
+  }, [selectedDate]);
 
-        if (detail.class_type) {
-          const types = Array.isArray(detail.class_type)
-            ? detail.class_type
-            : [detail.class_type];
-          setAvailableTypes(types);
+  useEffect(() => {
+    if (classItemState && selectedDate) {
+      const filteredTimes = classItemState.dates
+        .filter(
+          (date) =>
+            new Date(date.start_date).toDateString() ===
+            selectedDate.toDateString(),
+        )
+        .map((date) => `${date.start_time} - ${date.end_time}`);
+
+      setAvailableTimes(filteredTimes);
+    }
+  }, [classItemState, selectedDate]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
+    console.log('ID:', id);
+    if (id) {
+      findOneClass(id);
+    }
+  }, [id, findOneClass]);
+
+  useEffect(() => {
+    const fetchClass = async () => {
+      if (id) {
+        const data = await findOneClass(id);
+
+        if (data) {
+          setClassItemState({
+            ...data,
+            name: data.title,
+          });
+          setMaxPerson(data.max_person || null);
+
+          if (data.dates && data.dates.length > 0) {
+            setAvailableDates(
+              data.dates.map(
+                (date: { start_date: string }) => new Date(date.start_date),
+              ),
+            );
+          }
+
+
+
+
+          if (data.class_type) {
+            const types = Array.isArray(data.class_type)
+              ? data.class_type
+              : [data.class_type];
+            setAvailableTypes(types);
+          }
+        } else {
         }
-        setMaxPerson(detail.max_person || null);
-        if (detail.dates && detail.dates.length > 0) {
-          setAvailableDates(
-            detail.dates.map(
-              (date: { start_date: string }) => new Date(date.start_date),
-            ),
-          );
-        }
-      } catch (error) {
-        console.error('API 호출 오류:', error);
       }
     };
-    loadClassDetail();
+    fetchClass();
   }, [id, findOneClass]);
+
+  const originalPrice =
+    classItemState?.price || classItemState?.price_in_usd || 0;
+  const discountRate = classItemState?.discount_rate || 0;
+  const discountedPrice = originalPrice - (originalPrice * discountRate) / 100;
 
   const handleTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedType = event.target.value;
@@ -140,19 +178,27 @@ const ClassDetail = () => {
   const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectLanguageType(e.target.value);
   };
-
-  const scrollToSection = (sectionRef: React.RefObject<HTMLElement>) => {
-    if (sectionRef.current) {
-      sectionRef.current.scrollIntoView({ behavior: 'smooth' });
+  useEffect(() => {
+    if (classItemState) {
+      console.log('Updated Class Item State:', classItemState);
     }
-  };
-
-  const toggleImageSize = () => {
-    if (!expanded && buttonRef.current) {
-      const { top } = buttonRef.current.getBoundingClientRect();
-      window.scrollTo({
-        top: window.scrollY + top,
-        behavior: 'smooth',
+  }, [classItemState]);
+  useEffect(() => {
+    if (id) {
+      findOneClass(id).then((data: Class | null) => {
+        // data의 타입을 명확히 지정
+        if (data) {
+          setClassItemState(data); // 상태를 설정
+          setAvailableTypes(data.class_type ? [data.class_type] : []);
+          setAvailableDates(
+            data.dates
+              ? data.dates.map(
+                  (dateItem: { start_date: string }) =>
+                    new Date(dateItem.start_date),
+                )
+              : [], // dateItem의 타입을 명시적으로 지정
+          );
+        }
       });
     }
     setExpanded(!expanded);
@@ -192,22 +238,53 @@ const ClassDetail = () => {
     <>
       <div>
         <div className="pb-[80px]">
-          <ClassDetailSlide
-            slideImage={classData.images[0]?.thumbnail_image_urls}
-          />
-          <ClassDetailTopInfo classData={classData} />
-          {/* <div className="relative px-6">
-            <button
-              className={twJoin(
-                'w-9 h-9 border border-gray-400 rounded-full flex items-center justify-center absolute top-[30px] right-[14px]',
-              )}
-              aria-label="공유하기"
-            >
-              <IconDetailShare
-                className={isLiked ? 'fill-primary' : 'fill-none'}
-              />
-            </button>
-          </div> */}
+          {/* 이미지가 있을 때만 슬라이드 렌더링 */}
+          {classItemState?.images &&
+          classItemState.images[0]?.detail_image_urls?.length > 0 ? (
+            <ClassDetailSlide
+              slideImage={classItemState.images[0].detail_image_urls}
+            />
+          ) : (
+            <div>No images available</div>
+          )}
+
+          <div className="relative px-6">
+            <p className="text-[13px] text-gray-400 font-bold pt-[14px]">
+              {Array.isArray(classItemState?.category) &&
+              classItemState.category.length > 0
+                ? classItemState.category.join(', ')
+                : classItemState?.category || ''}
+            </p>
+            <strong className="text-[32px] font-normal">
+              {classItemState?.title || ''}
+            </strong>
+            <p className="flex items-center">
+              <IconReviewStar />
+              &nbsp;{rating}
+              {/* <span className="text-gray-400">(00개)</span> */}
+            </p>
+
+            <div className="mt-4 text-2xl flex items-center">
+              {originalPrice > 0 ? (
+                <>
+                  {discountRate > 0 && (
+                    <p className="text-[#D91010] text-[20px] font-bold mr-2">
+                      {discountRate}%
+                    </p>
+                  )}
+                  <p className="text-primary text-[24px]">
+                    <strong>{discountedPrice.toLocaleString()}원</strong>
+                  </p>
+                  {discountRate > 0 && (
+                    <p className="text-gray-400 line-through ml-2 text-base">
+                      {originalPrice.toLocaleString()}원
+                    </p>
+                  )}
+                </>
+              ) : null}
+            </div>
+          </div>
+          <GoodsDetailInfoSlide scrollImage={null} />
         </div>
 
         <div className="px-6">
@@ -217,8 +294,8 @@ const ClassDetail = () => {
               availableDates={availableDates}
               availableTypes={availableTypes}
               selectedClassType={selectedClassType}
-              onDateChange={handleDateChange}
               onTypeChange={setSelectedClassType}
+              onDateChange={setSelectedDate}
             />
           </div>
         </div>
@@ -226,8 +303,8 @@ const ClassDetail = () => {
         {/* 언어 선택 드롭다운 */}
         <div className="mt-[22px] relative mx-6">
           <select
-            value={selectLanguageType} // 상태 값을 드롭다운과 연결
-            onChange={handleLanguageChange} // 변경 핸들러 연결
+            value={selectLanguageType}
+            onChange={handleLanguageChange}
             className="outline-none appearance-none border border-gray-400 rounded-lg px-4 py-[12px] w-full text-gray-400 relative"
           >
             <option value="">Supporters Language Type</option>
@@ -254,7 +331,7 @@ const ClassDetail = () => {
                   {type}
                 </option>
               ))}
-            </select>{' '}
+            </select>
             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
               <IconOptionArw />
             </div>
@@ -268,6 +345,7 @@ const ClassDetail = () => {
             : 'Loading max participants...'}
         </div>
       </div>
+
       {showTimes && <ClassDetailCalendarSlide onTimeSelect={setSelectedTime} />}
       <ClassDetailOption
         discountedPrice={discountInUsd}
@@ -276,87 +354,11 @@ const ClassDetail = () => {
         selectedDate={selectedDate}
         selectedTime={selectedTime}
         selectedClassType={selectedClassType}
-        onBookingClick={handleBookingClick}
-        onRemoveOptionClick={() => {
-          setSelectedDate(null);
-          setSelectedTime(null);
-          setSelectedClassType(null);
-        }}
+        availableTimes={availableTimes}
+        classPrice={discountedPrice}
+        onBookNowClick={handleBookingClick}
+
       />
-      {/* Main Section */}
-      <>
-        {/* detail title */}
-        <div className="mt-20 sticky top-[57px] bg-white z-20">
-          <ul
-            className={twJoin(
-              'flex items-center w-full justify-around mt-[30px] py-3',
-              'border-t border-t-1 border-black border-b border-b-1 border-b-gray-300',
-            )}
-          >
-            <li className="flex-1">
-              <button
-                onClick={() => scrollToSection(detailsRef)}
-                className="flex items-center justify-center w-full h-full"
-              >
-                Details
-              </button>
-            </li>
-            <li className="flex-1">
-              <button
-                onClick={() => scrollToSection(reviewsRef)}
-                className="flex items-center justify-center w-full h-full"
-              >
-                Review(999+)
-              </button>
-            </li>
-            <li className="flex-1">
-              <button
-                onClick={() => scrollToSection(qaRef)}
-                className="flex items-center justify-center w-full h-full"
-              >
-                Q&A
-              </button>
-            </li>
-            <li className="flex-1">
-              <button
-                onClick={() => scrollToSection(resPoliciesRef)}
-                className="flex items-center justify-center w-full h-full"
-              >
-                Res. & Policies
-              </button>
-            </li>
-          </ul>
-        </div>
-        {/* Detail */}
-        <div ref={detailsRef} className="mb-10">
-          <div
-            className={`w-full overflow-hidden ${expanded ? '' : 'max-h-[500px]'}`}
-            style={{ maxHeight: expanded ? 'none' : '500px' }}
-          >
-            {classData?.images?.[0]?.detail_image_urls?.length ? (
-              classData.images[0].detail_image_urls.map((url: string) => (
-                <img
-                  src={url}
-                  alt={url}
-                  key={url}
-                  className="w-full object-contain"
-                />
-              ))
-            ) : (
-              <p className="text-center py-5">No detailed images available.</p>
-            )}
-          </div>
-
-          <button
-            type="button"
-            className="border border-primary z-10 relative text-primary rounded-3xl w-full py-4 mt-4 flex justify-center"
-            onClick={toggleImageSize}
-          >
-            More Details
-            <IconMoreArw className={`${expanded ? 'rotate-180' : ''}`} />
-          </button>
-        </div>
-
         {/* Review */}
         <div
           ref={reviewsRef}

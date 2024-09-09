@@ -1,24 +1,38 @@
 import { create } from 'zustand';
-import { ReactNode } from 'react'; // ReactNode 타입을 임포트
-
-export interface ModalState {
+import { ReactNode } from 'react';
+// interface ModalState {
+//   showModal: boolean;
+//   modalContent: string; // Add modalContent to the state
+//   clearModal: () => void;
+//   setModalContent: (content: string) => void; // Function to set content
+// }
+export interface ModalMessageState {
   showModal: boolean;
-  modalContent: ReactNode | null; // JSX를 받을 수 있도록 수정
+  modalMessage: ReactNode | null;
+  setModal: (message: ReactNode) => void;
+  clearModal: () => void;
+}
+
+export interface ModalContentState {
+  showModal: boolean;
+  modalContent: ReactNode | null;
   setModal: (content: ReactNode) => void;
   clearModal: () => void;
 }
 
-export const useModalStore = create<ModalState>((set) => ({
+export const useModalOpenCloseStore = create<ModalContentState>((set) => ({
   showModal: false,
-  modalContent: null, // JSX 요소를 받을 수 있도록 수정
+  modalContent: null,
   setModal: (content: ReactNode) =>
-    set(() => ({
+    set((state) => ({
+      ...state,
       showModal: true,
-      modalContent: content, // JSX 요소를 상태로 저장
+      modalContent: content,
     })),
   clearModal: () =>
-    set(() => ({
+    set((state) => ({
+      ...state,
       showModal: false,
-      modalContent: null, // 모달을 닫으면 내용 초기화
+      modalContent: null,
     })),
 }));

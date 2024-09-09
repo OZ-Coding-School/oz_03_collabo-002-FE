@@ -7,7 +7,7 @@ import {
   QuestionRequest,
   QuestionState,
 } from '../type/question.type';
-import { useModalStore } from './useModal';
+import { useModalOpenCloseStore } from './useModal';
 
 const useQnaStore = create<QuestionState & QuestionActions>()(
   immer((set) => ({
@@ -81,10 +81,12 @@ const useQnaStore = create<QuestionState & QuestionActions>()(
         set((state) => ({
           questions: state.questions?.filter((q) => q.id !== questionId),
         }));
-        useModalStore.getState().setModal('Success to remove your question');
+        useModalOpenCloseStore
+          .getState()
+          .setModal('Success to remove your question');
       } catch (error) {
         console.error('Failed to delete question: ', error);
-        useModalStore.getState().setModal('Failed to remove');
+        useModalOpenCloseStore.getState().setModal('Failed to remove');
       }
     },
   })),

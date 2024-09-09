@@ -39,9 +39,6 @@
     color:#999
 }
 
-button {
-    min-width:40px;
-}
 .mantine-DatePicker-monthThead th {
     color:#000;
     font-weight:400;
@@ -51,7 +48,12 @@ button {
     width:100%;
     text-align:center;
 }
-.disabled-day {
+.mantine-DatePicker-month button {
+    user-select: none;
+    cursor:none;
+    pointer-events: none;}
+
+.mantine-DatePicker-month .disabled-day {
     border-radius: 50%;
     width:40px;
     line-height:40px;
@@ -59,7 +61,7 @@ button {
     cursor:none;
     pointer-events: none;
 }
-.clickable-button {
+.mantine-DatePicker-month .clickable-day {
     border-radius: 50%;
     line-height:40px;
     cursor: pointer;
@@ -71,12 +73,28 @@ button {
     pointer-events: inherit;
     text-align:center;
 }
-.clickable-day:hover {
-  background-color: #FFCD2A;
+.mantine-DatePicker-month .clickable-day:hover {
+
   color: white;
 }
-.clickable-day,
-[data-today="true"]{
+.mantine-DatePicker-month .clickable-day {
+    background-color: rgb(250, 230, 164);
+    color: white;
+    border-radius: 50%;
+    user-select: auto;
+    cursor:pointer;
+    border-radius: 50%;
+    width:40px;
+    line-height:40px;
+    cursor: pointer;
+    pointer-events: auto;
+}
+.mantine-DatePicker-month .clickable-day:hover {
+
+    background-color: #FFCD2A;
+    color: white;
+}
+.mantine-DatePicker-month [data-today="true"]{
     border-radius: 50%;
     width:40px;
     line-height:40px;
@@ -84,9 +102,14 @@ button {
     background-color: #FFCD2A;
     color: white;
     border-radius: 50%;
-    user-select: unset;
+    user-select: auto;
     cursor:pointer;
-    pointer-events: inherit;
+    pointer-events: auto;
+}
+.mantine-DatePicker-month [data-autofocus="true"] .clickable-day,
+.mantine-DatePicker-month [data-today="true"]{
+
+    background-color: #FFCD2A;
 }
 [data-selected="true"] .clickable-button {
     width:40px;

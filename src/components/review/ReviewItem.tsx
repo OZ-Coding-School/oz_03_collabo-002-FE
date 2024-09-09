@@ -7,11 +7,9 @@ import { useEffect, useState } from 'react';
 import { IconReviewStar } from '../../config/IconData';
 import ReviewReviewModal from './ReviewPhotoModal';
 import { Review } from '../../type/review.type';
-import useClassStore from '../../store/useClassStore';
+import { useClassStore } from '../../store/useClassStore';
 import { useUserStore } from '../../store/useUser';
-import ModalReviewWrite from '../common/ModalReviewWrite';
-import useReviewStore from '../../store/useReviewStore';
-// import axios from '../../api/axios';
+import { Class } from '../../type/class.type';
 
 interface ReviewProps {
   review: Review;
@@ -46,7 +44,7 @@ const ReviewItem = ({ review, classId }: ReviewProps) => {
   // };
   const path = location.pathname;
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const classTitle = useClassStore((state) => state.classTitle);
+  const classTitle = useClassStore((state) => state.classItem);
   const [activePhoto, setActivePhoto] = useState(true);
   const imageCount = review.images ? review.images.length : 0;
   const user = useUserStore((state) => state.user);
@@ -83,8 +81,10 @@ const ReviewItem = ({ review, classId }: ReviewProps) => {
   }, [review]);
 
   // class_id에 해당하는 클래스 제목 찾기
-  const classInfo = classTitle?.find((item) => item.id === review.class_id);
-  console.log('classInfo: ', classInfo);
+  const classInfo = Array.isArray(classTitle)
+    ? classTitle.find((item: Class) => item.id === review.class_id)
+    : null;
+
   const className = classInfo
     ? classInfo.title
     : '클래스 정보를 찾을 수 없습니다';

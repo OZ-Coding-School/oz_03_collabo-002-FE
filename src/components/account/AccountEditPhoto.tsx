@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import ModalProfile from '../common/ModalProfile';
-import { useModalStore } from '../../store/useModal';
+import { useModalOpenCloseStore } from '../../store/useModal';
 import Modal from '../common/Modal';
 
 type Props = {
@@ -10,7 +10,7 @@ type Props = {
 };
 
 const AccountEditPhoto = ({ setAvatar, labelStyle }: Props) => {
-  const { showModal } = useModalStore();
+  const { showModal } = useModalOpenCloseStore();
   const fileInputRef = useRef<HTMLInputElement>(null); // 파일 입력 요소에 대한 참조 관리
   const [originalFileName, setOriginalFileName] = useState<string>(''); // 원본파일 이름 저장
   const [img, setImg] = useState<string>(''); // Crop 된 이미지를 문자열로 저장
@@ -27,10 +27,10 @@ const AccountEditPhoto = ({ setAvatar, labelStyle }: Props) => {
   const handleFileInput = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const file = e.target.files?.[0];
-      console.log(file)
+      console.log(file);
 
       // 예: 5MB로 크기 제한
-      if (file && (file.size > 5 * 1024 * 1024)) {
+      if (file && file.size > 5 * 1024 * 1024) {
         alert('파일 크기가 너무 큽니다. 5MB 이하의 파일을 업로드해주세요.');
         return;
       }
