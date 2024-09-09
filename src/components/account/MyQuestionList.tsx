@@ -131,7 +131,7 @@ const MyQuestionList = () => {
           onClose={() => setShowEditModal(false)}
           onSave={(updatedQuestion) => {
             updateQuestion(
-              user?.id ?? 0,
+              user?.id ?? '',
               String(updatedQuestion.id),
               updatedQuestion,
             );

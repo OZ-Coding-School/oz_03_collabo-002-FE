@@ -1,20 +1,24 @@
-import Order from '../components/order/Order';
+import OrderMain from '../components/order/OrderMain';
+import useBookingStore from '../store/useBookingStore';
+// import useBookingStore from '../store/useBookingStore';
 
 const ChargePage = () => {
-  const orderData = {
-    classTitle: 'KOREAN COCKTAIL MASTER CLASS',
-    date: '2024-08-07',
-    time: '11:00 - 12:30',
-    name: '',
-    option: 'Master Class',
-    numberOfPeople: 2,
-    baseWorkshopAmount: 72,
-    languageSupport: 3,
-  };
+  
+  const bookingItem = useBookingStore((state) => state.bookingItem);
+  // // console.log(bookingItem);
+  // const data = {
+  //   class_id: 5,
+  //   class_date_id: 9,
+  //   quantity: 1,
+  //   referral_code: 'BD4CFEG',
+  //   amount: 90,
+  // };
+
+  if (!bookingItem) return null;
 
   return (
     <div>
-      <Order data={orderData} />
+      <OrderMain data={bookingItem} />
     </div>
   );
 };

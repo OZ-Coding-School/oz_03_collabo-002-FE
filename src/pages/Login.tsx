@@ -47,7 +47,6 @@ const Login = () => {
       const { email, password } = data;
       try {
         const response = await axios.post(
-          // `${import.meta.env.VITE_CALLBACK_URL}login/`,
           `/users/login/`,
           {
             email,
