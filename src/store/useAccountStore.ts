@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 import { AccountActions, AccountState } from '../type/account.type';
 import axios from '../api/axios';
-import { useModalStore } from './useModal';
+import { useModalOpenCloseStore } from './useModal';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import { useUserStore } from './useUser';
 
@@ -31,7 +31,7 @@ const useAccountStore = create<AccountState & AccountActions>()(
           localStorage.removeItem('userInfo');
           localStorage.removeItem('accessToken');
           useUserStore.getState().setUser(null);
-          useModalStore
+          useModalOpenCloseStore
             .getState()
             .setModal('Session expired, please log in again.');
         }
@@ -84,7 +84,7 @@ const useAccountStore = create<AccountState & AccountActions>()(
       ) => {
         const user = useUserStore.getState().user;
         const accessToken = localStorage.getItem('accessToken');
-        const setModal = useModalStore.getState().setModal;
+        const setModal = useModalOpenCloseStore.getState().setModal;
 
         if (!user || !user.id) {
           console.error('User ID is missing or undefined');
@@ -124,8 +124,8 @@ const useAccountStore = create<AccountState & AccountActions>()(
 
       logout: async () => {
         const accessToken = localStorage.getItem('accessToken');
-        const setModal = useModalStore.getState().setModal;
-        const clearUser = useUserStore.getState().clearUser;
+        const setModal = useModalOpenCloseStore.getState().setModal;
+
         try {
           const response = await axios.post('/users/logout', {
             headers: {
@@ -145,7 +145,7 @@ const useAccountStore = create<AccountState & AccountActions>()(
       deleteUser: async () => {
         const accessToken = localStorage.getItem('accessToken');
         const setUser = useUserStore.getState().setUser;
-        const setModal = useModalStore.getState().setModal;
+        const setModal = useModalOpenCloseStore.getState().setModal;
 
         try {
           const response = await axios.delete('/users/detail', {

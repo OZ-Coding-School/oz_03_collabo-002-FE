@@ -9,7 +9,7 @@ import { handleLine } from '../components/Login/Line';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { LoginUser } from '../type/loginuser';
 import axios from '../api/axios';
-import { useModalStore } from '../store/useModal';
+import { useModalOpenCloseStore } from '../store/useModal';
 import Modal from '../components/common/Modal';
 import { useCallback, useState } from 'react';
 import { useUserStore } from '../store/useUser';
@@ -17,7 +17,7 @@ import Cookies from 'js-cookie';
 
 const Login = () => {
   const navigate = useNavigate();
-  const { showModal, setModal } = useModalStore();
+  const { showModal, setModal } = useModalOpenCloseStore();
   const [accessToken, setAccessToken] = useState<string>('');
   const setUser = useUserStore((state) => state.setUser);
   const {

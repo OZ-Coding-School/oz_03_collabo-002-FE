@@ -5,7 +5,7 @@ import fullStar from '../../assets/icon/full-star.svg';
 import remove from '../../assets/icon/icon-remove.svg';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Review } from '../../type/review.type';
-import { useModalStore } from '../../store/useModal';
+import { useModalOpenCloseStore } from '../../store/useModal';
 import Modal from './Modal';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from '../../api/axios';
@@ -30,7 +30,7 @@ const ModalReviewWrite: React.FC<props> = ({
   const [uploadImgs, setUploadImgs] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [inputCount, setInputCount] = useState<number>(0);
-  const { setModal, showModal } = useModalStore();
+  const { setModal, showModal } = useModalOpenCloseStore();
   const user = useUserStore((state) => state.user);
   const navigate = useNavigate();
   const { id } = useParams();

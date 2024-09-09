@@ -2,6 +2,8 @@ export interface Class {
   id: number;
   title: string;
   owner?: string;
+  name: string;
+  category: string;
   dates: {
     id: number;
     class_id: number;

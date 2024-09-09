@@ -1,13 +1,13 @@
 import { Link } from 'react-router-dom';
 import { IconFtInsta } from '../../config/IconData';
 import { twMerge as tw } from 'tailwind-merge';
-import { useModalStore } from '../../store/useModal';
+import { useModalOpenCloseStore } from '../../store/useModal'; // useModalOpenCloseStore 사용
 import Modal from './Modal'; // 모달 컴포넌트 임포트
 import Terms from './Terms'; // Terms 컴포넌트 임포트
-import Policy from './Policy';
+import Policy from './Policy'; // Policy 컴포넌트 임포트
 
 const Footer = () => {
-  const { setModal } = useModalStore();
+  const { setModal } = useModalOpenCloseStore();
 
   const handleTerms = () => {
     setModal(<Terms />); // Terms 모달 열기

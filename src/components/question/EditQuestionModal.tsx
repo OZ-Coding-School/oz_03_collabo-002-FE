@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { IconArrowLeft } from '../../config/IconData';
-import { useModalStore } from '../..//store/useModal'; // 대신에 useModalStore 사용
+import { useModalOpenCloseStore } from '../..//store/useModal'; // 대신에 useModalStore 사용
 import { Question } from '../../type/question.type';
 
 interface EditQuestionModalProps {
@@ -17,7 +17,7 @@ const EditQuestionModal = ({
   const [title, setTitle] = useState(question.question_title);
   const [content, setContent] = useState(question.question);
 
-  const { clearModal } = useModalStore();
+  const { clearModal } = useModalOpenCloseStore();
 
   const handleSave = () => {
     onSave({ ...question, question_title: title, question: content });

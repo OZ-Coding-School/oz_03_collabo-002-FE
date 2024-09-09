@@ -1,38 +1,37 @@
-import React, { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
-import useClassStore from '../../store/useClassStore';
+import { useClassStore } from '../../store/useClassStore'; // zustand로부터 classDetails 가져오기
 import { useParams } from 'react-router-dom';
 import { IconCheck } from '../../config/IconData';
 
 type Props = {
-  onTimeSelect: (time: string | null) => void; // 선택 해제 시 null 전달
+  onTimeSelect: (time: string | null) => void;
 };
 
 const ClassDetailCalendarSlide: React.FC<Props> = ({ onTimeSelect }) => {
   const { classDetails, fetchClassesTime } = useClassStore();
   const { id } = useParams<{ id: string }>();
 
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null); // 선택된 시간을 추적하는 state
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
   useEffect(() => {
     if (id) {
-      fetchClassesTime(id); // 클래스를 가져오는 API 호출
+      fetchClassesTime(id);
     }
   }, [id, fetchClassesTime]);
 
-  // 시간 선택 핸들러
   const handleTimeSelect = (index: number) => {
-    if (classDetails[index].status === 'Fully booked') return; // 'Fully booked'일 경우 선택 불가
+    if (classDetails[index].status === 'Fully booked') return;
 
     // 이미 선택된 항목을 다시 클릭한 경우 선택 해제
     if (selectedIndex === index) {
       setSelectedIndex(null);
-      onTimeSelect(null); // 선택 해제 시 null 전달
+      onTimeSelect(null);
     } else {
       setSelectedIndex(index);
-      onTimeSelect(classDetails[index].time); // 선택된 시간 전달
+      onTimeSelect(classDetails[index].time);
     }
   };
 
@@ -45,6 +44,7 @@ const ClassDetailCalendarSlide: React.FC<Props> = ({ onTimeSelect }) => {
           slidesPerView={3.5}
           spaceBetween={10}
           className="mySwiper mt-[38px]"
+          loop={classDetails.length > 1} // 슬라이드가 2개 이상일 때만 loop 활성화
         >
           {classDetails.map((classDetail, index) => (
             <SwiperSlide key={index}>
@@ -56,7 +56,7 @@ const ClassDetailCalendarSlide: React.FC<Props> = ({ onTimeSelect }) => {
                       ? 'border-primary border bg-[#FFF9E5] cursor-pointer'
                       : 'border-gray-400 border bg-white cursor-pointer'
                 }`}
-                onClick={() => handleTimeSelect(index)} // 선택된 인덱스 업데이트
+                onClick={() => handleTimeSelect(index)}
               >
                 <p
                   className={`flex items-center text-xs mt-1 font-bold ${
@@ -80,7 +80,6 @@ const ClassDetailCalendarSlide: React.FC<Props> = ({ onTimeSelect }) => {
                 <p>
                   <strong>
                     {classDetail.seatsLeft}/{classDetail.seat}{' '}
-                    {/* 좌석 수 표시 */}
                   </strong>
                 </p>
                 <p className="mt-[12px] text-[14px]">{classDetail.time}</p>

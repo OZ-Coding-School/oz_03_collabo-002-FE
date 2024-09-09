@@ -5,6 +5,7 @@ import {
   IconOptionPlus,
   IconOptionRemove,
 } from '../../config/IconData';
+
 type Props = {
   discountedPrice: number;
   bookingQuantity: number;
@@ -12,10 +13,12 @@ type Props = {
   selectedDate: Date | null;
   selectedTime: string | null;
   selectedClassType: string | null;
+  classPrice: number;
+  availableTimes: string[];
+  onBookNowClick: () => void;
   onRemoveOptionClick?: () => void;
   onBookingClick?: () => void;
 };
-
 const ClassDetailOption: React.FC<Props> = ({
   discountedPrice,
   bookingQuantity,
@@ -23,6 +26,7 @@ const ClassDetailOption: React.FC<Props> = ({
   selectedDate,
   selectedTime,
   selectedClassType,
+  classPrice = 0,
   onRemoveOptionClick,
   onBookingClick,
 }) => {
@@ -41,6 +45,8 @@ const ClassDetailOption: React.FC<Props> = ({
   const toggleLike = () => {
     setIsLiked((prevIsLiked) => !prevIsLiked);
   };
+
+  const totalPrice = quantity * classPrice;
 
   return (
     <>
@@ -75,17 +81,24 @@ const ClassDetailOption: React.FC<Props> = ({
                   <span className="sr-only">plus</span>
                 </button>
               </div>
-              <div>{discountedPrice}$</div>
+              <div>
+                {/* 동적으로 가격을 표시 */}
+                {classPrice
+                  ? `${classPrice.toLocaleString()}$`
+                  : '가격 정보 없음'}
+              </div>
             </div>
           </div>
         )}
 
         <div className="py-6">
           <div className="flex justify-between items-center">
-            <p>Total {bookingQuantity}</p>
+            <p>Total Quantity: {quantity}</p>
             <p>
               <strong className="text-[#D91010] text-[20px] font-semibold">
-                Total {bookingQuantity * discountedPrice}$
+                {/* 총 금액 계산 및 NaN 방지 */}
+                Total:{' '}
+                {Number.isNaN(totalPrice) ? '0' : totalPrice.toLocaleString()}$
               </strong>
             </p>
           </div>

@@ -7,18 +7,17 @@ import { CSSTransition } from 'react-transition-group';
 
 type ClassCalendarProps = {
   selectedDate: Date | null;
+  onDateChange: Dispatch<SetStateAction<Date | null>>;
   availableDates: Date[];
   availableTypes: string[];
   selectedClassType: string | null;
-  onDateChange: (newDate: Date | null) => void;
-  onTypeChange: Dispatch<SetStateAction<string | null>>;
 };
 
-function ClassCalendar({
+const ClassCalendar: React.FC<ClassCalendarProps> = ({
   selectedDate,
   availableDates,
   onDateChange,
-}: ClassCalendarProps) {
+}) => {
   const [showCalendar, setShowCalendar] = useState(true);
 
   const handleTodayClick = () => {
@@ -40,20 +39,19 @@ function ClassCalendar({
       (availableDate) => availableDate.toDateString() === date.toDateString(),
     );
 
-    const buttonClassName = isAvailable
-      ? 'clickable-button'
-      : 'disabled-button';
+    const dayClassName = isAvailable ? 'clickable-day' : 'disabled-day';
 
     return (
-      <td>
-        <button
-          className={buttonClassName}
-          style={{ color: isPastDate ? '#999' : '' }}
-          disabled={!isAvailable}
-        >
-          {date.getDate()}
-        </button>
-      </td>
+      <div
+        className={dayClassName}
+        style={{
+          color: isPastDate ? '#999' : '',
+          cursor: isAvailable ? 'pointer' : 'default',
+        }}
+        onClick={() => handleDateChange(date)}
+      >
+        {date.getDate()}
+      </div>
     );
   };
 
@@ -84,6 +82,6 @@ function ClassCalendar({
       </CSSTransition>
     </div>
   );
-}
+};
 
 export default ClassCalendar;
