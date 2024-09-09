@@ -19,6 +19,10 @@ const RatingAverage = ({ id }: RatingAverageProps) => {
     fetchData();
   }, [id, findOneClass]);
 
+  useEffect(() => {
+    console.log('thisClass: ', thisClass);
+  }, [id]);
+
   if (!thisClass) return <div>Loading...</div>;
 
   const average_rate = Math.round(thisClass.average_rating);

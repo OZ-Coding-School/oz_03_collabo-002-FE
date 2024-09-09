@@ -14,7 +14,7 @@ type Props = {
   availableTimes: string[];
   onBookNowClick: () => void;
   onRemoveOptionClick?: () => void;
-  onBookingButtonClick?: () => void;
+  onBookingClick?: () => void;
 };
 const ClassDetailOption: React.FC<Props> = ({
   selectedDate,
@@ -22,7 +22,7 @@ const ClassDetailOption: React.FC<Props> = ({
   selectedClassType,
   classPrice = 0,
   onRemoveOptionClick,
-  onBookingButtonClick,
+  onBookingClick,
 }) => {
   const [quantity, setQuantity] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
@@ -106,7 +106,7 @@ const ClassDetailOption: React.FC<Props> = ({
             </button>
             <button
               className="flex-grow text-white bg-primary rounded-xl py-4"
-              onClick={onBookingButtonClick}
+              onClick={onBookingClick}
             >
               Book Now
             </button>
