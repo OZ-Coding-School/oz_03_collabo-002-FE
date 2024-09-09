@@ -17,6 +17,7 @@ import ClassDetailPhotoReview from '../components/classDetail/ClassDetailPhotoRe
 import ClassDetailReview from '../components/classDetail/ClassDetailReview';
 import { Class } from '../type/class.type';
 import ClassDetailTopInfo from '../components/classDetail/ClassDetailTopInfo';
+import Button from '../components/common/Button';
 
 const ClassDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -178,6 +179,10 @@ const ClassDetail = () => {
   };
 
   if (!classData) return null;
+
+  const handleCreate = () => {
+    navigate(`/reviewModal/${id}`);
+  };
 
   return (
     <>
@@ -389,6 +394,13 @@ const ClassDetail = () => {
           </div>
           <ClassDetailPhotoReview />
           <ClassDetailReview />
+          <Button
+            type="button"
+            size="full"
+            className="mb-5 rounded-xl"
+            value="add ReviewWrite"
+            onClick={handleCreate}
+          />
         </div>
         {/* Res. Policy */}
         <div ref={resPoliciesRef} className="mt-20">
