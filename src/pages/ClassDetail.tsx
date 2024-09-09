@@ -10,38 +10,38 @@ import ClassCalendar from '../components/classDetail/ClassCalendar';
 import ClassDetailCalendarSlide from '../components/classDetail/ClassDetailCalendarSlide';
 import ClassDetailOption from '../components/classDetail/ClassDetailOption';
 import { Class } from '../type/class.type';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import { AxiosError } from 'axios';
 
 type ClassDetailProps = {
   rating: number;
 };
 
 const ClassDetail = ({ rating }: ClassDetailProps) => {
-
   const { id } = useParams<{ id: string }>();
-  //const classItem = useClassStore((state) => state.classItem);
+  const navigate = useNavigate();
   const findOneClass = useClassStore((state) => state.findOneClass);
   const [classItemState, setClassItemState] = useState<Class | null>(null);
   const [availableTypes, setAvailableTypes] = useState<string[]>([]);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const [availableDates, setAvailableDates] = useState<Date[]>([]);
+  const [availableDates] = useState<Date[]>([]);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [selectedClassType, setSelectedClassType] = useState<string | null>(
     null,
   );
   const [selectLanguageType, setSelectLanguageType] = useState<string>('');
-  const [maxPerson, setMaxPerson] = useState<number | null>(null);
+  const [maxPerson] = useState<number | null>(null);
   const addBookingItem = useBookingStore((state) => state.addBookingItem);
   const [selectedType, setSelectedType] = useState<string | null>(null);
   const [showTimes, setShowTimes] = useState(false);
   const [availableTimes, setAvailableTimes] = useState<string[]>([]);
+  const [bookingQuantity, setBookingQuantity] = useState<number>(1); // 예약 수량 관리
+
   useEffect(() => {
     if (id) {
       findOneClass(id)
         .then((data: Class | null) => {
-          // data의 타입 명시
           if (data) {
-            // 데이터가 존재하는 경우
             setClassItemState(data);
             setAvailableTypes(
               Array.isArray(data.class_type)
@@ -49,17 +49,20 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
                 : [data.class_type],
             );
           } else {
-            // 데이터가 없을 경우 처리
             console.error('No data found for the given ID');
           }
         })
-        .catch((error: any) => {
-          // error의 타입 명시
-          // Promise가 실패한 경우에 대한 에러 처리
-          console.error('Error fetching class data:', error);
+        .catch((error: AxiosError) => {
+          if (error.response) {
+            console.error('Error fetching class data:', error.response.data);
+          } else if (error.request) {
+            console.error('No response received:', error.request);
+          } else {
+            console.error('Error setting up request:', error.message);
+          }
         });
     }
-  }, [id]);
+  }, [id, findOneClass]);
 
   useEffect(() => {
     if (selectedDate) {
@@ -87,49 +90,6 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
     window.scrollTo(0, 0);
   }, []);
 
-  useEffect(() => {
-    console.log('ID:', id);
-    if (id) {
-      findOneClass(id);
-    }
-  }, [id, findOneClass]);
-
-  useEffect(() => {
-    const fetchClass = async () => {
-      if (id) {
-        const data = await findOneClass(id);
-
-        if (data) {
-          setClassItemState({
-            ...data,
-            name: data.title,
-          });
-          setMaxPerson(data.max_person || null);
-
-          if (data.dates && data.dates.length > 0) {
-            setAvailableDates(
-              data.dates.map(
-                (date: { start_date: string }) => new Date(date.start_date),
-              ),
-            );
-          }
-
-
-
-
-          if (data.class_type) {
-            const types = Array.isArray(data.class_type)
-              ? data.class_type
-              : [data.class_type];
-            setAvailableTypes(types);
-          }
-        } else {
-        }
-      }
-    };
-    fetchClass();
-  }, [id, findOneClass]);
-
   const originalPrice =
     classItemState?.price || classItemState?.price_in_usd || 0;
   const discountRate = classItemState?.discount_rate || 0;
@@ -140,37 +100,29 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
     setSelectedType(selectedType);
   };
 
-  const calculateDiscountedPrice = (
-    originalPrice: number,
-    discountRate: number,
-  ) => {
-    if (discountRate === 0) return originalPrice;
-    return Math.ceil(originalPrice * (1 - discountRate / 100));
-  };
+  // const calculateDiscountedPrice = (
+  //   originalPrice: number,
+  //   discountRate: number,
+  // ) => {
+  //   if (discountRate === 0) return originalPrice;
+  //   return Math.ceil(originalPrice * (1 - discountRate / 100));
+  // };
 
   const handleBookingClick = () => {
-    if (!classData || !selectedDate || !selectedTime) {
+    if (!classItemState || !selectedDate || !selectedTime) {
       alert('Please select all required options');
       return;
     }
-    const originalPrice = classData.price_in_usd || 0;
-    const discountedPrice = calculateDiscountedPrice(
-      originalPrice,
-      classData.discount_rate,
-    );
 
     const bookingData = {
-      class_id: classData?.id,
-      class_date_id: selectedDate?.getTime(), // 임시로 Date 객체의 timestamp를 사용
-      quantity: bookingQuantity, // 기본값으로 1을 설정하거나, 별도의 상태로 관리할 수 있습니다
+      class_id: classItemState.id,
+      class_date_id: selectedDate.getTime(),
+      quantity: bookingQuantity,
       options: selectedClassType || '',
-      amount: discountedPrice * bookingQuantity, // 클래스 가격 정보가 있다고 가정
-      title: classData?.title,
-      // language: selectLanguageType,
-      // class: selectedClassType ?? '',
-      // time: selectedTime ?? '',
-      // date: selectedDate,
+      amount: discountedPrice * bookingQuantity,
+      title: classItemState.title,
     };
+
     addBookingItem(bookingData);
     navigate('/charge/');
   };
@@ -178,30 +130,7 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
   const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectLanguageType(e.target.value);
   };
-  useEffect(() => {
-    if (classItemState) {
-      console.log('Updated Class Item State:', classItemState);
-    }
-  }, [classItemState]);
-  useEffect(() => {
-    if (id) {
-      findOneClass(id).then((data: Class | null) => {
-        // data의 타입을 명확히 지정
-        if (data) {
-          setClassItemState(data); // 상태를 설정
-          setAvailableTypes(data.class_type ? [data.class_type] : []);
-          setAvailableDates(
-            data.dates
-              ? data.dates.map(
-                  (dateItem: { start_date: string }) =>
-                    new Date(dateItem.start_date),
-                )
-              : [], // dateItem의 타입을 명시적으로 지정
-          );
-        }
-      });
-    }
-  }, [id, findOneClass]);
+
   return (
     <>
       <div>
@@ -229,7 +158,6 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
             <p className="flex items-center">
               <IconReviewStar />
               &nbsp;{rating}
-              {/* <span className="text-gray-400">(00개)</span> */}
             </p>
 
             <div className="mt-4 text-2xl flex items-center">
@@ -252,7 +180,7 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
               ) : null}
             </div>
           </div>
-          <GoodsDetailInfoSlide scrollImage={null} />
+          <GoodsDetailInfoSlide scrollImage={[]} />
         </div>
 
         <div className="px-6">
@@ -316,7 +244,7 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
 
       {showTimes && <ClassDetailCalendarSlide onTimeSelect={setSelectedTime} />}
       <ClassDetailOption
-        discountedPrice={discountInUsd}
+        discountedPrice={discountedPrice}
         bookingQuantity={bookingQuantity}
         setBookingQuantity={setBookingQuantity}
         selectedDate={selectedDate}
@@ -325,7 +253,6 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
         availableTimes={availableTimes}
         classPrice={discountedPrice}
         onBookNowClick={handleBookingClick}
-
       />
     </>
   );

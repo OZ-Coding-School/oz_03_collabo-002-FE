@@ -10,6 +10,7 @@ type ClassCalendarProps = {
   onDateChange: Dispatch<SetStateAction<Date | null>>;
   availableDates: Date[];
   availableTypes: string[];
+  onTypeChange: (type: string | null) => void;
   selectedClassType: string | null;
 };
 

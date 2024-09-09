@@ -27,7 +27,6 @@ const useAccountStore = create<AccountState & AccountActions>()(
           }
         } catch (error) {
           console.error('Failed to refresh token: ', error);
-          // Optionally, you might want to clear the user session if token refresh fails
           localStorage.removeItem('userInfo');
           localStorage.removeItem('accessToken');
           useUserStore.getState().setUser(null);
@@ -38,28 +37,10 @@ const useAccountStore = create<AccountState & AccountActions>()(
       },
 
       fetchMyOrder: () => {
-        //
         set((state) => {
           state.myOrders = [];
         });
       },
-      // fetchMyOrder: async () => {
-      //   const access = localStorage.getItem('accessToken');
-      //   try {
-      //     const response = await axios.get('/history', {
-      //       headers: {
-      //         Authorization: `Bearer ${access}`,
-      //       },
-      //     });
-
-      //     set((state) => {
-      //       state.myOrders = response.data;
-      //     });
-      //     console.log('Fetched Orders: ', get().myOrders);
-      //   } catch (error) {
-      //     console.error('Failed to fetch orders', error);
-      //   }
-      // },
 
       getUserDetail: async () => {
         const accessToken = localStorage.getItem('accessToken');
@@ -91,7 +72,6 @@ const useAccountStore = create<AccountState & AccountActions>()(
           return;
         }
 
-        // UpdateData에서 name과 avatar를 선택적으로 가져옵니다.
         const { name, avatar } = updateData;
 
         const dataToSend: {
@@ -125,6 +105,7 @@ const useAccountStore = create<AccountState & AccountActions>()(
       logout: async () => {
         const accessToken = localStorage.getItem('accessToken');
         const setModal = useModalOpenCloseStore.getState().setModal;
+        const setUser = useUserStore.getState().setUser;
 
         try {
           const response = await axios.post('/users/logout', {
@@ -134,7 +115,7 @@ const useAccountStore = create<AccountState & AccountActions>()(
           });
           console.log(response);
           setModal('Success to logout');
-          clearUser();
+          setUser(null); // clearUser 함수 대신 사용
           localStorage.removeItem('userInfo');
           localStorage.removeItem('accessToken');
         } catch (error) {

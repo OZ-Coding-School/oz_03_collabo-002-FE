@@ -20,7 +20,7 @@ const CreateQuestionModal = ({
 
   const classTitle = useClassStore((state) => state.classItem);
   const createQuestion = useQnaStore((state) => state.createQuestion);
-  const { clearModal } = useModalStore();
+  const { clearModal } = useModalOpenCloseStore();
 
   const handleCreate = () => {
     if (title.trim() === '' || inquiry.trim() === '' || classId === '') {
@@ -74,11 +74,12 @@ const CreateQuestionModal = ({
               <option autoFocus disabled>
                 Please select a class.
               </option>
-              {classTitle?.map((item: Class) => (
-                <option key={item.id} value={item.id}>
-                  {item.title}
-                </option>
-              ))}
+              {Array.isArray(classTitle) &&
+                classTitle.map((item: Class) => (
+                  <option key={item.id} value={item.id}>
+                    {item.title}
+                  </option>
+                ))}
             </select>
             <input
               type="text"

@@ -29,7 +29,9 @@ const useLikeStore = create<LikeState>((set, get) => ({
     });
 
     const results = await Promise.all(promises);
-    return results.filter((classData: null) => classData !== null) as Class[];
+    return results.filter(
+      (classData): classData is Class => classData !== null,
+    ) as Class[];
   },
 }));
 

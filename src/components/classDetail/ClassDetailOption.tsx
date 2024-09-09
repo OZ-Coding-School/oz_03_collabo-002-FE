@@ -9,7 +9,9 @@ import {
 type Props = {
   discountedPrice: number;
   bookingQuantity: number;
-  setBookingQuantity: (value: number | ((prevQuantity: number) => number)) => void;
+  setBookingQuantity: (
+    value: number | ((prevQuantity: number) => number),
+  ) => void;
   selectedDate: Date | null;
   selectedTime: string | null;
   selectedClassType: string | null;
@@ -20,7 +22,6 @@ type Props = {
   onBookingClick?: () => void;
 };
 const ClassDetailOption: React.FC<Props> = ({
-  discountedPrice,
   bookingQuantity,
   setBookingQuantity,
   selectedDate,
@@ -46,7 +47,7 @@ const ClassDetailOption: React.FC<Props> = ({
     setIsLiked((prevIsLiked) => !prevIsLiked);
   };
 
-  const totalPrice = quantity * classPrice;
+  const totalPrice = bookingQuantity * classPrice; // 수정된 부분
 
   return (
     <>
@@ -93,7 +94,7 @@ const ClassDetailOption: React.FC<Props> = ({
 
         <div className="py-6">
           <div className="flex justify-between items-center">
-            <p>Total Quantity: {quantity}</p>
+            <p>Total Quantity: {bookingQuantity}</p> {/* 수정된 부분 */}
             <p>
               <strong className="text-[#D91010] text-[20px] font-semibold">
                 {/* 총 금액 계산 및 NaN 방지 */}

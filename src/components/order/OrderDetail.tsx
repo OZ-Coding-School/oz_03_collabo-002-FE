@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { BookingData } from '../../store/useBookingStore';
-import useClassStore from '../../store/useClassStore';
+import { useClassStore } from '../../store/useClassStore';
 import { Class } from '../../type/class.type';
 
 type Props = {
@@ -9,8 +9,8 @@ type Props = {
 const OrderDetail = ({ data }: Props) => {
   const findOneClass = useClassStore((state) => state.findOneClass);
   const [classInfo, setClassInfo] = useState<Class | null>(null);
-  const [reservedDate, setReservedDate] = useState<string>('Loading...')
-  const [reservedTime, setReservedTime] = useState<string>('Loading...')
+  const [reservedDate, setReservedDate] = useState<string>('Loading...');
+  const [reservedTime, setReservedTime] = useState<string>('Loading...');
 
   useEffect(() => {
     const fetchClassInfo = async () => {
@@ -18,11 +18,15 @@ const OrderDetail = ({ data }: Props) => {
         const currentClass = await findOneClass(String(data.class_id));
         setClassInfo(currentClass);
 
-        const reserved = await currentClass?.dates.find((date) => date.id === data.class_date_id);
+        const reserved = await currentClass?.dates.find(
+          (date: { id: string | number }) => date.id === data.class_date_id,
+        );
         setReservedDate(reserved?.start_date || 'Date not available');
-          setReservedTime(
-            reserved ? `${reserved.start_time} - ${reserved.end_time}` : 'Time not available'
-          );
+        setReservedTime(
+          reserved
+            ? `${reserved.start_time} - ${reserved.end_time}`
+            : 'Time not available',
+        );
       }
     };
     fetchClassInfo();
@@ -34,11 +38,18 @@ const OrderDetail = ({ data }: Props) => {
     <div className="px-6 py-[30px]">
       <div className="flex items-center mb-4">
         <div className="w-28 aspect-square bg-gray-200 mr-4">
-          <img src={classInfo.images[0]?.thumbnail_image_urls[0]} alt={classInfo.images[0]?.thumbnail_image_urls[0]}  className='w-full h-full rounded-md'/>
+          <img
+            src={
+              classInfo.images[0]?.thumbnail_image_urls?.[0] ||
+              classInfo.images[0]?.detail_image_urls[0]
+            }
+          />
         </div>
         <div>
           <h2 className="font-bold text-lg">{classInfo.title}</h2>
-          <p className="text-sm text-gray-600">{reservedDate}{' '}{reservedTime}</p>
+          <p className="text-sm text-gray-600">
+            {reservedDate} {reservedTime}
+          </p>
           <p className="text-sm">Payment for {data?.quantity} Person</p>
         </div>
       </div>
@@ -53,7 +64,9 @@ const OrderDetail = ({ data }: Props) => {
       </div>
 
       <div className="mb-4">
-        <h3 className="font-bold mb-2">Application Details  <span className='text-red'>*</span></h3>
+        <h3 className="font-bold mb-2">
+          Application Details <span className="text-red">*</span>
+        </h3>
         <input
           type="text"
           placeholder="Please enter your name."

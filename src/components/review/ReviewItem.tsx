@@ -10,6 +10,8 @@ import { Review } from '../../type/review.type';
 import { useClassStore } from '../../store/useClassStore';
 import { useUserStore } from '../../store/useUser';
 import { Class } from '../../type/class.type';
+import ModalReviewWrite from '../common/ModalReviewWrite';
+import useReviewStore from '../../store/useReviewStore';
 
 interface ReviewProps {
   review: Review;
