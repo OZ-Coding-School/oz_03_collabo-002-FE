@@ -17,7 +17,7 @@ const ReviewsList = () => {
       console.log('id: ', id);
       console.log('reviews: ', reviews);
     }
-  }, [getReviews, isUpdate, id, isDelete]);
+  }, [getReviews, isUpdate, id, isDelete, reviews]);
 
   if (!reviews) return <h1>Loading..</h1>;
 
