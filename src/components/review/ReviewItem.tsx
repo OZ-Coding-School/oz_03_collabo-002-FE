@@ -93,7 +93,7 @@ const ReviewItem = ({ review, classId }: ReviewProps) => {
     try {
       // setIsUpdate(true);
       setOpenWrite(true);
-      setIsUpdate();
+      // setIsUpdate();
       console.log('isUpdate: ', isUpdate);
       console.log('hi');
       console.log('review의 id: ', review.id);
@@ -130,7 +130,7 @@ const ReviewItem = ({ review, classId }: ReviewProps) => {
 
   return (
     <>
-      {openWrite && isUpdate && (
+      {openWrite && (
         <ModalReviewWrite
           // setIsUpdate={setIsUpdate}
           // isUpdate={isUpdate}
@@ -150,7 +150,9 @@ const ReviewItem = ({ review, classId }: ReviewProps) => {
             <div className="w-full flex justify-between">
               <strong className="font-semibold">{review.user.name}</strong>
               <span className="ml-3 text-xs text-gray mt-1">
-                {formatDate(review.created_at)}
+                {review.updated_at
+                  ? formatDate(review.updated_at)
+                  : formatDate(review.created_at)}
               </span>
             </div>
             <div className="flex items-center justify-between">
@@ -167,7 +169,7 @@ const ReviewItem = ({ review, classId }: ReviewProps) => {
                 {review.rating}
               </p>
               {user?.id === review.user.id ? (
-                <div className="ml-3 text-xs  mt-1">
+                <div className="ml-3 text-xs  mt-1 flex items-center justify-center">
                   <button className="text-blue-600" onClick={handleEdit}>
                     edit
                   </button>

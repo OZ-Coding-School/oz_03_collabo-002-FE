@@ -7,7 +7,7 @@ import { AxiosError } from 'axios';
 const useClassStore = create<ClassState>((set, get) => ({
   classes: [],
   filteredClasses: {} as { [key: string]: Class[] }, // 초기화 수정
-  classTitle: null,
+  classTitle: [],
   classDetails: [],
 
   fetchClasses: async () => {
@@ -15,6 +15,11 @@ const useClassStore = create<ClassState>((set, get) => ({
       const response = await axios.get(`/classes`);
       if (response.data && Array.isArray(response.data.data)) {
         set({ classes: response.data.data });
+        const titles = response.data.data.map((classItem: Class) => ({
+          id: classItem.id,
+          title: classItem.title,
+        }));
+        set({ classTitle: titles });
       } else {
         set(() => ({ classes: [] }));
       }
