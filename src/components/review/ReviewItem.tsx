@@ -80,7 +80,7 @@ const ReviewItem = ({ review, classId }: ReviewProps) => {
 
   useEffect(() => {
     console.log('review: ', review);
-  }, []);
+  }, [review]);
 
   // class_id에 해당하는 클래스 제목 찾기
   const classInfo = classTitle?.find((item) => item.id === review.class_id);
