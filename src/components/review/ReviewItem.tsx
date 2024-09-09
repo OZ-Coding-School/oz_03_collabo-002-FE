@@ -55,7 +55,6 @@ const ReviewItem = ({ review, classId }: ReviewProps) => {
   const [clickedReviewId, setClickedReviewId] = useState<string | number>('');
   const [openWrite, setOpenWrite] = useState<boolean>(false);
   const isUpdate = useReviewStore((state) => state.isUpdate);
-  const setIsUpdate = useReviewStore((state) => state.setIsUpdate);
   const setIsDelete = useReviewStore((state) => state.setIsDelete);
 
   useEffect(() => {
