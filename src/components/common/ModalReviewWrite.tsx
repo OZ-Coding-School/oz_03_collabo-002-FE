@@ -35,7 +35,8 @@ const ModalReviewWrite: React.FC<props> = ({
   const navigate = useNavigate();
   const { id } = useParams();
   const [accessToken, setAccessToken] = useState<string | null>('');
-  const isUpdate = useReviewStore((state) => state.setIsUpdate);
+  const setIsUpdate = useReviewStore((state) => state.setIsUpdate);
+  const isUpdate = useReviewStore((state) => state.isUpdate);
   // const [iseditImage, setIseditImage] = useState()
   // const [isEdit, setIsEdit] = useState<AllReview>();
   // let review_id: number | string;
@@ -46,6 +47,7 @@ const ModalReviewWrite: React.FC<props> = ({
     reset,
     watch,
     formState: { errors },
+    setValue,
   } = useForm<Review>({
     defaultValues: {
       review: '',
@@ -65,24 +67,68 @@ const ModalReviewWrite: React.FC<props> = ({
     });
   };
 
+  // useEffect(() => {
+  //   // console.log('isUpdate: ', isUpdate);
+  //   // console.log('review: ', reviews);
+  //   // console.log('reviews: ', reviews.id);
+  //   // review_id = Number(reviews.id);
+  //   // review_id = reviews;
+  //   // console.log(review_id);
+  //   console.log('clickedReviewId: ', clickedReviewId);
+  //   const getReviews = async () => {
+  //     try {
+  //       const response = axios.get(`reviews/${id}`);
+  //       console.log('get reviews: ', (await response).data);
+  //       console.log('get reviews: ', (await response).data.reviews);
+  //       const AllReviews = (await response).data.reviews;
+  //       // const Reviews = AllReviews.map((item: any) => item.review);
+  //       // console.log('findReview: ', Reviews);
+  //       // const findReview = Reviews.filter(
+  //       //   (item: any) => item.id === clickedReviewId,
+  //       // );
+  //       // console.log('findReview: ', findReview);
+
+  //       const findReview = AllReviews.map((item: any) => item.review).filter(
+  //         (item: any) => item.id === clickedReviewId,
+  //       );
+  //       console.log('findReview: ', findReview);
+  //     } catch (error) {
+  //       console.log('getReview error : ', error);
+  //     }
+  //   };
+  //   getReviews();
+  // }, [isUpdate]);
+
   useEffect(() => {
-    // console.log('isUpdate: ', isUpdate);
-    // console.log('review: ', reviews);
-    // console.log('reviews: ', reviews.id);
-    // review_id = Number(reviews.id);
-    // review_id = reviews;
-    // console.log(review_id);
-    console.log('clickedReviewId: ', clickedReviewId);
-    const getReviews = async () => {
-      try {
-        const response = axios.get(`reviews/${id}`);
-        console.log('get reviews: ', response);
-      } catch (error) {
-        console.log('getReview error : ', error);
-      }
-    };
-    getReviews();
-  }, [isUpdate, clickedReviewId, id]);
+    if (isUpdate && clickedReviewId) {
+      const getReview = async () => {
+        try {
+          const response = await axios.get(`reviews/${id}`);
+          const allReviews = response.data.reviews;
+          const findReview = allReviews
+            .map((item: Review) => item.review)
+            .find((item: Review) => item.id === clickedReviewId);
+
+          if (findReview) {
+            // 폼 데이터 설정
+            setValue('review', findReview.review);
+            setRatings(Number(findReview.rating));
+
+            // 이미지 설정
+            if (findReview.images && findReview.images.length > 0) {
+              const imageUrls = findReview.images.map(
+                (img: { image_url: string }) => img.image_url,
+              );
+              setUploadImgs(imageUrls);
+            }
+          }
+        } catch (error) {
+          console.log('getReview error : ', error);
+        }
+      };
+      getReview();
+    }
+  }, [isUpdate, clickedReviewId, id, setValue]);
 
   // const dedounceHandleChange = useCallback((text: string) => {
   //   const handler = setTimeout(() => {
@@ -208,7 +254,7 @@ const ModalReviewWrite: React.FC<props> = ({
             withCredentials: true,
           },
         );
-        isUpdate();
+        setIsUpdate();
       }
       console.log('isUpdate: ', isUpdate);
 
@@ -228,6 +274,11 @@ const ModalReviewWrite: React.FC<props> = ({
 
   const handleOut = () => {
     navigate(-1);
+    if (isUpdate) {
+      setIsUpdate();
+      console.log('out isUpdate: ', isUpdate);
+      navigate(`/review/${id}`);
+    }
   };
 
   return (
