@@ -130,7 +130,9 @@ const ClassDetailReview = () => {
                   </p>
                 </div>
               </div>
-              <p className="text-[14px] mt-4">{review.review}</p>
+              <p className="text-[14px] mt-4 overflow-hidden">
+                {review.review}
+              </p>
               <span className="absolute right-0 top-0 p-2 border border-gray-300 rounded-lg flex items-center">
                 <IconReviewHeart className="mr-1 fill-none stroke-current hover:stroke-none hover:fill-primary" />
                 {review.likes_count}

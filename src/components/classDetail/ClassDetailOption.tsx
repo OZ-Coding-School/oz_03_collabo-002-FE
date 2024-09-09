@@ -21,20 +21,23 @@ type Props = {
   onRemoveOptionClick?: () => void;
   onBookingClick?: () => void;
 };
+
 const ClassDetailOption: React.FC<Props> = ({
+  discountedPrice,
   bookingQuantity,
   setBookingQuantity,
   selectedDate,
   selectedTime,
   selectedClassType,
   classPrice = 0,
+  availableTimes,
   onRemoveOptionClick,
-  onBookingClick,
+  onBookNowClick,
 }) => {
   const [isLiked, setIsLiked] = useState(false);
 
   const handleIncrease = () => {
-    setBookingQuantity((prevQuantity: number) => prevQuantity + 1);
+    setBookingQuantity((prevQuantity) => prevQuantity + 1);
   };
 
   const handleDecrease = () => {
@@ -47,7 +50,7 @@ const ClassDetailOption: React.FC<Props> = ({
     setIsLiked((prevIsLiked) => !prevIsLiked);
   };
 
-  const totalPrice = bookingQuantity * classPrice; // 수정된 부분
+  const totalPrice = bookingQuantity * classPrice;
 
   return (
     <>
@@ -82,22 +85,16 @@ const ClassDetailOption: React.FC<Props> = ({
                   <span className="sr-only">plus</span>
                 </button>
               </div>
-              <div>
-                {/* 동적으로 가격을 표시 */}
-                {classPrice
-                  ? `${classPrice.toLocaleString()}$`
-                  : '가격 정보 없음'}
-              </div>
+              <div>{classPrice ? `${classPrice.toLocaleString()}$` : ''}</div>
             </div>
           </div>
         )}
 
         <div className="py-6">
           <div className="flex justify-between items-center">
-            <p>Total Quantity: {bookingQuantity}</p> {/* 수정된 부분 */}
+            <p>Total Quantity: {bookingQuantity}</p>
             <p>
               <strong className="text-[#D91010] text-[20px] font-semibold">
-                {/* 총 금액 계산 및 NaN 방지 */}
                 Total:{' '}
                 {Number.isNaN(totalPrice) ? '0' : totalPrice.toLocaleString()}$
               </strong>
@@ -106,15 +103,13 @@ const ClassDetailOption: React.FC<Props> = ({
           <div className="flex gap-7 mt-4">
             <button onClick={toggleLike}>
               <IconOptionHeart
-                className={`${
-                  isLiked ? 'fill-primary' : 'fill-none'
-                } hover:fill-primary`}
+                className={`${isLiked ? 'fill-primary' : 'fill-none'} hover:fill-primary`}
               />
               <span className="sr-only">heart</span>
             </button>
             <button
               className="flex-grow text-white bg-primary rounded-xl py-4"
-              onClick={onBookingClick}
+              onClick={onBookNowClick}
             >
               Book Now
             </button>

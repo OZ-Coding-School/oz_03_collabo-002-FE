@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react';
 import { Class } from '../../type/class.type';
 import { useClassStore } from '../../store/useClassStore';
 import { IconReviewStar, IconReviewStarEmpty } from '../../config/IconData';
+import axios from '../../api/axios';
+import { AllReview } from '../../type/review.type';
+import useReviewStore from '../../store/useReviewStore';
 
 type RatingAverageProps = {
   id: string | undefined;
@@ -9,7 +12,9 @@ type RatingAverageProps = {
 
 const RatingAverage = ({ id }: RatingAverageProps) => {
   const [thisClass, setThisClass] = useState<Class | null>(null);
+  const [thisReview, setThisReview] = useState<AllReview | null>(null);
   const findOneClass = useClassStore((state) => state.findOneClass);
+  const reviews = useReviewStore((state) => state.reviews);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -17,13 +22,9 @@ const RatingAverage = ({ id }: RatingAverageProps) => {
       setThisClass(classData);
     };
     fetchData();
-  }, [id, findOneClass]);
+  }, [id, findOneClass, reviews]); // 의존성 배열에서 thisReview와 thisClass를 제거
 
-  useEffect(() => {
-    console.log('thisClass: ', thisClass);
-  }, [id, thisClass]);
-
-  if (!thisClass) return <div>Loading...</div>;
+  if (!thisClass || !thisReview) return <div>Loading...</div>;
 
   const average_rate = Math.round(thisClass.average_rating);
 
@@ -47,7 +48,8 @@ const RatingAverage = ({ id }: RatingAverageProps) => {
               <IconReviewStarEmpty key={i} className="" />
             ))}
           </div>
-          <span className="text-primary">320</span>&nbsp;reviews
+          <span className="text-primary">{thisReview?.total_count}</span>
+          &nbsp;reviews
         </strong>
         <p className="text-[14px] leading-[34px]">
           <strong className="text-primary">97%</strong> of participants are
