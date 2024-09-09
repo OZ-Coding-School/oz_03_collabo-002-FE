@@ -20,9 +20,10 @@ const ClassCard = ({ classItem }: ClassCardProps) => {
 
   const imageUrl =
     classItem.images &&
+    classItem.images[0] !== undefined &&
     classItem.images.length > 0 &&
     classItem.images[0].detail_image_urls.length > 0
-      ? classItem.images[0].detail_image_urls[0]
+      ? classItem.images[0]?.detail_image_urls[0]
       : '/images/img-sample.jpg';
 
   const averageScore = classItem.average_rating || 0;

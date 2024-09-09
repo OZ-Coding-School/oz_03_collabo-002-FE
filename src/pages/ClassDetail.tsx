@@ -4,6 +4,7 @@ import { useClassStore } from '../store/useClassStore';
 import ClassDetailSlide from '../components/classDetail/ClassDetailSlide';
 import { IconOptionArw, IconReviewStar } from '../config/IconData';
 import GoodsDetailInfoSlide from '../components/classDetail/ClassDetailInfoSlide';
+
 import ClassCalendar from '../components/classDetail/ClassCalendar';
 import ClassDetailCalendarSlide from '../components/classDetail/ClassDetailCalendarSlide';
 import ClassDetailOption from '../components/classDetail/ClassDetailOption';
@@ -15,6 +16,7 @@ type ClassDetailProps = {
 };
 
 const ClassDetail = ({ rating }: ClassDetailProps) => {
+
   const { id } = useParams<{ id: string }>();
   //const classItem = useClassStore((state) => state.classItem);
   const findOneClass = useClassStore((state) => state.findOneClass);
@@ -110,6 +112,7 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
               ),
             );
           }
+
 
           if (data.class_type) {
             const types = Array.isArray(data.class_type)

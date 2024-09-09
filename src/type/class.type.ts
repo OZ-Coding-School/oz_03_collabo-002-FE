@@ -63,9 +63,11 @@ export interface ClassState {
   classes: Class[];
   filteredClasses: { [key: string]: Class[] };
   classDetails: ClassDetail[];
+  isLoading: boolean; // isLoading 추가
   fetchClasses: () => Promise<void>;
   filterClasses: (category: string) => void;
   findOneClass: (id: string) => Promise<Class | null>;
+  fetchClassesTime: (id: string) => Promise<void>; // fetchClassesTime 함수 추가
   setClasses: (classes: Class[]) => void;
   setClassDetails: (details: ClassDetail[]) => void;
 }

@@ -28,11 +28,9 @@ export const useClassStore = create<ClassState>((set) => ({
   fetchClassesTime: async (id: string) => {
     try {
       const response = await axios.get(`/classes/${id}`);
-
       const data = response.data;
       if (data.status === 'success' && data.data.dates.length > 0) {
         const dates = data.data.dates;
-
         const generatedClassDetails = dates.map(
           (date: { person: number; start_time: string; end_time: string }) => ({
             date,
@@ -79,6 +77,18 @@ export const useClassStore = create<ClassState>((set) => ({
       set({ isLoading: false });
     }
   },
+
+  filterClasses: (category: string) => {
+    set((state) => ({
+      filteredClasses: {
+        ...state.filteredClasses,
+        [category]: state.classes.filter(
+          (classItem) => classItem.category === category,
+        ),
+      },
+    }));
+  },
+
   // Setter for classes array
   setClasses: (classes: Class[]) => set({ classes }),
 

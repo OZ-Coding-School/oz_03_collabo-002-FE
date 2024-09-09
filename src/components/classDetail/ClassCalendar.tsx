@@ -11,14 +11,13 @@ type ClassCalendarProps = {
   availableDates: Date[];
   availableTypes: string[];
   selectedClassType: string | null;
-  onTypeChange: Dispatch<SetStateAction<string | null>>;
 };
 
-const ClassCalendar = ({
+const ClassCalendar: React.FC<ClassCalendarProps> = ({
   selectedDate,
   availableDates,
   onDateChange,
-}: ClassCalendarProps) => {
+}) => {
   const [showCalendar, setShowCalendar] = useState(true);
 
   const handleTodayClick = () => {

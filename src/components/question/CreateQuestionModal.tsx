@@ -20,7 +20,7 @@ const CreateQuestionModal = ({
 
   const classTitle = useClassStore((state) => state.classItem);
   const createQuestion = useQnaStore((state) => state.createQuestion);
-  const { clearModal } = useModalOpenCloseStore();
+  const { clearModal } = useModalStore();
 
   const handleCreate = () => {
     if (title.trim() === '' || inquiry.trim() === '' || classId === '') {
