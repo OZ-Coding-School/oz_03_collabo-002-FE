@@ -7,6 +7,9 @@ import {
 } from '../../config/IconData';
 
 type Props = {
+  discountedPrice: number;
+  bookingQuantity: number;
+  setBookingQuantity: (value: number | ((prevQuantity: number) => number)) => void;
   selectedDate: Date | null;
   selectedTime: string | null;
   selectedClassType: string | null;
@@ -17,6 +20,9 @@ type Props = {
   onBookingClick?: () => void;
 };
 const ClassDetailOption: React.FC<Props> = ({
+  discountedPrice,
+  bookingQuantity,
+  setBookingQuantity,
   selectedDate,
   selectedTime,
   selectedClassType,
@@ -24,15 +30,16 @@ const ClassDetailOption: React.FC<Props> = ({
   onRemoveOptionClick,
   onBookingClick,
 }) => {
-  const [quantity, setQuantity] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
 
   const handleIncrease = () => {
-    setQuantity((prevQuantity) => prevQuantity + 1);
+    setBookingQuantity((prevQuantity: number) => prevQuantity + 1);
   };
 
   const handleDecrease = () => {
-    setQuantity((prevQuantity) => (prevQuantity > 0 ? prevQuantity - 1 : 0));
+    setBookingQuantity((prevQuantity) =>
+      prevQuantity > 0 ? prevQuantity - 1 : 0,
+    );
   };
 
   const toggleLike = () => {
@@ -65,7 +72,7 @@ const ClassDetailOption: React.FC<Props> = ({
                   <IconOptionMinus />
                   <span className="sr-only">minus</span>
                 </button>
-                <p className="px-3">{quantity}</p>
+                <p className="px-3">{bookingQuantity}</p>
                 <button
                   className="cursor-pointer bg-gray-300 rounded-full w-6 flex items-center justify-center"
                   onClick={handleIncrease}

@@ -116,6 +116,7 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
 
 
 
+
           if (data.class_type) {
             const types = Array.isArray(data.class_type)
               ? data.class_type
@@ -161,9 +162,9 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
     const bookingData = {
       class_id: classData?.id,
       class_date_id: selectedDate?.getTime(), // 임시로 Date 객체의 timestamp를 사용
-      quantity: 1, // 기본값으로 1을 설정하거나, 별도의 상태로 관리할 수 있습니다
+      quantity: bookingQuantity, // 기본값으로 1을 설정하거나, 별도의 상태로 관리할 수 있습니다
       options: selectedClassType || '',
-      amount: discountedPrice, // 클래스 가격 정보가 있다고 가정
+      amount: discountedPrice * bookingQuantity, // 클래스 가격 정보가 있다고 가정
       title: classData?.title,
       // language: selectLanguageType,
       // class: selectedClassType ?? '',
@@ -201,7 +202,6 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
       });
     }
   }, [id, findOneClass]);
-
   return (
     <>
       <div>
@@ -316,6 +316,9 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
 
       {showTimes && <ClassDetailCalendarSlide onTimeSelect={setSelectedTime} />}
       <ClassDetailOption
+        discountedPrice={discountInUsd}
+        bookingQuantity={bookingQuantity}
+        setBookingQuantity={setBookingQuantity}
         selectedDate={selectedDate}
         selectedTime={selectedTime}
         selectedClassType={selectedClassType}

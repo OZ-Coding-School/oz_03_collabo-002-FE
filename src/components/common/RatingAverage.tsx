@@ -21,7 +21,7 @@ const RatingAverage = ({ id }: RatingAverageProps) => {
 
   useEffect(() => {
     console.log('thisClass: ', thisClass);
-  }, [id]);
+  }, [id, thisClass]);
 
   if (!thisClass) return <div>Loading...</div>;
 

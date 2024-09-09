@@ -82,7 +82,7 @@ const ModalReviewWrite: React.FC<props> = ({
       }
     };
     getReviews();
-  }, [isUpdate]);
+  }, [isUpdate, clickedReviewId, id]);
 
   // const dedounceHandleChange = useCallback((text: string) => {
   //   const handler = setTimeout(() => {
