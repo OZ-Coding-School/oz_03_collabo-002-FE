@@ -11,6 +11,7 @@ type ClassCalendarProps = {
   availableDates: Date[];
   availableTypes: string[];
   selectedClassType: string | null;
+  onTypeChange: (type: string | null) => void;
 };
 
 const ClassCalendar: React.FC<ClassCalendarProps> = ({
