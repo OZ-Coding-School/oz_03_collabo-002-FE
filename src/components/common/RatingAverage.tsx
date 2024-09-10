@@ -4,6 +4,7 @@ import { useClassStore } from '../../store/useClassStore';
 import { IconReviewStar, IconReviewStarEmpty } from '../../config/IconData';
 import { AllReview } from '../../type/review.type';
 import useReviewStore from '../../store/useReviewStore';
+import axios from 'axios';
 
 type RatingAverageProps = {
   id: string | undefined;
@@ -11,14 +12,25 @@ type RatingAverageProps = {
 
 const RatingAverage = ({ id }: RatingAverageProps) => {
   const [thisClass, setThisClass] = useState<Class | null>(null);
-  const [thisReview] = useState<AllReview | null>(null);
+  const [thisReview, setThisReview] = useState<AllReview | null>(null);
   const findOneClass = useClassStore((state) => state.findOneClass);
   const reviews = useReviewStore((state) => state.reviews);
 
   useEffect(() => {
     const fetchData = async () => {
-      const classData = await findOneClass(id ?? '');
-      setThisClass(classData);
+      if (id) {
+        try {
+          // Promise.all을 사용하여 두 개의 비동기 요청을 병렬로 처리
+          const [allReviewData, classData] = await Promise.all([
+            axios.get(`https://api.custom-k.store/v1/reviews/${id}`),
+            findOneClass(id),
+          ]);
+          setThisReview(allReviewData.data);
+          setThisClass(classData);
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      }
     };
     fetchData();
   }, [id, findOneClass, reviews]); // 의존성 배열에서 thisReview와 thisClass를 제거

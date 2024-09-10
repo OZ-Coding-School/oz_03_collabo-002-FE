@@ -10,16 +10,13 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { LoginUser } from '../type/loginuser';
 import axios from 'axios';
 import { useModalOpenCloseStore } from '../store/useModal';
-
 import Modal from '../components/common/Modal';
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import { useUserStore } from '../store/useUser';
-import Cookies from 'js-cookie';
 
 const Login = () => {
   const navigate = useNavigate();
   const { showModal, setModal } = useModalOpenCloseStore();
-  const [accessToken, setAccessToken] = useState<string>('');
   const setUser = useUserStore((state) => state.setUser);
   const {
     register,
@@ -46,27 +43,19 @@ const Login = () => {
     async (data) => {
       const { email, password } = data;
       try {
-        const response = await axios.post(
-          `/users/login/`,
-          {
-            email,
-            password,
-          },
-          {
-            headers: { 'Content-Type': 'application/json' },
-            withCredentials: true,
-          },
-        );
-        console.log(response.data);
-
-        localStorage.setItem('accessToken', response.data.access_token);
-        console.log('accessToken: ', accessToken);
-        setAccessToken(response.data.access_token);
-        Cookies.set('refresh_token', response.data.refresh_token, {
-          expires: 7,
-          secure: true,
-          sameSite: 'strict',
+        const response = await axios.post(`/users/login/`, {
+          email,
+          password,
         });
+
+        // localStorage.setItem('accessToken', response.data.access_token);
+        // console.log('accessToken: ', accessToken);
+        // setAccessToken(response.data.access_token);
+        // Cookies.set('refresh_token', response.data.refresh_token, {
+        //   expires: 7,
+        //   secure: true,
+        //   sameSite: 'strict',
+        // });
         // setUser(response.data);
         setUser({
           id: response.data.id,
@@ -96,7 +85,7 @@ const Login = () => {
         console.error('Login error:', error);
       }
     },
-    [setUser, setModal, clearValue, navigate, accessToken],
+    [setUser, setModal, clearValue, navigate],
   );
 
   return (

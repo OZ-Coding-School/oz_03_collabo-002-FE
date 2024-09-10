@@ -34,7 +34,7 @@ const ModalReviewWrite: React.FC<props> = ({
   const user = useUserStore((state) => state.user);
   const navigate = useNavigate();
   const { id } = useParams();
-  const [accessToken, setAccessToken] = useState<string | null>('');
+  // const [accessToken, setAccessToken] = useState<string | null>('');
   const setIsUpdate = useReviewStore((state) => state.setIsUpdate);
   const isUpdate = useReviewStore((state) => state.isUpdate);
   // const [iseditImage, setIseditImage] = useState()
@@ -66,6 +66,14 @@ const ModalReviewWrite: React.FC<props> = ({
       images: [],
     });
   };
+
+  useEffect(() => {
+    if (!user) {
+      // 사용자가 로그인하지 않은 경우
+      setModal('Please log in to write a review.');
+      navigate('/login'); // 로그인 페이지로 리다이렉트
+    }
+  }, [user, setModal, navigate]);
 
   // useEffect(() => {
   //   // console.log('isUpdate: ', isUpdate);
@@ -100,10 +108,10 @@ const ModalReviewWrite: React.FC<props> = ({
   // }, [isUpdate]);
 
   useEffect(() => {
-    if (isUpdate && clickedReviewId) {
+    if (clickedReviewId) {
       const getReview = async () => {
         try {
-          const response = await axios.get(`reviews/${id}`);
+          const response = await axios.get(`/reviews/${id}`);
           const allReviews = response.data.reviews;
           const findReview = allReviews
             .map((item: Review) => item.review)
@@ -152,7 +160,6 @@ const ModalReviewWrite: React.FC<props> = ({
     setRatings((prevRating) =>
       selectedRating === prevRating ? prevRating - 1 : selectedRating,
     );
-    console.log('selectedRating: ', selectedRating);
   };
 
   // useEffect(() => {
@@ -160,15 +167,15 @@ const ModalReviewWrite: React.FC<props> = ({
   //   console.log('ratings: ', ratings);
   // }, [ratings, stars]);
 
-  useEffect(() => {
-    // console.log('id: ', id);
-    // console.log('user: ', user);
-    if (user) {
-      const Token = localStorage.getItem('accessToken');
-      setAccessToken(Token);
-      console.log('accessToken: ', Token);
-    }
-  }, [user]);
+  // useEffect(() => {
+  //   // console.log('id: ', id);
+  //   // console.log('user: ', user);
+  //   if (user) {
+  //     const Token = localStorage.getItem('accessToken');
+  //     setAccessToken(Token);
+  //     console.log('accessToken: ', Token);
+  //   }
+  // }, [user]);
 
   const handleInputImage = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -190,12 +197,13 @@ const ModalReviewWrite: React.FC<props> = ({
     [uploadImgs],
   );
 
-  const handleUpload = () => {
+  const handleUpload = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     fileInputRef.current?.click();
   };
 
   const handleDelete = (indexDelete: number) => {
-    console.log(indexDelete);
+    // console.log(indexDelete);
     const filterImg = uploadImgs.filter((_, index) => index !== indexDelete);
     setUploadImgs(filterImg);
   };
@@ -216,24 +224,13 @@ const ModalReviewWrite: React.FC<props> = ({
         review,
         rating: ratings.toString(),
       };
-      console.log(reviewData);
-      if (!isUpdate) {
-        console.log('isUpdate: ', isUpdate);
+      if (!clickedReviewId) {
         await axios.post(
-          `reviews/${id}`,
+          `/reviews/${id}`,
 
           reviewData,
-
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${accessToken}`,
-            },
-            withCredentials: true,
-          },
         );
-      } else if (isUpdate && clickedReviewId) {
-        console.log('isUpdate: ', isUpdate);
+      } else if (clickedReviewId) {
         const updateData = {
           images:
             uploadImgs.length > 0
@@ -243,20 +240,11 @@ const ModalReviewWrite: React.FC<props> = ({
           rating: ratings.toString(),
         };
         await axios.patch(
-          `reviews/${id}/update/${clickedReviewId}`,
+          `/reviews/${id}/update/${clickedReviewId}`,
           updateData,
-
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${accessToken}`,
-            },
-            withCredentials: true,
-          },
         );
         setIsUpdate();
       }
-      console.log('isUpdate: ', isUpdate);
 
       setModal('Successful Save');
       clearValue();
@@ -274,11 +262,11 @@ const ModalReviewWrite: React.FC<props> = ({
 
   const handleOut = () => {
     navigate(-1);
-    if (isUpdate) {
-      setIsUpdate();
-      console.log('out isUpdate: ', isUpdate);
-      navigate(`/review/${id}`);
-    }
+    // if (isUpdate) {
+    //   setIsUpdate();
+    //   console.log('out isUpdate: ', isUpdate);
+    //   navigate(`/review/${id}`);
+    // }
   };
 
   return (

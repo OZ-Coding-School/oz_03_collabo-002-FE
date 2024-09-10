@@ -100,8 +100,8 @@ const SignUp = () => {
           signupData.profile_image = img;
         }
 
-        console.log('1');
-        console.log('imgFile:', imgFile);
+        // console.log('1');
+        // console.log('imgFile:', imgFile);
         let signData;
         if (img === '') {
           signData = {
@@ -122,17 +122,11 @@ const SignUp = () => {
           // `${import.meta.env.VITE_CALLBACK_URL}signup/`,
           `/users/signup/`,
           signData,
-          {
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            withCredentials: true,
-          },
         );
-        console.log('2');
+        //console.log('2');
         setModal('Successful Membership Registration');
-        console.log('3');
-        console.log({ name, email, password });
+        // console.log('3');
+        // console.log({ name, email, password });
         clearValue();
         setTimeout(() => {
           navigate('/login');
