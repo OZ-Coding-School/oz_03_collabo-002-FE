@@ -10,7 +10,7 @@ import {
 import { useModalOpenCloseStore } from './useModal';
 
 const useQnaStore = create<QuestionState & QuestionActions>()(
-  immer((set) => ({
+  immer((set, get) => ({
     questions: null,
     myQuestions: null,
 
@@ -30,9 +30,12 @@ const useQnaStore = create<QuestionState & QuestionActions>()(
     // 모든 질문을 가져오는 함수
     getMyQuestions: async () => {
       try {
-        const response = await axios.get<QuestionRequest>(
-          '/question/?page=1&size=10',
-        );
+        const response = await axios.get<QuestionRequest>('/question/', {
+          params: {
+            page: 1,
+            size: 10,
+          },
+        });
         console.log(response.data);
         const data = response.data.questions;
         set((state) => {
@@ -57,11 +60,14 @@ const useQnaStore = create<QuestionState & QuestionActions>()(
     },
 
     // 질문을 수정하는 함수
-    updateQuestion: async (classId, questionData) => {
+    updateQuestion: async (questionData) => {
       try {
         const response = await axios.patch(
-          `/question/${classId}/`,
-          questionData,
+          `/question/${questionData?.class_id}/?question_id=${questionData?.id}`,
+          {
+            question_title: questionData?.question_title,
+            question: questionData?.question,
+          },
         );
         const updatedQuestion: Question = response.data;
         set((state) => ({
@@ -69,6 +75,7 @@ const useQnaStore = create<QuestionState & QuestionActions>()(
             q.id === updatedQuestion.id ? updatedQuestion : q,
           ),
         }));
+        get().getMyQuestions();
       } catch (error) {
         console.error('Failed to update question: ', error);
       }
@@ -77,7 +84,7 @@ const useQnaStore = create<QuestionState & QuestionActions>()(
     // 질문을 삭제하는 함수
     deleteQuestion: async (classId, questionId) => {
       try {
-        await axios.delete(`/v1/question/${classId}/${questionId}/`);
+        await axios.delete(`/question/${classId}/?question_id=${questionId}`);
         set((state) => ({
           questions: state.questions?.filter((q) => q.id !== questionId),
         }));

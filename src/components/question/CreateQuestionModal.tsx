@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IconRemove } from '../../config/IconData';
 import { useModalOpenCloseStore } from '../../store/useModal';
 import { useClassStore } from '../../store/useClassStore';
@@ -21,6 +21,10 @@ const CreateQuestionModal = ({
   const classTitle = useClassStore((state) => state.classItem);
   const createQuestion = useQnaStore((state) => state.createQuestion);
   const { clearModal } = useModalOpenCloseStore();
+
+  useEffect(() => {
+    console.log('CreateQuestionModal 렌더링');
+  }, []);
 
   const handleCreate = () => {
     if (title.trim() === '' || inquiry.trim() === '' || classId === '') {
@@ -47,13 +51,13 @@ const CreateQuestionModal = ({
     'w-full text-darkgray mb-[15px] border border-darkgray rounded-xl text-sm';
 
   return (
-    <motion.aside
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.3, ease: 'easeInOut' }}
-    >
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/25">
+    <div className="fixed inset-0 flex items-center justify-center bg-black/25">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.3, ease: 'easeInOut' }}
+      >
         <div className="border rounded-2xl w-11/12 max-w-[450px] bg-white flex flex-col items-center">
           <div className="relative flex justify-center w-full mt-4">
             <span className="w-full text-center font-bold ">New Inquiry</span>
@@ -103,8 +107,8 @@ const CreateQuestionModal = ({
             />
           </div>
         </div>
-      </div>
-    </motion.aside>
+      </motion.div>
+    </div>
   );
 };
 

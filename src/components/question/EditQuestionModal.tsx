@@ -34,7 +34,7 @@ const EditQuestionModal = ({
   };
 
   return (
-    <form>
+    <form onSubmit={(e: React.MouseEvent<HTMLFormElement>) => e.preventDefault()}>
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/25">
         <div className="border rounded-2xl w-[440px] h-[550px] bg-white flex flex-col items-center">
           <div className="flex justify-between w-full mt-4">
