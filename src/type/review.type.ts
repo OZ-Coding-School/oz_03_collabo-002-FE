@@ -86,3 +86,9 @@ export type ReviewAction = {
     reviewId: number | undefined,
   ) => Promise<void>;
 };
+export type ClassTitle = [
+  {
+    id: string,
+    title: string,
+  }
+]
