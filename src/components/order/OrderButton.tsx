@@ -3,8 +3,7 @@ import { PayPalButtons } from '@paypal/react-paypal-js';
 import axios from '../../api/axios';
 import useBookingStore, { BookingData } from '../../store/useBookingStore';
 import { useState } from 'react';
-import { OnApproveData, OnApproveActions } from "@paypal/paypal-js";
-
+import { OnApproveData, OnApproveActions } from '@paypal/paypal-js';
 
 type OrderButtonProps = {
   data: BookingData;
@@ -34,7 +33,7 @@ const OrderButton = ({ data }: OrderButtonProps) => {
     console.log(bookingItem);
     try {
       const response = await axios.post('/payments/paypal/orders', {
-        amount: bookingItem?.amount,
+        amount: bookingItem?.amount?.toFixed(2),
       });
 
       const orderData = await response.data;
@@ -65,6 +64,7 @@ const OrderButton = ({ data }: OrderButtonProps) => {
     try {
       const response = await axios.post(
         `/payments/paypal/orders/${data.orderID}/capture`,
+        data,
       );
 
       const orderData = await response.data;
@@ -126,7 +126,8 @@ const OrderButton = ({ data }: OrderButtonProps) => {
           Wire Transfer
         </button>
         {message && <Message content={message} type={messageType} />}
-        {loading && <p>Processing your payment...</p>}      </div>
+        {loading && <p>Processing your payment...</p>}{' '}
+      </div>
     </div>
   );
 };
