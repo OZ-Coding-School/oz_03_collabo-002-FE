@@ -5,7 +5,7 @@ import line from '../assets/icon/line.svg';
 import signup_profile from '../assets/icon/signup_profile.svg';
 import { Link, useNavigate } from 'react-router-dom';
 import Modal from '../components/common/Modal';
-import { useModalStore } from '../store/useModal';
+import { useModalOpenCloseStore } from '../store/useModal';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Signup } from '../type/signup';
 import { handleKaKao } from '../components/Login/Kakao';
@@ -17,7 +17,7 @@ import ModalProfile from '../components/common/ModalProfile';
 import { User } from '../type/user';
 
 const SignUp = () => {
-  const { setModal, showModal } = useModalStore();
+  const { setModal, showModal } = useModalOpenCloseStore();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [originalFileName, setOriginalFileName] = useState<string>('');
   const [img, setImg] = useState<string>('');
@@ -100,8 +100,8 @@ const SignUp = () => {
           signupData.profile_image = img;
         }
 
-        console.log('1');
-        console.log('imgFile:', imgFile);
+        // console.log('1');
+        // console.log('imgFile:', imgFile);
         let signData;
         if (img === '') {
           signData = {
@@ -122,17 +122,11 @@ const SignUp = () => {
           // `${import.meta.env.VITE_CALLBACK_URL}signup/`,
           `/users/signup/`,
           signData,
-          {
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            withCredentials: true,
-          },
         );
-        console.log('2');
+        //console.log('2');
         setModal('Successful Membership Registration');
-        console.log('3');
-        console.log({ name, email, password });
+        // console.log('3');
+        // console.log({ name, email, password });
         clearValue();
         setTimeout(() => {
           navigate('/login');

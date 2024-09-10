@@ -5,35 +5,50 @@ import {
   IconOptionPlus,
   IconOptionRemove,
 } from '../../config/IconData';
+
 type Props = {
+  discountedPrice: number;
+  bookingQuantity: number;
+  setBookingQuantity: (
+    value: number | ((prevQuantity: number) => number),
+  ) => void;
   selectedDate: Date | null;
   selectedTime: string | null;
   selectedClassType: string | null;
+  classPrice: number;
+  availableTimes: string[];
+  onBookNowClick: () => void;
   onRemoveOptionClick?: () => void;
   onBookingClick?: () => void;
 };
 
 const ClassDetailOption: React.FC<Props> = ({
+  bookingQuantity,
+  setBookingQuantity,
   selectedDate,
   selectedTime,
   selectedClassType,
+  classPrice = 0,
   onRemoveOptionClick,
-  onBookingClick,
+  onBookNowClick,
 }) => {
-  const [quantity, setQuantity] = useState(0);
-  const [isLiked, setIsLiked] = useState(false);
+  const [isLiked, setIsLiked] = useState<boolean>(false);
 
   const handleIncrease = () => {
-    setQuantity((prevQuantity) => prevQuantity + 1);
+    setBookingQuantity((prevQuantity: number) => prevQuantity + 1);
   };
 
   const handleDecrease = () => {
-    setQuantity((prevQuantity) => (prevQuantity > 0 ? prevQuantity - 1 : 0));
+    setBookingQuantity((prevQuantity: number) =>
+      prevQuantity > 0 ? prevQuantity - 1 : 0,
+    );
   };
 
   const toggleLike = () => {
-    setIsLiked((prevIsLiked) => !prevIsLiked);
+    setIsLiked((prevIsLiked: boolean) => !prevIsLiked);
   };
+
+  const totalPrice = bookingQuantity * classPrice;
 
   return (
     <>
@@ -59,7 +74,7 @@ const ClassDetailOption: React.FC<Props> = ({
                   <IconOptionMinus />
                   <span className="sr-only">minus</span>
                 </button>
-                <p className="px-3">{quantity}</p>
+                <p className="px-3">{bookingQuantity}</p>
                 <button
                   className="cursor-pointer bg-gray-300 rounded-full w-6 flex items-center justify-center"
                   onClick={handleIncrease}
@@ -68,32 +83,31 @@ const ClassDetailOption: React.FC<Props> = ({
                   <span className="sr-only">plus</span>
                 </button>
               </div>
-              <div>72$</div>
+              <div>{classPrice ? `${classPrice.toLocaleString()}$` : ''}</div>
             </div>
           </div>
         )}
 
         <div className="py-6">
           <div className="flex justify-between items-center">
-            <p>Total {quantity}</p>
+            <p>Total Quantity: {bookingQuantity}</p>
             <p>
               <strong className="text-[#D91010] text-[20px] font-semibold">
-                Total {quantity * 72}$
+                Total:{' '}
+                {Number.isNaN(totalPrice) ? '0' : totalPrice.toLocaleString()}$
               </strong>
             </p>
           </div>
           <div className="flex gap-7 mt-4">
             <button onClick={toggleLike}>
               <IconOptionHeart
-                className={`${
-                  isLiked ? 'fill-primary' : 'fill-none'
-                } hover:fill-primary`}
+                className={`${isLiked ? 'fill-primary' : 'fill-none'} hover:fill-primary`}
               />
               <span className="sr-only">heart</span>
             </button>
             <button
               className="flex-grow text-white bg-primary rounded-xl py-4"
-              onClick={onBookingClick}
+              onClick={onBookNowClick}
             >
               Book Now
             </button>

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import ClassCard from '../common/ClassCard';
-import useClassStore from '../../store/useClassStore';
+import { useClassStore } from '../../store/useClassStore';
 
 const KpickClasses = () => {
   const classes = useClassStore((state) => state.classes);

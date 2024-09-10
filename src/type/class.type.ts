@@ -1,35 +1,13 @@
-export type Status = 'Selected' | 'Fully booked' | 'Seats available';
-// type ClassItem = {
-//   address?:
-//     | {
-//         state?: string;
-//         city?: string;
-//       }
-//     | string;
-//   // other properties
-// };
+// Status Enum 정의
+export enum Status {
+  selected = 'Selected',
+  FullyBooked = 'Fully booked',
+  Available = 'Seats available',
+}
 
-//type Address = string | { state: string; city: string };
-
-// type Address = {
-//   state?: string;
-//   city?: string;
-//   street?: string;
-// };
-
-type ClassImage =
-  | [
-      {
-        description_image_urls: string[] | [];
-        detail_image_urls: string[] | []
-        thumbnail_image_urls: string[] | [];
-        id: string;
-        class_id: string;
-      },
-    ]
-  | [];
-
+// Class 인터페이스 정의
 export interface Class {
+  location: { lat: number; lng: number };
   id: string;
   dates: [
     {
@@ -41,7 +19,16 @@ export interface Class {
       person: number;
     },
   ];
-  images: ClassImage;
+  images: [
+    {
+      thumbnail_image_urls?: string[];
+      description_image_urls: never[];
+      detail_image_urls: string[];
+      id: string;
+      class_id: string;
+      image_url: string;
+    },
+  ];
   is_new: boolean;
   price_in_usd: number;
   is_best: boolean;
@@ -62,6 +49,8 @@ export interface Class {
   name?: string;
   average_rating: number;
 }
+
+// ClassDetail 타입 정의
 export type ClassDetail = {
   status: Status;
   seatsLeft: number;
@@ -69,20 +58,23 @@ export type ClassDetail = {
   seat: number;
 };
 
+// ClassState 인터페이스 정의
+export interface ClassState {
+  classItem: Class | null;
+  classes: Class[];
+  classTitle: ClassTitle[];
+  filteredClasses: { [key: string]: Class[] };
+  classDetails: ClassDetail[];
+  isLoading: boolean; // isLoading 추가
+  fetchClasses: () => Promise<void>;
+  filterClasses: (category: string) => void;
+  findOneClass: (id: string) => Promise<Class | null>;
+  fetchClassesTime: (id: string) => Promise<void>; // fetchClassesTime 함수 추가
+  setClasses: (classes: Class[]) => void;
+  setClassDetails: (details: ClassDetail[]) => void;
+}
+
 export type ClassTitle = {
-  id: string | number;
+  id: string;
   title: string;
 };
-
-export interface ClassState {
-  classes: Class[];
-  filteredClasses: { [key: string]: Class[] };
-  classTitle: ClassTitle[] | null;
-  classDetails: ClassDetail[];
-  fetchClasses: () => Promise<void>;
-  filterClasses: (kind: string) => void;
-  findOneClass: (id: string | undefined) => Promise<Class | null>;
-  setClasses: (data: Class[]) => void;
-  setClassDetails: (updatedClassDetails: ClassDetail[]) => void;
-  fetchClassesTime: (id: string) => Promise<void>;
-}

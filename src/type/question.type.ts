@@ -1,5 +1,5 @@
 export type Question = {
-  id?: string | number;
+  id: string | number;
   created_at: string;
   question: string;
   question_title: string;
@@ -28,13 +28,6 @@ export type QuestionActions = {
     classId: string | undefined,
     questionData: Pick<Question, 'question_title' | 'question'>,
   ) => Promise<void>;
-  updateQuestion: (
-    classId: string | undefined,
-    questionId: string | undefined,
-    questionData: Pick<Question, 'question_title' | 'question'>,
-  ) => Promise<void>;
-  deleteQuestion: (
-    classId: string | undefined,
-    questionId: string | undefined,
-  ) => Promise<void>;
+  updateQuestion: (questionData: Question | null) => Promise<void>;
+  deleteQuestion: (classId: string, questionId: string) => Promise<void>;
 };

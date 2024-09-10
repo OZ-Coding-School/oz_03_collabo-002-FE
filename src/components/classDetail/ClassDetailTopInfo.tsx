@@ -66,11 +66,9 @@ const ClassDetailTopInfo = ({ classData }: Props) => {
       {/* 완성작 정보 */}
       <div className="mt-[15px] px-6">
         <h3 className="text-lg">Details of the Workshop Piece</h3>
-        {classData?.description.split('\n').map((item, index) => (
-          <p key={index} className="text-[13px] mt-1">
-            - {item}
-          </p>
-        ))}
+        {classData?.description
+          .split('\n')
+          .map((item) => <p className="text-[13px] mt-1">- {item}</p>)}
       </div>
       <GoodsDetailInfoSlide
         scrollImage={classData.images[0]?.description_image_urls || []}

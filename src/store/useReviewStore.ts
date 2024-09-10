@@ -9,20 +9,41 @@ const useReviewStore = create<ReviewState & ReviewAction>()(
     myReviews: null,
     isUpdate: false,
     isDelete: null,
+    hasMore: true,
 
-    getReviews: async (classId) => {
+    getReviews: async (classId, page = 1, size = 15) => {
+      const getUserInfo = localStorage.getItem('userInfo');
+      let userId = 0;
+      if (getUserInfo) {
+        const userData = JSON.parse(getUserInfo)
+        userId = userData.state.user.id 
+      }
       try {
-        const response = await axios.get(`/reviews/${classId}/`);
-        const data: Review[] = response.data.reviews.map(
+        const response = await axios.get(
+          `/reviews/${classId}/?page=${page}&size=${size}`,
+        );
+        const newReviews: Review[] = response.data.reviews.map(
           (item: { review: Review }) => item.review,
         );
+        const filteredData: Review[] = newReviews.filter(
+          (item) => item.user.id === userId,
+        );
         set((state) => {
-          state.reviews = data;
+          if (page === 1) {
+            state.reviews = newReviews;
+          } else {
+            state.reviews?.push(...newReviews); // spread 연산자 대신 push 메서드 사용
+          }
+          state.hasMore = newReviews.length === size;
+          state.myReviews = filteredData;
         });
+        return newReviews;
       } catch (error) {
         console.log('Failed to get reviews: ', error);
+        return [];
       }
     },
+
     getMyReviews: async () => {
       try {
         const response = await axios.get('/reviews/?page=1&size=10');

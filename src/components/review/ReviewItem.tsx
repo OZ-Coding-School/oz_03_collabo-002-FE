@@ -7,11 +7,11 @@ import { useEffect, useState } from 'react';
 import { IconReviewStar } from '../../config/IconData';
 import ReviewReviewModal from './ReviewPhotoModal';
 import { Review } from '../../type/review.type';
-import useClassStore from '../../store/useClassStore';
+import { useClassStore } from '../../store/useClassStore';
 import { useUserStore } from '../../store/useUser';
+import { Class } from '../../type/class.type';
 import ModalReviewWrite from '../common/ModalReviewWrite';
 import useReviewStore from '../../store/useReviewStore';
-// import axios from '../../api/axios';
 
 interface ReviewProps {
   review: Review;
@@ -46,7 +46,7 @@ const ReviewItem = ({ review, classId }: ReviewProps) => {
   // };
   const path = location.pathname;
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const classTitle = useClassStore((state) => state.classTitle);
+  const classTitle = useClassStore((state) => state.classItem);
   const [activePhoto, setActivePhoto] = useState(true);
   const imageCount = review.images ? review.images.length : 0;
   const user = useUserStore((state) => state.user);
@@ -54,8 +54,7 @@ const ReviewItem = ({ review, classId }: ReviewProps) => {
   const fetchClasses = useClassStore((state) => state.fetchClasses);
   const [clickedReviewId, setClickedReviewId] = useState<string | number>('');
   const [openWrite, setOpenWrite] = useState<boolean>(false);
-  const isUpdate = useReviewStore((state) => state.setIsUpdate);
-  const isDelete = useReviewStore((state) => state.setIsDelete);
+  const setIsDelete = useReviewStore((state) => state.setIsDelete);
 
   useEffect(() => {
     if (user) {
@@ -77,12 +76,15 @@ const ReviewItem = ({ review, classId }: ReviewProps) => {
     }
   }, [path]);
 
-  useEffect(() => {
-    console.log('review: ', review);
-  }, []);
+  // useEffect(() => {
+  //   console.log('review: ', review);
+  // }, [review]);
 
   // class_id에 해당하는 클래스 제목 찾기
-  const classInfo = classTitle?.find((item) => item.id === review.class_id);
+  const classInfo = Array.isArray(classTitle)
+    ? classTitle.find((item: Class) => item.id === review.class_id)
+    : null;
+
   const className = classInfo
     ? classInfo.title
     : '클래스 정보를 찾을 수 없습니다';
@@ -91,15 +93,17 @@ const ReviewItem = ({ review, classId }: ReviewProps) => {
     try {
       // setIsUpdate(true);
       setOpenWrite(true);
-      isUpdate();
-      console.log('hi');
-      console.log('review의 id: ', review.id);
+      // setIsUpdate();
       setClickedReviewId(review.id);
       return;
     } catch (error) {
       console.log('error: ', error);
     }
   };
+
+  // useEffect(() => {
+  //   console.log('isUpdate: ', isUpdate);
+  // }, [isUpdate]);
 
   const handleDelete = async () => {
     // try {
@@ -116,7 +120,7 @@ const ReviewItem = ({ review, classId }: ReviewProps) => {
     // } catch (error) {
     //   console.log('filter delete error: ', error);
     // }
-    isDelete(Number(classId), Number(review.id));
+    setIsDelete(Number(classId), Number(review.id));
   };
 
   // console.log(review);
@@ -143,7 +147,9 @@ const ReviewItem = ({ review, classId }: ReviewProps) => {
             <div className="w-full flex justify-between">
               <strong className="font-semibold">{review.user.name}</strong>
               <span className="ml-3 text-xs text-gray mt-1">
-                {formatDate(review.created_at)}
+                {review.updated_at
+                  ? formatDate(review.updated_at)
+                  : formatDate(review.created_at)}
               </span>
             </div>
             <div className="flex items-center justify-between">
@@ -160,7 +166,7 @@ const ReviewItem = ({ review, classId }: ReviewProps) => {
                 {review.rating}
               </p>
               {user?.id === review.user.id ? (
-                <div className="ml-3 text-xs  mt-1">
+                <div className="ml-3 text-xs  mt-1 flex items-center justify-center">
                   <button className="text-blue-600" onClick={handleEdit}>
                     edit
                   </button>
@@ -175,7 +181,9 @@ const ReviewItem = ({ review, classId }: ReviewProps) => {
             </div>
           </div>
         </div>
-        <p className="text-sm mb-2">{review.review}</p>
+        <p className="text-sm mb-2 whitespace-pre-wrap break-words">
+          {review.review}
+        </p>
         {/* 클래스 정보 */}
         <div className="flex justify-between p-2">
           <p className="text-sm text-gray">{className}</p>

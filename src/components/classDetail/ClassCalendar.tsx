@@ -7,18 +7,18 @@ import { CSSTransition } from 'react-transition-group';
 
 type ClassCalendarProps = {
   selectedDate: Date | null;
+  onDateChange: Dispatch<SetStateAction<Date | null>>;
   availableDates: Date[];
   availableTypes: string[];
   selectedClassType: string | null;
-  onDateChange: (newDate: Date | null) => void;
-  onTypeChange: Dispatch<SetStateAction<string | null>>;
+  onTypeChange: (type: string | null) => void;
 };
 
-function ClassCalendar({
+const ClassCalendar: React.FC<ClassCalendarProps> = ({
   selectedDate,
   availableDates,
   onDateChange,
-}: ClassCalendarProps) {
+}) => {
   const [showCalendar, setShowCalendar] = useState(true);
 
   const handleTodayClick = () => {
@@ -40,20 +40,19 @@ function ClassCalendar({
       (availableDate) => availableDate.toDateString() === date.toDateString(),
     );
 
-    const buttonClassName = isAvailable
-      ? 'clickable-button'
-      : 'disabled-button';
+    const dayClassName = isAvailable ? 'clickable-day' : 'disabled-day';
 
     return (
-      <td>
-        <button
-          className={buttonClassName}
-          style={{ color: isPastDate ? '#999' : '' }}
-          disabled={!isAvailable}
-        >
-          {date.getDate()}
-        </button>
-      </td>
+      <div
+        className={dayClassName}
+        style={{
+          color: isPastDate ? '#999' : '',
+          cursor: isAvailable ? 'pointer' : 'default',
+        }}
+        onClick={() => handleDateChange(date)}
+      >
+        {date.getDate()}
+      </div>
     );
   };
 
@@ -61,7 +60,7 @@ function ClassCalendar({
     <div className="relative">
       <button
         onClick={handleTodayClick}
-        className="absolute left-[14px] top-[14px] z-10"
+        className="absolute left-[42px] top-[14px] z-10"
       >
         <IconDetailCalendar />
         <span className="sr-only">오늘 날짜</span>
@@ -73,17 +72,19 @@ function ClassCalendar({
         classNames="calendar"
         unmountOnExit
       >
-        <DatePicker
-          value={selectedDate}
-          monthLabelFormat="YYYY.MM"
-          hideOutsideDates
-          renderDay={renderDay}
-          minDate={new Date()}
-          onChange={handleDateChange}
-        />
+        <div className="border border-1 border-gray-400 rounded-2xl pb-3 mx-6 my-10">
+          <DatePicker
+            value={selectedDate}
+            monthLabelFormat="YYYY.MM"
+            hideOutsideDates
+            renderDay={renderDay}
+            minDate={new Date()}
+            onChange={handleDateChange}
+          />
+        </div>
       </CSSTransition>
     </div>
   );
-}
+};
 
 export default ClassCalendar;

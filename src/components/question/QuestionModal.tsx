@@ -1,7 +1,7 @@
 import arrowLeft from '../../icon/icon-arrow-left.svg';
-import { useModalStore } from '../../store/useModal'; // 대신에 useModalStore 사용
+import { useModalOpenCloseStore } from '../../store/useModal'; // 대신에 useModalStore 사용
 const QuestionModal = () => {
-  const { clearModal } = useModalStore();
+  const { clearModal } = useModalOpenCloseStore();
   const handleClose = () => {
     clearModal();
   };

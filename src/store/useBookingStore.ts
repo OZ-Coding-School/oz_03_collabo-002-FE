@@ -8,7 +8,7 @@ export type BookingData = {
   referral_code?: string; // 추천인
   amount?: number;
   title: string;
-};
+} | null;
 
 type BookingState = {
   bookingItem: BookingData | null;

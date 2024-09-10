@@ -47,16 +47,38 @@ export type AllReview = {
   }[];
 };
 
+// export type ReviewState = {
+//   reviews: Review[] | null;
+//   // reviews: { review: Review }[] | null;
+//   myReviews: Review[] | null;
+//   isUpdate: boolean;
+//   isDelete: Review[] | null;
+// };
+
+// export type ReviewAction = {
+//   getReviews: (classId: number | undefined) => Promise<void>;
+//   getMyReviews: () => Promise<void>;
+//   setIsUpdate: () => void;
+//   setIsDelete: (
+//     classId: number | undefined,
+//     reviewId: number | undefined,
+//   ) => Promise<void>;
+// };
+
 export type ReviewState = {
   reviews: Review[] | null;
-  // reviews: { review: Review }[] | null;
   myReviews: Review[] | null;
   isUpdate: boolean;
-  isDelete: Review[] | null;
+  isDelete: null;
+  hasMore: boolean;
 };
 
 export type ReviewAction = {
-  getReviews: (classId: number | undefined) => Promise<void>;
+  getReviews: (
+    classId: number | undefined,
+    page?: number,
+    size?: number,
+  ) => Promise<Review[]>;
   getMyReviews: () => Promise<void>;
   setIsUpdate: () => void;
   setIsDelete: (
@@ -64,3 +86,9 @@ export type ReviewAction = {
     reviewId: number | undefined,
   ) => Promise<void>;
 };
+export type ClassTitle = [
+  {
+    id: string,
+    title: string,
+  }
+]

@@ -1,12 +1,13 @@
 import { useEffect } from 'react';
 import ClassCard from '../common/ClassCard';
-import useClassStore from '../../store/useClassStore';
+import { useClassStore } from '../../store/useClassStore';
 
 const PopularClasses: React.FC = () => {
   const classes = useClassStore((state) => state.classes);
   const fetchClasses = useClassStore((state) => state.fetchClasses);
 
   useEffect(() => {
+    // fetchClasses 함수가 호출되는지 확인
     fetchClasses();
   }, [fetchClasses]);
 

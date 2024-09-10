@@ -25,33 +25,23 @@ const Redirection = () => {
     if (state !== 'google' && state !== 'kakao') {
       setIsState('line');
     }
-    console.log('isState:', isState);
+    // console.log('isState:', isState);
     if (code && isState) {
-      console.log('Auth code:', code);
-      console.log('state:', state);
-      console.log('isstate:', isState);
+      // console.log('Auth code:', code);
+      // console.log('state:', state);
+      // console.log('isstate:', isState);
 
       const fetchAuthLogin = async () => {
         try {
-          console.log('isState: ', isState);
+          // console.log('isState: ', isState);
           // const url = `${import.meta.env.VITE_CALLBACK_URL}${isState}/callback/`;
           // console.log('요청 URL: ', url);
-          console.log('body: ', code, state);
+          // console.log('body: ', code, state);
 
-          const response = await axios.post(
-            `/users/${isState}/callback/`,
-            // { code: code, state: state, clientId: clientId },
-            { code: code, state: state },
-            // { code: code },
-            {
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              withCredentials: true,
-            },
-          );
-
-          console.log(response);
+          const response = await axios.post(`/users/${isState}/callback/`, {
+            code: code,
+            state: state,
+          });
           // const token = response.data;
 
           if (response) {

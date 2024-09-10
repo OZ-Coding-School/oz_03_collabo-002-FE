@@ -1,24 +1,25 @@
 import { create } from 'zustand';
-import { ReactNode } from 'react'; // ReactNode 타입을 임포트
+import { ReactNode } from 'react';
 
+// This interface combines message and content state
 export interface ModalState {
   showModal: boolean;
-  modalContent: ReactNode | null; // JSX를 받을 수 있도록 수정
+  modalContent: ReactNode | null;
   setModal: (content: ReactNode) => void;
   clearModal: () => void;
 }
 
-export const useModalStore = create<ModalState>((set) => ({
+export const useModalOpenCloseStore = create<ModalState>((set) => ({
   showModal: false,
-  modalContent: null, // JSX 요소를 받을 수 있도록 수정
+  modalContent: null,
   setModal: (content: ReactNode) =>
     set(() => ({
       showModal: true,
-      modalContent: content, // JSX 요소를 상태로 저장
+      modalContent: content,
     })),
   clearModal: () =>
     set(() => ({
       showModal: false,
-      modalContent: null, // 모달을 닫으면 내용 초기화
+      modalContent: null,
     })),
 }));

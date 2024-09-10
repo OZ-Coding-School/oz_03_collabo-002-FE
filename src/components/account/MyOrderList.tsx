@@ -65,9 +65,9 @@ const MyOrderList: React.FC = () => {
       </ul>
       {payments && (
         <div className="mt-4">
-          <p>
+          {/* <p>
             Page {payments.current_page} of {payments.total_pages}
-          </p>
+          </p> */}
           <p>Total Orders: {payments.total_count}</p>
         </div>
       )}
