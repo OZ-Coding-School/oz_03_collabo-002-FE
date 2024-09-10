@@ -11,6 +11,7 @@ type ClassCalendarProps = {
   availableDates: Date[];
   availableTypes: string[];
   selectedClassType: string | null;
+  onTypeChange: (type: string | null) => void;
 };
 
 const ClassCalendar: React.FC<ClassCalendarProps> = ({
@@ -59,7 +60,7 @@ const ClassCalendar: React.FC<ClassCalendarProps> = ({
     <div className="relative">
       <button
         onClick={handleTodayClick}
-        className="absolute left-[14px] top-[14px] z-10"
+        className="absolute left-[42px] top-[14px] z-10"
       >
         <IconDetailCalendar />
         <span className="sr-only">오늘 날짜</span>
@@ -71,14 +72,16 @@ const ClassCalendar: React.FC<ClassCalendarProps> = ({
         classNames="calendar"
         unmountOnExit
       >
-        <DatePicker
-          value={selectedDate}
-          monthLabelFormat="YYYY.MM"
-          hideOutsideDates
-          renderDay={renderDay}
-          minDate={new Date()}
-          onChange={handleDateChange}
-        />
+        <div className="border border-1 border-gray-400 rounded-2xl pb-3 mx-6 my-10">
+          <DatePicker
+            value={selectedDate}
+            monthLabelFormat="YYYY.MM"
+            hideOutsideDates
+            renderDay={renderDay}
+            minDate={new Date()}
+            onChange={handleDateChange}
+          />
+        </div>
       </CSSTransition>
     </div>
   );

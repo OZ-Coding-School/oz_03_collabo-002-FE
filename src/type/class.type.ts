@@ -7,7 +7,7 @@ export enum Status {
 
 // Class 인터페이스 정의
 export interface Class {
-  map: any;
+  location: { lat: number; lng: number };
   id: string;
   dates: [
     {
@@ -21,6 +21,7 @@ export interface Class {
   ];
   images: [
     {
+      thumbnail_image_urls?: string[];
       description_image_urls: never[];
       detail_image_urls: string[];
       id: string;

@@ -1,7 +1,7 @@
 import useLikeStore from '../../store/useLikeStore';
 import { IconOptionHeart } from '../../config/IconData';
 import { useUserStore } from '../../store/useUser';
-import { useModalStore } from '../../store/useModal';
+import { useModalOpenCloseStore } from '../../store/useModal'; // Use the consistent store
 import { useNavigate } from 'react-router-dom';
 
 type ToggleButtonHeartProps = {
@@ -12,14 +12,14 @@ const ToggleButtonHeart = ({ classId }: ToggleButtonHeartProps) => {
   const user = useUserStore((state) => state.user);
   const { toggleLike, isLiked } = useLikeStore();
   const liked = isLiked(classId);
-  const {setModal} = useModalStore()
-  const navigate = useNavigate()
+  const { setModal } = useModalOpenCloseStore(); // Use the modal store correctly
+  const navigate = useNavigate();
 
   const toggleLikeClass = (classId: string) => {
     if (!user) {
       setModal('This is a member-only service.');
 
-      // 일정 시간 후에 로그인 페이지로 이동
+      // Navigate to the login page after showing modal
       setTimeout(() => {
         navigate('/login/');
       }, 1000);
@@ -37,9 +37,7 @@ const ToggleButtonHeart = ({ classId }: ToggleButtonHeartProps) => {
       }}
       className="absolute right-1 top-2"
     >
-      <IconOptionHeart
-        className={`${liked ? 'fill-primary ' : 'fill-white '}`}
-      />
+      <IconOptionHeart className={`${liked ? 'fill-primary' : 'fill-white'}`} />
       <span className="sr-only">heart</span>
     </button>
   );

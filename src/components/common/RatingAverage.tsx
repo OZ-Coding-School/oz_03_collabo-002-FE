@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { Class } from '../../type/class.type';
 import { useClassStore } from '../../store/useClassStore';
 import { IconReviewStar, IconReviewStarEmpty } from '../../config/IconData';
-import axios from '../../api/axios';
 import { AllReview } from '../../type/review.type';
 import useReviewStore from '../../store/useReviewStore';
 
@@ -12,7 +11,7 @@ type RatingAverageProps = {
 
 const RatingAverage = ({ id }: RatingAverageProps) => {
   const [thisClass, setThisClass] = useState<Class | null>(null);
-  const [thisReview, setThisReview] = useState<AllReview | null>(null);
+  const [thisReview] = useState<AllReview | null>(null);
   const findOneClass = useClassStore((state) => state.findOneClass);
   const reviews = useReviewStore((state) => state.reviews);
 

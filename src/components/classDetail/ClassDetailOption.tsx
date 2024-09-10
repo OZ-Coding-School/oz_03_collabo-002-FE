@@ -9,7 +9,9 @@ import {
 type Props = {
   discountedPrice: number;
   bookingQuantity: number;
-  setBookingQuantity: (value: number | ((prevQuantity: number) => number)) => void;
+  setBookingQuantity: (
+    value: number | ((prevQuantity: number) => number),
+  ) => void;
   selectedDate: Date | null;
   selectedTime: string | null;
   selectedClassType: string | null;
@@ -19,8 +21,8 @@ type Props = {
   onRemoveOptionClick?: () => void;
   onBookingClick?: () => void;
 };
+
 const ClassDetailOption: React.FC<Props> = ({
-  discountedPrice,
   bookingQuantity,
   setBookingQuantity,
   selectedDate,
@@ -28,25 +30,25 @@ const ClassDetailOption: React.FC<Props> = ({
   selectedClassType,
   classPrice = 0,
   onRemoveOptionClick,
-  onBookingClick,
+  onBookNowClick,
 }) => {
-  const [isLiked, setIsLiked] = useState(false);
+  const [isLiked, setIsLiked] = useState<boolean>(false);
 
   const handleIncrease = () => {
     setBookingQuantity((prevQuantity: number) => prevQuantity + 1);
   };
 
   const handleDecrease = () => {
-    setBookingQuantity((prevQuantity) =>
+    setBookingQuantity((prevQuantity: number) =>
       prevQuantity > 0 ? prevQuantity - 1 : 0,
     );
   };
 
   const toggleLike = () => {
-    setIsLiked((prevIsLiked) => !prevIsLiked);
+    setIsLiked((prevIsLiked: boolean) => !prevIsLiked);
   };
 
-  const totalPrice = quantity * classPrice;
+  const totalPrice = bookingQuantity * classPrice;
 
   return (
     <>
@@ -81,22 +83,16 @@ const ClassDetailOption: React.FC<Props> = ({
                   <span className="sr-only">plus</span>
                 </button>
               </div>
-              <div>
-                {/* 동적으로 가격을 표시 */}
-                {classPrice
-                  ? `${classPrice.toLocaleString()}$`
-                  : '가격 정보 없음'}
-              </div>
+              <div>{classPrice ? `${classPrice.toLocaleString()}$` : ''}</div>
             </div>
           </div>
         )}
 
         <div className="py-6">
           <div className="flex justify-between items-center">
-            <p>Total Quantity: {quantity}</p>
+            <p>Total Quantity: {bookingQuantity}</p>
             <p>
               <strong className="text-[#D91010] text-[20px] font-semibold">
-                {/* 총 금액 계산 및 NaN 방지 */}
                 Total:{' '}
                 {Number.isNaN(totalPrice) ? '0' : totalPrice.toLocaleString()}$
               </strong>
@@ -105,15 +101,13 @@ const ClassDetailOption: React.FC<Props> = ({
           <div className="flex gap-7 mt-4">
             <button onClick={toggleLike}>
               <IconOptionHeart
-                className={`${
-                  isLiked ? 'fill-primary' : 'fill-none'
-                } hover:fill-primary`}
+                className={`${isLiked ? 'fill-primary' : 'fill-none'} hover:fill-primary`}
               />
               <span className="sr-only">heart</span>
             </button>
             <button
               className="flex-grow text-white bg-primary rounded-xl py-4"
-              onClick={onBookingClick}
+              onClick={onBookNowClick}
             >
               Book Now
             </button>
