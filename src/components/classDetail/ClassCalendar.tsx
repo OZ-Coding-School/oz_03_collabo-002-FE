@@ -71,7 +71,7 @@ const ClassCalendar: React.FC<ClassCalendarProps> = ({
         classNames="calendar"
         unmountOnExit
       >
-        <div className="border border-1 border-gray-400 rounded-2xl pb-3 mx-6 my-20">
+        <div className="border border-1 border-gray-400 rounded-2xl pb-3 mx-6 my-10">
           <DatePicker
             value={selectedDate}
             monthLabelFormat="YYYY.MM"

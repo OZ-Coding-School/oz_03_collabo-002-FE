@@ -23,31 +23,29 @@ type Props = {
 };
 
 const ClassDetailOption: React.FC<Props> = ({
-  discountedPrice,
   bookingQuantity,
   setBookingQuantity,
   selectedDate,
   selectedTime,
   selectedClassType,
   classPrice = 0,
-  availableTimes,
   onRemoveOptionClick,
   onBookNowClick,
 }) => {
-  const [isLiked, setIsLiked] = useState(false);
+  const [isLiked, setIsLiked] = useState<boolean>(false);
 
   const handleIncrease = () => {
-    setBookingQuantity((prevQuantity) => prevQuantity + 1);
+    setBookingQuantity((prevQuantity: number) => prevQuantity + 1);
   };
 
   const handleDecrease = () => {
-    setBookingQuantity((prevQuantity) =>
+    setBookingQuantity((prevQuantity: number) =>
       prevQuantity > 0 ? prevQuantity - 1 : 0,
     );
   };
 
   const toggleLike = () => {
-    setIsLiked((prevIsLiked) => !prevIsLiked);
+    setIsLiked((prevIsLiked: boolean) => !prevIsLiked);
   };
 
   const totalPrice = bookingQuantity * classPrice;

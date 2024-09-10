@@ -11,6 +11,8 @@ import { Class } from '../type/class.type';
 import { useParams, useNavigate } from 'react-router-dom';
 import { AxiosError } from 'axios';
 import ClassDetailCalendarSlide from '../components/classDetail/ClassDetailCalendarSlide';
+import ClassDetailReview from '../components/classDetail/ClassDetailReview';
+import ClassDetailQna from '../components/classDetail/ClassDetailQna';
 
 type ClassDetailProps = {
   rating: number;
@@ -171,7 +173,8 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
           classPrice={discountedPrice}
           onBookNowClick={handleBookingClick}
         />
-
+        <ClassDetailReview />
+        <ClassDetailQna />
         <ClassDetailPolicy />
       </div>
     </>
