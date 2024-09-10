@@ -1,18 +1,19 @@
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
+import { NavigateFunction } from 'react-router-dom';
 import axios from '../api/axios';
 import LikeState, { LikeData } from '../type/like.type';
-import { useNavigate } from 'react-router-dom';
+
 
 const useLikeStore = create<LikeState>()(
   immer((set, get) => ({
     likedClasses: [],
 
     // 찜 토글
-    toggleLike: async (classId: string) => {
+    toggleLike: async (classId: string, navigate: NavigateFunction) => {
       const { likedClasses } = get();
       const isAlreadyLiked = likedClasses.includes(classId);
-      const navigate = useNavigate();
+      // const navigate = useNavigate();
       try {
         if (isAlreadyLiked) {
           // 찜 해제

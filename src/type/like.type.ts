@@ -1,3 +1,4 @@
+import { NavigateFunction } from 'react-router-dom';
 import { Class } from './class.type';
 
 export type LikeData = {
@@ -9,7 +10,7 @@ export type LikeData = {
 
 type LikeState = {
   likedClasses: string[] ; // 좋아요한 클래스의 ID 목록
-  toggleLike: (classId: string) => Promise<void>;
+  toggleLike: (classId: string, navigate: NavigateFunction) => Promise<void>;
   isLiked: (classId: string) => boolean;
   getLikedClasses: () => Promise<void>;
 };

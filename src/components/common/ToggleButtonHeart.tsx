@@ -28,7 +28,7 @@ const ToggleButtonHeart = ({ classId }: ToggleButtonHeartProps) => {
         navigate('/login/');
       }, 1000);
     } else {
-      await toggleLike(classId);
+      await toggleLike(classId, navigate);
     }
   };
 
