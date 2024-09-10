@@ -12,12 +12,21 @@ const useReviewStore = create<ReviewState & ReviewAction>()(
     hasMore: true,
 
     getReviews: async (classId, page = 1, size = 15) => {
+      const getUserInfo = localStorage.getItem('userInfo');
+      let userId = 0;
+      if (getUserInfo) {
+        const userData = JSON.parse(getUserInfo)
+        userId = userData.state.user.id 
+      }
       try {
         const response = await axios.get(
           `/reviews/${classId}/?page=${page}&size=${size}`,
         );
         const newReviews: Review[] = response.data.reviews.map(
           (item: { review: Review }) => item.review,
+        );
+        const filteredData: Review[] = newReviews.filter(
+          (item) => item.user.id === userId,
         );
         set((state) => {
           if (page === 1) {
@@ -26,6 +35,7 @@ const useReviewStore = create<ReviewState & ReviewAction>()(
             state.reviews?.push(...newReviews); // spread 연산자 대신 push 메서드 사용
           }
           state.hasMore = newReviews.length === size;
+          state.myReviews = filteredData;
         });
         return newReviews;
       } catch (error) {

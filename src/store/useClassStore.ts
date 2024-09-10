@@ -1,12 +1,13 @@
 import axios, { AxiosError } from 'axios';
 import { create } from 'zustand';
-import { ClassState, Class, ClassDetail } from '../type/class.type';
+import { ClassState, Class, ClassDetail, ClassTitle } from '../type/class.type';
 
 axios.defaults.baseURL = 'https://api.custom-k.store/v1';
 
 export const useClassStore = create<ClassState>((set) => ({
   classItem: null,
   classes: [],
+  classTitle: [],
   filteredClasses: {},
   classDetails: [],
   isLoading: false,
@@ -43,8 +44,17 @@ export const useClassStore = create<ClassState>((set) => ({
             time: `${date.start_time.substring(0, 5)} - ${date.end_time.substring(0, 5)}`, // 초(second)를 제외한 시간 형식으로 변경
           }),
         );
+        // id와 title만 추출하여 배열로 변환
+        const classTitleList: ClassTitle[] = data.data.map(
+          (classItem: Class) => ({
+            id: classItem.id,
+            title: classItem.title,
+          }),
+        );
 
-        set({ classDetails: generatedClassDetails });
+        set({ classDetails: generatedClassDetails,
+          classTitle: classTitleList,
+         });
       } else {
         console.error(`Failed to fetch class times for ID ${id}:`, data);
       }

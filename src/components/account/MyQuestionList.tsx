@@ -11,6 +11,7 @@ import EditQuestionModal from '../question/EditQuestionModal'; // 질문 수정 
 import CreateQuestionModal from '../question/CreateQuestionModal'; // 질문 생성 모달 컴포넌트
 import { Question } from '../../type/question.type';
 import Button from '../common/Button';
+import { useClassStore } from '../../store/useClassStore';
 
 const MyQuestionList = () => {
   const user = useUserStore((state) => state.user);
@@ -22,6 +23,7 @@ const MyQuestionList = () => {
   const [editingQuestion, setEditingQuestion] = useState<Question | null>(null);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const classTitle = useClassStore((state) => state.classTitle);
 
   useEffect(() => {
     if (user?.id) {
@@ -80,6 +82,7 @@ const MyQuestionList = () => {
         >
           <div className="flex justify-between px-6 py-[15px] items-center">
             <div id="question-item" className="flex flex-col flex-grow">
+              {/* Question Title */}
               <div className="flex items-center">
                 <h3 className="font-bold mr-5">{data.question_title}</h3>
                 <div className="flex items-center space-x-2">
@@ -104,6 +107,7 @@ const MyQuestionList = () => {
                   </button>
                 </div>
               </div>
+              {/* IsAnswer & Date */}
               <div
                 id="qnaStatus"
                 className="flex items-center mt-1 text-xs text-darkgray"
@@ -115,6 +119,7 @@ const MyQuestionList = () => {
                 </div>
               </div>
             </div>
+            {/* Open Answer Button */}
             {data.answer !== null && data.answer !== '' ? (
               <button>
                 {openAnswerId === String(data.id) ? (
@@ -125,8 +130,13 @@ const MyQuestionList = () => {
               </button>
             ) : null}
           </div>
+          {/* Answer & Detail Question */}
           {openAnswerId === String(data.id) && (
             <div className="mt-2 bg-slate-100 p-6">
+              {/* Class Title */}
+              <div className="text-darkgray text-xs mb-1">
+                {classTitle?.find((item) => item.id === data.class_id)?.title}
+              </div>
               <p className="mb-[15px] whitespace-pre leading-8 ">
                 Q. {data.question}
               </p>

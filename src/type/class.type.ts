@@ -62,6 +62,7 @@ export type ClassDetail = {
 export interface ClassState {
   classItem: Class | null;
   classes: Class[];
+  classTitle: ClassTitle[];
   filteredClasses: { [key: string]: Class[] };
   classDetails: ClassDetail[];
   isLoading: boolean; // isLoading 추가
@@ -72,3 +73,8 @@ export interface ClassState {
   setClasses: (classes: Class[]) => void;
   setClassDetails: (details: ClassDetail[]) => void;
 }
+
+export type ClassTitle = {
+  id: string;
+  title: string;
+};
