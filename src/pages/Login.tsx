@@ -8,7 +8,7 @@ import { handleGoogle } from '../components/Login/Google';
 import { handleLine } from '../components/Login/Line';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { LoginUser } from '../type/loginuser';
-import axios from 'axios';
+import axios from '../api/axios';
 import { useModalOpenCloseStore } from '../store/useModal';
 import Modal from '../components/common/Modal';
 import { useCallback } from 'react';
