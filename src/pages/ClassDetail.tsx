@@ -123,7 +123,7 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
   };
 
   const handleAdd = () => {
-    navigate(`reviewModal/${id}`);
+    navigate(`/reviewModal/${id}`);
   };
 
   return (
