@@ -1,38 +1,66 @@
 import { create } from 'zustand';
-import { Class } from '../type/class.type';
-import { useClassStore } from './useClassStore';
+import { immer } from 'zustand/middleware/immer';
+import axios from '../api/axios';
+import LikeState, { LikeData } from '../type/like.type';
+import { useNavigate } from 'react-router-dom';
 
-type LikeState = {
-  likedClasses: string[]; // 좋아요한 클래스의 ID 목록
-  toggleLike: (classId: string) => void;
-  isLiked: (classId: string) => boolean;
-  getLikedClasses: (classIds: string[]) => Promise<Class[] | null>;
-};
+const useLikeStore = create<LikeState>()(
+  immer((set, get) => ({
+    likedClasses: [],
 
-const useLikeStore = create<LikeState>((set, get) => ({
-  likedClasses: [],
-  toggleLike: (classId: string) => {
-    const { likedClasses } = get();
-    if (likedClasses.includes(classId)) {
-      set({ likedClasses: likedClasses.filter((id) => id !== classId) });
-    } else {
-      set({ likedClasses: [...likedClasses, classId] });
-    }
-  },
-  isLiked: (classId) => get().likedClasses.includes(classId),
-  getLikedClasses: async (likedClassIds: string[]): Promise<Class[] | null> => {
-    const findOneClass = useClassStore.getState().findOneClass;
+    // 찜 토글
+    toggleLike: async (classId: string) => {
+      const { likedClasses } = get();
+      const isAlreadyLiked = likedClasses.includes(classId);
+      const navigate = useNavigate();
+      try {
+        if (isAlreadyLiked) {
+          // 찜 해제
+          await axios.delete(`/favorites/`, {
+            params: { favorite_id: classId },
+          });
+          set((state) => {
+            state.likedClasses = likedClasses.filter((id) => id !== classId);
+          });
+        } else {
+          // 찜 추가
+          await axios.post(`/favorites/`, null, {
+            params: { class_id: classId },
+          });
+          set((state) => {
+            state.likedClasses.push(classId);
+          });
+        }
+      } catch (error: any) {
+        if (error && error?.response?.status === 401) {
+          localStorage.removeItem('userInfo');
+          if (
+            window.confirm('회원만 이용할 수 있습니다. 로그인 하시겠습니까?')
+          ) {
+            navigate('/login');
+          }
+        }
+        console.error('Error occurred while processing the like:', error);
+      }
+    },
+    // 특정 상태가 찜 상태인지 확인
+    isLiked: (classId) => get().likedClasses.includes(classId),
 
-    const promises = likedClassIds.map(async (classId) => {
-      const classData = await findOneClass(classId);
-      return classData;
-    });
-
-    const results = await Promise.all(promises);
-    return results.filter(
-      (classData): classData is Class => classData !== null,
-    ) as Class[];
-  },
-}));
+    // 찜한 클래스 목록 보기
+    getLikedClasses: async () => {
+      try {
+        const response = await axios.get('/favorites/', {
+          params: { page: 1, size: 10 },
+        });
+        const data: LikeData = response.data;
+        set((state) => {
+          state.likedClasses = data.results.map((item) => item.id.toString());
+        });
+      } catch (error) {
+        console.log('Failed to fetch liked class list: ', error);
+      }
+    },
+  })),
+);
 
 export default useLikeStore;

@@ -44,17 +44,10 @@ export const useClassStore = create<ClassState>((set) => ({
             time: `${date.start_time.substring(0, 5)} - ${date.end_time.substring(0, 5)}`, // 초(second)를 제외한 시간 형식으로 변경
           }),
         );
-        // id와 title만 추출하여 배열로 변환
-        const classTitleList: ClassTitle[] = data.data.map(
-          (classItem: Class) => ({
-            id: classItem.id,
-            title: classItem.title,
-          }),
-        );
 
-        set({ classDetails: generatedClassDetails,
-          classTitle: classTitleList,
-         });
+        set({
+          classDetails: generatedClassDetails,
+        });
       } else {
         console.error(`Failed to fetch class times for ID ${id}:`, data);
       }
@@ -76,7 +69,14 @@ export const useClassStore = create<ClassState>((set) => ({
     try {
       const response = await axios.get('/classes');
       if (response.data?.status === 'success') {
-        set({ classes: response.data.data });
+        // id와 title만 추출하여 배열로 변환
+        const classTitleList: ClassTitle[] = response.data.data.map(
+          (classItem: Class) => ({
+            id: classItem.id,
+            title: classItem.title,
+          }),
+        );
+        set({ classes: response.data.data, classTitle: classTitleList });
       } else {
         console.error('Failed to fetch classes');
       }
