@@ -26,9 +26,10 @@ instance.interceptors.response.use(
   async (error) => {
     const { config, response } = error;
     const originalRequest = config;
+    const accessToken = localStorage.getItem('accessToken');
 
-    // 모든 401 오류에 대해 토큰 갱신 시도
-    if (response && response.status === 401 && !originalRequest._retry) {
+    // 리프레시 토큰 요청인 경우 Authorization 헤더를 제외
+    if (accessToken && !config.url?.includes('/users/token/refresh/')) {
       originalRequest._retry = true;
       console.log('refresh token으로 재발급');
 
