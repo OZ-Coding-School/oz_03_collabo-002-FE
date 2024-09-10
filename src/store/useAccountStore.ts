@@ -43,18 +43,12 @@ const useAccountStore = create<AccountState & AccountActions>()(
       },
 
       getUserDetail: async () => {
-        const accessToken = localStorage.getItem('accessToken');
         const setUser = useUserStore.getState().setUser;
         try {
-          const response = await axios.get('/users/detail', {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          });
+          const response = await axios.get('/users/detail');
           const data = response.data;
           console.log('getUserDetail: ', data);
           setUser(data);
-          localStorage.setItem('userInfo', data);
         } catch (error) {
           console.log('Failed get User Detail: ', error);
         }
@@ -64,7 +58,6 @@ const useAccountStore = create<AccountState & AccountActions>()(
         updateData: Partial<{ name: string; avatar: File | string | null }>,
       ) => {
         const user = useUserStore.getState().user;
-        const accessToken = localStorage.getItem('accessToken');
         const setModal = useModalOpenCloseStore.getState().setModal;
 
         if (!user || !user.id) {
@@ -88,11 +81,7 @@ const useAccountStore = create<AccountState & AccountActions>()(
         }
 
         try {
-          const response = await axios.patch('/users/detail', dataToSend, {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          });
+          const response = await axios.patch('/users/detail', dataToSend);
           console.log(response);
           get().getUserDetail();
           setModal('Success to update');
@@ -103,37 +92,26 @@ const useAccountStore = create<AccountState & AccountActions>()(
       },
 
       logout: async () => {
-        const accessToken = localStorage.getItem('accessToken');
         const setModal = useModalOpenCloseStore.getState().setModal;
         const setUser = useUserStore.getState().setUser;
 
         try {
-          const response = await axios.post('/users/logout', {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          });
+          const response = await axios.post('/users/logout');
           console.log(response);
           setModal('Success to logout');
           setUser(null); // clearUser 함수 대신 사용
           localStorage.removeItem('userInfo');
-          localStorage.removeItem('accessToken');
         } catch (error) {
           console.log('Failed to logout: ', error);
         }
       },
 
       deleteUser: async () => {
-        const accessToken = localStorage.getItem('accessToken');
         const setUser = useUserStore.getState().setUser;
         const setModal = useModalOpenCloseStore.getState().setModal;
 
         try {
-          const response = await axios.delete('/users/detail', {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          });
+          const response = await axios.delete('/users/detail');
           console.log(response);
           setUser(null);
           localStorage.removeItem('userInfo');

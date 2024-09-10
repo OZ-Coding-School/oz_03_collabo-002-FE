@@ -13,6 +13,7 @@ import { AxiosError } from 'axios';
 import ClassDetailCalendarSlide from '../components/classDetail/ClassDetailCalendarSlide';
 import ClassDetailReview from '../components/classDetail/ClassDetailReview';
 import ClassDetailQna from '../components/classDetail/ClassDetailQna';
+import Button from '../components/common/Button';
 
 type ClassDetailProps = {
   rating: number;
@@ -121,6 +122,10 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
     navigate('/charge/');
   };
 
+  const handleAdd = () => {
+    navigate(`reviewModal/${id}`);
+  };
+
   return (
     <>
       <div>
@@ -174,6 +179,14 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
           onBookNowClick={handleBookingClick}
         />
         <ClassDetailReview />
+        <div className="px-6 my-[30px]">
+          <Button
+            type="button"
+            size="full"
+            value="add your Review"
+            onClick={handleAdd}
+          />
+        </div>
         <ClassDetailQna />
         <ClassDetailPolicy />
       </div>

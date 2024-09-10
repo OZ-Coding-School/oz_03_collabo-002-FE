@@ -54,8 +54,6 @@ const ReviewItem = ({ review, classId }: ReviewProps) => {
   const fetchClasses = useClassStore((state) => state.fetchClasses);
   const [clickedReviewId, setClickedReviewId] = useState<string | number>('');
   const [openWrite, setOpenWrite] = useState<boolean>(false);
-  const isUpdate = useReviewStore((state) => state.isUpdate);
-  const setIsUpdate = useReviewStore((state) => state.setIsUpdate);
   const setIsDelete = useReviewStore((state) => state.setIsDelete);
 
   useEffect(() => {
@@ -78,9 +76,9 @@ const ReviewItem = ({ review, classId }: ReviewProps) => {
     }
   }, [path]);
 
-  useEffect(() => {
-    console.log('review: ', review);
-  }, [review]);
+  // useEffect(() => {
+  //   console.log('review: ', review);
+  // }, [review]);
 
   // class_id에 해당하는 클래스 제목 찾기
   const classInfo = Array.isArray(classTitle)
@@ -95,10 +93,7 @@ const ReviewItem = ({ review, classId }: ReviewProps) => {
     try {
       // setIsUpdate(true);
       setOpenWrite(true);
-      setIsUpdate();
-      console.log('isUpdate: ', isUpdate);
-      console.log('hi');
-      console.log('review의 id: ', review.id);
+      // setIsUpdate();
       setClickedReviewId(review.id);
       return;
     } catch (error) {
@@ -106,9 +101,9 @@ const ReviewItem = ({ review, classId }: ReviewProps) => {
     }
   };
 
-  useEffect(() => {
-    console.log('isUpdate: ', isUpdate);
-  }, [isUpdate]);
+  // useEffect(() => {
+  //   console.log('isUpdate: ', isUpdate);
+  // }, [isUpdate]);
 
   const handleDelete = async () => {
     // try {
@@ -132,7 +127,7 @@ const ReviewItem = ({ review, classId }: ReviewProps) => {
 
   return (
     <>
-      {openWrite && isUpdate && (
+      {openWrite && (
         <ModalReviewWrite
           // setIsUpdate={setIsUpdate}
           // isUpdate={isUpdate}
@@ -152,7 +147,9 @@ const ReviewItem = ({ review, classId }: ReviewProps) => {
             <div className="w-full flex justify-between">
               <strong className="font-semibold">{review.user.name}</strong>
               <span className="ml-3 text-xs text-gray mt-1">
-                {formatDate(review.created_at)}
+                {review.updated_at
+                  ? formatDate(review.updated_at)
+                  : formatDate(review.created_at)}
               </span>
             </div>
             <div className="flex items-center justify-between">
@@ -169,7 +166,7 @@ const ReviewItem = ({ review, classId }: ReviewProps) => {
                 {review.rating}
               </p>
               {user?.id === review.user.id ? (
-                <div className="ml-3 text-xs  mt-1">
+                <div className="ml-3 text-xs  mt-1 flex items-center justify-center">
                   <button className="text-blue-600" onClick={handleEdit}>
                     edit
                   </button>
