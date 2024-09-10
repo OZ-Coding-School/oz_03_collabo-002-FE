@@ -24,7 +24,7 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
   (response) => response,
   async (error) => {
-    const { config, response } = error;
+    const { config } = error;
     const originalRequest = config;
     const accessToken = localStorage.getItem('accessToken');
 
