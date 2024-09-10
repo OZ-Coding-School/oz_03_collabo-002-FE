@@ -3,6 +3,7 @@ import { IconOptionHeart } from '../../config/IconData';
 import { useUserStore } from '../../store/useUser';
 import { useModalOpenCloseStore } from '../../store/useModal'; // Use the consistent store
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 type ToggleButtonHeartProps = {
   classId: string;
@@ -10,12 +11,15 @@ type ToggleButtonHeartProps = {
 
 const ToggleButtonHeart = ({ classId }: ToggleButtonHeartProps) => {
   const user = useUserStore((state) => state.user);
-  const { toggleLike, isLiked } = useLikeStore();
-  const liked = isLiked(classId);
+  const { isLiked, toggleLike, getLikedClasses } = useLikeStore();
   const { setModal } = useModalOpenCloseStore(); // Use the modal store correctly
   const navigate = useNavigate();
 
-  const toggleLikeClass = (classId: string) => {
+  useEffect(() => {
+    getLikedClasses();
+  }, [getLikedClasses]);
+
+  const toggleLikeClass = async (classId: string) => {
     if (!user) {
       setModal('This is a member-only service.');
 
@@ -24,7 +28,7 @@ const ToggleButtonHeart = ({ classId }: ToggleButtonHeartProps) => {
         navigate('/login/');
       }, 1000);
     } else {
-      toggleLike(classId);
+      await toggleLike(classId, navigate);
     }
   };
 
@@ -37,7 +41,9 @@ const ToggleButtonHeart = ({ classId }: ToggleButtonHeartProps) => {
       }}
       className="absolute right-1 top-2"
     >
-      <IconOptionHeart className={`${liked ? 'fill-primary' : 'fill-white'}`} />
+      <IconOptionHeart
+        className={`${isLiked(classId) ? 'fill-primary ' : 'fill-white/50 '}`}
+      />
       <span className="sr-only">heart</span>
     </button>
   );
