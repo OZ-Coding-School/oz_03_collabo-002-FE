@@ -1,97 +1,47 @@
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+
+const categoryMap: { [key: string]: string } = {
+  Cooking: 'cooking',
+  'Art & Culture': 'art-culture',
+  'Beauty & Fashion': 'beauty-fashion',
+  DIY: 'diy',
+  Activities: 'activities',
+  All: 'all',
+};
 
 const HomeCategoryList = () => {
+  const [categories] = useState([
+    'All',
+    'Cooking',
+    'Art & Culture',
+    'Beauty & Fashion',
+    'DIY',
+    'Activities',
+  ]);
+
+  const navigate = useNavigate();
+
+  const handleMoveCategory = (item: string) => {
+    const route = categoryMap[item] || 'all';
+    navigate(`/category/${route}`);
+  };
+
   return (
-    <div>
-      <div className="mt-[50px] mb-[50px] px-[20px]">
-        <ul className="flex text-center justify-between gap-5">
-          <li className="flex-1">
-            <Link to="/category/all" className="block py-2 text-[13px]">
-              <img
-                src="./Home/CategoryList/main-category01.png"
-                alt="all"
-                className="mb-2 border-2 border-gray-400 rounded-full"
-              />
-              <p>All</p>
-            </Link>
+    <div className="mt-[50px] mb-[50px] px-[20px]">
+      <ul className="grid grid-cols-2 md:grid-cols-4 gap-5 text-left">
+        {categories.map((category, index) => (
+          <li key={index} className="flex-1">
+            <img
+              src={`./Home/CategoryList/category-${categoryMap[category]}.png`}
+              alt={category}
+              className="mb-2 border-2 border-gray-400 rounded-full cursor-pointer"
+              onClick={() => handleMoveCategory(category)}
+            />
+            <p className='text-center'>{category}</p>
           </li>
-          <li className="flex-1">
-            <Link to="/category/cooking" className="block py-2 text-[13px]">
-              <img
-                src="./Home/CategoryList/main-category02.png"
-                alt="Cooking"
-                className="mb-2 border-2 border-gray-400 rounded-full"
-              />
-              <p>Cooking</p>
-            </Link>
-          </li>
-          <li className="flex-1">
-            <Link to="/category/art-culture" className="block py-2 text-[13px]">
-              <img
-                src="./Home/CategoryList/main-category03.png"
-                alt="Art & Culture"
-                className="mb-2 border-2 border-gray-400 rounded-full"
-              />
-              <p>Art & Culture</p>
-            </Link>
-          </li>
-          <li className="flex-1">
-            <Link to="/category/test2" className="block py-2 text-[13px]">
-              <img
-                src="./Home/CategoryList/main-category03.png"
-                alt="test2"
-                className="mb-2 border-2 border-gray-400 rounded-full"
-              />
-              <p>Art & Culture</p>
-            </Link>
-          </li>
-        </ul>
-        <ul className="flex text-center justify-between gap-5">
-          <li className="flex-1">
-            <Link
-              to="/category/beauty-fashion"
-              className="block py-2 text-[13px]"
-            >
-              <img
-                src="./Home/CategoryList/main-category04.png"
-                className="mb-2 border-2 border-gray-400 rounded-full"
-                alt="Beauty & Fashion"
-              />
-              <p>Beauty & Fashion</p>
-            </Link>
-          </li>
-          <li className="flex-1">
-            <Link to="/category/diy" className="block py-2 text-[13px]">
-              <img
-                src="./Home/CategoryList/main-category05.png"
-                className="mb-2 border-2 border-gray-400 rounded-full"
-                alt="DIY"
-              />
-              <p>DIY</p>
-            </Link>
-          </li>
-          <li className="flex-1">
-            <Link to="/category/activities" className="block py-2 text-[13px]">
-              <img
-                src="./Home/CategoryList/main-category06.png"
-                className="mb-2 border-2 border-gray-400 rounded-full"
-                alt="Activities"
-              />
-              <p>Activities</p>
-            </Link>
-          </li>
-          <li className="flex-1">
-            <Link to="/category/test" className="block py-2 text-[13px]">
-              <img
-                src="./Home/CategoryList/main-category06.png"
-                className="mb-2 border-2 border-gray-400 rounded-full"
-                alt="test"
-              />
-              <p>Activities</p>
-            </Link>
-          </li>
-        </ul>
-      </div>
+        ))}
+      </ul>
     </div>
   );
 };
