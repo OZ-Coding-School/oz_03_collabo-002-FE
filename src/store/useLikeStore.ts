@@ -1,9 +1,17 @@
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 import { NavigateFunction } from 'react-router-dom';
+import { AxiosError } from 'axios';
 import axios from '../api/axios';
 import LikeState, { LikeData } from '../type/like.type';
 
+// 서버 응답 에러 타입 정의
+interface ServerError {
+  response?: {
+    status: number;
+  };
+  message: string;
+}
 
 const useLikeStore = create<LikeState>()(
   immer((set, get) => ({
@@ -32,8 +40,10 @@ const useLikeStore = create<LikeState>()(
             state.likedClasses.push(classId);
           });
         }
-      } catch (error: any) {
-        if (error && error?.response?.status === 401) {
+      } catch (error) {
+        // error를 AxiosError로 캐스팅
+        const serverError = error as AxiosError<ServerError>;
+        if (serverError?.response?.status === 401) {
           localStorage.removeItem('userInfo');
           if (
             window.confirm('회원만 이용할 수 있습니다. 로그인 하시겠습니까?')
