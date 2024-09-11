@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   IconOptionHeart,
   IconOptionMinus,
@@ -19,6 +19,8 @@ type ClassDetailOptionProps = {
   selectedTime: string | null;
   selectedDateId: string | null;
   classItemState: Class;
+  selectedSupportLanguage: string;
+  selectedClassType: string;
 };
 
 const ClassDetailOption = ({
@@ -29,15 +31,35 @@ const ClassDetailOption = ({
   selectedTime,
   selectedDateId,
   classItemState,
+  selectedSupportLanguage,
+  selectedClassType,
 }: ClassDetailOptionProps) => {
   const [isLiked, setIsLiked] = useState<boolean>(false);
+  const [showSummary, setShowSummary] = useState<boolean>(false);
   const addBookingItem = useBookingStore((state) => state.addBookingItem);
   const totalPrice = bookingQuantity * discountedPrice;
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (selectedDate && selectedTime) {
+      setShowSummary(true);
+    } else {
+      setShowSummary(false);
+    }
+    console.log(selectedSupportLanguage);
+    console.log(selectedClassType);
+  }, [selectedDate, selectedTime, selectedSupportLanguage, selectedClassType ]);
+
   const handleBookingClick = () => {
-    if (!classItemState || !selectedDate || !selectedTime) {
-      alert('Please select all required options');
+    if (
+      !selectedDate ||
+      !selectedTime ||
+      !selectedSupportLanguage ||
+      !selectedClassType
+    ) {
+      alert(
+        'Please select all required options: Date, Time, Support Language, and Class Type',
+      );
       return;
     }
 
@@ -45,9 +67,10 @@ const ClassDetailOption = ({
       class_id: classItemState.id,
       class_date_id: selectedDateId,
       quantity: bookingQuantity,
-      options: classItemState.class_type,
-      amount: discountedPrice * bookingQuantity,
+      options: selectedClassType,
+      amount: totalPrice,
       title: classItemState.title,
+      support_language: selectedSupportLanguage,
     };
 
     addBookingItem(bookingData);
@@ -71,12 +94,14 @@ const ClassDetailOption = ({
   return (
     <>
       <div className="shadow-custom rounded-xl px-6 pt-[27px] fixed bottom-0 left-0 right-0 z-30 bg-white max-w-[473px] w-full m-auto">
-        {selectedDate && selectedTime && (
+        {showSummary && (
           <div className="bg-gray-100 border border-gray-300 rounded-xl py-[18px] px-4">
             <div className="flex justify-between items-center">
-              <p className="text-[12px] max-w-52">
-                {selectedDate.toLocaleDateString()} {selectedTime}
-                {classItemState.class_type && `(${classItemState.class_type})`}
+              <p id="booking-info" className="text-[12px] max-w-52">
+                {selectedDate?.toLocaleDateString()} {selectedTime}
+                {selectedSupportLanguage && <br />}
+                {selectedSupportLanguage}{' '}
+                {selectedClassType && `- ${selectedClassType}`}
               </p>
               <button
                 className="cursor-pointer"

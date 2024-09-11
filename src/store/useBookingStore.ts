@@ -9,11 +9,14 @@ export type BookingData = {
   referral_code?: string; // 추천인
   amount?: number;
   title: string;
+  reservation_name?: string;
 } | null;
 
 type BookingState = {
   bookingItem: BookingData | null;
   addBookingItem: (bookingData: BookingData) => void;
+  updateBookingWithReferral: (referralCode: string) => void;
+  updateBookingWithReservationName: (reservationName: string) => void;
 };
 
 const useBookingStore = create<BookingState>()(
@@ -30,6 +33,20 @@ const useBookingStore = create<BookingState>()(
       } else {
         console.log('이미 예약이 존재합니다.');
       }
+    },
+    updateBookingWithReferral: (referralCode: string) => {
+      set((state) => {
+        if (state.bookingItem) {
+          state.bookingItem.referral_code = referralCode;
+        }
+      });
+    },
+    updateBookingWithReservationName: (reservationName: string) => {
+      set((state) => {
+        if (state.bookingItem) {
+          state.bookingItem.reservation_name = reservationName;
+        }
+      });
     },
   })),
 );

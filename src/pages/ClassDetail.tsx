@@ -10,7 +10,6 @@ import ClassDetailSelectOption from '../components/classDetail/ClassDetailSelect
 import ClassDetailPolicy from '../components/classDetail/ClassDetailPolicy';
 import ClassDetailCalendarSlide from '../components/classDetail/ClassDetailCalendarSlide';
 import ClassDetailReview from '../components/classDetail/ClassDetailReview';
-import ClassDetailQna from '../components/classDetail/ClassDetailQna';
 import ClassDetailTopInfo from '../components/classDetail/ClassDetailTopInfo';
 import Button from '../components/common/Button';
 import { twJoin as tw } from 'tailwind-merge';
@@ -28,6 +27,16 @@ const ClassDetail = () => {
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [selectedDateId, setSelectedDateId] = useState<string | null>(null);
   const [bookingQuantity, setBookingQuantity] = useState<number>(1);
+  const [availableTimes, setAvailableTimes] = useState<
+    Array<{ id: string; time: string }>
+  >([]);
+  const [selectedSupportLanguage, setSelectedSupportLanguage] = useState('');
+  const [selectedClassType, setSelectedClassType] = useState('');
+
+  // 할인 가격 계산기
+  const originalPrice = classItemState?.price_in_usd || 0;
+  const discountRate = classItemState?.discount_rate || 0;
+  const discountedPrice = originalPrice - (originalPrice * discountRate) / 100;
 
   // 리뷰 관련 state
   const reviews = useReviewStore((state) => state.reviews);
@@ -58,8 +67,24 @@ const ClassDetail = () => {
     setSelectedDate(date);
     setSelectedTime(null);
     setSelectedDateId(null);
+
+    if (date && classItemState) {
+      const selectedTimes = classItemState.dates
+        .filter((d) => {
+          const dDate = new Date(d.start_date);
+          return dDate.toDateString() === date.toDateString();
+        })
+        .map((d) => ({
+          id: d.id,
+          time: `${d.start_time} - ${d.end_time}`,
+        }));
+      setAvailableTimes(selectedTimes);
+    } else {
+      setAvailableTimes([]);
+    }
   };
 
+  // 일정, 시간 선택하여 Dates 배열에서 해당하는 class_date_id 찾기 로직
   const handleTimeSelect = (time: string) => {
     setSelectedTime(time);
     if (classItemState && selectedDate) {
@@ -81,17 +106,6 @@ const ClassDetail = () => {
     navigate(`/reviewModal/${id}`);
   };
 
-  // 클래스 정보 state
-  const [maxPerson, setMaxPerson] = useState<number | null>(null);
-  const [showTimes, setShowTimes] = useState(false);
-  const [availableTimes, setAvailableTimes] = useState<string[]>([]);
-
-  // 할인 가격 계산기
-  const originalPrice =
-    classItemState?.price || classItemState?.price_in_usd || 0;
-  const discountRate = classItemState?.discount_rate || 0;
-  const discountedPrice = originalPrice - (originalPrice * discountRate) / 100;
-
   useEffect(() => {
     getReviews(Number(id));
   }, [getReviews, id]);
@@ -109,8 +123,7 @@ const ClassDetail = () => {
           <div
             className={tw(
               'w-full aspect-square',
-              'text-center content-center text-gray font-bold text-xl'
-              
+              'text-center content-center text-gray font-bold text-xl',
             )}
           >
             No images available
@@ -131,9 +144,16 @@ const ClassDetail = () => {
               : [classItemState.class_type]
           }
           maxPerson={classItemState.max_person}
+          selectedSupportLanguage={selectedSupportLanguage}
+          selectedClassType={selectedClassType}
+          setSelectedSupportLanguage={setSelectedSupportLanguage}
+          setSelectedClassType={setSelectedClassType}
         />
         {selectedDate && (
-          <ClassDetailCalendarSlide onTimeSelect={handleTimeSelect} />
+          <ClassDetailCalendarSlide
+            onTimeSelect={handleTimeSelect}
+            availableTimes={availableTimes}
+          />
         )}
         <ClassDetailOption
           discountedPrice={discountedPrice}
@@ -143,6 +163,8 @@ const ClassDetail = () => {
           selectedTime={selectedTime}
           selectedDateId={selectedDateId}
           classItemState={classItemState}
+          selectedSupportLanguage={selectedSupportLanguage}
+          selectedClassType={selectedClassType}
         />
         <ClassDetailReview reviews={reviews} id={classItemState.id} />
         <div className="px-6 my-[30px]">

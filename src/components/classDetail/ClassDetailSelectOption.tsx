@@ -1,28 +1,28 @@
-import React, { useState } from 'react';
 import { IconOptionArw } from '../../config/IconData';
 
 type ClassDetailSelectOptionProps = {
   availableTypes: string[];
   maxPerson: number | null;
-  // selectLanguageType: string;
-  // handleLanguageChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-  // selectedType: string | null;
-  // handleTypeChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  selectedSupportLanguage: string;
+  selectedClassType: string;
+  setSelectedSupportLanguage: (data: string) => void;
+  setSelectedClassType: (data: string) => void;
 };
 
 const ClassDetailSelectOption: React.FC<ClassDetailSelectOptionProps> = ({
   availableTypes,
   maxPerson,
+  selectedSupportLanguage,
+  selectedClassType,
+  setSelectedSupportLanguage,
+  setSelectedClassType,
 }) => {
-  const [selectLanguageType, setSelectLanguageType] = useState<string>('');
-  const [selectedType, setSelectedType] = useState<string | null>(null);
-
   const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectLanguageType(e.target.value);
+    setSelectedSupportLanguage(e.target.value);
   };
 
   const handleTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedType(e.target.value);
+    setSelectedClassType(e.target.value);
   };
 
   return (
@@ -30,11 +30,11 @@ const ClassDetailSelectOption: React.FC<ClassDetailSelectOptionProps> = ({
       {/* 언어 선택 드롭다운 */}
       <div className="mt-[22px] relative mx-6">
         <select
-          value={selectLanguageType}
+          value={selectedSupportLanguage}
           onChange={handleLanguageChange}
           className="outline-none appearance-none border border-gray-400 rounded-lg px-4 py-[12px] w-full text-gray-400 relative"
         >
-          <option selected disabled>
+          <option disabled selected>
             Supporters Language Type
           </option>
           <option value="Korean">--Korean--</option>
@@ -51,7 +51,7 @@ const ClassDetailSelectOption: React.FC<ClassDetailSelectOptionProps> = ({
           <select
             className="outline-none appearance-none border border-gray-400 rounded-lg px-4 py-[12px] w-full text-gray-400 relative"
             id="classType"
-            value={selectedType ?? ''}
+            value={selectedClassType ?? ''}
             onChange={handleTypeChange}
           >
             <option>Select Class Type</option>
