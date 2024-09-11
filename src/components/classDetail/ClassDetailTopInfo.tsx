@@ -3,7 +3,6 @@ import { IconDetailShare, IconReviewStar } from '../../config/IconData';
 import { Class } from '../../type/class.type';
 import GoodsDetailInfoSlide from './ClassDetailInfoSlide';
 import { Review } from '../../type/review.type';
-import { Divider } from '@mantine/core';
 
 type Props = {
   classData: Class;

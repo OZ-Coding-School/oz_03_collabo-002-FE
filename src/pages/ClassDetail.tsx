@@ -16,11 +16,7 @@ import Button from '../components/common/Button';
 import useReviewStore from '../store/useReviewStore';
 import ClassDetailTopInfo from '../components/classDetail/ClassDetailTopInfo';
 
-type ClassDetailProps = {
-  rating: number;
-};
-
-const ClassDetail = ({ rating }: ClassDetailProps) => {
+const ClassDetail = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const findOneClass = useClassStore((state) => state.findOneClass);
