@@ -1,74 +1,95 @@
 import { twJoin as tw } from 'tailwind-merge';
 import { IconDetailShare, IconReviewStar } from '../../config/IconData';
 import { Class } from '../../type/class.type';
-import { useState } from 'react';
 import GoodsDetailInfoSlide from './ClassDetailInfoSlide';
+import { Review } from '../../type/review.type';
 
 type Props = {
   classData: Class;
+  reviews: Review[] | null;
 };
 
-const ClassDetailTopInfo = ({ classData }: Props) => {
-  const [isLiked, setIsLiked] = useState(false);
-
+const ClassDetailTopInfo = ({ classData, reviews }: Props) => {
   // 할인율 discountRate 대입하여 할인가 계산
-  let discountPrice; // 할인가
-  if (classData) {
-    discountPrice = Math.ceil(
-      classData.price_in_usd * (1 - classData.discount_rate / 100),
-    );
-  }
+  const priceInUsd = classData.price_in_usd || 0;
+  const discountInUsd = (priceInUsd * (100 - classData.discount_rate)) / 100;
 
-  const toggleLike = () => {
-    setIsLiked((prevIsLiked) => !prevIsLiked);
+  const handleShare = () => {
+    // share 관련 함수 정의
   };
+
+  if (!classData) return;
 
   return (
     <>
       {/* 클래스 정보 */}
-      <div className="relative px-6">
+      <div className="px-6">
         <p className="text-sm text-gray py-[15px]">
           {`Class > `}
-          {classData.genre || 'No category'}
+          {classData.category[0] || 'No category'}
         </p>
-        <p className="text-2xl pr-9 font-bold">{classData.title}</p>
+        <div className="relative mb-[15px]">
+          <p className="text-2xl pr-10 font-bold">{classData.title}</p>
+          {/* Share */}
+          <button
+            className={tw(
+              'w-9 h-9 border border-gray-400 rounded-full flex items-center justify-center',
+              'absolute top-[15px] right-0',
+            )}
+            aria-label="공유하기"
+            onClick={handleShare}
+          >
+            <IconDetailShare />
+          </button>
+        </div>
+        {/* price */}
+        {classData.discount_rate !== 0 ? (
+          <div className="mb-2">
+            <span className="text-black font-extrabold text-2xl">
+              {Math.ceil(discountInUsd).toFixed(0)}
+              <span className="font-extrabold text-base">$</span>
+            </span>
+            <span className="text-gray line-through mr-2">
+              {Math.ceil(priceInUsd).toFixed(0) + `$`}
+            </span>
+            <span className="text-red text-2xl font-extrabold mr-2 rounded-md">
+              {classData.discount_rate}%
+            </span>
+          </div>
+        ) : (
+          <div className="mb-2">
+            <span className="text-black font-extrabold text-2xl">
+              {Math.ceil(discountInUsd).toFixed(0)}
+            </span>
+            <span className="font-extrabold">$</span>
+          </div>
+        )}
+        {/* Review info */}
+
         <p className="flex items-center">
           <IconReviewStar />
           &nbsp;
           {/* {classData.averageScore} */}
-          <span>{classData.average_rating}</span>
-          <span className="text-gray-400">(00개)</span>
-        </p>
-        <div className="mt-4 text-2xl flex items-center">
-          <p className="text-red text-2xl font-extrabold mr-2">
-            {classData.discount_rate} %
-          </p>
-          <p className="text-primary text-2xl  font-bold mr-2">
-            ${discountPrice}
-            {/* <strong>{originalPrice.toLocaleString()}원</strong> */}
-          </p>
-          <p className="text-gray-400 line-through text-base">
-            ${classData.price_in_usd}
-            {/* {discountedPrice.toLocaleString()}원 */}
-          </p>
-        </div>
-        <button
-          className={tw(
-            'w-9 h-9 border border-gray-400 rounded-full flex items-center justify-center',
-            'absolute top-[30px] right-[14px]',
+          {classData.average_rating === null ? (
+            <div className="text-gray ml-3 underline">Please write review</div>
+          ) : (
+            <div>
+              <span>{Number(classData.average_rating).toFixed(1)}</span>
+              <span className="text-darkgray ml-3 underline">
+                {reviews?.length}{' '}
+                {reviews && reviews?.length < 2 ? 'Review' : 'Reviews'}
+              </span>
+            </div>
           )}
-          aria-label="찜하기"
-          onClick={toggleLike}
-        >
-          <IconDetailShare className={isLiked ? 'fill-primary' : 'fill-none'} />
-        </button>
+        </p>
       </div>
       {/* 완성작 정보 */}
       <div className="mt-[15px] px-6">
         <h3 className="text-lg">Details of the Workshop Piece</h3>
-        {classData?.description
+        {/* {classData?.description
           .split('\n')
-          .map((item) => <p className="text-[13px] mt-1">- {item}</p>)}
+          .map((item) => <p className="text-[13px] mt-1">- {item}</p>)} */}
+          <p className='text-[13px] mt-1 whitespace-pre'>{classData?.description}</p>
       </div>
       <GoodsDetailInfoSlide
         scrollImage={classData.images[0]?.description_image_urls || []}

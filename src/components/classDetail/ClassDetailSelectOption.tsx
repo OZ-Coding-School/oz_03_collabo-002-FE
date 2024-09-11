@@ -1,35 +1,44 @@
-import React from 'react';
 import { IconOptionArw } from '../../config/IconData';
 
 type ClassDetailSelectOptionProps = {
-  selectLanguageType: string;
-  handleLanguageChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   availableTypes: string[];
-  selectedType: string | null;
-  handleTypeChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   maxPerson: number | null;
+  selectedSupportLanguage: string;
+  selectedClassType: string;
+  setSelectedSupportLanguage: (data: string) => void;
+  setSelectedClassType: (data: string) => void;
 };
 
 const ClassDetailSelectOption: React.FC<ClassDetailSelectOptionProps> = ({
-  selectLanguageType,
-  handleLanguageChange,
   availableTypes,
-  selectedType,
-  handleTypeChange,
   maxPerson,
+  selectedSupportLanguage,
+  selectedClassType,
+  setSelectedSupportLanguage,
+  setSelectedClassType,
 }) => {
+  const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedSupportLanguage(e.target.value);
+  };
+
+  const handleTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedClassType(e.target.value);
+  };
+
   return (
     <div>
       {/* 언어 선택 드롭다운 */}
       <div className="mt-[22px] relative mx-6">
         <select
-          value={selectLanguageType}
+          value={selectedSupportLanguage}
           onChange={handleLanguageChange}
           className="outline-none appearance-none border border-gray-400 rounded-lg px-4 py-[12px] w-full text-gray-400 relative"
         >
-          <option value="">Supporters Language Type</option>
-          <option value="Korean">Korean</option>
-          <option value="English">English</option>
+          <option disabled selected>
+            Supporters Language Type
+          </option>
+          <option value="Korean">--Korean--</option>
+          <option value="English">--English--</option>
         </select>
         <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
           <IconOptionArw />
@@ -42,7 +51,7 @@ const ClassDetailSelectOption: React.FC<ClassDetailSelectOptionProps> = ({
           <select
             className="outline-none appearance-none border border-gray-400 rounded-lg px-4 py-[12px] w-full text-gray-400 relative"
             id="classType"
-            value={selectedType ?? ''}
+            value={selectedClassType ?? ''}
             onChange={handleTypeChange}
           >
             <option>Select Class Type</option>
