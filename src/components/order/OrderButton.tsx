@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { PayPalButtons } from '@paypal/react-paypal-js';
 import axios from '../../api/axios';
-import useBookingStore, { BookingData } from '../../store/useBookingStore';
+import { BookingData } from '../../store/useBookingStore';
 import { useState } from 'react';
 import { OnApproveData, OnApproveActions } from '@paypal/paypal-js';
 
@@ -21,7 +21,6 @@ export function Message({
 
 const OrderButton = ({ data }: OrderButtonProps) => {
   const navigate = useNavigate();
-  const bookingItem = useBookingStore((state) => state.bookingItem);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [messageType, setMessageType] = useState<'info' | 'error' | 'success'>(
@@ -30,10 +29,10 @@ const OrderButton = ({ data }: OrderButtonProps) => {
 
   const createOrder = async () => {
     setLoading(true);
-    console.log(bookingItem);
     try {
       const response = await axios.post('/payments/paypal/orders', {
-        amount: bookingItem?.amount?.toFixed(2),
+        amount: data?.amount?.toFixed(2),
+        data: data
       });
 
       const orderData = await response.data;
@@ -103,23 +102,25 @@ const OrderButton = ({ data }: OrderButtonProps) => {
   };
 
   const handleWireTransfer = () => {
+    // 서버에 데이터를 전송하는 코드 작성
     navigate('/wire-transfer', { state: { orderData: data } });
   };
 
   return (
     <div className="px-6 py-4">
-      <h3 className="font-bold mb-2">Payment Method</h3>
-      <div className="flex justify-between gap-4">
+      <h3 className="font-bold mb-5">Payment Method</h3>
+      <div className="flex justify-between gap-4 h-fit">
         {/* 페이팔 버튼 */}
         <PayPalButtons
           createOrder={createOrder}
           onApprove={onApprove}
-          style={{ layout: 'horizontal', color: 'blue' }}
+          style={{ layout: 'horizontal', color: 'white', tagline: false}}
           disabled={loading}
+          className='flex-1'
         />
         {/* 무통장입금 버튼 */}
         <button
-          className="flex-1 p-2 border rounded"
+          className="flex-1 border border-gray-700 rounded-[4px] text-[14px] py-0 h-[36px] font-extrabold"
           onClick={handleWireTransfer}
           disabled={loading}
         >

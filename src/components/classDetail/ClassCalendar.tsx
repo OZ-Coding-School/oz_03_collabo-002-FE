@@ -1,4 +1,3 @@
-import { Dispatch, SetStateAction } from 'react';
 import { DatePicker } from '@mantine/dates';
 import './ClassDetail.css';
 import { IconDetailCalendar } from '../../config/IconData';
@@ -7,11 +6,8 @@ import { CSSTransition } from 'react-transition-group';
 
 type ClassCalendarProps = {
   selectedDate: Date | null;
-  onDateChange: Dispatch<SetStateAction<Date | null>>;
+  onDateChange: (date: Date | null) => void;
   availableDates: Date[];
-  availableTypes: string[];
-  selectedClassType: string | null;
-  onTypeChange: (type: string | null) => void;
 };
 
 const ClassCalendar: React.FC<ClassCalendarProps> = ({
@@ -49,7 +45,7 @@ const ClassCalendar: React.FC<ClassCalendarProps> = ({
           color: isPastDate ? '#999' : '',
           cursor: isAvailable ? 'pointer' : 'default',
         }}
-        onClick={() => handleDateChange(date)}
+        // onClick={() => handleDateChange(date)}
       >
         {date.getDate()}
       </div>

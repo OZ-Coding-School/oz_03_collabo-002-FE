@@ -16,7 +16,7 @@ const ClassDetailSlide = ({ slideImage }: ClassDetailSlideProps) => {
         type: 'fraction',
       }}
       modules={[Pagination]}
-      className="mySwiper overflow-hidden"
+      className="mySwiper overflow-hidden w-full aspect-square"
     >
       {slideImage.map((slide, index) => (
         <SwiperSlide key={index} className="w-full">

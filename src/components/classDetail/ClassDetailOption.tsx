@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   IconOptionHeart,
   IconOptionMinus,
   IconOptionPlus,
   IconOptionRemove,
 } from '../../config/IconData';
+import { useNavigate } from 'react-router-dom';
+import { Class } from '../../type/class.type';
+import useBookingStore from '../../store/useBookingStore';
 
-type Props = {
+type ClassDetailOptionProps = {
   discountedPrice: number;
   bookingQuantity: number;
   setBookingQuantity: (
@@ -14,25 +17,65 @@ type Props = {
   ) => void;
   selectedDate: Date | null;
   selectedTime: string | null;
-  selectedClassType: string | null;
-  classPrice: number;
-  availableTimes: string[];
-  onBookNowClick: () => void;
-  onRemoveOptionClick?: () => void;
-  onBookingClick?: () => void;
+  selectedDateId: string | null;
+  classItemState: Class;
+  selectedSupportLanguage: string;
+  selectedClassType: string;
 };
 
-const ClassDetailOption: React.FC<Props> = ({
+const ClassDetailOption = ({
+  discountedPrice,
   bookingQuantity,
   setBookingQuantity,
   selectedDate,
   selectedTime,
+  selectedDateId,
+  classItemState,
+  selectedSupportLanguage,
   selectedClassType,
-  classPrice = 0,
-  onRemoveOptionClick,
-  onBookNowClick,
-}) => {
+}: ClassDetailOptionProps) => {
   const [isLiked, setIsLiked] = useState<boolean>(false);
+  const [showSummary, setShowSummary] = useState<boolean>(false);
+  const addBookingItem = useBookingStore((state) => state.addBookingItem);
+  const totalPrice = bookingQuantity * discountedPrice;
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (selectedDate && selectedTime) {
+      setShowSummary(true);
+    } else {
+      setShowSummary(false);
+    }
+    console.log(selectedSupportLanguage);
+    console.log(selectedClassType);
+  }, [selectedDate, selectedTime, selectedSupportLanguage, selectedClassType ]);
+
+  const handleBookingClick = () => {
+    if (
+      !selectedDate ||
+      !selectedTime ||
+      !selectedSupportLanguage ||
+      !selectedClassType
+    ) {
+      alert(
+        'Please select all required options: Date, Time, Support Language, and Class Type',
+      );
+      return;
+    }
+
+    const bookingData = {
+      class_id: classItemState.id,
+      class_date_id: selectedDateId,
+      quantity: bookingQuantity,
+      options: selectedClassType,
+      amount: totalPrice,
+      title: classItemState.title,
+      support_language: selectedSupportLanguage,
+    };
+
+    addBookingItem(bookingData);
+    navigate('/charge/');
+  };
 
   const handleIncrease = () => {
     setBookingQuantity((prevQuantity: number) => prevQuantity + 1);
@@ -40,7 +83,7 @@ const ClassDetailOption: React.FC<Props> = ({
 
   const handleDecrease = () => {
     setBookingQuantity((prevQuantity: number) =>
-      prevQuantity > 0 ? prevQuantity - 1 : 0,
+      prevQuantity > 1 ? prevQuantity - 1 : 1,
     );
   };
 
@@ -48,19 +91,24 @@ const ClassDetailOption: React.FC<Props> = ({
     setIsLiked((prevIsLiked: boolean) => !prevIsLiked);
   };
 
-  const totalPrice = bookingQuantity * classPrice;
-
   return (
     <>
       <div className="shadow-custom rounded-xl px-6 pt-[27px] fixed bottom-0 left-0 right-0 z-30 bg-white max-w-[473px] w-full m-auto">
-        {selectedDate && selectedTime && (
+        {showSummary && (
           <div className="bg-gray-100 border border-gray-300 rounded-xl py-[18px] px-4">
             <div className="flex justify-between items-center">
-              <p className="text-[12px] max-w-52">
-                {selectedDate.toLocaleDateString()} {selectedTime}
-                {selectedClassType && `(${selectedClassType})`}
+              <p id="booking-info" className="text-[12px] max-w-52">
+                {selectedDate?.toLocaleDateString()} {selectedTime}
+                {selectedSupportLanguage && <br />}
+                {selectedSupportLanguage}{' '}
+                {selectedClassType && `- ${selectedClassType}`}
               </p>
-              <button className="cursor-pointer" onClick={onRemoveOptionClick}>
+              <button
+                className="cursor-pointer"
+                onClick={() => {
+                  setBookingQuantity(1);
+                }}
+              >
                 <span className="sr-only">close</span>
                 <IconOptionRemove />
               </button>
@@ -83,7 +131,9 @@ const ClassDetailOption: React.FC<Props> = ({
                   <span className="sr-only">plus</span>
                 </button>
               </div>
-              <div>{classPrice ? `${classPrice.toLocaleString()}$` : ''}</div>
+              <div>
+                {discountedPrice ? `${discountedPrice.toLocaleString()}$` : ''}
+              </div>
             </div>
           </div>
         )}
@@ -107,7 +157,7 @@ const ClassDetailOption: React.FC<Props> = ({
             </button>
             <button
               className="flex-grow text-white bg-primary rounded-xl py-4"
-              onClick={onBookNowClick}
+              onClick={handleBookingClick}
             >
               Book Now
             </button>
