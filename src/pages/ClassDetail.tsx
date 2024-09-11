@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import useBookingStore from '../../src/store/useBookingStore';
 import { useClassStore } from '../store/useClassStore';
-import GoodsDetailTopInfo from '../components/classDetail/GoodsDetailTopInfo';
 import ClassDetailSlide from '../components/classDetail/ClassDetailSlide';
 import ClassCalendar from '../components/classDetail/ClassCalendar';
 import ClassDetailOption from '../components/classDetail/ClassDetailOption';
@@ -14,6 +13,8 @@ import ClassDetailCalendarSlide from '../components/classDetail/ClassDetailCalen
 import ClassDetailReview from '../components/classDetail/ClassDetailReview';
 import ClassDetailQna from '../components/classDetail/ClassDetailQna';
 import Button from '../components/common/Button';
+import useReviewStore from '../store/useReviewStore';
+import ClassDetailTopInfo from '../components/classDetail/ClassDetailTopInfo';
 
 type ClassDetailProps = {
   rating: number;
@@ -36,6 +37,14 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
   const [availableTimes, setAvailableTimes] = useState<string[]>([]);
   const [bookingQuantity, setBookingQuantity] = useState<number>(1);
   const [selectLanguageType, setSelectLanguageType] = useState<string>('');
+
+  // 리뷰 관련 state
+  const reviews = useReviewStore((state) => state.reviews);
+  const getReviews = useReviewStore((state) => state.getReviews);
+
+  useEffect(() => {
+    getReviews(Number(id));
+  }, [getReviews, id]);
 
   useEffect(() => {
     if (id) {
@@ -126,6 +135,8 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
     navigate(`/reviewModal/${id}`);
   };
 
+  if (!classItemState) return;
+
   return (
     <>
       <div>
@@ -136,15 +147,7 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
         ) : (
           <div>No images available</div>
         )}
-
-        <GoodsDetailTopInfo
-          classItemState={classItemState}
-          rating={rating}
-          originalPrice={originalPrice}
-          discountRate={discountRate}
-          discountedPrice={discountedPrice}
-        />
-
+        <ClassDetailTopInfo classData={classItemState} reviews={reviews} />
         <ClassCalendar
           selectedDate={selectedDate}
           availableDates={availableDates}
@@ -153,7 +156,6 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
           onTypeChange={setSelectedClassType}
           onDateChange={setSelectedDate}
         />
-
         <ClassDetailSelectOption
           selectLanguageType={selectLanguageType}
           handleLanguageChange={handleLanguageChange}
@@ -162,11 +164,9 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
           handleTypeChange={handleTypeChange}
           maxPerson={maxPerson}
         />
-
         {showTimes && (
           <ClassDetailCalendarSlide onTimeSelect={setSelectedTime} />
         )}
-
         <ClassDetailOption
           discountedPrice={discountedPrice}
           bookingQuantity={bookingQuantity}
@@ -178,7 +178,7 @@ const ClassDetail = ({ rating }: ClassDetailProps) => {
           classPrice={discountedPrice}
           onBookNowClick={handleBookingClick}
         />
-        <ClassDetailReview />
+        <ClassDetailReview reviews={reviews} id={classItemState.id} />{' '}
         <div className="px-6 my-[30px]">
           <Button
             type="button"
