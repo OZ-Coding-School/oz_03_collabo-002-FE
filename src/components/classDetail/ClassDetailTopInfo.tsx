@@ -18,7 +18,6 @@ const ClassDetailTopInfo = ({ classData, reviews }: Props) => {
     // share 관련 함수 정의
   };
 
-  console.log(classData.genre);
   if (!classData) return;
 
   return (
@@ -27,7 +26,7 @@ const ClassDetailTopInfo = ({ classData, reviews }: Props) => {
       <div className="px-6">
         <p className="text-sm text-gray py-[15px]">
           {`Class > `}
-          {classData.genre || 'No category'}
+          {classData.category[0] || 'No category'}
         </p>
         <div className="relative mb-[15px]">
           <p className="text-2xl pr-10 font-bold">{classData.title}</p>

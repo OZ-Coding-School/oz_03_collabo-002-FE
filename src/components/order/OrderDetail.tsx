@@ -17,10 +17,12 @@ const OrderDetail = ({ data }: Props) => {
       if (data?.class_id) {
         const currentClass = await findOneClass(String(data.class_id));
         setClassInfo(currentClass);
-
+        console.log('currentClass: ', currentClass?.dates[0].id);
+        console.log(data.class_date_id)
         const reserved = await currentClass?.dates.find(
-          (date: { id: string | number }) => date.id === data.class_date_id,
+          (item) => item.id === data.class_date_id,
         );
+        console.log('reserved: ', reserved)
         setReservedDate(reserved?.start_date || 'Date not available');
         setReservedTime(
           reserved
@@ -43,6 +45,7 @@ const OrderDetail = ({ data }: Props) => {
               classInfo.images[0]?.thumbnail_image_urls?.[0] ||
               classInfo.images[0]?.detail_image_urls[0]
             }
+            className="w-28 aspect-square cover object-cover object-top rounded-md"
           />
         </div>
         <div>

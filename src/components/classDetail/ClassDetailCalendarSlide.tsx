@@ -6,11 +6,13 @@ import { useClassStore } from '../../store/useClassStore'; // zustand로부터 c
 import { useParams } from 'react-router-dom';
 import { IconCheck } from '../../config/IconData';
 
-type Props = {
-  onTimeSelect: (time: string | null) => void;
+type ClassDetailCalendarSlideProps = {
+  onTimeSelect: (time: string) => void;
 };
 
-const ClassDetailCalendarSlide: React.FC<Props> = ({ onTimeSelect }) => {
+const ClassDetailCalendarSlide = ({
+  onTimeSelect,
+}: ClassDetailCalendarSlideProps) => {
   const { classDetails, fetchClassesTime } = useClassStore();
   const { id } = useParams<{ id: string }>();
 
@@ -28,7 +30,7 @@ const ClassDetailCalendarSlide: React.FC<Props> = ({ onTimeSelect }) => {
     // 이미 선택된 항목을 다시 클릭한 경우 선택 해제
     if (selectedIndex === index) {
       setSelectedIndex(null);
-      onTimeSelect(null);
+      onTimeSelect('');
     } else {
       setSelectedIndex(index);
       onTimeSelect(classDetails[index].time);
