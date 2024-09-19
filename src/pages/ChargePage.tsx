@@ -3,6 +3,9 @@ import OrderButton from '../components/order/OrderButton';
 import OrderDetail from '../components/order/OrderDetail';
 import OrderHeader from '../components/order/OrderHeader';
 import useBookingStore from '../store/useBookingStore';
+import OrderCompletePage from '../components/order/OrderPayPalBtn';
+import OrderDepositPage from '../components/order/OrderDepositPage';
+import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 
 const ChargePage = () => {
   const bookingItem = useBookingStore((state) => state.bookingItem);
@@ -28,8 +31,9 @@ const ChargePage = () => {
   if (!bookingItem) return null;
 
   return (
-    <div>
-      <OrderHeader />
+    <PayPalScriptProvider
+      options={{ clientId: import.meta.env.VITE_PAYPAL_CLIENT_ID }}
+    >      <OrderHeader />
       <OrderDetail
         data={bookingItem}
         referralCode={referralCode}
@@ -38,7 +42,13 @@ const ChargePage = () => {
         onReferralCodeChange={handleReferralCodeChange}
       />
       <OrderButton data={bookingItem} />
-    </div>
+      <OrderCompletePage />
+      <OrderDepositPage />
+
+      
+      {/* <Route path="/order-complete/" element={<OrderCompletePage />} />
+      <Route path="/wire-transfer/" element={<OrderDepositPage />} />{' '} */}
+    </PayPalScriptProvider>
   );
 };
 
