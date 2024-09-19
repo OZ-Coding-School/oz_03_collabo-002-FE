@@ -33,7 +33,8 @@ instance.interceptors.response.use(
       try {
         // 토큰 재발급 요청
         await axios.post(
-          'https://api.custom-k.store/v1/users/token/refresh/',
+          'https://api.malazoo.kr/v1/users/token/refresh',
+          // 'https://api.custom-k.store/v1/users/token/refresh/',
           {},
           { withCredentials: true },
         );

@@ -29,7 +29,7 @@ const HomeCategoryList = () => {
 
   return (
     <div className="mt-[50px] mb-[50px] px-[20px]">
-      <ul className="grid grid-cols-2 md:grid-cols-4 gap-5 text-left">
+      <ul className="grid grid-cols-3 sm:grid-cols-4 gap-5 text-left">
         {categories.map((category, index) => (
           <li key={index} className="flex-1">
             <img
@@ -38,7 +38,7 @@ const HomeCategoryList = () => {
               className="mb-2 border-2 border-gray-400 rounded-full cursor-pointer"
               onClick={() => handleMoveCategory(category)}
             />
-            <p className='text-center'>{category}</p>
+            <p className="text-center">{category}</p>
           </li>
         ))}
       </ul>

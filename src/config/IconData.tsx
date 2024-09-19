@@ -34,6 +34,11 @@ import { ReactComponent as IconArrowDown } from '../assets/icon/icon-arrow-down.
 import { ReactComponent as IconArrowLeft } from '../assets/icon/icon-arrow-left.svg';
 import { ReactComponent as IconLogin } from '../assets/icon/icon-login.svg';
 import { ReactComponent as IconEdit } from '../assets/icon/icon-edit.svg';
+import { ReactComponent as IconKakao } from '../assets/icon/kakao.svg';
+import { ReactComponent as IconLine } from '../assets/icon/line.svg';
+import { ReactComponent as IconNaver } from '../assets/icon/naver.svg';
+import { ReactComponent as IconGoogle } from '../assets/icon/google.svg';
+import { ReactComponent as IconFacebook } from '../assets/icon/facebook.svg';
 
 export {
   IconPaginationLeft,
@@ -71,5 +76,10 @@ export {
   IconArrowDown,
   IconArrowLeft,
   IconLogin,
-  IconEdit
+  IconEdit,
+  IconKakao,
+  IconLine,
+  IconNaver,
+  IconGoogle,
+  IconFacebook,
 };
