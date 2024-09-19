@@ -1,7 +1,8 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
 
 const instance = axios.create({
-  baseURL: 'https://api.custom-k.store/v1',
+  baseURL: 'https://api.malazoo.kr/v1',
+  // baseURL: 'https://api.custom-k.store/v1',
   withCredentials: true, // 쿠키를 포함한 크로스 도메인 요청을 허용
   headers: {
     'Content-Type': 'application/json',

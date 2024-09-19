@@ -1,8 +1,7 @@
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
+import axios from './../api/axios'
 import { create } from 'zustand';
 import { ClassState, Class, ClassDetail, ClassTitle } from '../type/class.type';
-
-axios.defaults.baseURL = 'https://api.custom-k.store/v1';
 
 export const useClassStore = create<ClassState>((set) => ({
   classItem: null,
