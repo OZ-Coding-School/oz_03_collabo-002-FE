@@ -16,7 +16,7 @@ const PopularClasses: React.FC = () => {
   }
 
   const popularClasses = classes
-    ?.filter((classItem) => classItem.is_viewed === true)
+    ?.filter((classItem) => classItem.is_popular === true)
     .slice(0, 2);
 
   return (

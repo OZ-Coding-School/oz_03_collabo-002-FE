@@ -92,7 +92,7 @@ export const useClassStore = create<ClassState>((set) => ({
       filteredClasses: {
         ...state.filteredClasses,
         [category]: state.classes.filter(
-          (classItem) => classItem.category === category,
+          (classItem) => classItem.category[0] === category,
         ),
       },
     }));
