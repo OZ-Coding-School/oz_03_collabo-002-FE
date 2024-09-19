@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { useClassStore } from '../store/useClassStore';
 import useReviewStore from '../store/useReviewStore';
 import { Class } from '../type/class.type';
@@ -7,16 +7,13 @@ import ClassDetailSlide from '../components/classDetail/ClassDetailSlide';
 import ClassCalendar from '../components/classDetail/ClassCalendar';
 import ClassDetailOption from '../components/classDetail/ClassDetailOption';
 import ClassDetailSelectOption from '../components/classDetail/ClassDetailSelectOption';
-import ClassDetailPolicy from '../components/classDetail/ClassDetailPolicy';
 import ClassDetailCalendarSlide from '../components/classDetail/ClassDetailCalendarSlide';
-import ClassDetailReview from '../components/classDetail/ClassDetailReview';
 import ClassDetailTopInfo from '../components/classDetail/ClassDetailTopInfo';
-import Button from '../components/common/Button';
 import { twJoin as tw } from 'tailwind-merge';
+import ClassDetailContent from '../components/classDetail/ClassDetailContent';
 
 const ClassDetail = () => {
   const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
 
   // 클래스 관련 state
   const findOneClass = useClassStore((state) => state.findOneClass);
@@ -41,6 +38,7 @@ const ClassDetail = () => {
   // 리뷰 관련 state
   const reviews = useReviewStore((state) => state.reviews);
   const getReviews = useReviewStore((state) => state.getReviews);
+  const reviewsRef = useRef<HTMLDivElement>(null);
 
   // 원데이 클래스 정보 받아오기
   const fetchClassData = useCallback(async () => {
@@ -101,9 +99,15 @@ const ClassDetail = () => {
     }
   };
 
-  // 리뷰 등록 모달 구현 로직
-  const handleAddReview = () => {
-    navigate(`/reviewModal/${id}`);
+  // 섹션으로 스크롤 이동 구현 로직
+  const scrollToSection = (sectionRef: React.RefObject<HTMLElement>) => {
+    if (sectionRef.current) {
+      const { top } = sectionRef.current.getBoundingClientRect();
+      window.scrollTo({
+        top: window.scrollY + top - 105, // -80px 만큼 조정
+        behavior: 'smooth',
+      });
+    }
   };
 
   useEffect(() => {
@@ -129,7 +133,12 @@ const ClassDetail = () => {
             No images available
           </div>
         )}
-        <ClassDetailTopInfo classData={classItemState} reviews={reviews} />
+        <ClassDetailTopInfo
+          classData={classItemState}
+          reviews={reviews}
+          scrollToSection={scrollToSection}
+          reviewsRef={reviewsRef}
+        />
         <ClassCalendar
           selectedDate={selectedDate}
           onDateChange={handleDateSelect}
@@ -166,16 +175,11 @@ const ClassDetail = () => {
           selectedSupportLanguage={selectedSupportLanguage}
           selectedClassType={selectedClassType}
         />
-        <ClassDetailReview reviews={reviews} id={classItemState.id} />
-        <div className="px-6 my-[30px]">
-          <Button
-            type="button"
-            size="full"
-            value="add your Review"
-            onClick={handleAddReview}
-          />
-        </div>
-        <ClassDetailPolicy />
+        <ClassDetailContent
+          classData={classItemState}
+          scrollToSection={scrollToSection}
+          reviewsRef={reviewsRef}
+        />
       </div>
     </>
   );
