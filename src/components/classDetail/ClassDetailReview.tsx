@@ -5,16 +5,22 @@ import {
   IconReviewStar,
 } from '../../config/IconData';
 import { Review } from '../../type/review.type';
+import Button from '../common/Button';
 
 type ClassDetailReviewProps = {
-    reviews: Review[] | null;
-    id: string;
-  }
-  const ClassDetailReview = ({reviews, id}: ClassDetailReviewProps) => {
+  reviews: Review[] | null;
+  id: string;
+};
+const ClassDetailReview = ({ reviews, id }: ClassDetailReviewProps) => {
   const navigate = useNavigate();
 
   const handleAllReview = () => {
     navigate(`/review/${id}`);
+  };
+
+  // 리뷰 등록 모달 구현 로직
+  const handleAddReview = () => {
+    navigate(`/reviewModal/${id}`);
   };
 
   return (
@@ -61,6 +67,14 @@ type ClassDetailReviewProps = {
             </div>
           ))
           .slice(0, 1)}
+      </div>
+      <div className="px-6 my-[30px]">
+        <Button
+          type="button"
+          size="full"
+          value="add your Review"
+          onClick={handleAddReview}
+        />
       </div>
     </div>
   );

@@ -1,12 +1,15 @@
-import { useNavigate } from 'react-router-dom';
 import { PayPalButtons } from '@paypal/react-paypal-js';
 import axios from '../../api/axios';
 import { BookingData } from '../../store/useBookingStore';
 import { useState } from 'react';
 import { OnApproveData, OnApproveActions } from '@paypal/paypal-js';
+import { useUserStore } from '../../store/useUser';
+import { Order } from '../../type/order.type';
 
 type OrderButtonProps = {
   data: BookingData;
+  handlePaypal: (orderData: Order) => void;
+  handleWireTransfer: (orderData: BookingData) => void;
 };
 
 export function Message({
@@ -19,20 +22,25 @@ export function Message({
   return <p className={`message ${type}`}>{content}</p>;
 }
 
-const OrderButton = ({ data }: OrderButtonProps) => {
-  const navigate = useNavigate();
+const OrderButton = ({
+  data,
+  handlePaypal,
+  handleWireTransfer,
+}: OrderButtonProps) => {
+  // const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [messageType, setMessageType] = useState<'info' | 'error' | 'success'>(
     'info',
   );
+  const user = useUserStore((state) => state.user);
 
   const createOrder = async () => {
     setLoading(true);
     try {
       const response = await axios.post('/payments/paypal/orders', {
         amount: data?.amount?.toFixed(2),
-        data: data
+        data: data,
       });
 
       const orderData = await response.data;
@@ -89,7 +97,8 @@ const OrderButton = ({ data }: OrderButtonProps) => {
 
         // 결제 성공 후 처리
         setTimeout(() => {
-          navigate('/order-confirmation', { state: { orderData } });
+          // navigate('/order-confirmation', { state: { orderData } });
+          handlePaypal(orderData);
         }, 2000);
       }
     } catch (error) {
@@ -100,10 +109,12 @@ const OrderButton = ({ data }: OrderButtonProps) => {
       setLoading(false);
     }
   };
+  if (!user) return;
 
-  const handleWireTransfer = () => {
+  const onWireTransfer = () => {
     // 서버에 데이터를 전송하는 코드 작성
-    navigate('/wire-transfer', { state: { orderData: data } });
+    // navigate('/wire-transfer', { state: { orderData: data } });
+    handleWireTransfer(data);
   };
 
   return (
@@ -114,14 +125,14 @@ const OrderButton = ({ data }: OrderButtonProps) => {
         <PayPalButtons
           createOrder={createOrder}
           onApprove={onApprove}
-          style={{ layout: 'horizontal', color: 'white', tagline: false}}
+          style={{ layout: 'horizontal', color: 'white', tagline: false }}
           disabled={loading}
-          className='flex-1'
+          className="flex-1"
         />
         {/* 무통장입금 버튼 */}
         <button
           className="flex-1 border border-gray-700 rounded-[4px] text-[14px] py-0 h-[36px] font-extrabold"
-          onClick={handleWireTransfer}
+          onClick={onWireTransfer}
           disabled={loading}
         >
           Wire Transfer

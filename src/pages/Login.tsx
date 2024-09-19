@@ -1,7 +1,7 @@
-import facebook from '../assets/icon/facebook.svg';
-import kakao from '../assets/icon/kakao.svg';
-import google from '../assets/icon/google.svg';
-import line from '../assets/icon/line.svg';
+// import facebook from '../assets/icon/facebook.svg';
+// import kakao from '../assets/icon/kakao.svg';
+// import google from '../assets/icon/google.svg';
+// import line from '../assets/icon/line.svg';
 import { Link, useNavigate } from 'react-router-dom';
 import { handleKaKao } from '../components/Login/Kakao';
 import { handleGoogle } from '../components/Login/Google';
@@ -13,6 +13,12 @@ import { useModalOpenCloseStore } from '../store/useModal';
 import Modal from '../components/common/Modal';
 import { useCallback } from 'react';
 import { useUserStore } from '../store/useUser';
+import {
+  IconFacebook,
+  IconGoogle,
+  IconKakao,
+  IconLine,
+} from '../config/IconData';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -180,7 +186,7 @@ const Login = () => {
                 onClick={handleKaKao}
               >
                 <div className="flex justify-center">
-                  {<img src={kakao} alt="kakao" className="mr-4 mt-0.5" />}
+                  <IconKakao className="mr-4 mt-0.5" />
                   Login with Kakao
                 </div>
               </button>
@@ -192,13 +198,13 @@ const Login = () => {
                 onClick={handleLine}
               >
                 <div className="flex justify-center">
-                  <img src={line} alt="라인" className="mr-4" />
+                  <IconLine className="mr-4" />
                   Login with Line
                 </div>
               </button>
               <button className="bg-[#1877F2] text-white w-full rounded-xl h-10 mb-3 ">
                 <div className="flex justify-center">
-                  <img src={facebook} alt="페이스북" className="mr-4" />
+                  <IconFacebook className="mr-4" />
                   Login with FaceBook
                 </div>
               </button>
@@ -207,7 +213,7 @@ const Login = () => {
                 onClick={handleGoogle}
               >
                 <div className="flex justify-center">
-                  <img src={google} alt="구글" className="mr-4" />
+                  <IconGoogle className="mr-4" />
                   Login with Google
                 </div>
               </button>

@@ -46,9 +46,7 @@ const ClassDetailOption = ({
     } else {
       setShowSummary(false);
     }
-    console.log(selectedSupportLanguage);
-    console.log(selectedClassType);
-  }, [selectedDate, selectedTime, selectedSupportLanguage, selectedClassType ]);
+  }, [selectedDate, selectedTime, selectedSupportLanguage, selectedClassType]);
 
   const handleBookingClick = () => {
     if (

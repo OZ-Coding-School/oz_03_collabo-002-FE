@@ -14,8 +14,6 @@ import Redirection from './pages/Redirection';
 import Category from './components/classByCategory/Category';
 import ModalReviewWrite from './components/common/ModalReviewWrite';
 import LineEmail from './components/Login/LineEmail';
-import OrderCompletePage from './components/order/OrderPayPalBtn';
-import OrderDepositPage from './components/order/OrderDepositPage';
 
 function App() {
   const path = location.pathname;
@@ -47,8 +45,6 @@ function App() {
             <Route path="/class/:id" element={<ClassDetail />} />
             <Route path="/account/" element={<Account />} />
             <Route path="/charge/" element={<ChargePage />} />
-            <Route path="/order-complete/" element={<OrderCompletePage />} />
-            <Route path="/wire-transfer/" element={<OrderDepositPage />} />{' '}
             <Route path="/admin/" element={<Admin />} />
             <Route path="/question/:id" element={<ClassDetailQnaAll />} />
             <Route path="/review/:id" element={<Review />} />

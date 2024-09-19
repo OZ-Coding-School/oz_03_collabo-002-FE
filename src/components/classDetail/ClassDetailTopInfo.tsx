@@ -7,11 +7,18 @@ import { Review } from '../../type/review.type';
 type Props = {
   classData: Class;
   reviews: Review[] | null;
+  scrollToSection: (sectionRef: React.RefObject<HTMLDivElement>) => void;
+  reviewsRef: React.RefObject<HTMLDivElement>;
 };
 
-const ClassDetailTopInfo = ({ classData, reviews }: Props) => {
+const ClassDetailTopInfo = ({
+  classData,
+  reviews,
+  scrollToSection,
+  reviewsRef,
+}: Props) => {
   // 할인율 discountRate 대입하여 할인가 계산
-  const priceInUsd = classData.price_in_usd || 0;
+  const priceInUsd = classData.price_in_usd;
   const discountInUsd = (priceInUsd * (100 - classData.discount_rate)) / 100;
 
   const handleShare = () => {
@@ -64,32 +71,33 @@ const ClassDetailTopInfo = ({ classData, reviews }: Props) => {
             <span className="font-extrabold">$</span>
           </div>
         )}
-        {/* Review info */}
 
-        <p className="flex items-center">
+        {/* Review info */}
+        <div className="flex items-center">
           <IconReviewStar />
           &nbsp;
-          {/* {classData.averageScore} */}
           {classData.average_rating === null ? (
             <div className="text-gray ml-3 underline">Please write review</div>
           ) : (
             <div>
               <span>{Number(classData.average_rating).toFixed(1)}</span>
-              <span className="text-darkgray ml-3 underline">
+              <span
+                className="text-darkgray ml-3 underline"
+                onClick={() => scrollToSection(reviewsRef)}
+              >
                 {reviews?.length}{' '}
                 {reviews && reviews?.length < 2 ? 'Review' : 'Reviews'}
               </span>
             </div>
           )}
-        </p>
+        </div>
       </div>
       {/* 완성작 정보 */}
       <div className="mt-[15px] px-6">
         <h3 className="text-lg">Details of the Workshop Piece</h3>
-        {/* {classData?.description
-          .split('\n')
-          .map((item) => <p className="text-[13px] mt-1">- {item}</p>)} */}
-          <p className='text-[13px] mt-1 whitespace-pre'>{classData?.description}</p>
+        <p className="text-[13px] mt-1 whitespace-pre-wrap w-full">
+          {classData?.description}
+        </p>
       </div>
       <GoodsDetailInfoSlide
         scrollImage={classData.images[0]?.description_image_urls || []}

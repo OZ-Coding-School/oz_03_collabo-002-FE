@@ -4,7 +4,7 @@ import { useClassStore } from '../../store/useClassStore';
 import { IconReviewStar, IconReviewStarEmpty } from '../../config/IconData';
 import { AllReview } from '../../type/review.type';
 import useReviewStore from '../../store/useReviewStore';
-import axios from 'axios';
+import axios from './../../api/axios';
 
 type RatingAverageProps = {
   id: string | undefined;
@@ -22,7 +22,7 @@ const RatingAverage = ({ id }: RatingAverageProps) => {
         try {
           // Promise.all을 사용하여 두 개의 비동기 요청을 병렬로 처리
           const [allReviewData, classData] = await Promise.all([
-            axios.get(`https://api.custom-k.store/v1/reviews/${id}`),
+            axios.get(`/reviews/${id}`),
             findOneClass(id),
           ]);
           setThisReview(allReviewData.data);

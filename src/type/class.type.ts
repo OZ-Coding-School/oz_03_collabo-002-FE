@@ -21,20 +21,21 @@ export interface Class {
   ];
   images: [
     {
-      thumbnail_image_urls?: string[];
-      description_image_urls: never[];
-      detail_image_urls: string[];
       id: string;
       class_id: string;
-      image_url: string;
+      description_image_urls: string[];
+      detail_image_urls: string[];
+      thumbnail_image_urls?: string[];
     },
   ];
   is_new: boolean;
   price_in_usd: number;
   is_best: boolean;
   genre: string;
-  category: string;
+  category: string[];
+  average_rating: number;
   created_at: string;
+  is_popular: boolean;
   updated_at: string;
   title: string;
   description: string;
@@ -42,12 +43,9 @@ export interface Class {
   require_person: number;
   price: number;
   address: string;
-  class_type: string;
+  class_type: string[];
   discount_rate: number;
   is_viewed: boolean;
-  averageScore: number;
-  name?: string;
-  average_rating: number;
 }
 
 // ClassDetail 타입 정의

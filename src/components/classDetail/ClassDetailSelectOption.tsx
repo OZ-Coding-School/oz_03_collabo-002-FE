@@ -34,7 +34,7 @@ const ClassDetailSelectOption: React.FC<ClassDetailSelectOptionProps> = ({
           onChange={handleLanguageChange}
           className="outline-none appearance-none border border-gray-400 rounded-lg px-4 py-[12px] w-full text-gray-400 relative"
         >
-          <option disabled selected>
+          <option selected value={''}>
             Supporters Language Type
           </option>
           <option value="Korean">--Korean--</option>
@@ -51,10 +51,12 @@ const ClassDetailSelectOption: React.FC<ClassDetailSelectOptionProps> = ({
           <select
             className="outline-none appearance-none border border-gray-400 rounded-lg px-4 py-[12px] w-full text-gray-400 relative"
             id="classType"
-            value={selectedClassType ?? ''}
+            value={selectedClassType}
             onChange={handleTypeChange}
           >
-            <option>Select Class Type</option>
+            <option selected value={''}>
+              Select Class Type
+            </option>
             {availableTypes.map((type, index) => (
               <option key={index} value={type}>
                 {type}
