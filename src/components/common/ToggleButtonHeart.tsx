@@ -3,7 +3,6 @@ import { IconOptionHeart } from '../../config/IconData';
 import { useUserStore } from '../../store/useUser';
 import { useModalOpenCloseStore } from '../../store/useModal'; // Use the consistent store
 import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
 
 type ToggleButtonHeartProps = {
   classId: string;
@@ -11,13 +10,9 @@ type ToggleButtonHeartProps = {
 
 const ToggleButtonHeart = ({ classId }: ToggleButtonHeartProps) => {
   const user = useUserStore((state) => state.user);
-  const { isLiked, toggleLike, getLikedClasses } = useLikeStore();
+  const { isLiked, toggleLike } = useLikeStore();
   const { setModal } = useModalOpenCloseStore(); // Use the modal store correctly
   const navigate = useNavigate();
-
-  useEffect(() => {
-    getLikedClasses();
-  }, [getLikedClasses]);
 
   const toggleLikeClass = async (classId: string) => {
     if (!user) {
