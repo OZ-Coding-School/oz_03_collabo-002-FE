@@ -5,9 +5,28 @@ import { useModalOpenCloseStore } from '../../store/useModal'; // useModalOpenCl
 import Modal from './Modal'; // 모달 컴포넌트 임포트
 import Terms from './Terms'; // Terms 컴포넌트 임포트
 import Policy from './Policy'; // Policy 컴포넌트 임포트
+import { useEffect } from 'react';
 
 const Footer = () => {
   const { setModal } = useModalOpenCloseStore();
+  const path = location.pathname;
+
+  useEffect(() => {
+    const footer = document.querySelector('#footer') as HTMLElement
+    if (footer) {
+      if (location.pathname.includes('/class/')) {
+        footer.style.paddingBottom = '200px';
+      } else {
+        footer.style.paddingBottom = '';
+      }
+    }
+
+    return () => {
+      if (footer) {
+        footer.style.paddingBottom = '';
+      }
+    };
+  }, [path]);
 
   const handleTerms = () => {
     setModal(<Terms />); // Terms 모달 열기
@@ -19,7 +38,7 @@ const Footer = () => {
 
   return (
     <>
-      <footer className="relative pt-20 z-10 pb-10">
+      <footer id='footer' className="relative pt-20 z-10 pb-10">
         <ul className="absolute right-[24px] top-20 flex text-s gap-6 text-sm">
           <li>
             <button onClick={handleTerms}>Terms and conditions</button>
