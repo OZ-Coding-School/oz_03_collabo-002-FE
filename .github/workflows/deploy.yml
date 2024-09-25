@@ -32,11 +32,6 @@ jobs:
           VITE_REDIRECT_URL: ${{ secrets.REDIRECT_URL }}
           VITE_CALLBACK_URL: ${{ secrets.CALLBACK_URL }}
         run: npm run build
-
-      - name: Echo environment variables
-        run: |
-          echo "Kakao Client ID: $VITE_KAKAO_CLIENT_ID"
-          echo "Redirect URL: $VITE_REDIRECT_URL"
       
       - name: Deploy to Naver Cloud Platform_Object Storage
         env:
