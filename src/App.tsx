@@ -15,6 +15,9 @@ import ModalReviewWrite from './components/common/ModalReviewWrite';
 import LineEmail from './components/Login/LineEmail';
 
 function App() {
+  console.log('Kakao Client ID:', import.meta.env.VITE_KAKAO_CLIENT_ID);
+  console.log('Redirect URL:', import.meta.env.VITE_REDIRECT_URL);
+  console.log('전체 환경 변수:', import.meta.env);
 
   return (
     <>

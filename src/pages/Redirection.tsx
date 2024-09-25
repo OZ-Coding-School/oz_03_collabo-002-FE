@@ -21,9 +21,6 @@ const Redirection = () => {
   const state = new URL(window.location.href).searchParams.get('state');
 
   useEffect(() => {
-    console.log('Kakao Client ID:', import.meta.env.VITE_KAKAO_CLIENT_ID);
-    console.log('Redirect URL:', import.meta.env.VITE_REDIRECT_URL);
-    console.log('전체 환경 변수:', import.meta.env);
     setIsState(state);
     if (state !== 'google' && state !== 'kakao') {
       setIsState('line');
