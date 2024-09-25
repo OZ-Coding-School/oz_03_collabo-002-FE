@@ -40,7 +40,7 @@ const Redirection = () => {
 
           const response = await axios.post(`/users/${isState}/callback/`, {
             code: code,
-            state: state,
+            client_id: state,
           });
           // const token = response.data;
 

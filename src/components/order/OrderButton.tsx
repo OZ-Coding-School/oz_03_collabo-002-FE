@@ -40,7 +40,6 @@ const OrderButton = ({
     try {
       const response = await axios.post('/payments/paypal/orders', {
         amount: data?.amount?.toFixed(2),
-        data: data,
       });
 
       const orderData = await response.data;
@@ -74,8 +73,8 @@ const OrderButton = ({
         data,
       );
 
-      const orderData = await response.data;
-      const errorDetail = orderData?.details?.[0];
+      const orderResponse = await response.data;
+      const errorDetail = orderResponse?.details?.[0];
 
       if (errorDetail?.issue === 'INSTRUMENT_DECLINED') {
         setMessage(
@@ -84,21 +83,24 @@ const OrderButton = ({
         setMessageType('error');
         return actions.restart();
       } else if (errorDetail) {
-        throw new Error(`${errorDetail.description} (${orderData.debug_id})`);
+        throw new Error(
+          `${errorDetail.description} (${orderResponse.debug_id})`,
+        );
       } else {
-        const transaction = orderData.purchase_units[0].payments.captures[0];
+        const transaction =
+          orderResponse.purchase_units[0].payments.captures[0];
         setMessage(`Transaction ${transaction.status}: ${transaction.id}`);
         setMessageType('success');
         console.log(
           'Capture result',
-          orderData,
-          JSON.stringify(orderData, null, 2),
+          orderResponse,
+          JSON.stringify(orderResponse, null, 2),
         );
 
         // 결제 성공 후 처리
         setTimeout(() => {
-          // navigate('/order-confirmation', { state: { orderData } });
-          handlePaypal(orderData);
+          // navigate('/order-confirmation', { state: { orderResponse } });
+          handlePaypal(orderResponse);
         }, 2000);
       }
     } catch (error) {

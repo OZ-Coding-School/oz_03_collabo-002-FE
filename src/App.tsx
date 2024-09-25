@@ -2,7 +2,6 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Layout from './components/common/Layout';
 import Home from './pages/Home';
 import ClassDetail from './pages/ClassDetail';
-import { useEffect } from 'react';
 import ChargePage from './pages/ChargePage';
 import Admin from './components/admin/Admin';
 import SignUp from './pages/SignUp';
@@ -16,24 +15,9 @@ import ModalReviewWrite from './components/common/ModalReviewWrite';
 import LineEmail from './components/Login/LineEmail';
 
 function App() {
-  const path = location.pathname;
-
-  useEffect(() => {
-    const footer = document.querySelector('footer');
-    if (footer) {
-      if (location.pathname.includes('/class/')) {
-        footer.style.paddingBottom = '350px';
-      } else {
-        footer.style.paddingBottom = '';
-      }
-    }
-
-    return () => {
-      if (footer) {
-        footer.style.paddingBottom = '';
-      }
-    };
-  }, [path]);
+  console.log('Kakao Client ID:', import.meta.env.VITE_KAKAO_CLIENT_ID);
+  console.log('Redirect URL:', import.meta.env.VITE_REDIRECT_URL);
+  console.log('전체 환경 변수:', import.meta.env);
 
   return (
     <>

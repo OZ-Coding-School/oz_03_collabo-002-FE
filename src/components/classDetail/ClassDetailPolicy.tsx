@@ -12,17 +12,19 @@ const ClassDetailPolicy = () => {
     <div>
       {/* Reservation Policy */}
       <div ref={resPoliciesRef} className="mt-20">
+        {/* Reservation Process */}
         <dl className="border-t border-t-1 border-t-gray-300">
-          <dt className="px-6 py-7 text-[18px] font-semibold flex items-center justify-between">
+          <dt className="px-6 py-7 text-[18px] font-bold flex items-center justify-between">
             Reservation Process
             <button
               onClick={() => setIsReservationVisible(!isReservationVisible)}
-            ></button>
-            <span
-              className={`${isReservationVisible ? 'rotate-180' : ''} transition`}
             >
-              <IconOptionArw />
-            </span>
+              <div
+                className={`${isReservationVisible ? 'rotate-180' : ''} transition`}
+              >
+                <IconOptionArw />
+              </div>
+            </button>
           </dt>
           {isReservationVisible && (
             <dd className="px-6 py-7 pl-10 border-t border-t-1 border-t-gray-300">
@@ -49,8 +51,9 @@ const ClassDetailPolicy = () => {
           )}
         </dl>
 
+        {/* Cancelation Policy */}
         <dl className="border-t border-t-1 border-t-gray-300">
-          <dt className="px-6 py-7 text-[18px] font-semibold flex items-center justify-between">
+          <dt className="px-6 py-7 text-[18px] font-bold flex items-center justify-between">
             Cancelation Policy
             <button
               onClick={() => setIsCancelationVisible(!isCancelationVisible)}
@@ -83,8 +86,9 @@ const ClassDetailPolicy = () => {
           )}
         </dl>
 
+        {/* Things To Keep In Mind */}
         <dl className="border-t border-t-1 border-t-gray-300 border-b border-b-1 border-b-gray-300">
-          <dt className="px-6 py-7 text-[18px] font-semibold flex items-center justify-between">
+          <dt className="px-6 py-7 text-[18px] font-bold flex items-center justify-between">
             Things To Keep In Mind
             <button
               onClick={() =>
