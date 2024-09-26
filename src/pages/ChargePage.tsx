@@ -43,7 +43,7 @@ const ChargePage = () => {
 
   return (
     <PayPalScriptProvider
-      options={{ clientId: import.meta.env.VITE_PAYPAL_CLIENT_ID }}
+      options={{ clientId: import.meta.env.VITE_PAYPAL_SANDBOX_CLIENT_ID }}
     >
       {' '}
       <OrderHeader />

@@ -34,6 +34,7 @@ const OrderButton = ({
     'info',
   );
   const user = useUserStore((state) => state.user);
+  const [order, setOrder] = useState<OnApproveData>()
 
   const createOrder = async () => {
     setLoading(true);
@@ -43,6 +44,7 @@ const OrderButton = ({
       });
 
       const orderData = await response.data;
+      setOrder(orderData)
 
       if (orderData.id) {
         return orderData.id;
@@ -64,13 +66,19 @@ const OrderButton = ({
     }
   };
 
-  const onApprove = async (data: OnApproveData, actions: OnApproveActions) => {
+  const onApprove = async (order: OnApproveData, actions: OnApproveActions) => {
     setLoading(true);
     console.log(data);
     try {
       const response = await axios.post(
-        `/payments/paypal/orders/${data.orderID}/capture`,
-        data,
+        `/payments/paypal/orders/${order?.orderID}/capture`,
+        {
+          class_id: data?.class_id,
+          options: data?.options,
+          class_date_id: data?.class_date_id,
+          quantity: data?.quantity,
+          referral_code: data?.referral_code
+        },
       );
 
       const orderResponse = await response.data;
@@ -88,7 +96,8 @@ const OrderButton = ({
         );
       } else {
         const transaction =
-          orderResponse.purchase_units[0].payments.captures[0];
+          orderResponse.capture_data.purchase_units[0].payments.captures[0];
+          orderResponse?.capture_data.purchase_units?.[0]?.payments?.authorizations?.[0];
         setMessage(`Transaction ${transaction.status}: ${transaction.id}`);
         setMessageType('success');
         console.log(
@@ -139,9 +148,9 @@ const OrderButton = ({
         >
           Wire Transfer
         </button>
+      </div>
         {message && <Message content={message} type={messageType} />}
         {loading && <p>Processing your payment...</p>}{' '}
-      </div>
     </div>
   );
 };
