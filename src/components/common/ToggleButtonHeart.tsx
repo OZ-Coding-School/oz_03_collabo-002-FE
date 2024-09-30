@@ -6,9 +6,11 @@ import { useNavigate } from 'react-router-dom';
 
 type ToggleButtonHeartProps = {
   classId: string;
+  position: string
+
 };
 
-const ToggleButtonHeart = ({ classId }: ToggleButtonHeartProps) => {
+const ToggleButtonHeart = ({ classId, position }: ToggleButtonHeartProps) => {
   const user = useUserStore((state) => state.user);
   const { isLiked, toggleLike } = useLikeStore();
   const { setModal } = useModalOpenCloseStore(); // Use the modal store correctly
@@ -34,7 +36,7 @@ const ToggleButtonHeart = ({ classId }: ToggleButtonHeartProps) => {
         e.stopPropagation();
         toggleLikeClass(classId);
       }}
-      className="absolute right-1 top-2"
+      className={`${position} `}
     >
       <IconOptionHeart
         className={`${isLiked(classId) ? 'fill-primary ' : 'fill-white/50 '}`}

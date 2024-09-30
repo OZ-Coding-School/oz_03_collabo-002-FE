@@ -45,7 +45,7 @@ const OrderButton = ({
 
       const orderData = await response.data;
       setOrder(orderData)
-
+      console.log(order)
       if (orderData.id) {
         return orderData.id;
       } else {
@@ -97,7 +97,7 @@ const OrderButton = ({
       } else {
         const transaction =
           orderResponse.capture_data.purchase_units[0].payments.captures[0];
-          orderResponse?.capture_data.purchase_units?.[0]?.payments?.authorizations?.[0];
+        // orderResponse?.capture_data.purchase_units?.[0]?.payments?.authorizations?.[0];
         setMessage(`Transaction ${transaction.status}: ${transaction.id}`);
         setMessageType('success');
         console.log(
@@ -149,8 +149,8 @@ const OrderButton = ({
           Wire Transfer
         </button>
       </div>
-        {message && <Message content={message} type={messageType} />}
-        {loading && <p>Processing your payment...</p>}{' '}
+      {message && <Message content={message} type={messageType} />}
+      {loading && <p>Processing your payment...</p>}{' '}
     </div>
   );
 };

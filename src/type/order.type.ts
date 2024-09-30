@@ -1,3 +1,5 @@
+import { BookingData } from "../store/useBookingStore";
+
 export type Order = {
   id: number;
   class_title: string;
@@ -58,6 +60,7 @@ export type OrderStore = {
   loading: boolean;
   error: string | null;
   fetchPayments: () => Promise<void>;
+  newOrder: (data: BookingData) => Promise<void>;
   // createPayPalOrder: (amount: string) => Promise<void>;
   // capturePayPalOrder: (
   //   orderId: string,
