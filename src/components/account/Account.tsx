@@ -61,7 +61,7 @@ const Account = () => {
   };
 
   if (!isLogin) {
-    navigate('/login');
+    navigate('/login/');
   }
 
   return (
