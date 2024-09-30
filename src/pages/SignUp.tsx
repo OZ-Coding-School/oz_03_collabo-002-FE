@@ -129,7 +129,7 @@ const SignUp = () => {
         // console.log({ name, email, password });
         clearValue();
         setTimeout(() => {
-          navigate('/login');
+          navigate('/login/');
         }, 2000);
       } catch (error) {
         console.error('Error during signup:', error);
@@ -380,7 +380,7 @@ const SignUp = () => {
                 </button>
                 <div className="mt-4 flex flex-col text-center text-sm">
                   Do you have an ID ?
-                  <Link to="/login" className="text-primary ml-3">
+                  <Link to="/login/" className="text-primary ml-3">
                     Login
                   </Link>
                 </div>

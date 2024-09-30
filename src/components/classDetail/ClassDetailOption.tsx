@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import {
-  IconOptionHeart,
+  // IconOptionHeart,
   IconOptionMinus,
   IconOptionPlus,
   IconOptionRemove,
@@ -8,6 +8,9 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { Class } from '../../type/class.type';
 import useBookingStore from '../../store/useBookingStore';
+import { useUserStore } from '../../store/useUser';
+import { useModalOpenCloseStore } from '../../store/useModal';
+import ToggleButtonHeart from '../common/ToggleButtonHeart';
 
 type ClassDetailOptionProps = {
   discountedPrice: number;
@@ -34,11 +37,14 @@ const ClassDetailOption = ({
   selectedSupportLanguage,
   selectedClassType,
 }: ClassDetailOptionProps) => {
-  const [isLiked, setIsLiked] = useState<boolean>(false);
+  // const [isLiked, setIsLiked] = useState<boolean>(false);
   const [showSummary, setShowSummary] = useState<boolean>(false);
+  const user = useUserStore(state => state.user)
   const addBookingItem = useBookingStore((state) => state.addBookingItem);
   const totalPrice = bookingQuantity * discountedPrice;
   const navigate = useNavigate();
+  const { setModal, clearModal } = useModalOpenCloseStore()
+
 
   useEffect(() => {
     if (selectedDate && selectedTime) {
@@ -61,18 +67,29 @@ const ClassDetailOption = ({
       return;
     }
 
-    const bookingData = {
-      class_id: classItemState.id,
-      class_date_id: selectedDateId,
-      quantity: bookingQuantity,
-      options: selectedClassType,
-      amount: totalPrice,
-      title: classItemState.title,
-      support_language: selectedSupportLanguage,
-    };
+    if (!user) {
+      setModal('Please to login')
+      setTimeout(() => {
+        clearModal()
+        navigate('/login/')
+      }, 3000
+      )
+    } else {
 
-    addBookingItem(bookingData);
-    navigate('/charge/');
+      const bookingData = {
+        class_id: classItemState.id,
+        class_date_id: selectedDateId,
+        quantity: bookingQuantity,
+        options: selectedClassType,
+        amount: totalPrice,
+        title: classItemState.title,
+        support_language: selectedSupportLanguage,
+      };
+
+      addBookingItem(bookingData);
+      navigate('/charge/');
+    }
+
   };
 
   const handleIncrease = () => {
@@ -85,9 +102,9 @@ const ClassDetailOption = ({
     );
   };
 
-  const toggleLike = () => {
-    setIsLiked((prevIsLiked: boolean) => !prevIsLiked);
-  };
+  // const toggleLike = () => {
+  //   setIsLiked((prevIsLiked: boolean) => !prevIsLiked);
+  // };
 
   return (
     <>
@@ -147,12 +164,14 @@ const ClassDetailOption = ({
             </p>
           </div>
           <div className="flex gap-7 mt-4">
-            <button onClick={toggleLike}>
+            {/* <button onClick={toggleLike}>
               <IconOptionHeart
                 className={`${isLiked ? 'fill-primary' : 'fill-none'} hover:fill-primary`}
               />
               <span className="sr-only">heart</span>
-            </button>
+            </button> */}
+            <ToggleButtonHeart classId={classItemState.id} position={''} />
+
             <button
               className="flex-grow text-white bg-primary rounded-xl py-4"
               onClick={handleBookingClick}

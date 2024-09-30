@@ -7,10 +7,12 @@ import OrderCompletePage from '../components/order/OrderPayPalBtn';
 import OrderDepositPage from '../components/order/OrderDepositPage';
 import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 import { Order } from '../type/order.type';
+import { useOrderStore } from '../store/useOrderStore';
 
 const ChargePage = () => {
   const [isWireTransfer, setIsWireTransfer] = useState(false);
   const [isPaypal, setIsPaypal] = useState(false);
+  const newOrder = useOrderStore(state => state.newOrder)
   const bookingItem = useBookingStore((state) => state.bookingItem);
   const updateBookingWithReferral = useBookingStore(
     (state) => state.updateBookingWithReferral,
@@ -36,6 +38,8 @@ const ChargePage = () => {
   };
   const handleWireTransfer = (data: BookingData) => {
     setIsWireTransfer(true);
+    newOrder(data)
+
     console.log(data);
   };
 
@@ -43,7 +47,7 @@ const ChargePage = () => {
 
   return (
     <PayPalScriptProvider
-      options={{ clientId: import.meta.env.VITE_PAYPAL_CLIENT_ID }}
+      options={{ clientId: import.meta.env.VITE_PAYPAL_SANDBOX_CLIENT_ID }}
     >
       {' '}
       <OrderHeader />
@@ -60,7 +64,7 @@ const ChargePage = () => {
         handleWireTransfer={handleWireTransfer}
       />
       {isPaypal && <OrderCompletePage />}
-      {isWireTransfer && <OrderDepositPage />}
+      {isWireTransfer && <OrderDepositPage orderData={bookingItem} />}
       {/* <Route path="/order-complete/" element={<OrderCompletePage />} />
       <Route path="/wire-transfer/" element={<OrderDepositPage />} />{' '} */}
     </PayPalScriptProvider>

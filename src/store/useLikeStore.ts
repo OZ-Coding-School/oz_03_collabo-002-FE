@@ -48,7 +48,7 @@ const useLikeStore = create<LikeState>()(
           if (
             window.confirm('회원만 이용할 수 있습니다. 로그인 하시겠습니까?')
           ) {
-            navigate('/login');
+            navigate('/login/');
           }
         }
         console.error('Error occurred while processing the like:', error);

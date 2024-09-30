@@ -74,7 +74,7 @@ const Header = () => {
                 </>
               ) : (
                 <li>
-                  <Link to="/login">
+                  <Link to="/login/">
                     <IconLogin />
                     <span className="sr-only">Login</span>
                   </Link>
@@ -93,13 +93,13 @@ const Header = () => {
         >
           <ul className="flex gap-6 pb-10">
             <li>
-              <Link to="/login">LOGIN</Link>
+              <Link to="/login/">LOGIN</Link>
             </li>
             <li>
-              <Link to="/signup">JOIN</Link>
+              <Link to="/signup/">JOIN</Link>
             </li>
             <li>
-              <Link to="/likes">HEART</Link>
+              <Link to="/likes/">HEART</Link>
             </li>
           </ul>
           <ul className="flex flex-col text-[28px] leading-[80px]">

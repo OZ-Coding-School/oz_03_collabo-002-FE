@@ -28,8 +28,8 @@ const OrderDetail = ({
       if (data?.class_id) {
         const currentClass = await findOneClass(String(data.class_id));
         setClassInfo(currentClass);
-        console.log('currentClass: ', currentClass?.dates[0].id);
-        console.log(data.class_date_id);
+        console.log('currentClass.Date: ', currentClass?.dates[0].id);
+        console.log('data.Date: ', data.class_date_id);
         const reserved = await currentClass?.dates.find(
           (item) => item.id === data.class_date_id,
         );

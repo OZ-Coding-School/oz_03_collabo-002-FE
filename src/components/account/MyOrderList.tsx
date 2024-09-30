@@ -1,16 +1,9 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useOrderStore } from '../../store/useOrderStore';
 import { Order } from '../../type/order.type';
 
-const MyOrderList: React.FC = () => {
-  const { fetchPayments, payments, loading, refundPayment } =
-    useOrderStore((state) => ({
-      fetchPayments: state.fetchPayments,
-      payments: state.payments,
-      loading: state.loading,
-      error: state.error,
-      refundPayment: state.refundPayment,
-    }));
+const MyOrderList = () => {
+  const { fetchPayments, payments, loading, refundPayment } = useOrderStore();
 
   useEffect(() => {
     fetchPayments();
@@ -29,15 +22,16 @@ const MyOrderList: React.FC = () => {
 
   if (loading) return <div>Loading...</div>;
   // if (error) return <div>Error: {error}</div>;
-  if (!payments)
+  if (!payments){
     return (
       <div className="inline-flex w-full aspect-square text-gray-500">
         <span className="m-auto w-5/6 text-gray text-xl text-center">
           {`No data`}
         </span>
       </div>
-    );
+    )}
 
+    console.log(payments)
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">My Orders</h1>

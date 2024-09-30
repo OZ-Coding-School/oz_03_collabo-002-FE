@@ -41,7 +41,7 @@ const ClassCard = ({ classItem }: ClassCardProps) => {
           alt={classItem.description}
           className="w-full aspect-square object-cover object-left-top"
         />
-        <ToggleButtonHeart classId={classItem.id} />
+        <ToggleButtonHeart classId={classItem.id} position='absolute right-1 top-2' />
       </div>
       {/* content */}
       <div className="w-full">
