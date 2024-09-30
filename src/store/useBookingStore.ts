@@ -8,7 +8,7 @@ export type BookingData = {
   quantity: number; // 인원수
   referral_code?: string; // 추천인
   amount?: number;
-  title: string;
+  title?: string;
   reservation_name?: string;
 } | null;
 

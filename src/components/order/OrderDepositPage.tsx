@@ -1,12 +1,13 @@
-import { useLocation, Link } from 'react-router-dom';
-
-const OrderDepositPage = () => {
-  const location = useLocation();
-  const { orderData } = location.state || {};
+import { Link } from 'react-router-dom';
+import { BookingData } from '../../store/useBookingStore';
+type Props = {
+  orderData: BookingData
+}
+const OrderDepositPage = ({orderData}:Props) => {
 
   return (
-    <div className="z-40 w-full h-fit">
-      <div className="py-[15px] absolute top-0 z-40 left-1/2 -translate-x-1/2">
+    <div className="absolute top-[54px] left-0 z-40 w-full h-full bg-white">
+      <div className="w-full py-[15px] text-center">
         <h1 className="text-xl font-bold">Wire Transfer Info</h1>
       </div>
 
@@ -54,8 +55,8 @@ const OrderDepositPage = () => {
           </Link>
         </div>
       ) : (
-        <div className="p-6">
-          <p className="text-red-500">Unable to load order information.</p>
+        <div className="w-full aspect-square flex">
+          <p className="m-auto font-bold text-lg">Unable to load order information.</p>
         </div>
       )}
     </div>
